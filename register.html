@@ -168,7 +168,7 @@
 
 
         <!-- About Us, Contact, and Registration Section -->
-<section class="flex lg:flex-row flex-col bg-[#f9f9f9] py-16 px-8 gap-12">
+<section id="reForm" class="flex lg:flex-row flex-col bg-[#f9f9f9] py-16 px-8 gap-12">
     <!-- About Us Section -->
     <div class="flex flex-col lg:w-8/12 w-full">
         <div class="border-l-[8px] border-[#006838] pl-4 mb-6">
@@ -238,19 +238,78 @@
     </div>
 
     <!-- Registration Form Section -->
-    <div class="lg:w-4/12 w-full">
+    <div  class="lg:w-4/12 w-full">
       <div class="bg-white p-6 rounded-lg shadow-xl">
           <h2 class="text-2xl font-bold text-[#006838] mb-4">
               <i class="fas fa-clipboard-list mr-2"></i>Register or Get in Touch
           </h2>
-          <p class="text-sm mb-6 text-gray-700">Join our community today by registering or reaching out with your
-              queries. We look forward to connecting with you!</p>
-          <a href="https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3" 
-             class="bg-[#006838] text-white py-2 px-4 rounded-md text-center hover:bg-[#00562c] transition-colors duration-300"
-             target="_blank" rel="noopener noreferrer">
-             Register Now
-          </a>
+          <p class="text-sm mb-6 text-gray-700">
+              Join our community today by registering or reaching out with your queries. We look forward to connecting with you!
+          </p>
+  
+          <!-- Registration Form -->
+          <form id="registrationForm" onsubmit="navigateToLink(event)">
+              <label for="category" class="block font-medium text-gray-700 mb-2">Select a Category:</label>
+              <select id="category" class="w-full p-2 mb-4 border border-gray-300 rounded-md" onchange="updateDetails()">
+                  <option value="" disabled selected>Select category</option>
+                  <option value="coach">Coach</option>
+                  <option value="player">Player</option>
+                  <option value="volunteer">Volunteer</option>
+                  <option value="member">Member</option>
+                  <option value="donor">Donor</option>
+              </select>
+  
+              <!-- Payment Information -->
+              <div id="paymentInfo" class="hidden mb-4">
+                  <p class="font-semibold text-gray-700">Payment Details:</p>
+                  <p id="price" class="text-gray-600"></p>
+                  <p id="method" class="text-gray-600"></p>
+              </div>
+  
+              <button type="submit" class="bg-[#006838] text-white py-2 px-4 rounded-md w-full mt-4 hover:bg-[#00562c] transition-colors duration-300">
+                  Register Now
+              </button>
+          </form>
       </div>
+  </div>
+  
+  <script>
+      const paymentDetails = {
+          
+          coach: { price: "$100", method: "Bank Transfer", link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3" },
+          player:{price: "$20,", method: "MOMO",link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3"},
+          volunteer: { price: "$0", method: "N/A", link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3" },
+          member: { price: "$50", method: "Credit Card", link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3" },
+          donor: { price: "Custom Amount", method: "Online Payment", link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3" }
+      };
+  
+      function updateDetails() {
+          const category = document.getElementById("category").value;
+          const paymentInfo = document.getElementById("paymentInfo");
+          const price = document.getElementById("price");
+          const method = document.getElementById("method");
+  
+          if (paymentDetails[category]) {
+              price.textContent = `Price: ${paymentDetails[category].price}`;
+              method.textContent = `Payment Method: ${paymentDetails[category].method}`;
+              paymentInfo.classList.remove("hidden");
+          } else {
+              paymentInfo.classList.add("hidden");
+          }
+      }
+  
+      function navigateToLink(event) {
+          event.preventDefault();
+          const category = document.getElementById("category").value;
+  
+          if (paymentDetails[category]) {
+              window.location.href = paymentDetails[category].link;
+          } else {
+              alert("Please select a category before proceeding.");
+          }
+      }
+  </script>
+  
 </section>
 
 
