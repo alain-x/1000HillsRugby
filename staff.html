@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./style.css" />
+    <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+  </head>
+  <body>
+    <section id="team" class="bg-white py-12">
+      <div class="text-center mb-12 lg:px-12 px-6">
+        <h2 class="call-to-action lg:text-6xl text-3xl font-bold text-gray-800">
+          Meet Our Team
+        </h2>
+        <p class="text-yellow-600 mt-2 font-bold">
+          Get to know the faces behind our success!
+        </p>
+      </div>
+
+      <div
+        class="container mx-auto grid lg:grid-cols-4 mg:grid-cols-2 sm:grid-cols-2 grid-cols-1 w-[90%] gap-1"
+      >
+        <!-- Team Card Template -->
+        <div
+          class="col-span-1 relative group overflow-hidden rounded-md shadow-md hover:shadow-lg transition duration-300"
+        >
+          <!-- Background Image -->
+          <img
+            src="./images/member1.jpg"
+            alt="Team Member 1"
+            class="object-cover w-full h-full"
+          />
+          <!-- Spoken Words -->
+          <p
+            class="absolute inset-x-0 bottom-2 bg-yellow-600 bg-opacity-70 text-white text-center px-2 py-1 rounded-md shadow-sm transform group-hover:opacity-0 transition duration-300"
+          >
+            "In rugby, the strength of the pack is the team, and the strength of
+            the team is each player."
+          </p>
+          <!-- Overlay -->
+          <div
+            class="absolute inset-0 bg-green-500 bg-opacity-50 flex flex-col justify-center items-center text-center text-white p-4 transition duration-300 transform translate-y-full group-hover:translate-y-0"
+          >
+            <h3 class="text-xl font-semibold">John Doe</h3>
+            <p class="mt-1">Head Coach</p>
+            <div class="flex mt-3 space-x-2">
+              <a href="#" class="hover:text-yellow-400"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a href="#" class="hover:text-blue-400"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a href="#" class="hover:text-pink-500"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="#" class="hover:text-blue-600"
+                ><i class="fab fa-linkedin-in"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Repeat the structure for other team members -->
+        <div
+          class="col-span-1 relative group overflow-hidden rounded-md shadow-md hover:shadow-lg transition duration-300"
+        >
+          <img
+            src="./images/member2.webp"
+            alt="Team Member 2"
+            class="object-cover w-full h-full"
+          />
+          <p
+            class="absolute inset-x-0 bottom-2 bg-yellow-600 bg-opacity-70 text-white text-center px-2 py-1 rounded-md shadow-sm transform group-hover:opacity-0 transition duration-300"
+          >
+            "In rugby, it’s not about how hard you hit, but how hard you can get
+            hit, keep moving forward, and still get back up."
+          </p>
+          <div
+            class="absolute inset-0 bg-green-500 bg-opacity-50 flex flex-col justify-center items-center text-center text-white p-4 transition duration-300 transform translate-y-full group-hover:translate-y-0"
+          >
+            <h3 class="text-xl font-semibold">Jane Smith</h3>
+            <p class="mt-1">Assistant Coach</p>
+            <div class="flex mt-3 space-x-2">
+              <a href="#" class="hover:text-yellow-400"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a href="#" class="hover:text-blue-400"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a href="#" class="hover:text-pink-500"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="#" class="hover:text-blue-600"
+                ><i class="fab fa-linkedin-in"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <!-- Repeat the structure for other team members -->
+        <div
+          class="col-span-1 relative group overflow-hidden rounded-md shadow-md hover:shadow-lg transition duration-300"
+        >
+          <img
+            src="./images/member3.png"
+            alt="Team Member 2"
+            class="object-cover w-full h-full"
+          />
+          <p
+            class="absolute inset-x-0 bottom-2 bg-yellow-600 bg-opacity-70 text-white text-center px-2 py-1 rounded-md shadow-sm transform group-hover:opacity-0 transition duration-300"
+          >
+            "Rugby teaches you that success is not built on individual talent
+            but on the collective strength of a team."
+          </p>
+          <div
+            class="absolute inset-0 bg-green-500 bg-opacity-50 flex flex-col justify-center items-center text-center text-white p-4 transition duration-300 transform translate-y-full group-hover:translate-y-0"
+          >
+            <h3 class="text-xl font-semibold">Jane Smith</h3>
+            <p class="mt-1">Assistant Coach</p>
+            <div class="flex mt-3 space-x-2">
+              <a href="#" class="hover:text-yellow-400"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a href="#" class="hover:text-blue-400"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a href="#" class="hover:text-pink-500"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="#" class="hover:text-blue-600"
+                ><i class="fab fa-linkedin-in"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <!-- Repeat the structure for other team members -->
+        <div
+          class="col-span-1 relative group overflow-hidden rounded-md shadow-md hover:shadow-lg transition duration-300"
+        >
+          <img
+            src="./images/member4.jpg"
+            alt="Team Member 2"
+            class="object-cover w-full h-full"
+          />
+          <p
+            class="absolute inset-x-0 bottom-2 bg-yellow-600 bg-opacity-70 text-white text-center px-2 py-1 rounded-md shadow-sm transform group-hover:opacity-0 transition duration-300"
+          >
+            "Rugby is not just a game; it’s a way of life that teaches you the
+            importance of teamwork, discipline, and respect."
+          </p>
+          <div
+            class="absolute inset-0 bg-green-500 bg-opacity-50 flex flex-col justify-center items-center text-center text-white p-4 transition duration-300 transform translate-y-full group-hover:translate-y-0"
+          >
+            <h3 class="text-xl font-semibold">Jane Smith</h3>
+            <p class="mt-1">Assistant Coach</p>
+            <div class="flex mt-3 space-x-2">
+              <a href="#" class="hover:text-yellow-400"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a href="#" class="hover:text-blue-400"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a href="#" class="hover:text-pink-500"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="#" class="hover:text-blue-600"
+                ><i class="fab fa-linkedin-in"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <!-- Repeat the structure for other team members -->
+        <div
+          class="col-span-1 relative group overflow-hidden rounded-md shadow-md hover:shadow-lg transition duration-300"
+        >
+          <img
+            src="./images/member5.webp"
+            alt="Team Member 2"
+            class="object-cover w-full h-full"
+          />
+          <p
+            class="absolute inset-x-0 bottom-2 bg-yellow-600 bg-opacity-70 text-white text-center px-2 py-1 rounded-md shadow-sm transform group-hover:opacity-0 transition duration-300"
+          >
+            "Rugby isn’t just played on the pitch; it’s lived in every practice,
+            every loss, and every hard-fought win."
+          </p>
+          <div
+            class="absolute inset-0 bg-green-500 bg-opacity-50 flex flex-col justify-center items-center text-center text-white p-4 transition duration-300 transform translate-y-full group-hover:translate-y-0"
+          >
+            <h3 class="text-xl font-semibold">Jane Smith</h3>
+            <p class="mt-1">Assistant Coach</p>
+            <div class="flex mt-3 space-x-2">
+              <a href="#" class="hover:text-yellow-400"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a href="#" class="hover:text-blue-400"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a href="#" class="hover:text-pink-500"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="#" class="hover:text-blue-600"
+                ><i class="fab fa-linkedin-in"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <!-- Repeat the structure for other team members -->
+        <div
+          class="col-span-1 relative group overflow-hidden rounded-md shadow-md hover:shadow-lg transition duration-300"
+        >
+          <img
+            src="./images/member6.jpg"
+            alt="Team Member 2"
+            class="object-cover w-full h-full"
+          />
+          <p
+            class="absolute inset-x-0 bottom-2 bg-yellow-600 bg-opacity-70 text-white text-center px-2 py-1 rounded-md shadow-sm transform group-hover:opacity-0 transition duration-300"
+          >
+            "On the rugby field, you learn quickly that you cannot win alone;
+            every victory is a team effort built on trust and selflessness."
+          </p>
+          <div
+            class="absolute inset-0 bg-green-500 bg-opacity-50 flex flex-col justify-center items-center text-center text-white p-4 transition duration-300 transform translate-y-full group-hover:translate-y-0"
+          >
+            <h3 class="text-xl font-semibold">Jane Smith</h3>
+            <p class="mt-1">Assistant Coach</p>
+            <div class="flex mt-3 space-x-2">
+              <a href="#" class="hover:text-yellow-400"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a href="#" class="hover:text-blue-400"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a href="#" class="hover:text-pink-500"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="#" class="hover:text-blue-600"
+                ><i class="fab fa-linkedin-in"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <!-- Repeat the structure for other team members -->
+        <div
+          class="col-span-1 relative group overflow-hidden rounded-md shadow-md hover:shadow-lg transition duration-300"
+        >
+          <img
+            src="./images/member7.jpeg"
+            alt="Team Member 2"
+            class="object-cover w-full h-full"
+          />
+          <p
+            class="absolute inset-x-0 bottom-2 bg-yellow-600 bg-opacity-70 text-white text-center px-2 py-1 rounded-md shadow-sm transform group-hover:opacity-0 transition duration-300"
+          >
+            "Rugby is a battlefield where the strongest don’t always prevail,
+            but those with the biggest hearts do."
+          </p>
+          <div
+            class="absolute inset-0 bg-green-500 bg-opacity-50 flex flex-col justify-center items-center text-center text-white p-4 transition duration-300 transform translate-y-full group-hover:translate-y-0"
+          >
+            <h3 class="text-xl font-semibold">Jane Smith</h3>
+            <p class="mt-1">Assistant Coach</p>
+            <div class="flex mt-3 space-x-2">
+              <a href="#" class="hover:text-yellow-400"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a href="#" class="hover:text-blue-400"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a href="#" class="hover:text-pink-500"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="#" class="hover:text-blue-600"
+                ><i class="fab fa-linkedin-in"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <!-- Repeat the structure for other team members -->
+        <div
+          class="col-span-1 relative group overflow-hidden rounded-md shadow-md hover:shadow-lg transition duration-300"
+        >
+          <img
+            src="./images/member8.png"
+            alt="Team Member 2"
+            class="object-cover w-full h-full"
+          />
+          <p
+            class="absolute inset-x-0 bottom-2 bg-yellow-600 bg-opacity-70 text-white text-center px-2 py-1 rounded-md shadow-sm transform group-hover:opacity-0 transition duration-300"
+          >
+            "Playing rugby is a lesson in resilience; it’s about facing
+            adversity with determination, finding the will to fight back."
+          </p>
+          <div
+            class="absolute inset-0 bg-green-500 bg-opacity-50 flex flex-col justify-center items-center text-center text-white p-4 transition duration-300 transform translate-y-full group-hover:translate-y-0"
+          >
+            <h3 class="text-xl font-semibold">Jane Smith</h3>
+            <p class="mt-1">Assistant Coach</p>
+            <div class="flex mt-3 space-x-2">
+              <a href="#" class="hover:text-yellow-400"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a href="#" class="hover:text-blue-400"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a href="#" class="hover:text-pink-500"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="#" class="hover:text-blue-600"
+                ><i class="fab fa-linkedin-in"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Continue adding team members in similar fashion -->
+      </div>
+    </section>
+  </body>
+</html>
