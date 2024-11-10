@@ -1,116 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Program</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
-</head>
-<body class="bg-gray-50">
-
-  <!-- Navbar -->
-  <nav class="navbar fixed top-0 left-0 w-full px-6 py-4 bg-white/90 backdrop-blur-lg shadow-lg z-20">
-    <div class="flex justify-between items-center max-w-6xl mx-auto">
-      <!-- Logo -->
-      <a href="./index.html" class="flex items-center">
-        <img src="./images/1000-hills-logo.png" alt="Logo" class="w-12 hover:w-14 transition-transform duration-300">
-      </a>
-      <!-- Navigation Links -->
-      <ul class="hidden lg:flex space-x-8 font-medium text-gray-800 text-sm uppercase tracking-wide">
-        <li><a href="./index.html" class="hover:text-green-600 transition-all duration-300">Home</a></li>
-        <li><a href="./about.html" class="hover:text-green-600 transition-all duration-300">About</a></li>
-        <li><a href="./community.html" class="hover:text-green-600 transition-all duration-300">Community</a></li>
-        <li><a href="./events.html" class="hover:text-green-600 transition-all duration-300">Events & News</a></li>
-        <li><a href="./register.html" class="hover:text-green-600 transition-all duration-300">Contact / Register</a></li>
-      </ul>
-      <!-- Social Media Icons -->
-      <div class="hidden lg:flex space-x-6 text-xl">
-        <a href="https://www.facebook.com/1000hillsrugby/" class="hover:text-green-600 hover:scale-110 transition duration-300"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://www.instagram.com/1000hillsrugby/" class="hover:text-green-600 hover:scale-110 transition duration-300"><i class="fab fa-instagram"></i></a>
-        <a href="https://x.com/1000HillsRugby?t=S0PTUa88AFrp6SJs5meJ6A&s=08" class="hover:text-green-600 hover:scale-110 transition duration-300"><i class="fab fa-twitter"></i></a>
-        <a href="https://www.youtube.com/@1000HillsRugby" class="hover:text-green-600 hover:scale-110 transition duration-300"><i class="fab fa-youtube"></i></a>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Content Sections -->
-  <main class="pt-24 space-y-16">
-    <!-- Section Template -->
-    <section id="p1" class="flex flex-col md:flex-row w-[90%] lg:w-[80%] mx-auto items-center gap-6">
-      <div class="md:w-1/2">
-        <img src="./images/vsT.jpg" alt="Elite Program" class="w-full h-full object-cover transform hover:scale-105 transition duration-500 ease-in-out">
-      </div>
-      <div class="md:w-1/2 space-y-4 text-center md:text-left">
-        <h2 class="text-3xl font-extrabold text-black">Elite Player Development Program</h2>
-        <p class="text-gray-700 text-lg font-medium">
-          This program targets the club’s top players and prepares them for high-performance rugby, focusing on both Rugby XV and Rugby 7s. <strong>Age Group:</strong> 18+ years
-        </p>
-        <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
-          <li>Intensive training and conditioning programs</li>
-          <li>Access to professional-level coaching</li>
-          <li>Tactical and technical development for elite competition</li>
-          <li>Exposure to national and international scouts</li>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Program</title>
+    <link rel="icon" href="./images/t_icon.png" type="image/png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+  </head>
+  <body class="bg-gray-50">
+    <!-- Navbar -->
+    <nav
+      class="navbar fixed top-0 left-0 w-full px-6 py-4 bg-white/90 backdrop-blur-lg shadow-lg z-20"
+    >
+      <div class="flex justify-between items-center max-w-6xl mx-auto">
+        <!-- Logo -->
+        <a href="./index.html" class="flex items-center">
+          <img
+            src="./images/1000-hills-logo.png"
+            alt="Logo"
+            class="w-12 hover:w-14 transition-transform duration-300"
+          />
+        </a>
+        <!-- Navigation Links -->
+        <ul
+          class="hidden lg:flex space-x-8 font-medium text-gray-800 text-sm uppercase tracking-wide"
+        >
+          <li>
+            <a
+              href="./index.html"
+              class="hover:text-green-600 transition-all duration-300"
+              >Home</a
+            >
+          </li>
+          <li>
+            <a
+              href="./about.html"
+              class="hover:text-green-600 transition-all duration-300"
+              >About</a
+            >
+          </li>
+          <li>
+            <a
+              href="./community.html"
+              class="hover:text-green-600 transition-all duration-300"
+              >Community</a
+            >
+          </li>
+          <li>
+            <a
+              href="./events.html"
+              class="hover:text-green-600 transition-all duration-300"
+              >Events & News</a
+            >
+          </li>
+          <li>
+            <a
+              href="./register.html"
+              class="hover:text-green-600 transition-all duration-300"
+              >Contact / Register</a
+            >
+          </li>
         </ul>
+        <!-- Social Media Icons -->
+        <div class="hidden lg:flex space-x-6 text-xl">
+          <a
+            href="https://www.facebook.com/1000hillsrugby/"
+            class="hover:text-green-600 hover:scale-110 transition duration-300"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+          <a
+            href="https://www.instagram.com/1000hillsrugby/"
+            class="hover:text-green-600 hover:scale-110 transition duration-300"
+            ><i class="fab fa-instagram"></i
+          ></a>
+          <a
+            href="https://x.com/1000HillsRugby?t=S0PTUa88AFrp6SJs5meJ6A&s=08"
+            class="hover:text-green-600 hover:scale-110 transition duration-300"
+            ><i class="fab fa-twitter"></i
+          ></a>
+          <a
+            href="https://www.youtube.com/@1000HillsRugby"
+            class="hover:text-green-600 hover:scale-110 transition duration-300"
+            ><i class="fab fa-youtube"></i
+          ></a>
+        </div>
       </div>
-    </section>
+    </nav>
 
-    <section id="p2" class="flex flex-col md:flex-row w-[90%] lg:w-[80%] mx-auto items-center gap-6">
-      <div class="md:w-1/2">
-        <img src="./images/wm.jpg" alt="Women's Rugby" class="w-full h-full object-cover transform hover:scale-105 transition duration-500 ease-in-out">
-      </div>
-      <div class="md:w-1/2 space-y-4 text-center md:text-left">
-        <h2 class="text-3xl font-extrabold text-black">Women’s Rugby Program</h2>
-        <p class="text-gray-700 text-lg font-medium">
-          Dedicated to empowering women through rugby, this program encourages females of all ages to participate in the sport. <strong>Age Group:</strong> 16+ years
-        </p>
-        <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
-          <li>Regular training sessions and fitness programs</li>
-          <li>Participation in local and regional tournaments</li>
-          <li>Leadership and personal development workshops</li>
-          <li>Mentorship from experienced players</li>
-        </ul>
-      </div>
-    </section>
+    <!-- Content Sections -->
+    <main class="pt-24 space-y-16">
+      <!-- Section Template -->
+      <section
+        id="p1"
+        class="flex flex-col md:flex-row w-[90%] lg:w-[80%] mx-auto items-center gap-6"
+      >
+        <div class="md:w-1/2">
+          <img
+            src="./images/vsT.jpg"
+            alt="Elite Program"
+            class="w-full h-full object-cover transform hover:scale-105 transition duration-500 ease-in-out"
+          />
+        </div>
+        <div class="md:w-1/2 space-y-4 text-center md:text-left">
+          <h2 class="text-3xl font-extrabold text-black">
+            Elite Player Development Program
+          </h2>
+          <p class="text-gray-700 text-lg font-medium">
+            This program targets the club’s top players and prepares them for
+            high-performance rugby, focusing on both Rugby XV and Rugby 7s.
+            <strong>Age Group:</strong> 18+ years
+          </p>
+          <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
+            <li>Intensive training and conditioning programs</li>
+            <li>Access to professional-level coaching</li>
+            <li>Tactical and technical development for elite competition</li>
+            <li>Exposure to national and international scouts</li>
+          </ul>
+        </div>
+      </section>
 
-    <section id="p3" class="flex flex-col md:flex-row w-[90%] lg:w-[80%] mx-auto items-center gap-6">
-      <div class="md:w-1/2">
-        <img src="./images/gr.jpg" alt="Grassroots Initiative" class="w-full h-full object-cover transform hover:scale-105 transition duration-500 ease-in-out">
-      </div>
-      <div class="md:w-1/2 space-y-4 text-center md:text-left">
-        <h2 class="text-3xl font-extrabold text-black">Rugby & Life Skills Program</h2>
-        <p class="text-gray-700 text-lg font-medium">
-          This initiative integrates rugby training with life skills workshops, helping players develop athletically and personally. <strong>Age Group:</strong> 12-20 years
-        </p>
-        <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
-          <li>Leadership, communication, and teamwork workshops</li>
-          <li>Financial literacy, health, and career development sessions</li>
-          <li>Mentorship from senior players and community leaders</li>
-          <li>Focus on character building and real-world skills</li>
-        </ul>
-      </div>
-    </section>
+      <section
+        id="p2"
+        class="flex flex-col md:flex-row w-[90%] lg:w-[80%] mx-auto items-center gap-6"
+      >
+        <div class="md:w-1/2">
+          <img
+            src="./images/wm.jpg"
+            alt="Women's Rugby"
+            class="w-full h-full object-cover transform hover:scale-105 transition duration-500 ease-in-out"
+          />
+        </div>
+        <div class="md:w-1/2 space-y-4 text-center md:text-left">
+          <h2 class="text-3xl font-extrabold text-black">
+            Women’s Rugby Program
+          </h2>
+          <p class="text-gray-700 text-lg font-medium">
+            Dedicated to empowering women through rugby, this program encourages
+            females of all ages to participate in the sport.
+            <strong>Age Group:</strong> 16+ years
+          </p>
+          <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
+            <li>Regular training sessions and fitness programs</li>
+            <li>Participation in local and regional tournaments</li>
+            <li>Leadership and personal development workshops</li>
+            <li>Mentorship from experienced players</li>
+          </ul>
+        </div>
+      </section>
 
-    <section id="p4" class="flex flex-col md:flex-row w-[90%] lg:w-[80%] mx-auto items-center gap-6">
-      <div class="md:w-1/2">
-        <img src="./images/u6.jpg" alt="Community Outreach" class="w-full h-full object-cover transform hover:scale-105 transition duration-500 ease-in-out">
-      </div>
-      <div class="md:w-1/2 space-y-4 text-center md:text-left">
-        <h2 class="text-3xl font-extrabold text-black">Grassroots Rugby Initiative</h2>
-        <p class="text-gray-700 text-lg font-medium">
-            This outreach program aims to bring rugby to underserved communities, providing training, equipment, and opportunities for young people to engage with the sport.
-        
+      <section
+        id="p3"
+        class="flex flex-col md:flex-row w-[90%] lg:w-[80%] mx-auto items-center gap-6"
+      >
+        <div class="md:w-1/2">
+          <img
+            src="./images/gr.jpg"
+            alt="Grassroots Initiative"
+            class="w-full h-full object-cover transform hover:scale-105 transition duration-500 ease-in-out"
+          />
+        </div>
+        <div class="md:w-1/2 space-y-4 text-center md:text-left">
+          <h2 class="text-3xl font-extrabold text-black">
+            Rugby & Life Skills Program
+          </h2>
+          <p class="text-gray-700 text-lg font-medium">
+            This initiative integrates rugby training with life skills
+            workshops, helping players develop athletically and personally.
+            <strong>Age Group:</strong> 12-20 years
+          </p>
+          <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
+            <li>Leadership, communication, and teamwork workshops</li>
+            <li>Financial literacy, health, and career development sessions</li>
+            <li>Mentorship from senior players and community leaders</li>
+            <li>Focus on character building and real-world skills</li>
+          </ul>
+        </div>
+      </section>
+
+      <section
+        id="p4"
+        class="flex flex-col md:flex-row w-[90%] lg:w-[80%] mx-auto items-center gap-6"
+      >
+        <div class="md:w-1/2">
+          <img
+            src="./images/u6.jpg"
+            alt="Community Outreach"
+            class="w-full h-full object-cover transform hover:scale-105 transition duration-500 ease-in-out"
+          />
+        </div>
+        <div class="md:w-1/2 space-y-4 text-center md:text-left">
+          <h2 class="text-3xl font-extrabold text-black">
+            Grassroots Rugby Initiative
+          </h2>
+          <p class="text-gray-700 text-lg font-medium">
+            This outreach program aims to bring rugby to underserved
+            communities, providing training, equipment, and opportunities for
+            young people to engage with the sport.
+
             <strong>Age Group:</strong> 6-15 years
-        </p>
-        <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
-          <li>Rugby introduction clinics in schools and communities</li>
-          <li>Free access to equipment and training</li>
-          <li>Collaboration with local schools to promote rugby education</li>
-          <li>Talent scouting for entry into the Youth Development Program</li>
-        </ul>
-      </div>
-    </section>
-  </main>
-</body>
+          </p>
+          <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
+            <li>Rugby introduction clinics in schools and communities</li>
+            <li>Free access to equipment and training</li>
+            <li>Collaboration with local schools to promote rugby education</li>
+            <li>
+              Talent scouting for entry into the Youth Development Program
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </body>
 </html>

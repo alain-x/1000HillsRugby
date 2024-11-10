@@ -1,486 +1,640 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register</title>
+    <link rel="icon" href="./images/t_icon.png" type="image/png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./style.css" />
     <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-</head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+  </head>
 
-<style>
+  <style>
     /* Display the menu when the checkbox is checked */
-    #menu-toggle:checked~#menu {
-        display: block;
+    #menu-toggle:checked ~ #menu {
+      display: block;
     }
 
     /* Hide the menu if not checked */
     #menu:hover {
-        display: block;
+      display: block;
     }
-</style>
+  </style>
 
-<body>
+  <body>
     <!-- Transparent Navbar -->
     <nav
-        class="navbar fixed top-0 left-0 w-full px-2  z-20 h-[10vh] flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300">
-        <!-- Logo -->
-        <div class="navbar-logo w-2/12">
-            <a href="./index.html">
-                <img class="w-[60px] hover:w-[70px] transition-transform duration-300"
-                    src="./images/1000-hills-logo.png" alt="Logo" />
-            </a>
+      class="navbar fixed top-0 left-0 w-full px-2 z-20 h-[10vh] flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300"
+    >
+      <!-- Logo -->
+      <div class="navbar-logo w-2/12">
+        <a href="./index.html">
+          <img
+            class="w-[60px] hover:w-[70px] transition-transform duration-300"
+            src="./images/1000-hills-logo.png"
+            alt="Logo"
+          />
+        </a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <ul
+        class="hidden lg:flex lg:space-x-8 font-600 text-gray-800 uppercase text-sm tracking-wider"
+      >
+        <li>
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+            href="./index.html"
+            >Home</a
+          >
+        </li>
+        <li>
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+            href="./about.html"
+            >About</a
+          >
+        </li>
+        <li>
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+            href="./community.html"
+            >Community</a
+          >
+        </li>
+
+        <li>
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+            href="./events.html"
+            >Events<span class="text-yellow-400">&</span>News</a
+          >
+        </li>
+        <li>
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+            href="./register.html"
+            >Contact<span class="text-yellow-400 font-800">/</span>Register</a
+          >
+        </li>
+      </ul>
+
+      <!-- Social Media Links for Desktop -->
+      <div class="hidden lg:flex w-2/12 justify-center space-x-6 text-xl">
+        <a
+          class="hover:text-green-600 hover:scale-110 transition-all duration-300"
+          href="https://www.facebook.com/1000hillsrugby/"
+          ><i class="fa-brands fa-facebook-f"></i
+        ></a>
+        <a
+          class="hover:text-green-600 hover:scale-110 transition-all duration-300"
+          href="https://www.instagram.com/1000hillsrugby/"
+          ><i class="fa-brands fa-instagram"></i
+        ></a>
+        <a
+          class="hover:text-green-600 hover:scale-110 transition-all duration-300"
+          href="https://x.com/1000HillsRugby?t=S0PTUa88AFrp6SJs5meJ6A&s=08"
+          ><i class="fa-brands fa-x-twitter"></i
+        ></a>
+        <a
+          class="hover:text-green-600 hover:scale-110 transition-all duration-300"
+          href="https://www.youtube.com/@1000HillsRugby"
+          ><i class="fa-brands fa-youtube"></i
+        ></a>
+      </div>
+
+      <!-- Mobile Menu & Social Media -->
+      <div class="relative lg:hidden flex flex-wrap items-center">
+        <!-- Social Media for Mobile -->
+        <div class="flex space-x-4 mr-4">
+          <a
+            class="hover:text-green-600 hover:scale-110 transition-all duration-300"
+            href="https://www.facebook.com/1000hillsrugby/"
+            ><i class="fa-brands fa-facebook-f"></i
+          ></a>
+          <a
+            class="hover:text-green-600 hover:scale-110 transition-all duration-300"
+            href="https://www.instagram.com/1000hillsrugby/"
+            ><i class="fa-brands fa-instagram"></i
+          ></a>
+          <a
+            class="hover:text-green-600 hover:scale-110 transition-all duration-300"
+            href="https://x.com/1000HillsRugby?t=S0PTUa88AFrp6SJs5meJ6A&s=08"
+            ><i class="fa-brands fa-x-twitter"></i
+          ></a>
+          <a
+            class="hover:text-green-600 hover:scale-110 transition-all duration-300"
+            href="https://www.youtube.com/@1000HillsRugby"
+            ><i class="fa-brands fa-youtube"></i
+          ></a>
         </div>
 
-        <!-- Desktop Navigation -->
-        <ul class="hidden lg:flex lg:space-x-8 font-600 text-gray-800 uppercase text-sm tracking-wider">
-            <li>
-                <a class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-                    href="./index.html">Home</a>
-            </li>
-            <li>
-                <a class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-                    href="./about.html">About</a>
-            </li>
-            <li>
-                <a class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-                    href="./community.html">Community</a>
-            </li>
+        <!-- Mobile Menu Toggle -->
+        <input type="checkbox" id="menu-toggle" class="hidden" />
+        <label for="menu-toggle" class="cursor-pointer text-2xl text-black">
+          <i class="fa-solid fa-bars" id="menu-open-icon"></i>
+          <i class="fa-solid fa-times hidden" id="menu-close-icon"></i>
+        </label>
 
+        <div
+          id="menu"
+          class="absolute top-full right-0 bg-white text-gray-800 w-48 mt-2 rounded-md shadow-lg hidden transition-all duration-300"
+        >
+          <ul class="flex flex-col text-left">
             <li>
-                <a class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-                    href="./events.html">Events<span class="text-yellow-400">&</span>News</a>
+              <a
+                class="hover:bg-green-600 hover:text-white px-4 py-2 transition-all duration-300"
+                href="./index.html"
+                >Home</a
+              >
             </li>
             <li>
-                <a class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-                    href="./register.html">Contact<span class="text-yellow-400 font-800">/</span>Register</a>
+              <a
+                class="hover:bg-green-600 hover:text-white px-4 py-2 transition-all duration-300"
+                href="./about.html"
+                >About</a
+              >
             </li>
-        </ul>
-
-        <!-- Social Media Links for Desktop -->
-        <div class="hidden lg:flex w-2/12 justify-center space-x-6 text-xl">
-            <a class="hover:text-green-600 hover:scale-110 transition-all duration-300"
-                href="https://www.facebook.com/1000hillsrugby/"><i class="fa-brands fa-facebook-f"></i></a>
-            <a class="hover:text-green-600 hover:scale-110 transition-all duration-300"
-                href="https://www.instagram.com/1000hillsrugby/"><i class="fa-brands fa-instagram"></i></a>
-            <a class="hover:text-green-600 hover:scale-110 transition-all duration-300"
-                href="https://x.com/1000HillsRugby?t=S0PTUa88AFrp6SJs5meJ6A&s=08"><i
-                    class="fa-brands fa-x-twitter"></i></a>
-            <a class="hover:text-green-600 hover:scale-110 transition-all duration-300"
-                href="https://www.youtube.com/@1000HillsRugby"><i class="fa-brands fa-youtube"></i></a>
+            <li>
+              <a
+                class="hover:bg-green-600 hover:text-white px-4 py-2 transition-all duration-300"
+                href="./community.html"
+                >Community</a
+              >
+            </li>
+            <li>
+              <a
+                class="hover:bg-green-600 hover:text-white px-4 py-2 transition-all duration-300"
+                href="#"
+                >EVENTS<span class="text-yellow-400">&</span>NEWS</a
+              >
+            </li>
+            <li>
+              <a
+                class="hover:bg-green-600 hover:text-white px-4 py-2 transition-all duration-300"
+                href="./register.html"
+                >CONTACT<span class="text-yellow-400 font-800">/</span
+                >REGISTER</a
+              >
+            </li>
+          </ul>
         </div>
-
-        <!-- Mobile Menu & Social Media -->
-        <div class="relative lg:hidden flex flex-wrap items-center">
-            <!-- Social Media for Mobile -->
-            <div class="flex space-x-4 mr-4">
-                <a class="hover:text-green-600 hover:scale-110 transition-all duration-300"
-                    href="https://www.facebook.com/1000hillsrugby/"><i class="fa-brands fa-facebook-f"></i></a>
-                <a class="hover:text-green-600 hover:scale-110 transition-all duration-300"
-                    href="https://www.instagram.com/1000hillsrugby/"><i class="fa-brands fa-instagram"></i></a>
-                <a class="hover:text-green-600 hover:scale-110 transition-all duration-300"
-                    href="https://x.com/1000HillsRugby?t=S0PTUa88AFrp6SJs5meJ6A&s=08"><i
-                        class="fa-brands fa-x-twitter"></i></a>
-                <a class="hover:text-green-600 hover:scale-110 transition-all duration-300"
-                    href="https://www.youtube.com/@1000HillsRugby"><i class="fa-brands fa-youtube"></i></a>
-            </div>
-
-            <!-- Mobile Menu Toggle -->
-            <input type="checkbox" id="menu-toggle" class="hidden" />
-            <label for="menu-toggle" class="cursor-pointer text-2xl text-black">
-                <i class="fa-solid fa-bars" id="menu-open-icon"></i>
-                <i class="fa-solid fa-times hidden" id="menu-close-icon"></i>
-            </label>
-
-            <div id="menu"
-                class="absolute top-full right-0 bg-white text-gray-800 w-48 mt-2 rounded-md shadow-lg hidden transition-all duration-300">
-                <ul class="flex flex-col text-left">
-                    <li>
-                        <a class="hover:bg-green-600 hover:text-white px-4 py-2 transition-all duration-300"
-                            href="./index.html">Home</a>
-                    </li>
-                    <li>
-                        <a class="hover:bg-green-600 hover:text-white px-4 py-2 transition-all duration-300"
-                            href="./about.html">About</a>
-                    </li>
-                    <li>
-                        <a class="hover:bg-green-600 hover:text-white px-4 py-2 transition-all duration-300"
-                            href="./community.html">Community</a>
-                    </li>
-                    <li>
-                        <a class="hover:bg-green-600 hover:text-white px-4 py-2 transition-all duration-300"
-                            href="#">EVENTS<span class="text-yellow-400">&</span>NEWS</a>
-                    </li>
-                    <li>
-                        <a class="hover:bg-green-600 hover:text-white px-4 py-2 transition-all duration-300"
-                            href="./register.html">CONTACT<span class="text-yellow-400 font-800">/</span>REGISTER</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+      </div>
     </nav>
 
-
-
-
     <main>
-         <!-- Main Hero Section -->
-    <section
-    class="relative h-screen max-w-full grid grid-cols-12 items-center bg-cover bg-center overflow-hidden"
-    style="background-image: url('./images/friends.jpeg'); background-color: #222;">
-    <!-- Gradient Overlay for Better Text Contrast -->
-    <div class="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/60"></div>
+      <!-- Main Hero Section -->
+      <section
+        class="relative h-screen max-w-full grid grid-cols-12 items-center bg-cover bg-center overflow-hidden"
+        style="
+          background-image: url('./images/friends.jpeg');
+          background-color: #222;
+        "
+      >
+        <!-- Gradient Overlay for Better Text Contrast -->
+        <div
+          class="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/60"
+        ></div>
 
-    <!-- Text and Form Content -->
-    <div
-      class="col-span-12 z-10 text-white flex flex-col gap-6 p-6 lg:pl-12 items-start text-center lg:text-left animate__animated animate__fadeIn">
-      <h1 class="font-extrabold leading-tight text-left space-y-2">
-        <span class="text-[#dcbb26] lg:text-6xl md:text-5xl text-4xl block animate__fadeInDown animate__delay-1s">
-          Get in Touch
-        </span>
-        <span class="text-green-500 lg:text-6xl md:text-5xl text-4xl block animate__fadeInDown animate__delay-2s">
-          Register with Us
-        </span>
-      </h1>
-      <p
-        class="text-base lg:text-lg mt-2 text-white/90 animate__fadeInUp animate__delay-3s lg:w-[45%] md:w-[55%] w-[80%]">
-        Connect with the 1000 Hills Rugby Team! Whether you want to join our team, support, or just get involved, we
-        would love to hear from you. Register below and become part of our vibrant community.
-      </p>
-    </div>
-
-    <!-- Background Effect for Extra Depth -->
-    <div class="absolute inset-0     opacity-60"></div>
-
-    <!-- Scroll-to-Top Button -->
-    <a href="#top"
-      class="fixed bottom-20 right-2 z-50 bg-[#006838] hover:bg-[#00562c] transition-all duration-300 text-white px-4 py-3 rounded-full shadow-xl text-lg flex items-center justify-center transform hover:scale-105">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M19 15l-7-7-7 7" />
-      </svg>
-    </a>
-  </section>
-
-
-        <!-- About Us, Contact, and Registration Section -->
-<section id="reForm" class="flex lg:flex-row flex-col bg-[#f9f9f9] py-16 px-8 gap-12">
-    <!-- About Us Section -->
-    <div class="flex flex-col lg:w-8/12 w-full">
-        <div class="border-l-[8px] border-[#006838] pl-4 mb-6">
-            <p class="text-[#006838] lg:text-[22px] text-[18px] font-medium uppercase tracking-wide">
-                <i class="fas fa-rugby-ball mr-2"></i>WELCOME TO 1000 HILLS
-            </p>
-            <h2 class="lg:text-5xl md:text-4xl text-3xl font-semibold text-[#333]">
-                Be Part of Something Bigger than Rugby
-            </h2>
-        </div>
-        <p class="text-[#4a4a4a] text-lg leading-relaxed lg:w-[80%]">
-            At 1000 Hills Rugby, we're more than just a team; we're a thriving community. Our mission is to inspire,
-            grow, and connect through the love of the game. Whether you’re aiming to improve your skills, support from
-            the sidelines, or simply join a network of like-minded individuals, we’re here to welcome you with open
-            arms.
-        </p>
-       <a href="./about.html"> <button class="lg:w-[50%] md:w-[70%] sm:w-[90%] w-full mt-6 bg-[#ffdc26] hover:bg-[#e6c71d] text-black py-3 px-6 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 hover:shadow-xl flex items-center gap-2">
-        <i class="fas fa-info-circle text-[#333]"></i>
-        Learn More About Us
-    </button></a>
-        
-
-        <!-- Contact Information Section -->
-        <div class="flex flex-col mt-12">
-  <h2 class="text-2xl font-bold text-[#006838] mb-6">
-    <i class="fas fa-address-book mr-2"></i>Contact Our Staff
-  </h2>
-  
-  <!-- Adjusted to display three columns on medium screens and above -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-    
-    <!-- President -->
-    <div class="flex flex-col bg-white p-4 rounded-lg shadow-md items-center">
-      <img 
-        src="path-to-coach-image.jpg" 
-        alt="President" 
-        class="w-24 h-24 rounded-full border-2 border-[#006838] mb-4 object-cover" 
-      />
-      <h3 class="font-semibold text-lg flex items-center mb-2">
-        <i class="fas fa-user-tie mr-2 text-[#006838]"></i>President - Serge
-      </h3>
-      <p class="text-sm text-gray-600 mb-4">
-        Serge has over 15 years of experience in coaching rugby and is dedicated to nurturing young
-        talent. Feel free to contact him for any inquiries about our training programs.
-      </p>
-      <div class="flex items-center gap-4">
-        <i class="fas fa-phone-alt text-[#006838]"></i>
-        <p class="font-medium">+250 788 261 386</p>
-      </div>
-      <div class="flex items-center gap-4 mt-2">
-        <i class="fas fa-envelope text-[#006838]"></i>
-        <p class="font-medium">Serge@1000hillsrugby.com</p>
-      </div>
-    </div>
-
-    <!-- Head Coach -->
-    <div class="flex flex-col bg-white p-4 rounded-lg shadow-md items-center">
-      <img 
-        src="path-to-coach-image.jpg" 
-        alt="Head Coach" 
-        class="w-24 h-24 rounded-full border-2 border-[#006838] mb-4 object-cover" 
-      />
-      <h3 class="font-semibold text-lg flex items-center mb-2">
-        <i class="fas fa-user-tie mr-2 text-[#006838]"></i>Head Coach - Jimmy
-      </h3>
-      <p class="text-sm text-gray-600 mb-4">
-        Jimmy has over 15 years of experience in coaching rugby and is dedicated to nurturing young
-        talent. Feel free to contact him for any inquiries about our training programs.
-      </p>
-      <div class="flex items-center gap-4">
-        <i class="fas fa-phone-alt text-[#006838]"></i>
-        <p class="font-medium">+250-785-290-080</p>
-      </div>
-      <div class="flex items-center gap-4 mt-2">
-        <i class="fas fa-envelope text-[#006838]"></i>
-        <p class="font-medium">jimmy@1000hillsrugby.com</p>
-      </div>
-    </div>
-
-    <!-- Head Coach U18 -->
-    <div class="flex flex-col bg-white p-4 rounded-lg shadow-md items-center">
-      <img 
-        src="path-to-coach-image.jpg" 
-        alt="Head Coach U18" 
-        class="w-24 h-24 rounded-full border-2 border-[#006838] mb-4 object-cover" 
-      />
-      <h3 class="font-semibold text-lg flex items-center mb-2">
-        <i class="fas fa-user-tie mr-2 text-[#006838]"></i>Head Coach Of U18 Boys & Girls - Jean
-      </h3>
-      <p class="text-sm text-gray-600 mb-4">
-        Jean has over 15 years of experience in coaching rugby and is dedicated to nurturing young
-        talent. Feel free to contact him for any inquiries about our training programs.
-      </p>
-      <div class="flex items-center gap-4">
-        <i class="fas fa-phone-alt text-[#006838]"></i>
-        <p class="font-medium">+250-785-290-080</p>
-      </div>
-      <div class="flex items-center gap-4 mt-2">
-        <i class="fas fa-envelope text-[#006838]"></i>
-        <p class="font-medium">Serge@1000hillsrugby.com</p>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-    </div>
-
-    <!-- Registration Form Section -->
-    <div  class="lg:w-4/12 w-full">
-      <div class="bg-white p-6 rounded-lg shadow-xl">
-          <h2 class="text-2xl font-bold text-[#006838] mb-4">
-              <i class="fas fa-clipboard-list mr-2"></i>Register or Get in Touch
-          </h2>
-          <p class="text-sm mb-6 text-gray-700">
-              Join our community today by registering or reaching out with your queries. We look forward to connecting with you!
+        <!-- Text and Form Content -->
+        <div
+          class="col-span-12 z-10 text-white flex flex-col gap-6 p-6 lg:pl-12 items-start text-center lg:text-left animate__animated animate__fadeIn"
+        >
+          <h1 class="font-extrabold leading-tight text-left space-y-2">
+            <span
+              class="text-[#dcbb26] lg:text-6xl md:text-5xl text-4xl block animate__fadeInDown animate__delay-1s"
+            >
+              Get in Touch
+            </span>
+            <span
+              class="text-green-500 lg:text-6xl md:text-5xl text-4xl block animate__fadeInDown animate__delay-2s"
+            >
+              Register with Us
+            </span>
+          </h1>
+          <p
+            class="text-base lg:text-lg mt-2 text-white/90 animate__fadeInUp animate__delay-3s lg:w-[45%] md:w-[55%] w-[80%]"
+          >
+            Connect with the 1000 Hills Rugby Team! Whether you want to join our
+            team, support, or just get involved, we would love to hear from you.
+            Register below and become part of our vibrant community.
           </p>
-  
-          <!-- Registration Form -->
-          <form id="registrationForm" onsubmit="navigateToLink(event)">
-              <label for="category" class="block font-medium text-gray-700 mb-2">Select a Category:</label>
-              <select id="category" class="w-full p-2 mb-4 border border-gray-300 rounded-md" onchange="updateDetails()">
-                  <option value="" disabled selected>Select category</option>
-                  <option value="coach">Coach</option>
-                  <option value="player">Player</option>
-                  <option value="volunteer">Volunteer</option>
-                  <option value="member">Member</option>
-                  <option value="donor">Donor</option>
+        </div>
+
+        <!-- Background Effect for Extra Depth -->
+        <div class="absolute inset-0 opacity-60"></div>
+
+        <!-- Scroll-to-Top Button -->
+        <a
+          href="#top"
+          class="fixed bottom-20 right-2 z-50 bg-[#006838] hover:bg-[#00562c] transition-all duration-300 text-white px-4 py-3 rounded-full shadow-xl text-lg flex items-center justify-center transform hover:scale-105"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-6 h-6"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M19 15l-7-7-7 7" />
+          </svg>
+        </a>
+      </section>
+
+      <!-- About Us, Contact, and Registration Section -->
+      <section
+        id="reForm"
+        class="flex lg:flex-row flex-col bg-[#f9f9f9] py-16 px-8 gap-12"
+      >
+        <!-- About Us Section -->
+        <div class="flex flex-col lg:w-8/12 w-full">
+          <div class="border-l-[8px] border-[#006838] pl-4 mb-6">
+            <p
+              class="text-[#006838] lg:text-[22px] text-[18px] font-medium uppercase tracking-wide"
+            >
+              <i class="fas fa-rugby-ball mr-2"></i>WELCOME TO 1000 HILLS
+            </p>
+            <h2
+              class="lg:text-5xl md:text-4xl text-3xl font-semibold text-[#333]"
+            >
+              Be Part of Something Bigger than Rugby
+            </h2>
+          </div>
+          <p class="text-[#4a4a4a] text-lg leading-relaxed lg:w-[80%]">
+            At 1000 Hills Rugby, we're more than just a team; we're a thriving
+            community. Our mission is to inspire, grow, and connect through the
+            love of the game. Whether you’re aiming to improve your skills,
+            support from the sidelines, or simply join a network of like-minded
+            individuals, we’re here to welcome you with open arms.
+          </p>
+          <a href="./about.html">
+            <button
+              class="lg:w-[50%] md:w-[70%] sm:w-[90%] w-full mt-6 bg-[#ffdc26] hover:bg-[#e6c71d] text-black py-3 px-6 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 hover:shadow-xl flex items-center gap-2"
+            >
+              <i class="fas fa-info-circle text-[#333]"></i>
+              Learn More About Us
+            </button></a
+          >
+
+          <!-- Contact Information Section -->
+          <div class="flex flex-col mt-12">
+            <h2 class="text-2xl font-bold text-[#006838] mb-6">
+              <i class="fas fa-address-book mr-2"></i>Contact Our Staff
+            </h2>
+
+            <!-- Adjusted to display three columns on medium screens and above -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <!-- President -->
+              <div
+                class="flex flex-col bg-white p-4 rounded-lg shadow-md items-center"
+              >
+                <img
+                  src="path-to-coach-image.jpg"
+                  alt="President"
+                  class="w-24 h-24 rounded-full border-2 border-[#006838] mb-4 object-cover"
+                />
+                <h3 class="font-semibold text-lg flex items-center mb-2">
+                  <i class="fas fa-user-tie mr-2 text-[#006838]"></i>President -
+                  Serge
+                </h3>
+                <p class="text-sm text-gray-600 mb-4">
+                  Serge has over 15 years of experience in coaching rugby and is
+                  dedicated to nurturing young talent. Feel free to contact him
+                  for any inquiries about our training programs.
+                </p>
+                <div class="flex items-center gap-4">
+                  <i class="fas fa-phone-alt text-[#006838]"></i>
+                  <p class="font-medium">+250 788 261 386</p>
+                </div>
+                <div class="flex items-center gap-4 mt-2">
+                  <i class="fas fa-envelope text-[#006838]"></i>
+                  <p class="font-medium">Serge@1000hillsrugby.com</p>
+                </div>
+              </div>
+
+              <!-- Head Coach -->
+              <div
+                class="flex flex-col bg-white p-4 rounded-lg shadow-md items-center"
+              >
+                <img
+                  src="path-to-coach-image.jpg"
+                  alt="Head Coach"
+                  class="w-24 h-24 rounded-full border-2 border-[#006838] mb-4 object-cover"
+                />
+                <h3 class="font-semibold text-lg flex items-center mb-2">
+                  <i class="fas fa-user-tie mr-2 text-[#006838]"></i>Head Coach
+                  - Jimmy
+                </h3>
+                <p class="text-sm text-gray-600 mb-4">
+                  Jimmy has over 15 years of experience in coaching rugby and is
+                  dedicated to nurturing young talent. Feel free to contact him
+                  for any inquiries about our training programs.
+                </p>
+                <div class="flex items-center gap-4">
+                  <i class="fas fa-phone-alt text-[#006838]"></i>
+                  <p class="font-medium">+250-785-290-080</p>
+                </div>
+                <div class="flex items-center gap-4 mt-2">
+                  <i class="fas fa-envelope text-[#006838]"></i>
+                  <p class="font-medium">jimmy@1000hillsrugby.com</p>
+                </div>
+              </div>
+
+              <!-- Head Coach U18 -->
+              <div
+                class="flex flex-col bg-white p-4 rounded-lg shadow-md items-center"
+              >
+                <img
+                  src="path-to-coach-image.jpg"
+                  alt="Head Coach U18"
+                  class="w-24 h-24 rounded-full border-2 border-[#006838] mb-4 object-cover"
+                />
+                <h3 class="font-semibold text-lg flex items-center mb-2">
+                  <i class="fas fa-user-tie mr-2 text-[#006838]"></i>Head Coach
+                  Of U18 Boys & Girls - Jean
+                </h3>
+                <p class="text-sm text-gray-600 mb-4">
+                  Jean has over 15 years of experience in coaching rugby and is
+                  dedicated to nurturing young talent. Feel free to contact him
+                  for any inquiries about our training programs.
+                </p>
+                <div class="flex items-center gap-4">
+                  <i class="fas fa-phone-alt text-[#006838]"></i>
+                  <p class="font-medium">+250-785-290-080</p>
+                </div>
+                <div class="flex items-center gap-4 mt-2">
+                  <i class="fas fa-envelope text-[#006838]"></i>
+                  <p class="font-medium">Serge@1000hillsrugby.com</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Registration Form Section -->
+        <div class="lg:w-4/12 w-full">
+          <div class="bg-white p-6 rounded-lg shadow-xl">
+            <h2 class="text-2xl font-bold text-[#006838] mb-4">
+              <i class="fas fa-clipboard-list mr-2"></i>Register or Get in Touch
+            </h2>
+            <p class="text-sm mb-6 text-gray-700">
+              Join our community today by registering or reaching out with your
+              queries. We look forward to connecting with you!
+            </p>
+
+            <!-- Registration Form -->
+            <form id="registrationForm" onsubmit="navigateToLink(event)">
+              <label for="category" class="block font-medium text-gray-700 mb-2"
+                >Select a Category:</label
+              >
+              <select
+                id="category"
+                class="w-full p-2 mb-4 border border-gray-300 rounded-md"
+                onchange="updateDetails()"
+              >
+                <option value="" disabled selected>Select category</option>
+                <option value="coach">Coach</option>
+                <option value="player">Player</option>
+                <option value="volunteer">Volunteer</option>
+                <option value="member">Member</option>
+                <option value="donor">Donor</option>
               </select>
-  
+
               <!-- Payment Information -->
               <div id="paymentInfo" class="hidden mb-4">
-                  <p class="font-semibold text-gray-700">Payment Details:</p>
-                  <p id="price" class="text-gray-600"></p>
-                  <p id="method" class="text-gray-600"></p>
+                <p class="font-semibold text-gray-700">Payment Details:</p>
+                <p id="price" class="text-gray-600"></p>
+                <p id="method" class="text-gray-600"></p>
               </div>
-  
-              <button type="submit" class="bg-[#006838] text-white py-2 px-4 rounded-md w-full mt-4 hover:bg-[#00562c] transition-colors duration-300">
-                  Register Now
+
+              <button
+                type="submit"
+                class="bg-[#006838] text-white py-2 px-4 rounded-md w-full mt-4 hover:bg-[#00562c] transition-colors duration-300"
+              >
+                Register Now
               </button>
-          </form>
-      </div>
-  </div>
-  
-  <script>
-      const paymentDetails = {
-          
-          coach: { price: "$100, 100000Rwf", method: "MOMO,Bank Transfer", link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3" },
-          player:{price: "$20,20000Rwf,", method: "MOMO,Bank Transfer",link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3"},
-          volunteer: { price: "$0", method: "MOMO,Bank Transfer", link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3" },
-          member: { price: "$50, 50000Rwf", method: "MOMO,Bank Transfer", link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3" },
-          donor: { price: "Custom Amount", method: "MOMO,Bank Transfer", link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3" }
-      };
-  
-      function updateDetails() {
-          const category = document.getElementById("category").value;
-          const paymentInfo = document.getElementById("paymentInfo");
-          const price = document.getElementById("price");
-          const method = document.getElementById("method");
-  
-          if (paymentDetails[category]) {
+            </form>
+          </div>
+        </div>
+
+        <script>
+          const paymentDetails = {
+            coach: {
+              price: "$100, 100000Rwf",
+              method: "MOMO,Bank Transfer",
+              link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3",
+            },
+            player: {
+              price: "$20,20000Rwf,",
+              method: "MOMO,Bank Transfer",
+              link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3",
+            },
+            volunteer: {
+              price: "$0",
+              method: "MOMO,Bank Transfer",
+              link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3",
+            },
+            member: {
+              price: "$50, 50000Rwf",
+              method: "MOMO,Bank Transfer",
+              link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3",
+            },
+            donor: {
+              price: "Custom Amount",
+              method: "MOMO,Bank Transfer",
+              link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3",
+            },
+          };
+
+          function updateDetails() {
+            const category = document.getElementById("category").value;
+            const paymentInfo = document.getElementById("paymentInfo");
+            const price = document.getElementById("price");
+            const method = document.getElementById("method");
+
+            if (paymentDetails[category]) {
               price.textContent = `Price: ${paymentDetails[category].price}`;
               method.textContent = `Payment Method: ${paymentDetails[category].method}`;
               paymentInfo.classList.remove("hidden");
-          } else {
+            } else {
               paymentInfo.classList.add("hidden");
+            }
           }
-      }
-  
-      function navigateToLink(event) {
-          event.preventDefault();
-          const category = document.getElementById("category").value;
-  
-          if (paymentDetails[category]) {
+
+          function navigateToLink(event) {
+            event.preventDefault();
+            const category = document.getElementById("category").value;
+
+            if (paymentDetails[category]) {
               window.location.href = paymentDetails[category].link;
-          } else {
+            } else {
               alert("Please select a category before proceeding.");
+            }
           }
-      }
-  </script>
-  
-</section>
+        </script>
+      </section>
 
-
-
-        <!-- Map Section -->
-        <section class="w-full mt-16">
-            <div class="map-container">
-                <iframe class="h-[500px] w-full"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3973.650101020576!2d30.090783688375804!3d-1.976085450010544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19dca63fec397537%3A0xe9f6df3d4b71a318!2sDon%20Bosco%20Gatenga%20Technical%20School!5e0!3m2!1sen!2srw!4v1725208625889!5m2!1sen!2srw"
-                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div>
-        </section>
+      <!-- Map Section -->
+      <section class="w-full mt-16">
+        <div class="map-container">
+          <iframe
+            class="h-[500px] w-full"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3973.650101020576!2d30.090783688375804!3d-1.976085450010544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19dca63fec397537%3A0xe9f6df3d4b71a318!2sDon%20Bosco%20Gatenga%20Technical%20School!5e0!3m2!1sen!2srw!4v1725208625889!5m2!1sen!2srw"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+      </section>
     </main>
 
-
     <footer
-  class="w-full px-6 py-12 grid grid-cols-12 gap-y-12 lg:gap-8 text-white bg-gradient-to-b from-black to-gray-900 lg:h-auto"
->
-  <!-- Logo Section -->
-  <div
-    class="lg:col-span-3 col-span-6 flex items-center justify-center lg:justify-start lg:mx-0 mb-8 lg:mb-0"
-  >
-    <img
-      class="lg:w-[150px] h-[150px] w-[120px] lg:h-[120px] object-contain transition-transform duration-300 hover:scale-105"
-      src="./images/1000-hills-logo.png"
-      alt="Logo"
-    />
-  </div>
+      class="w-full px-6 py-12 grid grid-cols-12 gap-y-12 lg:gap-8 text-white bg-gradient-to-b from-black to-gray-900 lg:h-auto"
+    >
+      <!-- Logo Section -->
+      <div
+        class="lg:col-span-3 col-span-6 flex items-center justify-center lg:justify-start lg:mx-0 mb-8 lg:mb-0"
+      >
+        <img
+          class="lg:w-[150px] h-[150px] w-[120px] lg:h-[120px] object-contain transition-transform duration-300 hover:scale-105"
+          src="./images/1000-hills-logo.png"
+          alt="Logo"
+        />
+      </div>
 
-  <!-- Team Info Section -->
-  <div
-    class="lg:col-span-3 col-span-6  flex flex-col items-center lg:items-start mb-8 lg:mb-0"
-  >
-    <p class="text-lg font-bold tracking-wide text-[#dcbb26] uppercase">
-      Team
-    </p>
-    <ul class="mt-4 text-[#a5a6a8] text-sm font-light flex flex-col gap-2">
-      <li class="hover:text-[#dcbb26] transition-colors duration-300">
-        <a href="program.html#p1">Elite Player Development Program</a>
-      </li>
-      <li class="hover:text-[#dcbb26] transition-colors duration-300">
-        <a href="program.html#p2">Women’s Rugby Program</a>
-      </li>
-      <li class="hover:text-[#dcbb26] transition-colors duration-300">
-        <a href="program.html#p3">Rugby & Life Skills Program</a>
-      </li>
-      <li class="hover:text-[#dcbb26] transition-colors duration-300">
-        <a href="program.html#p4">Grassroots Rugby Initiative</a>
-      </li>
-      <li class="hover:text-[#dcbb26] transition-colors duration-300">
-        <a href="#">Coaching Staff</a>
-      </li>
-    </ul>
-  </div>
+      <!-- Team Info Section -->
+      <div
+        class="lg:col-span-3 col-span-6 flex flex-col items-center lg:items-start mb-8 lg:mb-0"
+      >
+        <p class="text-lg font-bold tracking-wide text-[#dcbb26] uppercase">
+          Team
+        </p>
+        <ul class="mt-4 text-[#a5a6a8] text-sm font-light flex flex-col gap-2">
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="program.html#p1">Elite Player Development Program</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="program.html#p2">Women’s Rugby Program</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="program.html#p3">Rugby & Life Skills Program</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="program.html#p4">Grassroots Rugby Initiative</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="#">Coaching Staff</a>
+          </li>
+        </ul>
+      </div>
 
-  <!-- Club Info Section -->
-  <div
-    class="lg:col-span-3 col-span-6  flex flex-col items-center lg:items-start mb-8 lg:mb-0"
-  >
-    <p class="text-lg font-bold tracking-wide text-[#dcbb26] uppercase">
-      Club
-    </p>
-    <ul class="mt-4 text-[#a5a6a8] text-sm font-light flex flex-col gap-2">
-      <li class="hover:text-[#dcbb26] transition-colors duration-300">
-        <a href="./about.html">About Us</a>
-      </li>
-      <li class="hover:text-[#dcbb26] transition-colors duration-300">
-        <a href="#">History</a>
-      </li>
-      <li class="hover:text-[#dcbb26] transition-colors duration-300">
-        <a href="./services.html">Services</a>
-      </li>
-      <li class="hover:text-[#dcbb26] transition-colors duration-300">
-        <a href="#">News & Media</a>
-      </li>
-      <li class="hover:text-[#dcbb26] transition-colors duration-300">
-        <a href="./contact.html">Contact</a>
-      </li>
-    </ul>
-  </div>
+      <!-- Club Info Section -->
+      <div
+        class="lg:col-span-3 col-span-6 flex flex-col items-center lg:items-start mb-8 lg:mb-0"
+      >
+        <p class="text-lg font-bold tracking-wide text-[#dcbb26] uppercase">
+          Club
+        </p>
+        <ul class="mt-4 text-[#a5a6a8] text-sm font-light flex flex-col gap-2">
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./about.html">About Us</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="#">History</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./services.html">Services</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="#">News & Media</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./contact.html">Contact</a>
+          </li>
+        </ul>
+      </div>
 
-  <!-- Contact & Social Media Section -->
-  <div
-    class="lg:col-span-3  col-span-6 flex flex-col items-center lg:items-start"
-  >
-    <div class="mb-6">
-      <p class="text-lg font-bold tracking-wide text-[#dcbb26] uppercase">
-        Contact
-      </p>
-      <ul class="mt-4 text-[#a5a6a8] text-sm font-light flex flex-col gap-2">
-        <li class="flex items-center hover:text-[#dcbb26] transition-colors duration-300">
-          <i class="text-[#006838] mr-2 fa-solid fa-phone"></i>+250 788 261 386
-        </li>
-        <li class="flex items-center hover:text-[#dcbb26] transition-colors duration-300">
-          <i class="text-[#006838] mr-2 fa-solid fa-envelope"></i>thillsrugby@gmail.com
-        </li>
-        <li class="flex items-center hover:text-[#dcbb26] transition-colors duration-300">
-          <i class="text-[#006838] mr-2 fa-solid fa-location-dot"></i>KK 591 St, Kigali
-        </li>
-      </ul>
-    </div>
+      <!-- Contact & Social Media Section -->
+      <div
+        class="lg:col-span-3 col-span-6 flex flex-col items-center lg:items-start"
+      >
+        <div class="mb-6">
+          <p class="text-lg font-bold tracking-wide text-[#dcbb26] uppercase">
+            Contact
+          </p>
+          <ul
+            class="mt-4 text-[#a5a6a8] text-sm font-light flex flex-col gap-2"
+          >
+            <li
+              class="flex items-center hover:text-[#dcbb26] transition-colors duration-300"
+            >
+              <i class="text-[#006838] mr-2 fa-solid fa-phone"></i>+250 788 261
+              386
+            </li>
+            <li
+              class="flex items-center hover:text-[#dcbb26] transition-colors duration-300"
+            >
+              <i class="text-[#006838] mr-2 fa-solid fa-envelope"></i
+              >thillsrugby@gmail.com
+            </li>
+            <li
+              class="flex items-center hover:text-[#dcbb26] transition-colors duration-300"
+            >
+              <i class="text-[#006838] mr-2 fa-solid fa-location-dot"></i>KK 591
+              St, Kigali
+            </li>
+          </ul>
+        </div>
 
-    <div>
-      <p class="text-lg font-bold tracking-wide text-[#dcbb26] uppercase">
-        Connect
-      </p>
-      <ul class="mt-4 flex gap-4 text-2xl">
-        <li class="hover:text-[#1877F2] transition-colors duration-300">
-          <a href="https://www.facebook.com/1000hillsrugby/" aria-label="Facebook">
-            <i class="fa-brands fa-facebook-f"></i>
-          </a>
-        </li>
-        <li class="hover:text-[#E4405F] transition-colors duration-300">
-          <a href="https://www.instagram.com/1000hillsrugby/" aria-label="Instagram">
-            <i class="fa-brands fa-instagram"></i>
-          </a>
-        </li>
-        <li class="hover:text-[#1DA1F2] transition-colors duration-300">
-          <a href="https://x.com/1000HillsRugby" aria-label="Twitter">
-            <i class="fa-brands fa-x-twitter"></i>
-          </a>
-        </li>
-        <li class="hover:text-[#FF0000] transition-colors duration-300">
-          <a href="https://www.youtube.com/@1000HillsRugby" aria-label="YouTube">
-            <i class="fa-brands fa-youtube"></i>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</footer>
-</body>
-
+        <div>
+          <p class="text-lg font-bold tracking-wide text-[#dcbb26] uppercase">
+            Connect
+          </p>
+          <ul class="mt-4 flex gap-4 text-2xl">
+            <li class="hover:text-[#1877F2] transition-colors duration-300">
+              <a
+                href="https://www.facebook.com/1000hillsrugby/"
+                aria-label="Facebook"
+              >
+                <i class="fa-brands fa-facebook-f"></i>
+              </a>
+            </li>
+            <li class="hover:text-[#E4405F] transition-colors duration-300">
+              <a
+                href="https://www.instagram.com/1000hillsrugby/"
+                aria-label="Instagram"
+              >
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+            </li>
+            <li class="hover:text-[#1DA1F2] transition-colors duration-300">
+              <a href="https://x.com/1000HillsRugby" aria-label="Twitter">
+                <i class="fa-brands fa-x-twitter"></i>
+              </a>
+            </li>
+            <li class="hover:text-[#FF0000] transition-colors duration-300">
+              <a
+                href="https://www.youtube.com/@1000HillsRugby"
+                aria-label="YouTube"
+              >
+                <i class="fa-brands fa-youtube"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>

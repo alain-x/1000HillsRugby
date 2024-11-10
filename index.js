@@ -47,3 +47,43 @@ var countdownFunction = setInterval(function () {
     document.getElementById("countdown-timer").innerHTML = "Event has started!";
   }
 }, 1000);
+
+// JavaScript for Slideshow Functionality
+const images = [
+  "./images/bg000.jpg",
+  "./images/bg001.jpg",
+  "./images/bg002.jpg",
+  "./images/bg003.jpg",
+];
+let currentIndex = 0;
+
+function changeBackgroundImage() {
+  const container = document.querySelector(".slideshow-container");
+  container.style.backgroundImage = `url(${images[currentIndex]})`;
+  updateCycleButtons();
+  currentIndex = (currentIndex + 1) % images.length;
+}
+
+function createCycleButtons() {
+  const cycleButtonsContainer = document.querySelector(".cycle-buttons");
+  cycleButtonsContainer.innerHTML = ""; // Clear any existing buttons
+  images.forEach(() => {
+    const button = document.createElement("button");
+    button.className = "cycle-button w-3 h-3 rounded-full bg-white opacity-50";
+    cycleButtonsContainer.appendChild(button);
+  });
+}
+
+function updateCycleButtons() {
+  const buttons = document.querySelectorAll(".cycle-button");
+  buttons.forEach((button, index) => {
+    button.style.opacity = index === currentIndex ? "1" : "0.5";
+  });
+}
+
+// Start autoplay when page loads
+window.onload = function () {
+  createCycleButtons(); // Create cycle buttons based on images array
+  changeBackgroundImage(); // Display the first image
+  setInterval(changeBackgroundImage, 3000); // Change every 3 seconds
+};

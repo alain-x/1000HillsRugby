@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
-    <link rel="icon" href="./1000-hills-logo.png">
+    <link rel="icon" href="./images/t_icon.png" type="image/png">
+
 
     <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet" />
@@ -219,6 +220,25 @@
                 >REGISTER</a
               >
             </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
           </ul>
         </div>
       </div>
@@ -238,7 +258,7 @@
         <br><br>
         <br> 
         <!-- Slideshow Container -->
-        <div class="relative h-screen max-w-full grid grid-cols-12 items-center bg-cover bg-center overflow-hidden slideshow-container" style="background-image: url('./images/bg000.jpg');">
+        <div class="relative h-screen max-w-full grid grid-cols-12 items-center bg-cover bg-center overflow-hidden slideshow-container">
           <!-- Background Overlay -->
           <div class="absolute inset-0 bg-black opacity-60 bg-gradient-to-r from-black/60 via-transparent to-black/50"></div>
           
@@ -254,64 +274,14 @@
               Full Story
             </a>
           </div>
-        
+ 
           <!-- Cycle Indicator Buttons -->
           <div class="cycle-buttons absolute bottom-5 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
             <!-- Buttons will be dynamically generated here -->
           </div>
         </div>
-      
-        <script>
-          // JavaScript for Slideshow Functionality
-          const images = ['./images/bg000.jpg', './images/bg001.jpg', './images/bg002.jpg', './images/bg003.jpg'];
-          let currentIndex = 0;
-          
-          function changeBackgroundImage() {
-            const container = document.querySelector('.slideshow-container');
-            container.style.backgroundImage = `url(${images[currentIndex]})`;
-            updateCycleButtons();
-            currentIndex = (currentIndex + 1) % images.length;
-          }
-          
-          function createCycleButtons() {
-            const cycleButtonsContainer = document.querySelector('.cycle-buttons');
-            cycleButtonsContainer.innerHTML = ''; // Clear any existing buttons
-            images.forEach(() => {
-              const button = document.createElement('button');
-              button.className = 'cycle-button w-3 h-3 rounded-full bg-white opacity-50';
-              cycleButtonsContainer.appendChild(button);
-            });
-          }
-      
-          function updateCycleButtons() {
-            const buttons = document.querySelectorAll('.cycle-button');
-            buttons.forEach((button, index) => {
-              button.style.opacity = index === currentIndex ? '1' : '0.5';
-            });
-          }
-          
-          // Start autoplay when page loads
-          window.onload = function() {
-            createCycleButtons(); // Create cycle buttons based on images array
-            changeBackgroundImage(); // Display the first image
-            setInterval(changeBackgroundImage, 3000); // Change every 3 seconds
-          };
-        </script>
-      
-        <style>
-          .slideshow-container {
-            transition: background-image 1s ease-in-out;
-          }
-          .cycle-button {
-            margin-bottom: 70px;
-            cursor: pointer;
-          }
-          @media (max-width: 500px) {
-            .responsive-heading span {
-            font-size: 2.7rem; /* Adjust as needed */
-          }
-  }
-        </style>
+        
+       
       
         <!-- Scroll-to-Top Button -->
         <a href="#top" class="fixed bottom-20 border border-white right-2 z-50 bg-[#006838] hover:bg-[#00562c] transition-all duration-300 text-white px-4 py-2 rounded-full shadow-lg text-lg flex items-center justify-center">
@@ -419,7 +389,7 @@
               <div class="flex items-center">
                 <img
                   class="lg:w-14 w-10 ml-4"
-                  src="./images/A_black_image.jpg"
+                  src="./images/lions.jpg"
                   alt="Eagles Logo"
                 />
                 <div>
