@@ -397,7 +397,7 @@
             <!-- Registration Form -->
             <form id="registrationForm" onsubmit="navigateToLink(event)">
               <label for="category" class="block font-medium text-gray-700 mb-2"
-                >Select a Category:</label
+                >Select a Category</label
               >
               <select
                 id="category"
@@ -410,6 +410,40 @@
                 <option value="volunteer">Volunteer</option>
                 <option value="member">Member</option>
                 <option value="donor">Donor</option>
+              </select>
+
+              <!-- Payment Method Selection -->
+              <label
+                for="paymentMethod"
+                class="block font-medium text-gray-700 mb-2"
+                >Select Payment Method</label
+              >
+              <select
+                id="paymentMethod"
+                class="w-full p-2 mb-4 border border-gray-300 rounded-md"
+              >
+                <option value="" disabled selected>
+                  Select payment method
+                </option>
+                <option value="paypal">PayPal</option>
+                <option value="momo">Mobile Money</option>
+                <option value="bank">Bank Transfer</option>
+              </select>
+
+              <!-- Currency Switch -->
+              <label
+                for="currencySwitch"
+                class="block font-medium text-gray-700 mb-2"
+                >Choose Currency:</label
+              >
+              <select
+                id="currencySwitch"
+                class="w-full p-2 mb-4 border border-gray-300 rounded-md"
+                onchange="updateDetails()"
+              >
+                <option value="rwf">RWF</option>
+                <option value="usd">USD</option>
+                <option value="rwf">EUR</option>
               </select>
 
               <!-- Payment Information -->
@@ -432,41 +466,51 @@
         <script>
           const paymentDetails = {
             coach: {
-              price: "$100, 100000Rwf",
-              method: "MOMO,Bank Transfer",
+              usd: "$100",
+              rwf: "100000 RWF",
+              method: "MOMO, Bank Transfer",
               link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3",
             },
             player: {
-              price: "$20,20000Rwf,",
-              method: "MOMO,Bank Transfer",
+              usd: "$20",
+              rwf: "20000 RWF",
+              method: "MOMO, Bank Transfer",
               link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3",
             },
             volunteer: {
-              price: "$0",
-              method: "MOMO,Bank Transfer",
+              usd: "$0",
+              rwf: "0 RWF",
+              method: "MOMO, Bank Transfer",
               link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3",
             },
             member: {
-              price: "$50, 50000Rwf",
-              method: "MOMO,Bank Transfer",
+              usd: "$50",
+              rwf: "50000 RWF",
+              method: "MOMO, Bank Transfer",
               link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3",
             },
             donor: {
-              price: "Custom Amount",
-              method: "MOMO,Bank Transfer",
+              usd: "Custom Amount",
+              rwf: "Custom Amount",
+              method: "MOMO, Bank Transfer",
               link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3",
             },
           };
 
           function updateDetails() {
             const category = document.getElementById("category").value;
+            const currency = document.getElementById("currencySwitch").value;
+            const paymentMethod =
+              document.getElementById("paymentMethod").value;
             const paymentInfo = document.getElementById("paymentInfo");
             const price = document.getElementById("price");
             const method = document.getElementById("method");
 
             if (paymentDetails[category]) {
-              price.textContent = `Price: ${paymentDetails[category].price}`;
-              method.textContent = `Payment Method: ${paymentDetails[category].method}`;
+              price.textContent = `Price: ${paymentDetails[category][currency]}`;
+              method.textContent = `Payment Method: ${
+                paymentMethod || paymentDetails[category].method
+              }`;
               paymentInfo.classList.remove("hidden");
             } else {
               paymentInfo.classList.add("hidden");
@@ -476,11 +520,15 @@
           function navigateToLink(event) {
             event.preventDefault();
             const category = document.getElementById("category").value;
+            const paymentMethod =
+              document.getElementById("paymentMethod").value;
 
-            if (paymentDetails[category]) {
+            if (paymentDetails[category] && paymentMethod) {
               window.location.href = paymentDetails[category].link;
             } else {
-              alert("Please select a category before proceeding.");
+              alert(
+                "Please select a category and payment method before proceeding."
+              );
             }
           }
         </script>
