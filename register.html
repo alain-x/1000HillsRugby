@@ -383,7 +383,7 @@
           </div>
         </div>
 
-        <!-- Registration Form Section -->
+        <!-- HTML Code for Registration Form -->
         <div class="lg:w-4/12 w-full">
           <div class="bg-white p-6 rounded-lg shadow-xl">
             <h2 class="text-2xl font-bold text-[#006838] mb-4">
@@ -412,24 +412,6 @@
                 <option value="donor">Donor</option>
               </select>
 
-              <!-- Payment Method Selection -->
-              <label
-                for="paymentMethod"
-                class="block font-medium text-gray-700 mb-2"
-                >Select Payment Method</label
-              >
-              <select
-                id="paymentMethod"
-                class="w-full p-2 mb-4 border border-gray-300 rounded-md"
-              >
-                <option value="" disabled selected>
-                  Select payment method
-                </option>
-                <option value="paypal">PayPal</option>
-                <option value="momo">Mobile Money</option>
-                <option value="bank">Bank Transfer</option>
-              </select>
-
               <!-- Currency Switch -->
               <label
                 for="currencySwitch"
@@ -443,7 +425,27 @@
               >
                 <option value="rwf">RWF</option>
                 <option value="usd">USD</option>
-                <option value="rwf">EUR</option>
+
+                <option value="eur">EUR</option>
+              </select>
+
+              <!-- Payment Method Selection -->
+              <label
+                for="paymentMethod"
+                class="block font-medium text-gray-700 mb-2"
+                >Select Payment Method</label
+              >
+              <select
+                id="paymentMethod"
+                class="w-full p-2 mb-4 border border-gray-300 rounded-md"
+                onchange="updatePaymentMethodDetails()"
+              >
+                <option value="" disabled selected>
+                  Select payment method
+                </option>
+                <option value="paypal">PayPal</option>
+                <option value="momo">Mobile Money (MOMO)</option>
+                <option value="bank">Bank Transfer</option>
               </select>
 
               <!-- Payment Information -->
@@ -451,6 +453,12 @@
                 <p class="font-semibold text-gray-700">Payment Details:</p>
                 <p id="price" class="text-gray-600"></p>
                 <p id="method" class="text-gray-600"></p>
+              </div>
+
+              <!-- Payment Method Details -->
+              <div id="paymentMethodDetails" class="hidden mb-4">
+                <p class="font-semibold text-gray-700">Instructions:</p>
+                <p id="paymentInstructions" class="text-gray-600"></p>
               </div>
 
               <button
@@ -464,71 +472,106 @@
         </div>
 
         <script>
+          // Define static exchange rates
+          const exchangeRates = {
+            rwfToUsd: 0.001,
+            usdToRwf: 1000,
+            rwfToEur: 0.0009,
+            eurToRwf: 1111,
+            usdToEur: 0.9,
+            eurToUsd: 1.1,
+          };
+
           const paymentDetails = {
             coach: {
-              usd: "$100",
-              rwf: "100000 RWF",
-              method: "MOMO, Bank Transfer",
-              link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3",
+              usd: 100,
+              rwf: 100000,
+              eur: 90,
+              link: "https://example.com/coach",
             },
             player: {
-              usd: "$20",
-              rwf: "20000 RWF",
-              method: "MOMO, Bank Transfer",
-              link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3",
+              usd: 20,
+              rwf: 20000,
+              eur: 18,
+              link: "https://example.com/player",
             },
             volunteer: {
-              usd: "$0",
-              rwf: "0 RWF",
-              method: "MOMO, Bank Transfer",
-              link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3",
+              usd: 0,
+              rwf: 0,
+              eur: 0,
+              link: "https://example.com/volunteer",
             },
             member: {
-              usd: "$50",
-              rwf: "50000 RWF",
-              method: "MOMO, Bank Transfer",
-              link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3",
+              usd: 50,
+              rwf: 50000,
+              eur: 45,
+              link: "https://example.com/member",
             },
             donor: {
-              usd: "Custom Amount",
-              rwf: "Custom Amount",
-              method: "MOMO, Bank Transfer",
-              link: "https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3",
+              usd: "Custom",
+              rwf: "Custom",
+              eur: "Custom",
+              link: "https://example.com/donor",
             },
+          };
+
+          // Payment method instructions
+          const paymentMethodInstructions = {
+            paypal: "Complete your payment through PayPal using your account.",
+            momo: "Use Mobile Money (MOMO) and send to the number provided after registration.",
+            bank: "Please transfer the amount to our bank account as shown in the confirmation email.",
           };
 
           function updateDetails() {
             const category = document.getElementById("category").value;
             const currency = document.getElementById("currencySwitch").value;
-            const paymentMethod =
-              document.getElementById("paymentMethod").value;
             const paymentInfo = document.getElementById("paymentInfo");
             const price = document.getElementById("price");
-            const method = document.getElementById("method");
 
             if (paymentDetails[category]) {
-              price.textContent = `Price: ${paymentDetails[category][currency]}`;
-              method.textContent = `Payment Method: ${
-                paymentMethod || paymentDetails[category].method
-              }`;
+              let amount;
+              if (currency === "usd") amount = paymentDetails[category].usd;
+              else if (currency === "rwf")
+                amount = paymentDetails[category].usd * exchangeRates.usdToRwf;
+              else if (currency === "eur")
+                amount = paymentDetails[category].usd * exchangeRates.usdToEur;
+
+              price.textContent = `Price: ${currency.toUpperCase()} ${amount.toFixed(
+                2
+              )}`;
               paymentInfo.classList.remove("hidden");
             } else {
               paymentInfo.classList.add("hidden");
             }
           }
 
+          function updatePaymentMethodDetails() {
+            const paymentMethod =
+              document.getElementById("paymentMethod").value;
+            const paymentMethodDetails = document.getElementById(
+              "paymentMethodDetails"
+            );
+            const paymentInstructions = document.getElementById(
+              "paymentInstructions"
+            );
+
+            if (paymentMethodInstructions[paymentMethod]) {
+              paymentInstructions.textContent =
+                paymentMethodInstructions[paymentMethod];
+              paymentMethodDetails.classList.remove("hidden");
+            } else {
+              paymentMethodDetails.classList.add("hidden");
+            }
+          }
+
           function navigateToLink(event) {
             event.preventDefault();
             const category = document.getElementById("category").value;
-            const paymentMethod =
-              document.getElementById("paymentMethod").value;
 
-            if (paymentDetails[category] && paymentMethod) {
+            if (paymentDetails[category]) {
               window.location.href = paymentDetails[category].link;
             } else {
-              alert(
-                "Please select a category and payment method before proceeding."
-              );
+              alert("Please select a category before proceeding.");
             }
           }
         </script>
