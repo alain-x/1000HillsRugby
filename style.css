@@ -86,7 +86,9 @@ body {
 /* ---Services Page--- */
 /* Services Animation */
 .services-home-page {
-  background-image: url(./images/services-home-page.avif);
+  background-image: url(./images/tacle1.jpg);
+  width: auto;
+  height: 100vh;
 }
 /* Services Programs-Card */
 .service-cards:hover {
@@ -99,26 +101,26 @@ body {
 }
 /* Services Mission-Section */
 .service-img-1 {
-  background-image: url(images/45f6edcd-5032-417e-b61a-d6a3bc556c35-2.jpg);
+  background-image: url(images/tacle.jpg);
 }
 /* Services Experience-Section */
 .service-img-2 {
-  background-image: url(images/new-download.jpg);
+  background-image: url(images/tacle2.jpg);
 }
 
 /* Home-Page & Service-Page Fixed Image */
 .fixed-image {
-  background-image: url(./images/fixed-img.jpg);
+  background-image: url(./images/celebr.jpg);
   background-position: center;
   background-attachment: fixed;
 }
 
 /* Home-Page & Service-Page Testimonial-Section */
 .first-half {
-  background-image: url(./images/quote-1.jpg);
+  background-image: url(./images/sover.jpg);
 }
 .second-half {
-  background-image: url(./images/quote-2.jpg);
+  background-image: url(./images/traing.JPG);
 }
 
 .image-div {
