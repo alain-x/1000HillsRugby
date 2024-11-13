@@ -121,6 +121,21 @@
         color: black;
       }
 
+      .cycle-button {
+        background-color: #4caf50; /* Green background */
+        color: white; /* White text */
+        padding: 10px 20px; /* Padding */
+        margin-top: 10px; /* Spacing above the button */
+        border: none; /* Remove border */
+        cursor: pointer; /* Pointer cursor on hover */
+        font-size: 16px; /* Font size */
+        border-radius: 50px; /* Rounded corners */
+      }
+
+      .cycle-button:hover {
+        background-color: #45a049; /* Darker green on hover */
+      }
+
       @media (max-width: 800px) {
         .content-container {
           flex-direction: column;
@@ -342,6 +357,8 @@
         </div>
       </div>
     </nav>
+    <br />
+    <br /><br />
 
     <section class="girls-education">
       <h1>The Girls Education Program <span> by 1000 Hills Rugby</span></h1>
@@ -479,6 +496,10 @@
               details for direct transfers. Together, we can give these girls
               the educational opportunities they deserve.
             </p>
+            <!-- Add Support Here Button with Link -->
+            <a href=" " target="_blank">
+              <button class="cycle-button">Support Here</button>
+            </a>
           </div>
         </div>
       </div>
@@ -544,5 +565,143 @@
         evt.currentTarget.className += " active";
       }
     </script>
+    <footer
+      class="w-full px-6 py-12 grid grid-cols-12 gap-y-12 lg:gap-8 text-white bg-gradient-to-b from-black to-gray-900 lg:h-auto"
+    >
+      <!-- Logo Section -->
+      <div
+        class="lg:col-span-3 col-span-6 flex items-center justify-center lg:justify-start lg:mx-0 mb-8 lg:mb-0"
+      >
+        <img
+          class="lg:w-[150px] h-[150px] w-[120px] lg:h-[120px] object-contain transition-transform duration-300 hover:scale-105"
+          src="./images/1000-hills-logo.png"
+          alt="Logo"
+        />
+      </div>
+
+      <!-- Team Info Section -->
+      <div
+        class="lg:col-span-3 col-span-6 flex flex-col items-center lg:items-start mb-8 lg:mb-0"
+      >
+        <p class="text-lg font-bold tracking-wide text-[#dcbb26] uppercase">
+          Team
+        </p>
+        <ul class="mt-4 text-[#a5a6a8] text-sm font-light flex flex-col gap-2">
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./program.html#p1">Elite Player Development Program</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./program.html#p2">Women’s Rugby Program</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./program.html#p3">Rugby & Life Skills Program</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./program.html#p4">Grassroots Rugby Initiative</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="#">Coaching Staff</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Club Info Section -->
+      <div
+        class="lg:col-span-3 col-span-6 flex flex-col items-center lg:items-start mb-8 lg:mb-0"
+      >
+        <p class="text-lg font-bold tracking-wide text-[#dcbb26] uppercase">
+          Club
+        </p>
+        <ul class="mt-4 text-[#a5a6a8] text-sm font-light flex flex-col gap-2">
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./about.html">About Us</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="#">History</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./services.html">Services</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="#">News & Media</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./contact.html">Contact</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Contact & Social Media Section -->
+      <div
+        class="lg:col-span-3 col-span-6 flex flex-col items-center lg:items-start"
+      >
+        <div class="mb-6">
+          <p class="text-lg font-bold tracking-wide text-[#dcbb26] uppercase">
+            Contact
+          </p>
+          <ul
+            class="mt-4 text-[#a5a6a8] text-sm font-light flex flex-col gap-2"
+          >
+            <li
+              class="flex items-center hover:text-[#dcbb26] transition-colors duration-300"
+            >
+              <i class="text-[#006838] mr-2 fa-solid fa-phone"></i>+250 788 261
+              386
+            </li>
+            <li
+              class="flex items-center hover:text-[#dcbb26] transition-colors duration-300"
+            >
+              <i class="text-[#006838] mr-2 fa-solid fa-envelope"></i
+              >thillsrugby@gmail.com
+            </li>
+            <li
+              class="flex items-center hover:text-[#dcbb26] transition-colors duration-300"
+            >
+              <i class="text-[#006838] mr-2 fa-solid fa-location-dot"></i>KK 591
+              St, Kigali
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="text-lg font-bold tracking-wide text-[#dcbb26] uppercase">
+            Connect
+          </p>
+          <ul class="mt-4 flex gap-4 text-2xl">
+            <li class="hover:text-[#1877F2] transition-colors duration-300">
+              <a
+                href="https://www.facebook.com/1000hillsrugby/"
+                aria-label="Facebook"
+              >
+                <i class="fa-brands fa-facebook-f"></i>
+              </a>
+            </li>
+            <li class="hover:text-[#E4405F] transition-colors duration-300">
+              <a
+                href="https://www.instagram.com/1000hillsrugby/"
+                aria-label="Instagram"
+              >
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+            </li>
+            <li class="hover:text-[#1DA1F2] transition-colors duration-300">
+              <a href="https://x.com/1000HillsRugby" aria-label="Twitter">
+                <i class="fa-brands fa-x-twitter"></i>
+              </a>
+            </li>
+            <li class="hover:text-[#FF0000] transition-colors duration-300">
+              <a
+                href="https://www.youtube.com/@1000HillsRugby"
+                aria-label="YouTube"
+              >
+                <i class="fa-brands fa-youtube"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    <script src="./index.js"></script>
   </body>
 </html>
