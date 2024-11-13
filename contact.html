@@ -44,7 +44,7 @@
 
       <!-- Desktop Navigation -->
       <ul
-        class="hidden lg:flex lg:space-x-8 font-600 text-gray-800 uppercase text-sm tracking-wider"
+        class="hidden lg:flex lg:space-x-8 font-600 text-gray-800 text-sm tracking-wider"
       >
         <li>
           <a
@@ -66,6 +66,32 @@
             href="./community.html"
             >Community</a
           >
+        </li>
+
+        <!-- Education Dropdown with Icon -->
+        <li class="relative group">
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
+            >Education <i class="fas fa-chevron-down text-sm"></i
+          ></a>
+          <ul
+            class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
+          >
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./education.html"
+                >Education</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./foundation.html"
+                >Foundation</a
+              >
+            </li>
+          </ul>
         </li>
 
         <li>
@@ -145,7 +171,7 @@
           id="menu"
           class="absolute top-full right-0 bg-white text-gray-800 w-48 mt-2 rounded-md shadow-lg hidden transition-all duration-300"
         >
-          <ul class="flex flex-col text-left">
+          <ul class="flex flex-col text-left space-y-2">
             <li>
               <a
                 class="hover:bg-green-600 hover:text-white px-4 py-2 transition-all duration-300"
@@ -170,16 +196,30 @@
             <li>
               <a
                 class="hover:bg-green-600 hover:text-white px-4 py-2 transition-all duration-300"
+                href="./education.html"
+                >Education</a
+              >
+            </li>
+            <li>
+              <a
+                class="hover:bg-green-600 hover:text-white px-4 py-2 transition-all duration-300"
+                href="./foundation.html"
+                >Foundation</a
+              >
+            </li>
+            <li>
+              <a
+                class="hover:bg-green-600 hover:text-white px-4 py-2 transition-all duration-300"
                 href="./events.html"
-                >EVENTS<span class="text-yellow-400">&</span>NEWS</a
+                >Events<span class="text-yellow-400">&</span>News</a
               >
             </li>
             <li>
               <a
                 class="hover:bg-green-600 hover:text-white px-4 py-2 transition-all duration-300"
                 href="./register.html"
-                >CONTACT<span class="text-yellow-400 font-800">/</span
-                >REGISTER</a
+                >Contact<span class="text-yellow-400 font-bold">/</span
+                >Register</a
               >
             </li>
           </ul>
@@ -250,7 +290,7 @@
                 <i
                   class="text-[#006838] hover:text-white text-2xl fa-solid fa-phone"
                 ></i>
-                <p class="text-2xl font-bold">88 700 600</p>
+                <p class="text-2xl font-bold">+250 788 261 386</p>
               </div>
             </div>
             <p class="sm:hidden border border-[#006838] h-16 mx-10"></p>
@@ -301,69 +341,18 @@
           <div class="flex text-white my-10 pr-4">
             <div class="w-4/12 flex flex-col gap-2">
               <p class="text-[#006838] font-bold text-xl">OUR ADRESS</p>
-              <p>KK 591 ST</p>
+              <p>KK 591 St, Kigali</p>
             </div>
             <div class="w-4/12 flex flex-col gap-2">
               <p class="text-[#006838] font-bold text-xl">CALL US</p>
-              <p>+88 7000 600</p>
-              <p>+88 998 700 2</p>
+              <p>+250 788 261 386</p>
             </div>
             <div class="w-4/12 flex flex-col gap-2">
               <p class="text-[#006838] font-bold text-xl">OPENING HOURS</p>
-              <p>Mon-Fri: 10am – 6pm</p>
-              <p>Sat-Sun: 10am – 10pm</p>
+              <p>Mon-Fri: 9am – 6pm</p>
+              <p>Sat-Sun: 9am – 12pm</p>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section class="flex lg:flex-row lg:mt-52 flex-col">
-        <div class="lg:w-5/12 w-full gap-6 flex flex-col pl-6">
-          <p class="text-2xl italic font-medium">
-            The feedback of our members and supporters is important to us and we
-            are dedicated to maintaining the highest possible levels of customer
-            service.
-          </p>
-          <p class="font-thin">
-            To help us to best communicate with you, please provide us with your
-            full name, phone number, email address and postal address whenever
-            you contact us by email or post.
-          </p>
-        </div>
-        <div class="lg:w-7/12 w-full mx-auto px-10">
-          <form
-            class="contact-form grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-14"
-          >
-            <div class="flex flex-col">
-              <input type="text" placeholder="First Name*" />
-              <p class="pt-[8px] text-[#006838] text-sm font-thin">
-                The field is required
-              </p>
-            </div>
-            <div class="flex flex-col">
-              <input type="text" placeholder="Last Name*" />
-              <p class="pt-[8px] text-[#006838] text-sm font-thin">
-                The field is required
-              </p>
-            </div>
-            <div class="flex flex-col">
-              <input type="email" placeholder="Email*" />
-              <p class="pt-[8px] text-[#006838] text-sm font-thin">
-                The field is required
-              </p>
-            </div>
-            <div class="flex flex-col">
-              <input type="tel" placeholder="Mobile" />
-              <p class="pt-[8px] text-[#006838] text-sm font-thin">
-                The field is required
-              </p>
-            </div>
-            <textarea placeholder="Please write your enquiry*"></textarea>
-            <input
-              class="bg-[#006838] border py-2 border-[#006838] rounded-md text-white hover:shadow-xl"
-              type="submit"
-            />
-          </form>
         </div>
       </section>
 
@@ -393,7 +382,7 @@
             <p class="text-xl">TWITTER</p>
           </div>
           <div>
-            <p class="text-6xl font-bold">1K+</p>
+            <p class="text-6xl font-black font-bold">1K+</p>
             <p class="text-xl">INSTAGRAM</p>
           </div>
           <div>
@@ -427,16 +416,16 @@
         </p>
         <ul class="mt-4 text-[#a5a6a8] text-sm font-light flex flex-col gap-2">
           <li class="hover:text-[#dcbb26] transition-colors duration-300">
-            <a href="#">Pro Placement Program</a>
+            <a href="./program.html#p1">Elite Player Development Program</a>
           </li>
           <li class="hover:text-[#dcbb26] transition-colors duration-300">
-            <a href="#">Academy Development</a>
+            <a href="./program.html#p2">Women’s Rugby Program</a>
           </li>
           <li class="hover:text-[#dcbb26] transition-colors duration-300">
-            <a href="#">Specialist Program</a>
+            <a href="./program.html#p3">Rugby & Life Skills Program</a>
           </li>
           <li class="hover:text-[#dcbb26] transition-colors duration-300">
-            <a href="#">Junior Summer Program</a>
+            <a href="./program.html#p4">Grassroots Rugby Initiative</a>
           </li>
           <li class="hover:text-[#dcbb26] transition-colors duration-300">
             <a href="#">Coaching Staff</a>
@@ -484,19 +473,20 @@
             <li
               class="flex items-center hover:text-[#dcbb26] transition-colors duration-300"
             >
-              <i class="text-[#006838] mr-2 fa-solid fa-phone"></i>1-800-1-900
+              <i class="text-[#006838] mr-2 fa-solid fa-phone"></i>+250 788 261
+              386
             </li>
             <li
               class="flex items-center hover:text-[#dcbb26] transition-colors duration-300"
             >
               <i class="text-[#006838] mr-2 fa-solid fa-envelope"></i
-              >info@campo.com
+              >thillsrugby@gmail.com
             </li>
             <li
               class="flex items-center hover:text-[#dcbb26] transition-colors duration-300"
             >
-              <i class="text-[#006838] mr-2 fa-solid fa-location-dot"></i>60
-              East 65th Street, Minneapolis
+              <i class="text-[#006838] mr-2 fa-solid fa-location-dot"></i>KK 591
+              St, Kigali
             </li>
           </ul>
         </div>

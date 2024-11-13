@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Career Foundation</title>
+    <link rel="icon" href="./images/t_icon.png" type="image/png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./style.css" />
+    <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background-color: #f2f4f8;
+      }
+
+      /* First section with changing background */
+      section.slideshow-container {
+        position: relative;
+        height: 400px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        font-size: 34px;
+        font-weight: bold;
+        text-align: center;
+        background-size: cover;
+        background-position: center;
+        transition: background-image 1s ease-in-out;
+      }
+
+      /* Background overlay for the section */
+      .slideshow-container::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+      }
+
+      /* Text and content overlay */
+      .text-container {
+        position: relative;
+        z-index: 10;
+      }
+
+      /* Main content area with flexbox */
+      .main-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 20px;
+        margin-right: 50px;
+      }
+
+      /* Slider container styles */
+      .slider-container {
+        width: 100%;
+        max-width: 700px;
+        background-color: #2b4a78;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        position: relative;
+      }
+
+      .slider-container img {
+        width: 100%;
+        border-radius: 10px;
+      }
+
+      /* Contact Us Section */
+      .contact-us {
+        width: 100%;
+        max-width: 270px;
+        background-color: #ffffff;
+        border: 2px solid #2b4a78;
+        border-radius: 8px;
+        padding: 20px;
+        font-size: 18px;
+        text-align: center;
+      }
+
+      .contact-us ul {
+        list-style-type: none;
+        padding: 0;
+        color: #333;
+      }
+
+      .contact-us li {
+        margin-bottom: 10px;
+      }
+
+      /* Nav buttons for slider */
+      .nav-buttons {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        justify-content: space-between;
+        width: 120px;
+      }
+
+      .nav-buttons button {
+        background-color: #2caa0c;
+        border: none;
+        padding: 10px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 26px;
+        color: #2b4a78;
+        transition: background-color 0.3s;
+      }
+
+      .nav-buttons button:hover {
+        background-color: #2caa0c;
+      }
+
+      .nav-buttons button:disabled {
+        background-color: #ddd;
+        color: #666;
+        cursor: not-allowed;
+      }
+
+      /* Contact Us section styling */
+      .contact-us {
+        position: absolute;
+        top: 120%;
+        right: 20px;
+        transform: translateY(-50%);
+        width: 270px;
+        padding: 20px;
+        background-color: #2b4a78;
+        color: #ffffff;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .contact-us h3 {
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+
+      .contact-us p {
+        font-size: 14px;
+        margin: 5px 0;
+      }
+      .contact-us ul li {
+        color: white;
+      }
+
+      .contact-us a {
+        color: #ffb400;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      footer {
+        text-align: center;
+        padding: 1rem;
+        background-color: #d32f2f;
+        color: #fff;
+      }
+
+      .footer-links a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 1rem;
+      }
+
+      .footer-links a:hover {
+        text-decoration: underline;
+      }
+
+      /* Media Queries for responsiveness */
+      @media (max-width: 768px) {
+        .slideshow-container {
+          height: 300px;
+        }
+
+        .slider-container,
+        .contact-us {
+          width: 100%;
+        }
+
+        .main-content {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .contact-us {
+          position: relative;
+          top: auto;
+          right: auto;
+          margin-top: 160px;
+        }
+
+        .nav-buttons {
+          bottom: -9px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .slideshow-container {
+          font-size: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Transparent Navbar -->
+    <nav
+      class="navbar top-0 left-0 w-[100%] z-10 h-[10vh] flex justify-between items-center py-1 px-2 text-[#fff] fixed"
+    >
+      <div class="navbar-logo w-2/12">
+        <a href="./index.html"
+          ><img
+            class="w-[60px] hover:w-[70px] mt-6 ml-6"
+            src="./images/1000-hills-logo.png"
+            alt="Logo"
+        /></a>
+        <!-- Replace with your logo -->
+      </div>
+      <ul class="flex lg:space-x-4 font-thin w-8/12 uppercase gap-2 text-sm">
+        <li class="list-2">
+          <a class="hover:text-[#006838] hover:text-lg" href="./index.html"
+            >Home</a
+          >
+        </li>
+        <li class="list-2">
+          <a class="hover:text-[#006838] hover:text-lg" href="./about.html"
+            >About</a
+          >
+        </li>
+        <li class="list-2">
+          <a class="hover:text-[#006838] hover:text-lg" href="./community.html"
+            >Community</a
+          >
+        </li>
+        <li class="list-2">
+          <a class="hover:text-[#006838] hover:text-lg" href="./fixtures.html"
+            >Results</a
+          >
+        </li>
+        <li class="list-2">
+          <a class="hover:text-[#006838] hover:text-lg" href="./news.html"
+            >News</a
+          >
+        </li>
+        <li class="list-2">
+          <a class="hover:text-[#006838] hover:text-lg" href="./events.html"
+            >Events</a
+          >
+        </li>
+      </ul>
+      <div class="flex w-2/12 list-1">
+        <ul class="flex lg:gap-6 gap-2 justify-center items-center text-md">
+          <li class="list-2">
+            <a
+              class="hover:text-[#006838] hover:text-lg"
+              href="https://www.facebook.com/1000hillsrugby/"
+            >
+              <i class="fa-brands fa-facebook-f"></i>
+            </a>
+          </li>
+          <li class="list-2">
+            <a
+              class="hover:text-[#006838] hover:text-lg"
+              href="https://www.instagram.com/1000hillsrugby/"
+            >
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+          </li>
+          <li class="list-2">
+            <a
+              class="hover:text-[#006838] hover:text-lg"
+              href=" https://x.com/1000HillsRugby?t=S0PTUa88AFrp6SJs5meJ6A&s=08 "
+            >
+              <i class="fa-brands fa-x-twitter"></i>
+            </a>
+          </li>
+          <li class="list-2">
+            <a
+              class="hover:text-[#006838] hover:text-lg"
+              href="https://www.youtube.com/@1000HillsRugby"
+            >
+              <i class="fa-brands fa-youtube"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="relative icon-1 lg:hidden">
+        <!-- Hidden Checkbox for Toggle -->
+        <input type="checkbox" id="menu-toggle" class="hidden" />
+
+        <!-- Label as Menu Icon -->
+        <label for="menu-toggle" class="cursor-pointer text-2xl">
+          <i
+            class="icon-1 lg:hidden text-black text-xl pr-3 fa-solid fa-bars"
+          ></i>
+        </label>
+
+        <!-- Hidden Menu -->
+        <div
+          id="menu"
+          class="absolute top-full left-1/2 transform -translate-x-1/2 bg-white shadow-lg mt-2 w-48 hidden"
+        >
+          <ul class="flex flex-col text-left">
+            <li class="list-2">
+              <a class="hover:text-[#006838] hover:text-lg" href="./index.html"
+                >Home</a
+              >
+            </li>
+            <li class="list-2">
+              <a class="hover:text-[#006838] hover:text-lg" href="./about.html"
+                >About</a
+              >
+            </li>
+            <li class="list-2">
+              <a
+                class="hover:text-[#006838] hover:text-lg"
+                href="./community.html"
+                >Community</a
+              >
+            </li>
+            <li class="list-2">
+              <a
+                class="hover:text-[#006838] hover:text-lg"
+                href="./fixtures.html"
+                >Results</a
+              >
+            </li>
+            <li class="list-2">
+              <a class="hover:text-[#006838] hover:text-lg" href="./news.html"
+                >News</a
+              >
+            </li>
+            <li class="list-2">
+              <a class="hover:text-[#006838] hover:text-lg" href="./events.html"
+                >Events</a
+              >
+            </li>
+            <li class="list-2">
+              <a
+                class="hover:text-[#006838] hover:text-lg"
+                href="./contact.html"
+                >Contact Us</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- First section with changing background -->
+    <section class="slideshow-container">
+      <div class="text-container">
+        <h1>
+          <span>Welcome to</span><br />
+          <span>Career Foundation</span>
+        </h1>
+      </div>
+    </section>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+      <!-- Slider Container -->
+      <div class="slider-container">
+        <img src="./images/1.jpg" alt="Slide Image" id="slider-image" />
+        <div class="nav-buttons">
+          <button onclick="prevImage()" id="backBtn">&larr;</button>
+          <button onclick="nextImage()" id="nextBtn">&rarr;</button>
+        </div>
+      </div>
+
+      <!-- Contact Us Section -->
+      <div class="contact-us">
+        <h3>Contact Us</h3>
+        <ul>
+          <li>Email: info@rqt.careers</li>
+          <li>Phone: +250 785 439 770</li>
+          <li>Phone: +44 (0) 7797 749 134</li>
+          <li>Address: Kigali, Rwanda</li>
+          <li>
+            <a href="http://www.rqt.careers/"><li>www.rqt.careers</li></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <footer>
+      <p>&copy; 2024 Career Foundation</p>
+    </footer>
+
+    <script>
+      // Array of background images for the first section
+      const backgroundImages = [
+        "./images/bg001.jpg",
+        "./images/study.jpg",
+        "./images/study1.jpg",
+        "./images/study2.jpg",
+      ];
+
+      let bgIndex = 0;
+
+      function changeBackground() {
+        const slideshowContainer = document.querySelector(
+          ".slideshow-container"
+        );
+        slideshowContainer.style.backgroundImage = `url(${backgroundImages[bgIndex]})`;
+        bgIndex = (bgIndex + 1) % backgroundImages.length;
+      }
+
+      setInterval(changeBackground, 5000);
+      changeBackground();
+
+      const images = [
+        "./images/1.png",
+        "./images/2.png",
+        "./images/3.png",
+        "./images/4.png",
+        "./images/5.png",
+        "./images/6.png",
+        "./images/7.png",
+        "./images/8.png",
+        "./images/9.png",
+      ];
+
+      let currentIndex = 0;
+
+      function updateImage() {
+        const sliderImage = document.getElementById("slider-image");
+        sliderImage.src = images[currentIndex];
+        document.getElementById("backBtn").disabled = currentIndex === 0;
+        document.getElementById("nextBtn").disabled =
+          currentIndex === images.length - 1;
+      }
+
+      function nextImage() {
+        if (currentIndex < images.length - 1) {
+          currentIndex++;
+          updateImage();
+        }
+      }
+
+      function prevImage() {
+        if (currentIndex > 0) {
+          currentIndex--;
+          updateImage();
+        }
+      }
+
+      updateImage();
+    </script>
+  </body>
+</html>

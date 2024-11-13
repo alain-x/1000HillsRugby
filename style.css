@@ -15,7 +15,6 @@ body {
 }
 .navbar a:hover {
   color: #006838;
-  font-size: larger;
 }
 
 /* Text Animation */
@@ -70,7 +69,7 @@ body {
 /* ---Contact Page--- */
 /* Contact Animation */
 .contact-home-page {
-  background-image: url(./images/contact-home-page.jpg);
+  background-image: url(./images/tacle.jpg);
 }
 /* Contact Form */
 .contact-form input,
