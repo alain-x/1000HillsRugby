@@ -48,7 +48,7 @@
 
       <!-- Desktop Navigation -->
       <ul
-        class="hidden lg:flex lg:space-x-8 font-600 text-gray-800 uppercase text-sm tracking-wider"
+        class="hidden lg:flex lg:space-x-8 font-600 text-gray-800 text-sm tracking-wider"
       >
         <li>
           <a
@@ -72,19 +72,79 @@
           >
         </li>
 
-        <li>
+        <li class="relative group">
           <a
-            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-            href="./events.html"
-            >Events<span class="text-yellow-400">&</span>News</a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
+            >Education<i class="fas fa-chevron-down text-sm"></i
+          ></a>
+          <ul
+            class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
           >
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./education.html"
+                >Education</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./Foundation.html"
+                >Career Foundation</a
+              >
+            </li>
+          </ul>
         </li>
-        <li>
+
+        <li class="relative group">
           <a
-            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-            href="./register.html"
-            >Contact<span class="text-yellow-400 font-800">/</span>Register</a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
+            >Events<i class="fas fa-chevron-down text-sm"></i
+          ></a>
+          <ul
+            class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
           >
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./events.html"
+                >Events</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./news.html"
+                >News & Media</a
+              >
+            </li>
+          </ul>
+        </li>
+
+        <li class="relative group">
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
+            >Contact<i class="fas fa-chevron-down text-sm"></i
+          ></a>
+          <ul
+            class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
+          >
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./contact.html"
+                >Contact us</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./register.html#reForm"
+                >Register</a
+              >
+            </li>
+          </ul>
         </li>
       </ul>
 
@@ -145,46 +205,120 @@
           <i class="fa-solid fa-times hidden" id="menu-close-icon"></i>
         </label>
 
+        <!-- Mobile Menu -->
         <div
           id="menu"
           class="absolute top-full right-0 bg-white text-gray-800 w-48 mt-2 rounded-md shadow-lg hidden transition-all duration-300"
         >
-          <ul class="flex flex-col text-left">
+          <ul class="flex flex-col text-left space-y-1">
+            <!-- Main Menu Items -->
             <li>
               <a
-                class="hover:bg-green-600 hover:text-white px-4 py-2 transition-all duration-300"
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
                 href="./index.html"
                 >Home</a
               >
             </li>
             <li>
               <a
-                class="hover:bg-green-600 hover:text-white px-4 py-2 transition-all duration-300"
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
                 href="./about.html"
                 >About</a
               >
             </li>
             <li>
               <a
-                class="hover:bg-green-600 hover:text-white px-4 py-2 transition-all duration-300"
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
                 href="./community.html"
                 >Community</a
               >
             </li>
-            <li>
-              <a
-                class="hover:bg-green-600 hover:text-white px-4 py-2 transition-all duration-300"
-                href="#"
-                >EVENTS<span class="text-yellow-400">&</span>NEWS</a
+
+            <!-- Dropdown for Education -->
+            <li class="relative">
+              <button
+                class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                onclick="toggleDropdown('education-menu')"
               >
+                Education <i class="fas fa-chevron-down text-sm"></i>
+              </button>
+              <ul
+                id="education-menu"
+                class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+              >
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./education.html"
+                    >Education</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./Foundation.html"
+                    >Career Foundation</a
+                  >
+                </li>
+              </ul>
             </li>
-            <li>
-              <a
-                class="hover:bg-green-600 hover:text-white px-4 py-2 transition-all duration-300"
-                href="./register.html"
-                >CONTACT<span class="text-yellow-400 font-800">/</span
-                >REGISTER</a
+
+            <!-- Dropdown for Events -->
+            <li class="relative">
+              <button
+                class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                onclick="toggleDropdown('events-menu')"
               >
+                Events <i class="fas fa-chevron-down text-sm"></i>
+              </button>
+              <ul
+                id="events-menu"
+                class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+              >
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./events.html"
+                    >Events</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./news.html"
+                    >News & Media</a
+                  >
+                </li>
+              </ul>
+            </li>
+
+            <!-- Dropdown for Contact -->
+            <li class="relative">
+              <button
+                class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                onclick="toggleDropdown('contact-menu')"
+              >
+                Contact <i class="fas fa-chevron-down text-sm"></i>
+              </button>
+              <ul
+                id="contact-menu"
+                class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+              >
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./contact.html"
+                    >Contact Us</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./register.html#reForm"
+                    >Register</a
+                  >
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -727,5 +861,6 @@
         </div>
       </div>
     </footer>
+    <script src="./index.js"></script>
   </body>
 </html>

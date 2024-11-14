@@ -286,7 +286,7 @@ body {
 
 /* Hover background for main menu items */
 #menu ul li a:hover {
-  background-color: #28a745; /* green */
+  background-color: #248e48; /* green */
   color: white;
 }
 
@@ -303,6 +303,6 @@ body {
 }
 
 #menu ul li ul li a:hover {
-  background-color: #f3f4f6; /* light gray */
-  color: #28a745; /* green */
+  background-color: #248e48; /* light gray */
+  color: white; /* green */
 }
