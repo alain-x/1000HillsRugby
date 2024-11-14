@@ -188,11 +188,60 @@
         text-decoration: underline;
       }
 
+      .content {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Creates 2 columns */
+        gap: 20px; /* Space between cards */
+        padding: 2rem;
+      }
+      h3 {
+        color: rgb(231, 98, 15);
+        font-weight: bold;
+        font-size: 20px;
+      }
+
+      .card1 {
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      .card1 img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+      }
+
+      .card1 h2 {
+        font-size: 1.5em;
+        margin: 15px 0 10px;
+        color: #d32f2f;
+      }
+
+      .card1 p {
+        font-size: 1em;
+        color: #666;
+      }
+
       /* Media Queries for responsiveness */
-      @media (max-width: 1300px) {
+      @media (max-width: 500px) {
         .content {
-          grid-template-columns: 1fr;  
-          gap: 2px;
+          grid-template-columns: 1fr; /* Single column layout */
+          gap: 20px; /* Adjust gap as needed */
+        }
+
+        .card {
+          background-color: #2b3a5e;
+          color: #fdf5e6;
+          padding: 20px;
+          border-radius: 10px;
+          text-align: center;
+        }
+        .card1 h2 {
+          font-size: 1.5em;
+          color: #2b2323;
         }
         section.slideshow-container {
           position: relative;
@@ -249,43 +298,6 @@
         .nav-buttons {
           bottom: -9px;
         }
-      }
-
-      .content {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr); /* Creates 2 columns */
-        gap: 20px; /* Space between cards */
-        padding: 2rem;
-      }
-      h3 {
-        color: rgb(231, 98, 15);
-        font-weight: bold;
-        font-size: 20px;
-      }
-
-      .card1 {
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        padding: 15px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        text-align: center;
-      }
-
-      .card1 img {
-        width: 100%;
-        height: auto;
-        border-radius: 8px;
-      }
-
-      .card1 h2 {
-        font-size: 1.5em;
-        margin: 15px 0 10px;
-        color: #d32f2f;
-      }
-
-      .card1 p {
-        font-size: 1em;
-        color: #666;
       }
     </style>
   </head>
