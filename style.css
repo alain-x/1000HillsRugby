@@ -277,3 +277,32 @@ body {
     height: 0vh;
   }
 }
+
+/* Increase padding and font size for better clickability */
+#menu ul li a {
+  padding: 12px 16px;
+  font-size: 16px;
+}
+
+/* Hover background for main menu items */
+#menu ul li a:hover {
+  background-color: #28a745; /* green */
+  color: white;
+}
+
+/* Dropdown menu styling */
+#menu ul li ul {
+  padding: 0;
+  border-radius: 8px;
+}
+
+#menu ul li ul li a {
+  padding: 10px 16px;
+  color: #333;
+  font-size: 14px;
+}
+
+#menu ul li ul li a:hover {
+  background-color: #f3f4f6; /* light gray */
+  color: #28a745; /* green */
+}

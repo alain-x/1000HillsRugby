@@ -87,3 +87,18 @@ window.onload = function () {
   changeBackgroundImage(); // Display the first image
   setInterval(changeBackgroundImage, 3000); // Change every 3 seconds
 };
+
+function toggleDropdown(id) {
+  const dropdowns = document.querySelectorAll(".dropdown");
+
+  // Close any open dropdown
+  dropdowns.forEach((dropdown) => {
+    if (dropdown.id !== id) {
+      dropdown.classList.add("hidden");
+    }
+  });
+
+  // Toggle the clicked dropdown
+  const targetDropdown = document.getElementById(id);
+  targetDropdown.classList.toggle("hidden");
+}
