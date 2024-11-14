@@ -190,6 +190,10 @@
 
       /* Media Queries for responsiveness */
       @media (max-width: 1300px) {
+        .content {
+          grid-template-columns: 1fr;  
+          gap: 2px;
+        }
         section.slideshow-container {
           position: relative;
           height: 400px;
@@ -245,6 +249,43 @@
         .nav-buttons {
           bottom: -9px;
         }
+      }
+
+      .content {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Creates 2 columns */
+        gap: 20px; /* Space between cards */
+        padding: 2rem;
+      }
+      h3 {
+        color: rgb(231, 98, 15);
+        font-weight: bold;
+        font-size: 20px;
+      }
+
+      .card1 {
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      .card1 img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+      }
+
+      .card1 h2 {
+        font-size: 1.5em;
+        margin: 15px 0 10px;
+        color: #d32f2f;
+      }
+
+      .card1 p {
+        font-size: 1em;
+        color: #666;
       }
     </style>
   </head>
@@ -570,6 +611,204 @@
         </ul>
       </div>
     </div>
+
+    <section class="content">
+      <div class="card1">
+        <img src="./images/graduate.jpg" alt="" />
+        <h2>WHAT IS A CAREER FOUNDATION</h2>
+        <p>
+          Career Foundation involves building key skills, mastering CV writing
+          and interview techniques, and gaining practical experience. This
+          prepares students to present themselves effectively to employers and
+          sets a solid base for career growth and success.
+        </p>
+      </div>
+      <div class="card1">
+        <img src="./images/study1.jpg" alt="" />
+        <h2>WHY IS CAREER FOUNDATION IMPORTANT?</h2>
+        <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
+          <li>
+            Helps students present themselves effectively to future employers.
+          </li>
+          <li>Increases students chances of getting job opportunities.</li>
+          <li>Provides essential skills for career growth.</li>
+          <li>Sets a solid base for longterm career success.</li>
+        </ul>
+      </div>
+      <div class="card1">
+        <img src="./images/job1.jpg" alt="" />
+        <h2>KEY COMPONENTS OF A CAREER FOUNDATION PROGRAM</h2>
+
+        <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
+          <h3>Core Skills Development:</h3>
+          <li>
+            Enhancing essential skills like communication, problem-solving, and
+            time management.
+          </li>
+          <h3>CV Writing :</h3>
+          <li>
+            Crafting a professional resume that highlights skills and
+            experiences effectively.
+          </li>
+          <h3>Interview Training :</h3>
+          <li>
+            Preparing for job interviews with practice and techniques to perform
+            well.
+          </li>
+          <h3>Practical Experience :</h3>
+          <li>
+            Gaining hands-on experience through internships, projects, or
+            part-time jobs.
+          </li>
+        </ul>
+      </div>
+
+      <div class="card1">
+        <img
+          src="./images/job.jpg"
+          alt="Steps to Implement a Career Foundation Program"
+        />
+        <!-- Replace 'path/to/your/image.jpg' with the actual image path -->
+        <h2>STEPS TO IMPLEMENT A CAREER FOUNDATION PROGRAM</h2>
+
+        <div class="step">
+          <h3>Needs Analysis</h3>
+          <p>Identify training and development needs of students.</p>
+        </div>
+
+        <div class="step">
+          <h3>Program Design</h3>
+          <p>
+            Create a program that aligns with student needs and University
+            goals.
+          </p>
+        </div>
+
+        <div class="step">
+          <h3>Implementation</h3>
+          <p>
+            Deliver the program through one-on-one online coaching and
+            workshops.
+          </p>
+        </div>
+
+        <div class="step">
+          <h3>Evaluation and Adjustment</h3>
+          <p>
+            Assess the program's effectiveness and make improvements based on
+            feedback.
+          </p>
+        </div>
+      </div>
+
+      <div class="card1">
+        <img src="./images/success.jpg " alt="success" />
+        <h2>OUR SUCCESSFUL CAREER FOUNDATION PROGRAMS</h2>
+        <div class="card-content">
+          <div class="program">
+            <h3>CV Workshops:</h3>
+            <p>
+              Guide on creating effective resumes to showcase skills and
+              experiences.
+            </p>
+          </div>
+          <div class="program">
+            <h3>Interview Preparation:</h3>
+            <p>
+              Train on answering common questions and presenting confidently.
+            </p>
+          </div>
+          <div class="program">
+            <h3>Skill Development:</h3>
+            <p>
+              Coach on improving essential soft skills like communication and
+              problem-solving.
+            </p>
+          </div>
+          <div class="program">
+            <h3>Internships:</h3>
+            <p>
+              Provide opportunities for hands-on experience in relevant fields
+              as opportunities arise.
+            </p>
+          </div>
+          <div class="program">
+            <h3>Career Counseling:</h3>
+            <p>
+              Offer personalized advice on career paths and job search
+              strategies.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card1">
+        <img src="./images/challenge.jpg" alt=" challenge" />
+        <h2>CHALLENGES IN CAREER FOUNDATION AND SOLUTIONS</h2>
+        <div class="card-content">
+          <div class="program">
+            <h3>Skills Mismatch:</h3>
+            <p>
+              We align training with industry needs and provide practical
+              experience.
+            </p>
+          </div>
+          <div class="program">
+            <h3>Low Engagement:</h3>
+            <p>
+              We use interactive methods and real-life projects to boost
+              motivation.
+            </p>
+          </div>
+          <div class="program">
+            <h3>Resource Shortages:</h3>
+            <p>
+              We partner with businesses and educational institutions for
+              additional support.
+            </p>
+          </div>
+          <div class="program">
+            <h3>Measuring Impact:</h3>
+            <p>
+              We use feedback and assessments to evaluate and improve the
+              program.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card1">
+        <img src="./images/next.jpg" alt=" next step" />
+        <h2>NEXT STEPS</h2>
+        <div class="card-content">
+          <div class="step">
+            <h3>Develop a Program Plan:</h3>
+            <p>
+              Create a career development plan that aligns with the University’s
+              vision and goals.
+            </p>
+          </div>
+          <div class="step">
+            <h3>Engage Students:</h3>
+            <p>Encourage active participation from students in the program.</p>
+          </div>
+          <div class="step">
+            <h3>Monitor and Evaluate:</h3>
+            <p>
+              Track the program’s effectiveness and make adjustments as
+              necessary.
+            </p>
+          </div>
+          <div class="step">
+            <h3>Communicate Success:</h3>
+            <p>
+              Share achievements and benefits of the program with the entire
+              team.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <footer>
       <p>&copy; 2024 Career Foundation</p>
