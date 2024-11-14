@@ -42,9 +42,7 @@ body {
 
 /* ---Home Page--- */
 /* Home Animation */
-.slideshow-container {
-  background-image: url("./images/bg000.jpg");
-}
+
 /* Home Last-Section */
 .club-in-image {
   background-image: url(./images/image-2.jpg);

@@ -93,7 +93,6 @@ function toggleDropdown(menuId) {
 
 // Career Foundation Slideshow Background Images
 const careerBackgroundImages = [
-  "./images/bg001.jpg",
   "./images/study.jpg",
   "./images/study1.jpg",
   "./images/study2.jpg",
