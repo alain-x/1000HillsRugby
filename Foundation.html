@@ -106,7 +106,7 @@
       /* Nav buttons for slider */
       .nav-buttons {
         position: absolute;
-        bottom: 30px;
+        bottom: -300px;
         left: 50%;
         transform: translateX(-50%);
         display: flex;
@@ -226,7 +226,7 @@
       }
 
       /* Media Queries for responsiveness */
-      @media (max-width: 500px) {
+      @media (max-width: 600px) {
         .content {
           grid-template-columns: 1fr; /* Single column layout */
           gap: 20px; /* Adjust gap as needed */
@@ -826,69 +826,6 @@
       <p>&copy; 2024 Career Foundation</p>
     </footer>
 
-    <script src="./index.js"></script>
-
-    <script>
-      // Array of background images for the first section
-      const backgroundImages = [
-        "./images/bg001.jpg",
-        "./images/study.jpg",
-        "./images/study1.jpg",
-        "./images/study2.jpg",
-      ];
-
-      let bgIndex = 0;
-
-      function changeBackground() {
-        const slideshowContainer = document.querySelector(
-          ".slideshow-container"
-        );
-        slideshowContainer.style.backgroundImage = `url(${backgroundImages[bgIndex]})`;
-        bgIndex = (bgIndex + 1) % backgroundImages.length;
-      }
-
-      setInterval(changeBackground, 5000);
-      changeBackground();
-
-      const images = [
-        "./images/1.png",
-        "./images/2.png",
-        "./images/3.png",
-        "./images/4.png",
-        "./images/5.png",
-        "./images/6.png",
-        "./images/7.png",
-        "./images/8.png",
-        "./images/9.png",
-      ];
-
-      let currentIndex = 0;
-
-      function updateImage() {
-        const sliderImage = document.getElementById("slider-image");
-        sliderImage.src = images[currentIndex];
-        document.getElementById("backBtn").disabled = currentIndex === 0;
-        document.getElementById("nextBtn").disabled =
-          currentIndex === images.length - 1;
-      }
-
-      function nextImage() {
-        if (currentIndex < images.length - 1) {
-          currentIndex++;
-          updateImage();
-        }
-      }
-
-      function prevImage() {
-        if (currentIndex > 0) {
-          currentIndex--;
-          updateImage();
-        }
-      }
-
-      updateImage();
-    </script>
-
-    <script src="./index.js"></script>
+    <script src="foundation.js"></script>
   </body>
 </html>

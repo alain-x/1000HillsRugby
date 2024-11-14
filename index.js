@@ -85,68 +85,15 @@ function updateCycleButtons() {
   });
 }
 
+// Start the slideshow automatically when the page loads
+document.addEventListener("DOMContentLoaded", function () {
+  createCycleButtons();
+  changeBackgroundImage(); // Initialize the first image
+  setInterval(changeBackgroundImage, 2000); // Change image every 2 seconds
+});
+
 // Toggle Dropdown
 function toggleDropdown(menuId) {
   const dropdown = document.getElementById(menuId);
   dropdown.classList.toggle("hidden");
 }
-
-// Career Foundation Slideshow Background Images
-const careerBackgroundImages = [
-  "./images/study.jpg",
-  "./images/study1.jpg",
-  "./images/study2.jpg",
-];
-let careerBgIndex = 0;
-
-function changeCareerBackground() {
-  const slideshowContainer = document.querySelector(".slideshow-container");
-  slideshowContainer.style.backgroundImage = `url(${careerBackgroundImages[careerBgIndex]})`;
-  careerBgIndex = (careerBgIndex + 1) % careerBackgroundImages.length;
-}
-setInterval(changeCareerBackground, 5000);
-
-// Image Slider
-const sliderImages = [
-  "./images/1.png",
-  "./images/2.png",
-  "./images/3.png",
-  "./images/4.png",
-  "./images/5.png",
-  "./images/6.png",
-  "./images/7.png",
-  "./images/8.png",
-  "./images/9.png",
-];
-let currentSliderIndex = 0;
-
-function updateSliderImage() {
-  const sliderImage = document.getElementById("slider-image");
-  sliderImage.src = sliderImages[currentSliderIndex];
-  document.getElementById("backBtn").disabled = currentSliderIndex === 0;
-  document.getElementById("nextBtn").disabled =
-    currentSliderIndex === sliderImages.length - 1;
-}
-
-function nextImage() {
-  if (currentSliderIndex < sliderImages.length - 1) {
-    currentSliderIndex++;
-    updateSliderImage();
-  }
-}
-
-function prevImage() {
-  if (currentSliderIndex > 0) {
-    currentSliderIndex--;
-    updateSliderImage();
-  }
-}
-
-// Initialize on Page Load
-window.onload = function () {
-  createCycleButtons();
-  changeBackgroundImage();
-  setInterval(changeBackgroundImage, 3000); // Autoplay background change every 3 seconds
-  changeCareerBackground();
-  updateSliderImage();
-};
