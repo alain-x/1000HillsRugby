@@ -51,26 +51,8 @@
         z-index: 0;
       }
 
-      /* Main content area with flexbox */
-      .main-content {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-        padding: 20px;
-        margin-right: 50px;
-      }
-
-      /* Slider container styles */
-      .slider-container #slider-image {
-        width: 100%;
-        height: 500px;
-        max-width: 900px;
-        background-color: #2b4a78;
-        padding: 20px;
-        border-radius: 10px;
-        text-align: center;
-        position: relative;
-      }
+       
+      
 
       .slider-container {
         top: 0;
@@ -81,93 +63,7 @@
         object-fit: cover; /* Ensure images cover the area without distortion */
       }
 
-      /* Contact Us Section */
-      .contact-us {
-        width: 100%;
-        max-width: 270px;
-        background-color: #ffffff;
-        border: 2px solid #2b4a78;
-        border-radius: 8px;
-        padding: 20px;
-        font-size: 18px;
-        text-align: center;
-      }
-
-      .contact-us ul {
-        list-style-type: none;
-        padding: 0;
-        color: #333;
-      }
-
-      .contact-us li {
-        margin-bottom: 10px;
-      }
-
-      /* Nav buttons for slider */
-      .nav-buttons {
-        position: absolute;
-        bottom: -300px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        justify-content: space-between;
-        width: 120px;
-      }
-
-      .nav-buttons button {
-        background-color: #2caa0c;
-        border: none;
-        padding: 10px;
-        border-radius: 50%;
-        cursor: pointer;
-        font-size: 26px;
-        color: #2b4a78;
-        transition: background-color 0.3s;
-      }
-
-      .nav-buttons button:hover {
-        background-color: #2caa0c;
-      }
-
-      .nav-buttons button:disabled {
-        background-color: #ddd;
-        color: #666;
-        cursor: not-allowed;
-      }
-
-      /* Contact Us section styling */
-      .contact-us {
-        position: absolute;
-        top: 120%;
-        right: 20px;
-        transform: translateY(-50%);
-        width: 270px;
-        padding: 20px;
-        background-color: #2b4a78;
-        color: #ffffff;
-        border-radius: 8px;
-        text-align: center;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      }
-
-      .contact-us h3 {
-        font-size: 20px;
-        margin-bottom: 10px;
-      }
-
-      .contact-us p {
-        font-size: 14px;
-        margin: 5px 0;
-      }
-      .contact-us ul li {
-        color: white;
-      }
-
-      .contact-us a {
-        color: #ffb400;
-        text-decoration: none;
-        font-weight: bold;
-      }
+      
 
        
 
@@ -235,6 +131,9 @@
           font-family: Arial, sans-serif;
           background-color: #f2f4f8;
         }
+        section.slideshow-container{
+          height: 00px;
+        }
       
         .content {
           grid-template-columns: 1fr; /* Single column layout */
@@ -252,6 +151,10 @@
           text-align: center;
           width: 100%; /* Fit card within viewport */
           box-sizing: border-box;
+        }
+        .card1 h2 {
+          font-size: 1.5em;
+          color: #2b2323;
         }
       
         .slideshow-container {
@@ -271,51 +174,18 @@
           box-sizing: border-box;
         }
       
-        .slider-container {
-          width: 100%; /* Fit within screen */
-          max-width: 600px;
-          background-color: #2b4a78;
-          padding: 0;
-          border-radius: 10px;
-          text-align: center;
-          position: relative;
-          box-sizing: border-box;
-        }
+         
       
-        .slider-container img {
-          width: 100%; /* Scale image to fit container */
-          height: auto;
-          border-radius: 10px;
-          object-fit: cover;
-        }
+         
       
-        .main-content {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          gap: 10px;
-          padding: 10px;
-          width: 100%;
-          box-sizing: border-box;
-        }
+          
       
         .text-container {
-          font-size: 20px;
+          font-size: 27px;
           text-align: center;
         }
       
-        .contact-us {
-          width: 100%;
-          position: relative;
-          top: auto;
-          right: auto;
-          margin-top: 200px;
-          box-sizing: border-box;
-        }
-      
-        .nav-buttons {
-          bottom: -9px;
-        }
+          
       }
       
 
