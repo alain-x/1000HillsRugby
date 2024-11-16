@@ -51,6 +51,8 @@ function startCountdown(eventDate) {
   }, 1000);
 }
 startCountdown(new Date("Nov 11, 2024 19:45:00").getTime());
+//********************* *
+//***************** *
 
 // Slideshow Background Image
 const slideshowImages = [
@@ -59,25 +61,33 @@ const slideshowImages = [
   "./images/bg002.jpg",
   "./images/bg003.jpg",
 ];
-let currentSlideshowIndex = 0;
+let currentSlideshowIndex = 0; // Keep track of the current image index
+let slideshowInterval; // Store the interval reference
 
+// Function to change the background image
 function changeBackgroundImage() {
   const container = document.querySelector(".slideshow-container");
   container.style.backgroundImage = `url(${slideshowImages[currentSlideshowIndex]})`;
   updateCycleButtons();
-  currentSlideshowIndex = (currentSlideshowIndex + 1) % slideshowImages.length;
 }
 
+// Function to create cycle buttons dynamically
 function createCycleButtons() {
   const cycleButtonsContainer = document.querySelector(".cycle-buttons");
-  cycleButtonsContainer.innerHTML = "";
-  slideshowImages.forEach(() => {
+  cycleButtonsContainer.innerHTML = ""; // Clear any existing buttons
+  slideshowImages.forEach((_, index) => {
     const button = document.createElement("button");
     button.className = "cycle-button w-3 h-3 rounded-full bg-white opacity-50";
+    button.addEventListener("click", () => {
+      currentSlideshowIndex = index; // Update to the clicked image's index
+      changeBackgroundImage(); // Update the background
+      resetSlideshowInterval(); // Reset interval for automatic slideshow
+    });
     cycleButtonsContainer.appendChild(button);
   });
 }
 
+// Function to update the active cycle button
 function updateCycleButtons() {
   const buttons = document.querySelectorAll(".cycle-button");
   buttons.forEach((button, index) => {
@@ -85,11 +95,26 @@ function updateCycleButtons() {
   });
 }
 
-// Start the slideshow automatically when the page loads
+// Function to start the slideshow
+function startSlideshow() {
+  changeBackgroundImage(); // Show the initial image
+  slideshowInterval = setInterval(() => {
+    currentSlideshowIndex =
+      (currentSlideshowIndex + 1) % slideshowImages.length; // Cycle through images
+    changeBackgroundImage();
+  }, 2000); // Change every 2 seconds
+}
+
+// Function to reset the slideshow interval when user interacts
+function resetSlideshowInterval() {
+  clearInterval(slideshowInterval); // Clear the existing interval
+  startSlideshow(); // Restart the interval
+}
+
+// Initialize the slideshow when the page loads
 document.addEventListener("DOMContentLoaded", function () {
-  createCycleButtons();
-  changeBackgroundImage(); // Initialize the first image
-  setInterval(changeBackgroundImage, 2000); // Change image every 2 seconds
+  createCycleButtons(); // Create navigation buttons
+  startSlideshow(); // Start automatic slideshow
 });
 
 // Toggle Dropdown
