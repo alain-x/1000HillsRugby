@@ -24,9 +24,115 @@
     #menu:hover {
       display: block;
     }
+    @media (max-width: 500px) {
+      .contact-home-page {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        text-align: center;
+        height: auto;
+      }
+
+      .text-container {
+        border-left: none;
+        padding-left: 0;
+        gap: 10px;
+      }
+
+      .text-container p {
+        font-size: 16px;
+      }
+
+      .text-container h1 {
+        font-size: 28px;
+      }
+
+      section img {
+        width: 100px;
+        height: 100px;
+        margin: 20px auto;
+      }
+
+      section p {
+        font-size: 14px;
+        margin-top: 8px;
+        text-align: center;
+      }
+
+      .map-container iframe {
+        height: 300px;
+        width: 100%;
+      }
+
+      .flex {
+        flex-direction: column;
+        align-items: center;
+        width: 100%; /* Full width */
+        text-align: center; /* Ensure centered text */
+        gap: 20px;
+      }
+
+      .flex > div {
+        width: 100%; /* Full width for each child */
+        margin-bottom: 10px; /* Add spacing */
+      }
+
+      .contact-last {
+        flex-direction: column;
+        padding: 20px;
+        text-align: center;
+        height: auto;
+      }
+
+      .contact-last div {
+        padding: 10px;
+      }
+
+      .contact-last h1 {
+        font-size: 24px;
+      }
+
+      .contact-last p {
+        font-size: 14px;
+      }
+
+      ul {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      ul li {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+      }
+
+      .contact-last .grid {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .contact-last .grid div {
+        padding: 10px;
+        text-align: center;
+      }
+
+      .contact-last .grid p:first-child {
+        font-size: 24px;
+      }
+
+      .contact-last .grid p:last-child {
+        font-size: 14px;
+      }
+    }
   </style>
 
   <body>
+    <!-- Transparent Navbar -->
     <!-- Transparent Navbar -->
     <nav
       class="navbar fixed top-0 left-0 w-full px-2 z-20 h-[10vh] flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300"
@@ -121,11 +227,68 @@
         <li class="relative group">
           <a
             class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
+            >Result<i class="fas fa-chevron-down text-sm"></i
+          ></a>
+          <ul
+            class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
+          >
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./fixtures.html"
+                >Fixtures</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href=""
+                >Results</a
+              >
+            </li>
+          </ul>
+        </li>
+
+        <li class="relative group">
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
+            >Teams<i class="fas fa-chevron-down text-sm"></i
+          ></a>
+          <ul
+            class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
+          >
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./menprofiles.html"
+                >Men</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./wmenprofiles.html"
+                >Women</a
+              >
+            </li>
+          </ul>
+        </li>
+
+        <li class="relative group">
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
             >Contact<i class="fas fa-chevron-down text-sm"></i
           ></a>
           <ul
             class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
           >
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./staff.html"
+                >Staff</a
+              >
+            </li>
             <li>
               <a
                 class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
@@ -234,12 +397,12 @@
             <li class="relative">
               <button
                 class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                onclick="toggleDropdown('education-menu')"
+                onclick="toggleDropdown('education-menu-mobile')"
               >
                 Education <i class="fas fa-chevron-down text-sm"></i>
               </button>
               <ul
-                id="education-menu"
+                id="education-menu-mobile"
                 class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
               >
                 <li>
@@ -263,12 +426,12 @@
             <li class="relative">
               <button
                 class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                onclick="toggleDropdown('events-menu')"
+                onclick="toggleDropdown('events-menu-mobile')"
               >
                 Events <i class="fas fa-chevron-down text-sm"></i>
               </button>
               <ul
-                id="events-menu"
+                id="events-menu-mobile"
                 class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
               >
                 <li>
@@ -288,18 +451,83 @@
               </ul>
             </li>
 
-            <!-- Dropdown for Contact -->
+            <!-- Dropdown for Results -->
             <li class="relative">
               <button
                 class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                onclick="toggleDropdown('contact-menu')"
+                onclick="toggleDropdown('results-menu-mobile')"
+              >
+                Results <i class="fas fa-chevron-down text-sm"></i>
+              </button>
+              <ul
+                id="results-menu-mobile"
+                class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+              >
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./fixtures.html"
+                    >Fixtures</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./results.html"
+                    >Results</a
+                  >
+                </li>
+              </ul>
+            </li>
+
+            <!-- Dropdown for Teams -->
+            <li class="relative">
+              <button
+                class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                onclick="toggleDropdown('teams-menu-mobile')"
+              >
+                Teams <i class="fas fa-chevron-down text-sm"></i>
+              </button>
+              <ul
+                id="teams-menu-mobile"
+                class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+              >
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./menprofiles.html"
+                    >Men</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./women.html"
+                    >Women</a
+                  >
+                </li>
+              </ul>
+            </li>
+
+            <!-- Contact -->
+            <li class="relative">
+              <button
+                class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                onclick="toggleDropdown('contact-menu-mobile')"
               >
                 Contact <i class="fas fa-chevron-down text-sm"></i>
               </button>
               <ul
-                id="contact-menu"
+                id="contact-menu-mobile"
                 class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
               >
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./staff.html"
+                    >Staff</a
+                  >
+                </li>
                 <li>
                   <a
                     class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
@@ -343,7 +571,7 @@
         <img
           class="lg:w-[200px] w-[150px] lg:h-[200px] h-[150px]"
           src="./images/1000-hills-logo.png"
-          alt=""
+          alt="Logo"
         />
         <p class="lg:text-lg text-sm mt-4 text-center font-semithin">
           We are dedicated to maintaining the highest <br />
@@ -351,14 +579,12 @@
         </p>
       </section>
 
-      <section class="flex lg:flex-row flex-col my-24 bg-[#080808] h-[120vh]">
+      <section class="flex lg:flex-row flex-col my-24 bg-[#080808]">
         <div class="lg:w-6/12 w-full">
           <div class="map-container">
             <iframe
-              class="h-[120vh]"
+              class="h-[400px] w-full"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3973.650101020576!2d30.090783688375804!3d-1.976085450010544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19dca63fec397537%3A0xe9f6df3d4b71a318!2sDon%20Bosco%20Gatenga%20Technical%20School!5e0!3m2!1sen!2srw!4v1725208625889!5m2!1sen!2srw"
-              width="100%"
-              height="450"
               style="border: 0"
               allowfullscreen=""
               loading="lazy"
@@ -366,122 +592,70 @@
             ></iframe>
           </div>
         </div>
-        <div class="lg:w-6/12 bg-[#080808] w-full flex flex-col pl-16 py-24">
-          <div
-            class="border-l-[10px] flex flex-col gap-2 col-span-9 border-white-500 pl-2 text-white"
-          >
-            <h1 class="lg:text-8xl text-7xl font-[650]">
-              1000 HILLS <br />
-              <span class="text-[#006838]">RUGBY</span>
-            </h1>
-          </div>
-          <div
-            class="flex lg:flex-row md:flex-row flex-col md:gap-10 text-white my-10"
-          >
-            <div class="flex flex-col">
+        <div
+          class="lg:w-6/12 w-full flex flex-col pl-4 py-4 lg:py-24 text-white gap-6"
+        >
+          <h1 class="lg:text-4xl text-3xl font-[650]">
+            1000 HILLS <br />
+            <span class="text-[#006838]">RUGBY</span>
+          </h1>
+          <div class="flex flex-col gap-6">
+            <div>
               <p class="text-sm">CALL US</p>
-              <div class="flex gap-4">
-                <i
-                  class="text-[#006838] hover:text-white text-2xl fa-solid fa-phone"
-                ></i>
+              <div class="flex gap-4 items-center">
+                <i class="text-[#006838] text-2xl fa-solid fa-phone"></i>
                 <p class="text-2xl font-bold">+250 788 261 386</p>
               </div>
             </div>
-            <p class="sm:hidden border border-[#006838] h-16 mx-10"></p>
-            <div class="flex flex-col">
+            <div>
               <p class="text-sm">ONLINE SCHEDULE</p>
-              <div class="flex gap-4">
-                <i
-                  class="text-[#006838] hover:text-white text-2xl fa-regular fa-calendar"
-                ></i>
+              <div class="flex gap-4 items-center">
+                <i class="text-[#006838] text-2xl fa-regular fa-calendar"></i>
                 <p class="text-2xl font-bold">BOOK HERE</p>
               </div>
             </div>
           </div>
-          <div class="">
-            <ul class="flex justify-start gap-3 text-md">
+          <div class="flex gap-4">
+            <ul class="flex justify-start gap-3">
               <li
-                class="border-2 border-white rounded-full p-2 hover:bg-white hover:text-black text-white"
+                class="border-2 border-white rounded-full p-2 hover:bg-white hover:text-black"
               >
-                <a
-                  class="text-lg p-2"
-                  href="https://www.facebook.com/1000hillsrugby/"
-                >
+                <a href="https://www.facebook.com/1000hillsrugby/">
                   <i class="fa-brands fa-facebook-f"></i>
                 </a>
               </li>
               <li
-                class="border-2 border-white rounded-full p-2 hover:bg-white hover:text-black text-white"
+                class="border-2 border-white rounded-full p-2 hover:bg-white hover:text-black"
               >
-                <a
-                  class="text-lg p-1.5"
-                  href="https://www.instagram.com/1000hillsrugby/"
-                >
+                <a href="https://www.instagram.com/1000hillsrugby/">
                   <i class="fa-brands fa-instagram"></i>
                 </a>
               </li>
               <li
-                class="border-2 border-white rounded-full p-2 hover:bg-white hover:text-black text-white"
+                class="border-2 border-white rounded-full p-2 hover:bg-white hover:text-black"
               >
                 <a
-                  class="text-lg p-[5px]"
-                  href=" https://x.com/1000HillsRugby?t=S0PTUa88AFrp6SJs5meJ6A&s=08 "
+                  href=" https://x.com/1000HillsRugby?t=S0PTUa88AFrp6SJs5meJ6A&s=08"
                 >
                   <i class="fa-brands fa-x-twitter"></i>
                 </a>
               </li>
             </ul>
           </div>
-          <div class="flex text-white my-10 pr-4">
-            <div class="w-4/12 flex flex-col gap-2">
-              <p class="text-[#006838] font-bold text-xl">OUR ADRESS</p>
+          <div class="grid lg:grid-cols-3 grid-cols-1 gap-4">
+            <div>
+              <p class="text-[#006838] font-bold text-xl">OUR ADDRESS</p>
               <p>KK 591 St, Kigali</p>
             </div>
-            <div class="w-4/12 flex flex-col gap-2">
+            <div>
               <p class="text-[#006838] font-bold text-xl">CALL US</p>
               <p>+250 788 261 386</p>
             </div>
-            <div class="w-4/12 flex flex-col gap-2">
+            <div>
               <p class="text-[#006838] font-bold text-xl">OPENING HOURS</p>
               <p>Mon-Fri: 9am – 6pm</p>
               <p>Sat-Sun: 9am – 12pm</p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section
-        class="contact-last bg-cover flex lg:flex-row flex-col w-full h-[100vh] bg-no-repeat"
-      >
-        <div class="w-7/12 flex pt-72 pl-6 mb-28">
-          <div
-            class="border-l-[10px] flex flex-col gap-2 col-span-9 border-white-500 pl-4 text-white"
-          >
-            <p class="text-[28px] font-thin">FOLLOW THR</p>
-            <h1 class="text-7xl uppercase font-[650]">
-              #1000 hills <br />
-              rugby
-            </h1>
-          </div>
-        </div>
-        <div
-          class="w-5/12 grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 pt-72 text-white"
-        >
-          <div>
-            <p class="text-6xl font-bold">321K+</p>
-            <p class="text-xl">FACEBOOK</p>
-          </div>
-          <div>
-            <p class="text-6xl font-bold">500+</p>
-            <p class="text-xl">TWITTER</p>
-          </div>
-          <div>
-            <p class="text-6xl font-black font-bold">1K+</p>
-            <p class="text-xl">INSTAGRAM</p>
-          </div>
-          <div>
-            <p class="text-6xl font-bold">100+</p>
-            <p class="text-xl">YOUTUBE</p>
           </div>
         </div>
       </section>
@@ -522,7 +696,7 @@
             <a href="./program.html#p4">Grassroots Rugby Initiative</a>
           </li>
           <li class="hover:text-[#dcbb26] transition-colors duration-300">
-            <a href="#">Coaching Staff</a>
+            <a href="staff.html">Coaching Staff</a>
           </li>
         </ul>
       </div>

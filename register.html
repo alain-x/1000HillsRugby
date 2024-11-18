@@ -125,11 +125,68 @@
         <li class="relative group">
           <a
             class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
+            >Result<i class="fas fa-chevron-down text-sm"></i
+          ></a>
+          <ul
+            class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
+          >
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./fixtures.html"
+                >Fixtures</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href=""
+                >Results</a
+              >
+            </li>
+          </ul>
+        </li>
+
+        <li class="relative group">
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
+            >Teams<i class="fas fa-chevron-down text-sm"></i
+          ></a>
+          <ul
+            class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
+          >
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./menprofiles.html"
+                >Men</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./wmenprofiles.html"
+                >Women</a
+              >
+            </li>
+          </ul>
+        </li>
+
+        <li class="relative group">
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
             >Contact<i class="fas fa-chevron-down text-sm"></i
           ></a>
           <ul
             class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
           >
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./staff.html"
+                >Staff</a
+              >
+            </li>
             <li>
               <a
                 class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
@@ -238,12 +295,12 @@
             <li class="relative">
               <button
                 class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                onclick="toggleDropdown('education-menu')"
+                onclick="toggleDropdown('education-menu-mobile')"
               >
                 Education <i class="fas fa-chevron-down text-sm"></i>
               </button>
               <ul
-                id="education-menu"
+                id="education-menu-mobile"
                 class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
               >
                 <li>
@@ -267,12 +324,12 @@
             <li class="relative">
               <button
                 class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                onclick="toggleDropdown('events-menu')"
+                onclick="toggleDropdown('events-menu-mobile')"
               >
                 Events <i class="fas fa-chevron-down text-sm"></i>
               </button>
               <ul
-                id="events-menu"
+                id="events-menu-mobile"
                 class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
               >
                 <li>
@@ -292,18 +349,83 @@
               </ul>
             </li>
 
-            <!-- Dropdown for Contact -->
+            <!-- Dropdown for Results -->
             <li class="relative">
               <button
                 class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                onclick="toggleDropdown('contact-menu')"
+                onclick="toggleDropdown('results-menu-mobile')"
+              >
+                Results <i class="fas fa-chevron-down text-sm"></i>
+              </button>
+              <ul
+                id="results-menu-mobile"
+                class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+              >
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./fixtures.html"
+                    >Fixtures</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./results.html"
+                    >Results</a
+                  >
+                </li>
+              </ul>
+            </li>
+
+            <!-- Dropdown for Teams -->
+            <li class="relative">
+              <button
+                class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                onclick="toggleDropdown('teams-menu-mobile')"
+              >
+                Teams <i class="fas fa-chevron-down text-sm"></i>
+              </button>
+              <ul
+                id="teams-menu-mobile"
+                class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+              >
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./menprofiles.html"
+                    >Men</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./women.html"
+                    >Women</a
+                  >
+                </li>
+              </ul>
+            </li>
+
+            <!-- Contact -->
+            <li class="relative">
+              <button
+                class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                onclick="toggleDropdown('contact-menu-mobile')"
               >
                 Contact <i class="fas fa-chevron-down text-sm"></i>
               </button>
               <ul
-                id="contact-menu"
+                id="contact-menu-mobile"
                 class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
               >
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./staff.html"
+                    >Staff</a
+                  >
+                </li>
                 <li>
                   <a
                     class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
@@ -472,17 +594,19 @@
                   - Jimmy
                 </h3>
                 <p class="text-sm text-gray-600 mb-4">
-                  Jimmy has over 15 years of experience in coaching rugby and is
-                  dedicated to nurturing young talent. Feel free to contact him
-                  for any inquiries about our training programs.
+                  Jimy Mugabo is a dynamic leader in sports and social
+                  development, using rugby to promote education and
+                  employability among Rwandan youth. As Director of Rugby at
+                  1000 Hills Rugby, he focuses on skill development, job
+                  readiness, and well-being.
                 </p>
                 <div class="flex items-center gap-4">
                   <i class="fas fa-phone-alt text-[#006838]"></i>
-                  <p class="font-medium">+250-785-290-080</p>
+                  <p class="font-medium">+44 7797 749134</p>
                 </div>
                 <div class="flex items-center gap-4 mt-2">
                   <i class="fas fa-envelope text-[#006838]"></i>
-                  <p class="font-medium">jimmy@1000hillsrugby.com</p>
+                  <p class="font-medium"></p>
                 </div>
               </div>
 
