@@ -1,5 +1,3 @@
-
-
 // Toggle Dropdown
 function toggleDropdown(menuId) {
   const dropdown = document.getElementById(menuId);
@@ -9,8 +7,8 @@ function toggleDropdown(menuId) {
 // Array of background images for the first section
 const backgroundImages = [
   "./images/bg001.jpg",
-  "./images/study.jpg",
-  "./images/study1.jpg",
+  "./images/allmember1.jpg",
+  "./images/alainjean.jpeg",
   "./images/study2.jpg",
 ];
 
@@ -22,7 +20,7 @@ function changeBackground() {
   bgIndex = (bgIndex + 1) % backgroundImages.length;
 }
 
-setInterval(changeBackground, 5000);
+setInterval(changeBackground, 2000);
 changeBackground();
 
 const images = [

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Team Member Details</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Custom CSS for responsiveness */
+      @media (max-width: 500px) {
+        /* When screen width is 500px or below */
+        #member-image {
+          height: 480px; /* Increase image height for small screens */
+        }
+
+        /* Adjust text size */
+        #member-name {
+          font-size: 1.5rem; /* Smaller name font size */
+        }
+
+        #member-role {
+          font-size: 1rem; /* Smaller role font size */
+        }
+
+        /* Adjust layout for mobile */
+        .flex {
+          flex-direction: column; /* Stack items vertically */
+        }
+
+        .text-center {
+          text-align: center; /* Center text on small screens */
+        }
+
+        .px-6 {
+          padding-left: 1rem;
+          padding-right: 1rem;
+        }
+
+        /* Social media icon adjustments */
+        ul {
+          flex-direction: row; /* Row layout for small screens */
+          justify-content: center;
+        }
+
+        ul li {
+          margin: 0 10px; /* Space out icons */
+        }
+      }
+
+      @media (min-width: 501px) {
+        /* For screens larger than 500px */
+        #member-image {
+          height: 480px; /* Regular image height */
+        }
+
+        /* Restore normal layout for larger screens */
+        .flex {
+          flex-direction: row; /* Horizontal layout */
+        }
+
+        .text-center {
+          text-align: left; /* Align text to the left */
+        }
+
+        ul {
+          justify-content: flex-start; /* Align social icons left */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section id="details" class="py-12">
+      <div class="container mx-auto p-6 bg-gray-100 rounded-md">
+        <!-- Flex container for layout -->
+        <div class="flex flex-col items-center md:flex-row md:items-start">
+          <!-- Image Section -->
+          <div class="w-50 w-80 flex justify-center mb-6 md:mb-0">
+            <img
+              id="member-image"
+              src=""
+              alt="Team Member"
+              class="w-full object-cover rounded-md shadow-md"
+              onerror="this.src='./images/placeholder.png';"
+            />
+          </div>
+
+          <!-- Details Section -->
+          <div class="md:w-2/3 w-full px-6 text-center md:text-left">
+            <h3
+              id="member-name"
+              class="text-2xl font-semibold text-gray-800 md:text-3xl"
+            ></h3>
+            <p id="member-role" class="text-lg text-gray-600 mt-2"></p>
+            <p id="member-description" class="mt-4 text-gray-700"></p>
+
+            <!-- Social Media Icons -->
+            <ul
+              class="mt-6 flex justify-center space-x-6 text-xl text-gray-600"
+            >
+              <li class="hover:text-[#1877F2] transition-colors duration-300">
+                <a
+                  href="https://www.facebook.com/jimy.mugabo.3"
+                  aria-label="Facebook"
+                  target="_blank"
+                >
+                  <i class="fa-brands fa-facebook-f"></i>
+                </a>
+              </li>
+              <li class="hover:text-[#E4405F] transition-colors duration-300">
+                <a
+                  href="https://www.instagram.com/jimymugabo/"
+                  aria-label="Instagram"
+                  target="_blank"
+                >
+                  <i class="fa-brands fa-instagram"></i>
+                </a>
+              </li>
+              
+              <li class="hover:text-[#1DA1F2] transition-colors duration-300">
+                <a
+                  href="https://x.com/1000HillsRugby"
+                  aria-label="Twitter"
+                  target="_blank"
+                >
+                  <i class="fa-brands fa-x-twitter"></i>
+                </a>
+              </li> 
+            
+              <li class="hover:text-[#0077B5] transition-colors duration-300">
+                <a
+                  href="https://www.linkedin.com/in/1000hillsrugby"
+                  aria-label="LinkedIn"
+                  target="_blank"
+                >
+                  <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Back to team button -->
+        <div class="mt-6 text-center">
+          <a
+            href="staff.html"
+            class="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700"
+          >
+            Back to Team
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // Example data (could be from an API or server)
+      const teamData = {
+        Jimmy: {
+          name: "Jimmy MUGABO",
+          role: "Head Coach",
+          image: "./images/jimmy.jpeg",
+          description:
+            "Jimy Mugabo is a dynamic leader in sports and social development, specializing in leveraging rugby as a tool for education, employability, and personal growth among Rwandan youth. As the Director of Rugby at 1000 Hills Rugby, he fosters inclusive programs focused on skills development, job readiness, and health and well-being. Jimy is also the visionary behind RQT, where he connects Rwandan talent to job opportunities abroad and develops training programs that enhance youth employability. Driven by a commitment to empowerment and community growth, he has expanded his expertise into other sectors, continually creating pathways for sustainable development in Rwanda and beyond.",
+        },
+        JaneSmith: {
+          name: "Jane Smith",
+          role: "Assistant Coach",
+          image: "./images/member2.webp",
+          description: "Jane specializes in strategy and player development.",
+        },
+      };
+
+      // Extract 'name' query parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const memberKey = urlParams.get("name");
+
+      // Populate details
+      if (teamData[memberKey]) {
+        const member = teamData[memberKey];
+        document.getElementById("member-name").innerText = member.name;
+        document.getElementById("member-role").innerText = member.role;
+        document.getElementById("member-image").src = member.image;
+        document.getElementById("member-description").innerText =
+          member.description;
+      } else {
+        document.body.innerHTML =
+          "<p class='text-center text-red-500'>Member not found.</p>";
+      }
+    </script>
+  </body>
+</html>

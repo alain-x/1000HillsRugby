@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Current Squad</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #000;
+        color: #fff;
+      }
+
+      .header {
+        text-align: center;
+        padding: 20px;
+      }
+
+      .tabs {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin: 10px 0;
+      }
+
+      .tab {
+        background-color: #222;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        color: white;
+        text-align: center;
+      }
+
+      .tab.active {
+        background-color: #0a9113;
+      }
+
+      .squad-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 20px;
+      }
+
+      .player-card {
+        background: #222;
+        border-radius: 10px;
+        text-align: center;
+        padding: 10px;
+        width: 200px;
+        cursor: pointer;
+      }
+
+      .player-card img {
+        width: 200px;
+        height: 200px;
+        border-radius: 10px;
+        object-fit: cover;
+      }
+
+      .player-card h3 {
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Current Squad</h1>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" id="backsTab">Backs</div>
+      <div class="tab" id="forwardsTab">Forwards</div>
+    </div>
+
+    <div class="squad-container" id="squadContainer"></div>
+
+    <script>
+      const squad = [
+        {
+          name: "Shalom KUNESHANUKWAYO",
+          img: "https://via.placeholder.com/200",
+          age: 23,
+          role: "Full Back",
+          category: "Backs",
+          weight: "64 kg",
+          height: "167 cm",
+          games: 4,
+          points: 15,
+          tries: 3,
+        },
+        {
+          name: "Jean Calros ISIMBI",
+          img: "https://via.placeholder.com/200",
+          age: 23,
+          role: "Fly Half",
+          category: "Backs",
+          weight: "78 kg",
+          height: "180 cm",
+          games: 100,
+          points: 120,
+          tries: 25,
+        },
+        {
+          name: "Prince SHEMA",
+          img: "https://via.placeholder.com/200",
+          age: 23,
+          role: "Fly Half",
+          category: "Backs",
+          weight: "78 kg",
+          height: "180 cm",
+          games: 100,
+          points: 120,
+          tries: 25,
+        },
+        {
+          name: "Enock MBARUSHIMANA",
+          img: "https://via.placeholder.com/200",
+          age: 23,
+          role: "Center",
+          category: "Backs",
+          weight: "78 kg",
+          height: "180 cm",
+          games: 100,
+          points: 120,
+          tries: 25,
+        },
+        {
+          name: "Jackson",
+          img: "https://via.placeholder.com/200",
+          age: 23,
+          role: "Scrum Half",
+          category: "Backs",
+          weight: "78 kg",
+          height: "180 cm",
+          games: 100,
+          points: 120,
+          tries: 25,
+        },
+        {
+          name: "Chance IRADUKUNDA",
+          img: "https://via.placeholder.com/200",
+          age: 23,
+          role: "Center",
+          category: "Backs",
+          weight: "78 kg",
+          height: "180 cm",
+          games: 100,
+          points: 120,
+          tries: 25,
+        },
+        {
+          name: "Prince SHEMA",
+          img: "https://via.placeholder.com/200",
+          age: 23,
+          role: "Fly Half",
+          category: "Backs",
+          weight: "78 kg",
+          height: "180 cm",
+          games: 100,
+          points: 120,
+          tries: 25,
+        },
+        {
+          name: "Jermmy ",
+          img: "https://via.placeholder.com/200",
+          age: 23,
+          role: "Scrum Half",
+          category: "Backs",
+          weight: "78 kg",
+          height: "180 cm",
+          games: 100,
+          points: 120,
+          tries: 25,
+        },
+        {
+          name: "Johnson",
+          img: "https://via.placeholder.com/200",
+          age: 23,
+          role: "Winger",
+          category: "Backs",
+          weight: "78 kg",
+          height: "180 cm",
+          games: 100,
+          points: 120,
+          tries: 25,
+        },
+        {
+          name: "Jermmiy",
+          img: "https://via.placeholder.com/200",
+          age: 23,
+          role: "Winger",
+          category: "Backs",
+          weight: "78 kg",
+          height: "180 cm",
+          games: 100,
+          points: 120,
+          tries: 25,
+        },
+        {
+          name: " ",
+          img: "https://via.placeholder.com/200",
+          age: 23,
+          role: "Fly Half",
+          category: "Backs",
+          weight: "78 kg",
+          height: "180 cm",
+          games: 100,
+          points: 120,
+          tries: 25,
+        },
+
+        // Forwards tab squad starts here
+        {
+          name: "Michael RWABUKEERA",
+          img: "https://via.placeholder.com/200",
+          age: 25,
+          role: "Lock",
+          category: "Forwards",
+          weight: "90 kg",
+          height: "190 cm",
+          games: 50,
+          points: 300,
+          tries: 20,
+        },
+        {
+          name: "Chance IRADUKUNDA",
+          img: "https://via.placeholder.com/200",
+          age: 22,
+          role: "Hooker",
+          category: "Forwards",
+          weight: "98 kg",
+          height: "165 cm",
+          games: 25,
+          points: 30,
+          tries: 8,
+        },
+        {
+          name: "Enock MBARUSHIMANA",
+          img: "https://via.placeholder.com/200",
+          age: 23,
+          role: "Prop",
+          category: "Forwards",
+          weight: "91 kg",
+          height: "187 cm",
+          games: 150,
+          points: 1500,
+          tries: 50,
+        },
+      ];
+
+      const squadContainer = document.getElementById("squadContainer");
+      const backsTab = document.getElementById("backsTab");
+      const forwardsTab = document.getElementById("forwardsTab");
+
+      function renderSquad(category) {
+        squadContainer.innerHTML = "";
+        const players = squad.filter((player) => player.category === category);
+
+        players.forEach((player) => {
+          const playerCard = document.createElement("div");
+          playerCard.className = "player-card";
+          playerCard.innerHTML = `
+            <img src="${player.img}" alt="${player.name}">
+            <h3>${player.name}</h3>
+          `;
+          playerCard.addEventListener("click", () => {
+            localStorage.setItem("selectedPlayer", JSON.stringify(player));
+            window.location.href = "profiles.html";
+          });
+
+          squadContainer.appendChild(playerCard);
+        });
+      }
+
+      function setActiveTab(tabElement, category) {
+        document
+          .querySelectorAll(".tab")
+          .forEach((tab) => tab.classList.remove("active"));
+        tabElement.classList.add("active");
+        renderSquad(category);
+      }
+
+      backsTab.addEventListener("click", () => setActiveTab(backsTab, "Backs"));
+      forwardsTab.addEventListener("click", () =>
+        setActiveTab(forwardsTab, "Forwards")
+      );
+
+      renderSquad("Backs");
+    </script>
+  </body>
+</html>
