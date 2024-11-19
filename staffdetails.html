@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Team Member Details</title>
+    <title>Staff Member Details</title>
+    <link rel="icon" href="./images/t_icon.png" type="image/png" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
@@ -12,27 +13,24 @@
     <style>
       /* Custom CSS for responsiveness */
       @media (max-width: 500px) {
-        /* When screen width is 500px or below */
         #member-image {
-          height: 480px; /* Increase image height for small screens */
+          height: 480px;
         }
 
-        /* Adjust text size */
         #member-name {
-          font-size: 1.5rem; /* Smaller name font size */
+          font-size: 1.5rem;
         }
 
         #member-role {
-          font-size: 1rem; /* Smaller role font size */
+          font-size: 1rem;
         }
 
-        /* Adjust layout for mobile */
         .flex {
-          flex-direction: column; /* Stack items vertically */
+          flex-direction: column;
         }
 
         .text-center {
-          text-align: center; /* Center text on small screens */
+          text-align: center;
         }
 
         .px-6 {
@@ -40,34 +38,31 @@
           padding-right: 1rem;
         }
 
-        /* Social media icon adjustments */
         ul {
-          flex-direction: row; /* Row layout for small screens */
+          flex-direction: row;
           justify-content: center;
         }
 
         ul li {
-          margin: 0 10px; /* Space out icons */
+          margin: 0 10px;
         }
       }
 
       @media (min-width: 501px) {
-        /* For screens larger than 500px */
         #member-image {
-          height: 480px; /* Regular image height */
+          height: 480px;
         }
 
-        /* Restore normal layout for larger screens */
         .flex {
-          flex-direction: row; /* Horizontal layout */
+          flex-direction: row;
         }
 
         .text-center {
-          text-align: left; /* Align text to the left */
+          text-align: left;
         }
 
         ul {
-          justify-content: flex-start; /* Align social icons left */
+          justify-content: flex-start;
         }
       }
     </style>
@@ -75,7 +70,6 @@
   <body>
     <section id="details" class="py-12">
       <div class="container mx-auto p-6 bg-gray-100 rounded-md">
-        <!-- Flex container for layout -->
         <div class="flex flex-col items-center md:flex-row md:items-start">
           <!-- Image Section -->
           <div class="w-50 w-80 flex justify-center mb-6 md:mb-0">
@@ -100,46 +94,7 @@
             <!-- Social Media Icons -->
             <ul
               class="mt-6 flex justify-center space-x-6 text-xl text-gray-600"
-            >
-              <li class="hover:text-[#1877F2] transition-colors duration-300">
-                <a
-                  href="https://www.facebook.com/jimy.mugabo.3"
-                  aria-label="Facebook"
-                  target="_blank"
-                >
-                  <i class="fa-brands fa-facebook-f"></i>
-                </a>
-              </li>
-              <li class="hover:text-[#E4405F] transition-colors duration-300">
-                <a
-                  href="https://www.instagram.com/jimymugabo/"
-                  aria-label="Instagram"
-                  target="_blank"
-                >
-                  <i class="fa-brands fa-instagram"></i>
-                </a>
-              </li>
-
-              <li class="hover:text-[#1DA1F2] transition-colors duration-300">
-                <a
-                  href="https://x.com/1000HillsRugby"
-                  aria-label="Twitter"
-                  target="_blank"
-                >
-                  <i class="fa-brands fa-x-twitter"></i>
-                </a>
-              </li>
-
-              <li class="hover:text-[#0077B5] transition-colors duration-300">
-                <a
-                  href="https://www.linkedin.com/in/1000hillsrugby"
-                  aria-label="LinkedIn"
-                  target="_blank"
-                >
-                  <i class="fa-brands fa-linkedin-in"></i>
-                </a>
-              </li>
-            </ul>
+            ></ul>
           </div>
         </div>
 
@@ -156,29 +111,78 @@
     </section>
 
     <script>
-      // Example data (could be from an API or server)
       const teamData = {
         Jimmy: {
           name: "Jimmy MUGABO",
           role: "Head Coach",
           image: "./images/jimmy.jpeg",
           description:
-            "Jimy Mugabo is a dynamic leader in sports and social development, specializing in leveraging rugby as a tool for education, employability, and personal growth among Rwandan youth. As the Director of Rugby at 1000 Hills Rugby, he fosters inclusive programs focused on skills development, job readiness, and health and well-being. Jimy is also the visionary behind RQT, where he connects Rwandan talent to job opportunities abroad and develops training programs that enhance youth employability. Driven by a commitment to empowerment and community growth, he has expanded his expertise into other sectors, continually creating pathways for sustainable development in Rwanda and beyond.",
+            "   Jimy Mugabo is a dynamic leader in sports and social development, specializing in leveraging rugby as a tool for education, employability, and personal growth among Rwandan youth. As the Director of Rugby at 1000 Hills Rugby, he fosters inclusive programs focused on skills development, job readiness, and health and well-being. Jimy is also the visionary behind RQT, where he connects Rwandan talent to job opportunities abroad and develops training programs that enhance youth employability. Driven by a commitment to empowerment and community growth, he has expanded his expertise into other sectors, continually creating pathways for sustainable development in Rwanda and beyond.   ",
+          socialMedia: [
+            {
+              platform: "Facebook",
+              url: "https://www.facebook.com/jimy.mugabo.3",
+              icon: "fa-facebook-f",
+              color: "#1877F2",
+            },
+            {
+              platform: "Instagram",
+              url: "https://www.instagram.com/jimymugabo/",
+              icon: "fa-instagram",
+              color: "#E4405F",
+            },
+            {
+              platform: "Twitter",
+              url: "https://x.com/1000HillsRugby",
+              icon: "fa-x-twitter",
+              color: "#1DA1F2",
+            },
+            {
+              platform: "LinkedIn",
+              url: "https://www.linkedin.com/in/jimy-mugabo-674a2389/",
+              icon: "fa-linkedin-in",
+              color: "#0077B5",
+            },
+          ],
         },
         Jd: {
-          name: " Jean D'Amour Nsengimana",
+          name: "Jean D'Amour Nsengimana",
           role: "General Manager",
           image: "./images/jd.jpeg",
           description:
             "Jean D'Amour Nsengimana, also known as JD, is one of three founders of 1000 Hills Rugby, serving as its elected general manager and head coach for the development teams. A qualified Level 2 Rugby XV coach, he is deeply involved in nurturing young talent while promoting the club's core values: discipline, sportsmanship, mutuality, integrity, and mental and physical strength. Together with the club’s management team, he has helped 1000 Hills Rugby become a prominent force in Rwandan rugby, with senior, youth, and mini teams competing in the Rwanda Rugby Federation's tournaments. In addition to his rugby commitments, JD is the Production Manager at PowerX Ltd, Africa's first Tantalum and Niobium refinery. His dedication to both rugby and refinery reflects his dynamic leadership and commitment to driving positive change in sports and Rwanda’s industrial landscape.",
+          socialMedia: [
+            {
+              platform: "Facebook",
+              url: "https://",
+              icon: "fa-facebook-f",
+              color: "#1877F2",
+            },
+            {
+              platform: "Instagram",
+              url: "https://www.instagram.com/jd131000/",
+              icon: "fa-instagram",
+              color: "#E4405F",
+            },
+            {
+              platform: "Twitter",
+              url: "https://x.com/NJdamour",
+              icon: "fa-x-twitter",
+              color: "#1DA1F2",
+            },
+            {
+              platform: "LinkedIn",
+              url: "https://www.linkedin.com/in/jeandamour",
+              icon: "fa-linkedin-in",
+              color: "#0077B5",
+            },
+          ],
         },
       };
 
-      // Extract 'name' query parameter
       const urlParams = new URLSearchParams(window.location.search);
       const memberKey = urlParams.get("name");
 
-      // Populate details
       if (teamData[memberKey]) {
         const member = teamData[memberKey];
         document.getElementById("member-name").innerText = member.name;
@@ -186,6 +190,21 @@
         document.getElementById("member-image").src = member.image;
         document.getElementById("member-description").innerText =
           member.description;
+
+        const socialMediaList = document.querySelector("ul");
+        socialMediaList.innerHTML = "";
+        member.socialMedia.forEach((social) => {
+          const li = document.createElement("li");
+          li.classList.add(
+            "hover:text-" + social.color.slice(1),
+            "transition-colors",
+            "duration-300"
+          );
+          li.innerHTML = `<a href="${social.url}" aria-label="${social.platform}" target="_blank">
+            <i class="fa-brands ${social.icon}" style="color:${social.color}"></i>
+          </a>`;
+          socialMediaList.appendChild(li);
+        });
       } else {
         document.body.innerHTML =
           "<p class='text-center text-red-500'>Member not found.</p>";
