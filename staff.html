@@ -17,9 +17,17 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
     />
     <style>
+      /* Transparent black background for the body */
+      body {
+        background-color: rgba(0, 0, 0, 0.85); /* Black with 85% opacity */
+        color: #ffffff; /* Ensures text remains readable */
+        font-family: Arial, sans-serif;
+      }
+
       .staff {
         margin-top: 30px;
       }
+
       .card-content {
         padding: 2rem; /* Increase padding for more height */
         min-height: 150px; /* Adjust the minimum height */
@@ -31,11 +39,11 @@
         border-top-left-radius: none;
         border-top-right-radius: none;
       }
+
       .custom-size {
         width: 100%; /* Makes the image take the full width of its container */
         height: 300px; /* Set a fixed height or adjust based on your needs */
         object-fit: cover; /* Ensures the image fills the container while maintaining aspect ratio */
-
         border-bottom-left-radius: none;
         border-bottom-right-radius: none;
       }
@@ -478,6 +486,25 @@
               Jean D'Amour NSENGIMANA
             </h3>
             <p class="text-gray-600">General Manager</p>
+          </div>
+        </a>
+
+        <!-- Team Member 3 -->
+        <a
+          href="staffdetails.html?name=berno"
+          class="group block rounded-md shadow-md overflow-hidden text-center"
+          aria-label="View details for JD"
+        >
+          <img
+            src="./images/berno.png"
+            alt="Jean"
+            class="custom-size mx-auto transition-transform duration-300 group-hover:scale-105"
+          />
+          <div class="card-content">
+            <h3 class="text-xl font-semibold text-gray-800">
+              Bernard RWAGASORE
+            </h3>
+            <p class="text-gray-600">Marketing</p>
           </div>
         </a>
 
