@@ -304,4 +304,121 @@ body {
   background-color: #248e48; /* light gray */
   color: white; /* green */
 }
+@media (max-width: 500px) {
+  /* Mobile Menu Styling */
+  #menu {
+    position: absolute;
+    top: 100%; /* Position the menu below the toggle button */
+    right: 0;
+    background-color: white;
+    color: #4a4a4a; /* Gray text */
+    width: 12rem; /* Menu width */
+    border-radius: 0.375rem; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Shadow for a more elevated look */
+    display: none; /* Initially hidden */
+    transition: max-height 0.3s ease-in-out; /* Smooth transition for visibility */
+    max-height: 80vh; /* Set max-height for scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+  }
 
+  /* Make menu visible when checkbox is checked */
+  #menu-toggle:checked + label + #menu {
+    display: block; /* Show menu when checkbox is checked */
+  }
+
+  /* Mobile Menu Items */
+  #menu ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  #menu li {
+    margin: 0;
+  }
+
+  #menu a {
+    width: 60%;
+    display: block;
+    padding: 0.5rem 1rem;
+    color: #4a4a4a; /* Default text color */
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  #menu a:hover {
+    color: #38a169; /* Hover color for links */
+    background-color: #f7fafc; /* Light background on hover */
+  }
+
+  /* Dropdown styling */
+  .dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    background: none;
+    border: none;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .dropdown-toggle:hover {
+    color: #38a169; /* Change color on hover */
+  }
+
+  .dropdown {
+    display: none; /* Hidden by default */
+    margin-top: 0.25rem;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 0.375rem;
+    padding: 0;
+  }
+
+  .dropdown li {
+    padding: 0.5rem 1rem;
+  }
+
+  #menu .dropdown-toggle:focus + .dropdown,
+  #menu .dropdown-toggle:hover + .dropdown,
+  #menu .dropdown-toggle.active + .dropdown {
+    display: block; /* Show dropdown when toggled */
+  }
+
+  /* Hide dropdown when no item is selected */
+  #menu .dropdown {
+    display: none;
+  }
+
+  /* Menu icon (hamburger) styling */
+  #menu-open-icon {
+    display: inline-block;
+  }
+
+  #menu-close-icon {
+    display: none;
+  }
+
+  #menu-toggle:checked + label #menu-open-icon {
+    display: none;
+  }
+
+  #menu-toggle:checked + label #menu-close-icon {
+    display: inline-block;
+  }
+
+  #menu ul {
+    padding-bottom: 20px; /* Optional: Add space at the bottom of the menu */
+  }
+
+  /* Style for the mobile menu toggle checkbox (hidden) */
+  #menu-toggle {
+    display: none;
+  }
+
+  
+}
