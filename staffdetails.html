@@ -24,46 +24,35 @@
         #member-role {
           font-size: 1rem;
         }
-
-        .flex {
-          flex-direction: column;
-        }
-
-        .text-center {
-          text-align: center;
-        }
-
-        .px-6 {
-          padding-left: 1rem;
-          padding-right: 1rem;
-        }
-
-        ul {
-          flex-direction: row;
-          justify-content: center;
-        }
-
-        ul li {
-          margin: 0 10px;
-        }
       }
 
-      @media (min-width: 501px) {
-        #member-image {
-          height: 480px;
-        }
+      /* Social Media Icons */
+      ul {
+        display: flex; /* Use flexbox for layout */
+        flex-direction: row; /* Ensure icons are in a horizontal row */
+        justify-content: center; /* Center align the icons */
+        list-style: none; /* Remove default list styling */
+        padding: 0; /* Remove extra padding */
+        margin: 0; /* Remove extra margin */
+      }
 
-        .flex {
-          flex-direction: row;
-        }
+      ul li {
+        margin: 0 10px; /* Add horizontal spacing between icons */
+      }
 
-        .text-center {
-          text-align: left;
-        }
+      ul li a {
+        display: inline-block; /* Ensure proper display of links */
+        padding: 0.5rem; /* Add padding for touch interaction */
+        border-radius: 50%; /* Make background circular */
+        transition: background-color 0.3s ease-in-out;
+      }
 
-        ul {
-          justify-content: flex-start;
-        }
+      ul li i {
+        font-size: 1.5rem; /* Set icon size */
+      }
+
+      ul li a:hover {
+        background-color: rgba(0, 0, 0, 0.1); /* Add hover effect */
       }
     </style>
   </head>
@@ -92,9 +81,7 @@
             <p id="member-description" class="mt-4 text-gray-700"></p>
 
             <!-- Social Media Icons -->
-            <ul
-              class="mt-6 flex justify-center space-x-6 text-xl text-gray-600"
-            ></ul>
+            <ul id="social-media-list" class="mt-6"></ul>
           </div>
         </div>
 
@@ -145,72 +132,6 @@
             },
           ],
         },
-        Jd: {
-          name: "Jean D'Amour Nsengimana",
-          role: "General Manager",
-          image: "./images/jd.jpeg",
-          description:
-            "Jean D'Amour Nsengimana, also known as JD, is one of three founders of 1000 Hills Rugby. He serves as its elected general manager and head coach for the development teams. A qualified Level 2 Rugby XV coach, he is deeply involved in nurturing young talent while promoting the club's core values.",
-          socialMedia: [
-            {
-              platform: "Facebook",
-              url: "https://",
-              icon: "fa-facebook-f",
-              color: "#1877F2",
-            },
-            {
-              platform: "Instagram",
-              url: "https://www.instagram.com/jd131000/",
-              icon: "fa-instagram",
-              color: "#E4405F",
-            },
-            {
-              platform: "Twitter",
-              url: "https://x.com/NJdamour",
-              icon: "fa-x-twitter",
-              color: "#1DA1F2",
-            },
-            {
-              platform: "LinkedIn",
-              url: "https://www.linkedin.com/in/jeandamour",
-              icon: "fa-linkedin-in",
-              color: "#0077B5",
-            },
-          ],
-        },
-        berno: {
-          name: "  Bernard RWAGASORE",
-          role: "Marketing",
-          image: "./images/berno.png",
-          description:
-            "Rwagasore Bernard, also known by his nickname Hard Guy, is a dedicated player for 1000 Hills Rugby. He has transitioned to prop, where his physicality and strength are key assets to the team. Bernard discovered his passion for rugby during his university years in Uganda.",
-          socialMedia: [
-            {
-              platform: "Facebook",
-              url: "https://www.facebook.com/rwagasoreb",
-              icon: "fa-facebook-f",
-              color: "#1877F2",
-            },
-            {
-              platform: "Instagram",
-              url: "https://www.instagram.com/rwagaben/",
-              icon: "fa-instagram",
-              color: "#E4405F",
-            },
-            {
-              platform: "Twitter",
-              url: "https://x.com/bernardberno",
-              icon: "fa-x-twitter",
-              color: "#1DA1F2",
-            },
-            {
-              platform: "LinkedIn",
-              url: "https://www.linkedin.com/in/bernard",
-              icon: "fa-linkedin-in",
-              color: "#0077B5",
-            },
-          ],
-        },
       };
 
       const urlParams = new URLSearchParams(window.location.search);
@@ -224,8 +145,7 @@
         document.getElementById("member-description").innerText =
           member.description;
 
-        const socialMediaList = document.querySelector("ul");
-        socialMediaList.innerHTML = "";
+        const socialMediaList = document.getElementById("social-media-list");
         member.socialMedia.forEach((social) => {
           const li = document.createElement("li");
           li.innerHTML = `<a href="${social.url}" aria-label="${social.platform}" target="_blank">
