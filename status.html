@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>1000 hills Rugby | Player Ranking</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f9;
+      }
+
+      /* Header */
+      header {
+        background-color: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        border-bottom: 2px solid #ddd;
+      }
+
+      header img {
+        height: 40px;
+      }
+
+      header nav a {
+        margin: 0 15px;
+        text-decoration: none;
+        color: #000;
+        font-weight: bold;
+      }
+
+      header nav a:hover,
+      header nav a.active {
+        color: #0a7420;
+        border-bottom: 2px solid #0a7420;
+        padding-bottom: 2px;
+      }
+
+      .filters {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+      }
+
+      .filters select {
+        margin: 0 10px;
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+      }
+
+      .main-container {
+        display: flex;
+        justify-content: space-around;
+        margin: 20px;
+      }
+
+      .player-ranking,
+      .news {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 45%;
+      }
+
+      .player-ranking h2,
+      .news h3 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .ranking-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .ranking-table th,
+      .ranking-table td {
+        text-align: left;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .ranking-table th {
+        background-color: #f4f4f4;
+      }
+
+      .player img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 20px;
+      }
+
+      .bar-container {
+        display: flex;
+        align-items: center;
+      }
+
+      .bar {
+        height: 10px;
+        background-color: #4caf50;
+        border-radius: 5px;
+        margin-right: 10px;
+      }
+
+      .percentage {
+        font-size: 12px;
+      }
+
+      .news .news-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .news .news-item img {
+        width: 60px;
+        height: 60px;
+        border-radius: 4px;
+        margin-right: 10px;
+      }
+
+      .news .news-item h4 {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="./index"> <img src="./logos_/logoT.jpg" alt="Logo" /></a>
+      <nav>
+        <a href="./fixtures.html">Fixtures</a>
+        <a href="./tables.html">Tables</a>
+        <a href="./results.html" class="active">Results</a>
+        <a href="./status.html">Stats</a>
+      </nav>
+    </header>
+
+    <div class="filters">
+      <select id="year-filter">
+        <option value="2024-2025">2024-2025</option>
+        <option value="2023-2024">2023-2024</option>
+        <option value="2022-2024">2022-2023</option>
+      </select>
+      <select id="competition-filter">
+        <option value="15's League">15's League</option>
+        <option value="Championship">Championship</option>
+      </select>
+      <select id="ranking-filter">
+        <option value="Player Ranking">Player Ranking</option>
+        <option value="Tries">Tries</option>
+      </select>
+    </div>
+
+    <div class="main-container">
+      <div class="player-ranking">
+        <h2 id="ranking-title">Player Ranking &mdash; Rugby Team</h2>
+        <table class="ranking-table" id="ranking-table">
+          <tr>
+            <th>Player</th>
+            <th id="ranking-header">Performance</th>
+          </tr>
+        </table>
+      </div>
+
+      <div class="news">
+        <h3>Latest News</h3>
+        <div id="news-container"></div>
+      </div>
+    </div>
+
+    <script src="./status.js"></script>
+  </body>
+</html>

@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Match Results</title>
     <style>
@@ -41,12 +42,13 @@
       }
 
       main {
-        padding: 20px;
+        padding: 10px;
       }
 
       .filters {
-        display: flex;
-        justify-content: space-between;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
         gap: 15px;
         padding: 15px;
         background-color: white;
@@ -64,7 +66,7 @@
       .results {
         background-color: white;
         margin: 10px;
-        padding: 20px;
+        padding: 10px;
         border-radius: 8px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       }
@@ -153,15 +155,42 @@
         font-size: 14px;
         color: #555;
       }
+
+      @media (max-width: 500px) {
+        .teams {
+          color: red;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 10px 0;
+        }
+
+        .team {
+          display: flex;
+          align-items: center;
+        }
+
+        .team img {
+          width: 40px;
+          height: 40px;
+          margin-right: 10px;
+        }
+
+        .score {
+          font-size: 14px;
+          font-weight: bold;
+          color: #333;
+        }
+      }
     </style>
   </head>
   <body>
     <header>
       <a href="./index"> <img src="./logos_/logoT.jpg" alt="Logo" /></a>
       <nav>
-        <a href="./fixtures.html" class="active">Fixtures</a>
+        <a href="./fixtures.html">Fixtures</a>
         <a href="./tables.html">Tables</a>
-        <a href="./results.html">Results</a>
+        <a href="./results.html" class="active">Results</a>
         <a href="./status.html">Stats</a>
       </nav>
     </header>
@@ -173,7 +202,7 @@
           <option value="WOMEN">WOMEN</option>
         </select>
         <select id="competitionFilter">
-          <option value="ALL">ALL</option>
+          <option value="ALL">ALL Competitions</option>
           <option value="  league">15's League Rugby</option>
         </select>
         <select id="homeAwayFilter">

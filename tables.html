@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rugby League Table</title>
+    <style>
+      /* Global Styles */
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+      }
+
+      /* Header */
+      header {
+        background-color: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        border-bottom: 2px solid #ddd;
+      }
+
+      header img {
+        height: 40px;
+      }
+
+      header nav a {
+        margin: 0 15px;
+        text-decoration: none;
+        color: #000;
+        font-weight: bold;
+      }
+
+      header nav a:hover,
+      header nav a.active {
+        color: #007bff;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 2px;
+      }
+
+      /* Filters */
+      .filters {
+        background-color: #fff;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 20px;
+        border-bottom: 2px solid #ddd;
+      }
+
+      .filters select {
+        padding: 5px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      /* League Table */
+      .league-table-container {
+        max-width: 1200px;
+        margin: 20px auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .league-table-container h2 {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      table th,
+      table td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ddd;
+      }
+
+      table th {
+        background-color: #2c2c2c;
+        color: #fff;
+      }
+
+      table tbody tr:nth-child(odd) {
+        background-color: #f9f9f9;
+      }
+
+      table tbody tr:nth-child(even) {
+        background-color: #fff;
+      }
+
+      .team-name {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-align: left;
+      }
+
+      .team-logo {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .icon-up {
+        color: green;
+      }
+
+      .icon-down {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <a href="./index"> <img src="./logos_/logoT.jpg" alt="Logo" /></a>
+      <nav>
+        <a href="./fixtures.html">Fixtures</a>
+        <a href="./tables.html" class="active">Tables</a>
+
+        <a href="./results.html">Results</a>
+        <a href="./status.html">Stats</a>
+      </nav>
+    </header>
+
+    <!-- Filters -->
+    <div class="filters">
+      <select id="team-filter">
+        <option value="men" selected>Men</option>
+        <option value="women">Women</option>
+      </select>
+      <select id="competitions-filter">
+        <option value="15s-league" selected>15s League</option>
+        <option value="7s-festival">7s Festival</option>
+        <option value="gmt-7s">GMT 7s</option>
+        <option value="peace-cup">Peace Cup</option>
+        <option value="regional-league">Regional League</option>
+      </select>
+      <select id="season-filter"></select>
+    </div>
+
+    <!-- League Table -->
+    <div class="league-table-container">
+      <h2>Rugby League Table</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Pos</th>
+            <th>Team</th>
+            <th>Matches</th>
+            <th>Wins</th>
+            <th>Draws</th>
+            <th>Losses</th>
+            <th>Points For</th>
+            <th>Points Against</th>
+            <th>+/-</th>
+            <th>Pts</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <script src="./tables.js"></script>
+  </body>
+</html>
