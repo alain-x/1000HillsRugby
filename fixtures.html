@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Match Results</title>
     <style>
@@ -41,12 +42,13 @@
       }
 
       main {
-        padding: 20px;
+        padding: 10px;
       }
 
       .filters {
-        display: flex;
-        justify-content: space-between;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
         gap: 15px;
         padding: 15px;
         background-color: white;
@@ -64,7 +66,7 @@
       .results {
         background-color: white;
         margin: 10px;
-        padding: 20px;
+        padding: 10px;
         border-radius: 8px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       }
@@ -153,16 +155,136 @@
         font-size: 14px;
         color: #555;
       }
+
+      @media (max-width: 500px) {
+        .teams {
+          color: red;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 10px 0;
+        }
+
+        .team {
+          display: flex;
+          align-items: center;
+        }
+
+        .team img {
+          width: 40px;
+          height: 40px;
+          margin-right: 10px;
+        }
+
+        .score {
+          font-size: 14px;
+          font-weight: bold;
+          color: #333;
+        }
+      }
     </style>
   </head>
   <body>
-    <header>
-      <a href="./index"> <img src="./logos_/logoT.jpg" alt="Logo" /></a>
-      <nav>
-        <a href="./fixtures.html" class="active">Fixtures</a>
-        <a href="./tables.html">Tables</a>
-        <a href="./results.html">Results</a>
-        <a href="./status.html">Stats</a>
+    <header
+      class="bg-white border-b-2 border-gray-200 flex items-center justify-between p-4 md:p-6"
+    >
+      <!-- Logo -->
+      <a href="./index" class="flex items-center">
+        <img src="./logos_/logoT.jpg" alt="Logo" class="h-10" />
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex space-x-6">
+        <a
+          href="./fixtures.html"
+          class="text-gray-800 hover:text-green-600 font-bold"
+          >Fixtures</a
+        >
+        <a
+          href="./tables.html"
+          class="text-gray-800 hover:text-green-600 font-bold active:border-b-2 border-green-600"
+        >
+          Tables
+        </a>
+        <a
+          href="./results.html"
+          class="text-gray-800 hover:text-green-600 font-bold"
+          >Results</a
+        >
+        <a
+          href="./status.html"
+          class="text-gray-800 hover:text-green-600 font-bold"
+          >Stats</a
+        >
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <button
+        id="menu-toggle"
+        class="block md:hidden text-gray-800 focus:outline-none"
+        aria-label="Toggle Menu"
+      >
+        <!-- Hamburger Icon -->
+        <svg
+          id="hamburger-icon"
+          class="h-6 w-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          ></path>
+        </svg>
+
+        <!-- Close Icon (hidden initially) -->
+        <svg
+          id="close-icon"
+          class="hidden h-6 w-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
+      </button>
+
+      <!-- Mobile Menu -->
+      <nav
+        id="mobile-menu"
+        class="hidden flex flex-col space-y-4 mt-4 md:hidden"
+      >
+        <a
+          href="./fixtures.html"
+          class="text-gray-800 hover:text-green-600 font-bold"
+          >Fixtures</a
+        >
+        <a
+          href="./tables.html"
+          class="text-gray-800 hover:text-green-600 font-bold active:border-b-2 border-green-600"
+        >
+          Tables
+        </a>
+        <a
+          href="./results.html"
+          class="text-gray-800 hover:text-green-600 font-bold"
+          >Results</a
+        >
+        <a
+          href="./status.html"
+          class="text-gray-800 hover:text-green-600 font-bold"
+          >Stats</a
+        >
       </nav>
     </header>
 
@@ -173,8 +295,8 @@
           <option value="WOMEN">WOMEN</option>
         </select>
         <select id="competitionFilter">
-          <option value="ALL">ALL</option>
-          <option value="  league">15's League Rugby</option>
+          <option value="ALL">ALL Competitions</option>
+          <option value="league">15's League Rugby</option>
         </select>
         <select id="homeAwayFilter">
           <option value="ALL">ALL</option>
@@ -189,14 +311,6 @@
       <section class="results" id="matchResults">
         <h2>December 2024</h2>
       </section>
-
-      <aside class="news">
-        <h3>Latest News</h3>
-        <div class="news-item">
-          <img src="https://via.placeholder.com/50" alt="Preview" />
-          <p>Preview: Crusaders v Highlanders</p>
-        </div>
-      </aside>
     </main>
 
     <script src="./fixtures.js"></script>

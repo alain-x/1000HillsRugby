@@ -196,3 +196,18 @@ document.addEventListener("DOMContentLoaded", () => {
   populateSeasonOptions();
   applyFilters(); // Default filter is applied for Men, 15s League, 2025
 });
+
+// Toggle Dropdown
+const menuToggle = document.getElementById("menu-toggle");
+const hamburgerIcon = document.getElementById("hamburger-icon");
+const closeIcon = document.getElementById("close-icon");
+const mobileMenu = document.getElementById("mobile-menu");
+
+menuToggle.addEventListener("click", () => {
+  // Toggle mobile menu visibility
+  mobileMenu.classList.toggle("hidden");
+
+  // Switch between hamburger and close icons
+  hamburgerIcon.classList.toggle("hidden");
+  closeIcon.classList.toggle("hidden");
+});

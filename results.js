@@ -1,34 +1,34 @@
 const matches = [
   {
-    date: "WED DEC 4 - 20:15",
-    stadium: "Red Cross Kacyiru",
+    date: "WED SEP 07 - 02:15",
+    stadium: "Don Bosco Gatenga Ground",
     homeTeam: { name: "1HR", logo: "./logos_/logoT.jpg" },
     awayTeam: {
       name: "A. Kagugu",
       logo: "./logos_/alpa_logo.jpeg",
     },
-    score: "VS",
-    goalScorers: ["Paea (18)", "Reuben (61)"],
+    score: "41 - 00",
+    goalScorers: [],
     gender: "MEN",
     competition: "league ",
     location: "Home",
     season: "2024-2025",
   },
   {
-    date: "THU DEC 5 - 22:00",
-    stadium: "FMG STADIUM",
+    date: "THU SEP 23 - 22:00",
+    stadium: "Don Bosco Gatenga Ground",
     homeTeam: {
-      name: "Chiefs",
-      logo: "https://via.placeholder.com/40",
+      name: "1HR",
+      logo: "./logos_/logoT.jpg",
     },
     awayTeam: {
-      name: "Hurricanes",
-      logo: "https://via.placeholder.com/40",
+      name: "Lions De Fer",
+      logo: "./logos_/lions.jpg",
     },
-    score: "28 - 28",
-    goalScorers: ["Webb (45)", "Barrett (67)"],
+    score: "24 - 21",
+    goalScorers: [],
     gender: "MEN",
-    competition: "Super Rugby",
+    competition: "league",
     location: "Away",
     season: "2024-2025",
   },
@@ -108,3 +108,18 @@ document
 
 // Initial display of all matches
 displayMatches(matches);
+
+// Mobile menu functionality
+const menuToggle = document.getElementById("menu-toggle");
+const hamburgerIcon = document.getElementById("hamburger-icon");
+const closeIcon = document.getElementById("close-icon");
+const mobileMenu = document.getElementById("mobile-menu");
+
+menuToggle.addEventListener("click", () => {
+  // Toggle mobile menu visibility
+  mobileMenu.classList.toggle("hidden");
+
+  // Switch between hamburger and close icons
+  hamburgerIcon.classList.toggle("hidden");
+  closeIcon.classList.toggle("hidden");
+});

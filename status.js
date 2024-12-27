@@ -4,25 +4,25 @@ const players = [
     img: "player1.png",
     performance: 80,
     triesScored: 12,
-    competition: "15's League",
+    competition: "League",
     year: "2024-2025",
     ranking: "Player Ranking",
   },
   {
     name: "  Shema Prince",
     img: "player2.png",
-    performance: 70,
+    performance: 20,
     triesScored: 25,
-    competition: "Championship",
-    year: "2023-2024",
-    ranking: "Tries",
+    competition: "League",
+    year: "2024-2025",
+    ranking: "Player Ranking",
   },
   {
-    name: "Player 3",
+    name: "RUKUNDO Jackson",
     img: "player3.png",
     performance: 90,
     triesScored: 10,
-    competition: "Premier League",
+    competition: "League",
     year: "2024-2025",
     ranking: "Player Ranking",
   },
@@ -41,7 +41,7 @@ const news = [
   {
     title: "Preview: Upcoming Match",
     img: "match.png",
-    competition: "Premier League",
+    competition: "League",
     year: "2024-2025",
   },
   {
@@ -53,7 +53,7 @@ const news = [
   {
     title: "Team Wins Championship",
     img: "trophy.png",
-    competition: "Premier League",
+    competition: "League",
     year: "2024-2025",
   },
 ];
@@ -70,10 +70,10 @@ function updateRankingTable() {
   table.innerHTML = `<tr><th>Player</th><th id="ranking-header">Performance</th></tr>`;
 
   if (rankingType === "Tries") {
-    rankingTitle.innerText = "Tries Ranking &mdash; Rugby Team";
+    rankingTitle.innerText = "Tries Ranking | Rugby Team";
     rankingHeader.innerText = "Tries Scored";
   } else {
-    rankingTitle.innerText = "Player Ranking &mdash; Rugby Team";
+    rankingTitle.innerText = "Player Ranking | Rugby Team";
     rankingHeader.innerText = "Performance";
   }
 
@@ -155,3 +155,18 @@ document.getElementById("ranking-filter").addEventListener("change", () => {
 
 updateRankingTable();
 updateNews();
+
+// Toggle mobile menu visibility on hamburger click
+const menuToggle = document.getElementById("menu-toggle");
+const hamburgerIcon = document.getElementById("hamburger-icon");
+const closeIcon = document.getElementById("close-icon");
+const mobileMenu = document.getElementById("mobile-menu");
+
+menuToggle.addEventListener("click", () => {
+  // Toggle mobile menu visibility
+  mobileMenu.classList.toggle("hidden");
+
+  // Switch between hamburger and close icons
+  hamburgerIcon.classList.toggle("hidden");
+  closeIcon.classList.toggle("hidden");
+});

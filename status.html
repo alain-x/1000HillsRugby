@@ -2,8 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>1000 hills Rugby | Player Ranking</title>
+    <title>1000 Hills Rugby | Player Ranking</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -42,21 +43,25 @@
 
       .filters {
         display: flex;
+        flex-wrap: wrap;
         justify-content: center;
         margin: 20px 0;
       }
 
       .filters select {
-        margin: 0 10px;
+        margin: 10px;
         padding: 8px;
         border-radius: 4px;
         border: 1px solid #ccc;
+        min-width: 150px;
       }
 
       .main-container {
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
+        gap: 20px;
         margin: 20px;
+        flex-wrap: wrap;
       }
 
       .player-ranking,
@@ -65,7 +70,8 @@
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        width: 45%;
+        flex: 1;
+        min-width: 250px;
       }
 
       .player-ranking h2,
@@ -129,16 +135,124 @@
       .news .news-item h4 {
         margin: 0;
       }
+
+      /* Mobile view adjustments */
+      @media (max-width: 768px) {
+        .filters select {
+          margin: 10px 0;
+        }
+
+        .main-container {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .player-ranking,
+        .news {
+          width: 100%;
+          min-width: 100%;
+          margin-bottom: 20px;
+        }
+      }
     </style>
   </head>
   <body>
-    <header>
-      <a href="./index"> <img src="./logos_/logoT.jpg" alt="Logo" /></a>
-      <nav>
-        <a href="./fixtures.html">Fixtures</a>
-        <a href="./tables.html">Tables</a>
-        <a href="./results.html">Results</a>
-        <a href="./status.html" class="active">Stats</a>
+    <header
+      class="bg-white border-b-2 border-gray-200 flex items-center justify-between p-4 md:p-6"
+    >
+      <!-- Logo -->
+      <a href="./index" class="flex items-center">
+        <img src="./logos_/logoT.jpg" alt="Logo" class="h-10" />
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex space-x-6">
+        <a
+          href="./fixtures.html"
+          class="text-gray-800 hover:text-green-600 font-bold"
+          >Fixtures</a
+        >
+        <a
+          href="./tables.html"
+          class="text-gray-800 hover:text-green-600 font-bold active:border-b-2 border-green-600"
+          >Tables</a
+        >
+        <a
+          href="./results.html"
+          class="text-gray-800 hover:text-green-600 font-bold"
+          >Results</a
+        >
+        <a
+          href="./status.html"
+          class="text-gray-800 hover:text-green-600 font-bold"
+          >Stats</a
+        >
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <button
+        id="menu-toggle"
+        class="block md:hidden text-gray-800 focus:outline-none"
+        aria-label="Toggle Menu"
+      >
+        <svg
+          id="hamburger-icon"
+          class="h-6 w-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          ></path>
+        </svg>
+
+        <svg
+          id="close-icon"
+          class="hidden h-6 w-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
+      </button>
+
+      <!-- Mobile Menu -->
+      <nav
+        id="mobile-menu"
+        class="hidden flex flex-col space-y-4 mt-4 md:hidden"
+      >
+        <a
+          href="./fixtures.html"
+          class="text-gray-800 hover:text-green-600 font-bold"
+          >Fixtures</a
+        >
+        <a
+          href="./tables.html"
+          class="text-gray-800 hover:text-green-600 font-bold active:border-b-2 border-green-600"
+          >Tables</a
+        >
+        <a
+          href="./results.html"
+          class="text-gray-800 hover:text-green-600 font-bold"
+          >Results</a
+        >
+        <a
+          href="./status.html"
+          class="text-gray-800 hover:text-green-600 font-bold"
+          >Stats</a
+        >
       </nav>
     </header>
 
@@ -149,7 +263,7 @@
         <option value="2022-2024">2022-2023</option>
       </select>
       <select id="competition-filter">
-        <option value="15's League">15's League</option>
+        <option value="League">15's League</option>
         <option value="Championship">Championship</option>
       </select>
       <select id="ranking-filter">
@@ -160,7 +274,7 @@
 
     <div class="main-container">
       <div class="player-ranking">
-        <h2 id="ranking-title">Player Ranking &mdash; Rugby Team</h2>
+        <h2 id="ranking-title">Player Ranking | Rugby Team</h2>
         <table class="ranking-table" id="ranking-table">
           <tr>
             <th>Player</th>
