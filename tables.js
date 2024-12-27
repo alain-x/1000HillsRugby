@@ -29,7 +29,7 @@ const leagueData = [
     pointsFor: 28,
     pointsAgainst: 11,
     pointDifference: "+17",
-    points: 45,
+    points: 43,
     teamType: "men",
     competition: "7s-festival",
     season: "2024",
