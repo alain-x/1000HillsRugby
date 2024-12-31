@@ -186,8 +186,17 @@ body {
   .services-home-page > .text-container p {
     font-size: 16px;
   }
+  #menu {
+    max-height: 80vh; /* Adjust as needed */
+    overflow-y: auto;
+  }
 }
 @media screen and (max-width: 450px) {
+  #menu {
+    max-height: 80vh; /* Adjust as needed */
+    overflow-y: auto;
+  }
+
   .list-2 {
     display: none;
   }
@@ -260,6 +269,10 @@ body {
     width: 60%;
     margin: auto;
   }
+  #menu {
+    max-height: 80vh; /* Adjust as needed */
+    overflow-y: auto;
+  }
 }
 @media (min-width: 951px) and (max-width: 1000px) {
   .fixed-image h1 {
@@ -273,6 +286,10 @@ body {
   }
   .first-half {
     height: 0vh;
+  }
+  #menu {
+    max-height: 80vh; /* Adjust as needed */
+    overflow-y: auto;
   }
 }
 
