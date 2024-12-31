@@ -79,7 +79,28 @@
         margin: 0;
       }
 
-      @media (max-width: 768px) {
+      @media (max-width: 300px) {
+        .profile-container {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .player-details {
+          text-align: left;
+        }
+
+        .player-details div {
+          justify-content: space-around;
+        }
+
+        .player-image img {
+          object-fit: cover;
+          border-radius: 10px;
+          width: 100%;
+          height: 400px;
+        }
+      }
+      @media (max-width: 900px) {
         .profile-container {
           flex-direction: column;
           text-align: center;
