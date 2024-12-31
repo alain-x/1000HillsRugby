@@ -1,7 +1,3 @@
-User-agent: *
-Disallow: /search
-Disallow: /category/
-Disallow: /tag/
+User-agent: * 
 Allow: /
-Sitemap: https://1000hillsrugby.rw/sitemap.xml
-Sitemap: https://1000hillsrugby.rw/sitemap-pages.xml
+Sitemap: https://1000hillsrugby.rw/sitemap.xml 
