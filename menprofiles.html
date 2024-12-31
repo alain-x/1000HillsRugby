@@ -77,20 +77,46 @@
       .player-card h3 {
         margin: 10px 0;
       }
-
+      .role-filter {
+        display: flex;
+        align-items: center;
+      }
+      .role-filter label {
+        margin-right: 10px;
+      }
+      .role-filter select {
+        color: black;
+        padding: 5px 10px;
+      }
       @media screen and (max-width: 500px) {
         .squad-container {
           flex-direction: column;
         }
+
         .player-card {
           padding: 3px;
           width: 100%;
         }
+
         .player-card img {
           width: 100%;
           height: 250px;
           border-radius: 10px;
           object-fit: cover;
+        }
+
+        /* Responsive change for label and select positioning */
+        .role-filter {
+          flex-direction: column; /* Label goes above select */
+          align-items: flex-start; /* Align the label and select to the left */
+        }
+
+        .role-filter label {
+          margin-bottom: 5px; /* Space between label and select */
+        }
+
+        .role-filter select {
+          width: 100%; /* Full width for select box */
         }
       }
     </style>
@@ -493,10 +519,23 @@
     <div class="tabs">
       <div class="tab active" id="backsTab">Backs</div>
       <div class="tab" id="forwardsTab">Forwards</div>
+      <div class="role-filter">
+        <label for="roleFilter">Role</label>
+        <select id="roleFilter">
+          <option value="">All Roles</option>
+          <option value="Full Back">Full Back</option>
+          <option value="Fly Half">Fly Half</option>
+          <option value="Center">Center</option>
+          <option value="Left Winger">Left Winger</option>
+          <option value="Winger">Winger</option>
+          <option value="Lock">Lock</option>
+          <option value="Hooker">Hooker</option>
+          <option value="Prop">Prop</option>
+        </select>
+      </div>
     </div>
 
     <div class="squad-container" id="squadContainer"></div>
-
     <script>
       const squad = [
         {
@@ -547,12 +586,11 @@
           points: 120,
           tries: 25,
         },
-
         {
           name: "D Diego MUCUNGURA",
           img: "./plofilesM/MUCUNGURA D Diego.JPG",
           age: 23,
-          role: "Center ",
+          role: "Center",
           category: "Backs",
           weight: "78 kg",
           height: "180 cm",
@@ -561,10 +599,10 @@
           tries: 25,
         },
         {
-          name: "Johnson KAYIHURA ",
+          name: "Johnson KAYIHURA",
           img: "./plofilesM/KAYIHURA Johnson.JPG",
           age: 23,
-          role: "Left Winger ",
+          role: "Left Winger",
           category: "Backs",
           weight: "78 kg",
           height: "180 cm",
@@ -573,7 +611,7 @@
           tries: 25,
         },
         {
-          name: " J Paul HAJALI",
+          name: "J Paul HAJALI",
           img: "./plofilesM/HAJALI J Paul.JPG",
           age: 23,
           role: "Winger",
@@ -585,7 +623,7 @@
           tries: 25,
         },
         {
-          name: " Irene HAKIZIMANA ",
+          name: "Irene HAKIZIMANA",
           img: "./plofilesM/HAKIZIMANA Irene.JPG",
           age: 23,
           role: "Fly Half",
@@ -596,8 +634,6 @@
           points: 120,
           tries: 25,
         },
-
-        // Forwards tab squad starts here
         {
           name: "Fabien GATOYA",
           img: "./plofilesM/GATOYA Fabien.JPG",
@@ -623,7 +659,7 @@
           tries: 8,
         },
         {
-          name: " Elisa TWIZEYIMANA ",
+          name: "Elisa TWIZEYIMANA",
           img: "./plofilesM/TWIZEYIMANA Elisa.JPG",
           age: 23,
           role: "Prop",
@@ -635,7 +671,7 @@
           tries: 50,
         },
         {
-          name: " Diabekwelle Ngole Junior ",
+          name: "Diabekwelle Ngole Junior",
           img: "./plofilesM/Diabekwelle Ngole Junior.JPG",
           age: 23,
           role: "Lock",
@@ -647,7 +683,7 @@
           tries: 50,
         },
         {
-          name: "  Heritier HABIMANA ",
+          name: "Heritier HABIMANA",
           img: "./plofilesM/HABIMANA Heritier.JPG",
           age: 23,
           role: "Prop",
@@ -663,17 +699,26 @@
       const squadContainer = document.getElementById("squadContainer");
       const backsTab = document.getElementById("backsTab");
       const forwardsTab = document.getElementById("forwardsTab");
+      const roleFilter = document.getElementById("roleFilter");
 
-      function renderSquad(category) {
+      let currentCategory = "Backs";
+
+      // Render players for a given category and filter by role if specified
+      function renderSquad(category, role = "") {
         squadContainer.innerHTML = "";
-        const players = squad.filter((player) => player.category === category);
+        const players = squad.filter(
+          (player) =>
+            player.category === category &&
+            (role === "" || player.role.includes(role))
+        );
 
+        // Render players
         players.forEach((player) => {
           const playerCard = document.createElement("div");
           playerCard.className = "player-card";
           playerCard.innerHTML = `
             <img src="${player.img}" alt="${player.name}">
-            <h3>${player.name}</h3>
+            <h3>${player.name}</h3> 
           `;
           playerCard.addEventListener("click", () => {
             localStorage.setItem("selectedPlayer", JSON.stringify(player));
@@ -684,20 +729,48 @@
         });
       }
 
+      // Dynamically populate role filter options based on category
+      function populateRoleFilter(category) {
+        const roles = [
+          ...new Set(
+            squad
+              .filter((player) => player.category === category)
+              .map((player) => player.role)
+          ),
+        ];
+        roleFilter.innerHTML = `<option value="">All Roles</option>`; // Reset roles
+        roles.forEach((role) => {
+          const option = document.createElement("option");
+          option.value = role;
+          option.textContent = role;
+          roleFilter.appendChild(option);
+        });
+      }
+
+      // Set active tab and filter players based on category
       function setActiveTab(tabElement, category) {
         document
           .querySelectorAll(".tab")
           .forEach((tab) => tab.classList.remove("active"));
         tabElement.classList.add("active");
-        renderSquad(category);
+        currentCategory = category;
+        populateRoleFilter(category); // Populate roles for the selected category
+        renderSquad(category, roleFilter.value); // Filter squad based on category and selected role
       }
 
+      // Handle role filter change
+      roleFilter.addEventListener("change", () => {
+        renderSquad(currentCategory, roleFilter.value);
+      });
+
+      // Event listeners for category tabs
       backsTab.addEventListener("click", () => setActiveTab(backsTab, "Backs"));
       forwardsTab.addEventListener("click", () =>
         setActiveTab(forwardsTab, "Forwards")
       );
 
-      renderSquad("Backs");
+      // Initialize page with Backs category
+      setActiveTab(backsTab, "Backs");
     </script>
   </body>
 </html>
