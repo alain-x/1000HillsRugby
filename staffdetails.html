@@ -24,35 +24,46 @@
         #member-role {
           font-size: 1rem;
         }
+
+        .flex {
+          flex-direction: column;
+        }
+
+        .text-center {
+          text-align: center;
+        }
+
+        .px-6 {
+          padding-left: 1rem;
+          padding-right: 1rem;
+        }
+
+        ul {
+          flex-direction: row;
+          justify-content: center;
+        }
+
+        ul li {
+          margin: 0 10px;
+        }
       }
 
-      /* Social Media Icons */
-      ul {
-        display: flex; /* Use flexbox for layout */
-        flex-direction: row; /* Ensure icons are in a horizontal row */
-        justify-content: center; /* Center align the icons */
-        list-style: none; /* Remove default list styling */
-        padding: 0; /* Remove extra padding */
-        margin: 0; /* Remove extra margin */
-      }
+      @media (min-width: 501px) {
+        #member-image {
+          height: 480px;
+        }
 
-      ul li {
-        margin: 0 10px; /* Add horizontal spacing between icons */
-      }
+        .flex {
+          flex-direction: row;
+        }
 
-      ul li a {
-        display: inline-block; /* Ensure proper display of links */
-        padding: 0.5rem; /* Add padding for touch interaction */
-        border-radius: 50%; /* Make background circular */
-        transition: background-color 0.3s ease-in-out;
-      }
+        .text-center {
+          text-align: left;
+        }
 
-      ul li i {
-        font-size: 1.5rem; /* Set icon size */
-      }
-
-      ul li a:hover {
-        background-color: rgba(0, 0, 0, 0.1); /* Add hover effect */
+        ul {
+          justify-content: flex-start;
+        }
       }
     </style>
   </head>
@@ -81,7 +92,9 @@
             <p id="member-description" class="mt-4 text-gray-700"></p>
 
             <!-- Social Media Icons -->
-            <ul id="social-media-list" class="mt-6"></ul>
+            <ul
+              class="mt-6 flex justify-center space-x-6 text-xl text-gray-600"
+            ></ul>
           </div>
         </div>
 
@@ -100,11 +113,11 @@
     <script>
       const teamData = {
         Jimmy: {
-          name: "Jimmy Mugabo",
+          name: "Jimmy MUGABO",
           role: "Head Coach",
           image: "./images/jimmy.jpeg",
           description:
-            "Jimmy Mugabo is a dynamic leader in sports and social development, specializing in leveraging rugby as a tool for education, employability, and personal growth among Rwandan youth. As the Director of Rugby at 1000 Hills Rugby, he fosters inclusive programs focused on skills development, job readiness, and health and well-being.",
+            "   Jimy Mugabo is a dynamic leader in sports and social development, specializing in leveraging rugby as a tool for education, employability, and personal growth among Rwandan youth. As the Director of Rugby at 1000 Hills Rugby, he fosters inclusive programs focused on skills development, job readiness, and health and well-being. Jimy is also the visionary behind RQT, where he connects Rwandan talent to job opportunities abroad and develops training programs that enhance youth employability. Driven by a commitment to empowerment and community growth, he has expanded his expertise into other sectors, continually creating pathways for sustainable development in Rwanda and beyond.   ",
           socialMedia: [
             {
               platform: "Facebook",
@@ -132,6 +145,73 @@
             },
           ],
         },
+        Jd: {
+          name: "Jean D'Amour Nsengimana",
+          role: "General Manager",
+          image: "./images/jd.jpeg",
+          description:
+            "Jean D'Amour Nsengimana, also known as JD, is one of three founders of 1000 Hills Rugby, serving as its elected general manager and head coach for the development teams. A qualified Level 2 Rugby XV coach, he is deeply involved in nurturing young talent while promoting the club's core values: discipline, sportsmanship, mutuality, integrity, and mental and physical strength. Together with the club’s management team, he has helped 1000 Hills Rugby become a prominent force in Rwandan rugby, with senior, youth, and mini teams competing in the Rwanda Rugby Federation's tournaments. In addition to his rugby commitments, JD is the Production Manager at PowerX Ltd, Africa's first Tantalum and Niobium refinery. His dedication to both rugby and refinery reflects his dynamic leadership and commitment to driving positive change in sports and Rwanda’s industrial landscape.",
+          socialMedia: [
+            {
+              platform: "Facebook",
+              url: "https://",
+              icon: "fa-facebook-f",
+              color: "#1877F2",
+            },
+            {
+              platform: "Instagram",
+              url: "https://www.instagram.com/jd131000/",
+              icon: "fa-instagram",
+              color: "#E4405F",
+            },
+            {
+              platform: "Twitter",
+              url: "https://x.com/NJdamour",
+              icon: "fa-x-twitter",
+              color: "#1DA1F2",
+            },
+            {
+              platform: "LinkedIn",
+              url: "https://www.linkedin.com/in/jeandamour",
+              icon: "fa-linkedin-in",
+              color: "#0077B5",
+            },
+          ],
+        },
+
+        berno: {
+          name: "Bernard RWAGASORE",
+          role: "Marketing Manager",
+          image: "./images/berno.png",
+          description:
+            " Rwagasore Bernard, also known by his nickname Hard Guy, is a dedicated player for 1000 Hills Rugby. He started his rugby journey in the second row but has since transitioned to prop, where his physicality and strength have become key assets to the team. Bernard discovered his passion for rugby during his university years in Uganda, and it quickly became a central part of his life. In addition to his role on the field, Bernard works in marketing and remains actively involved in the 1000 Hills Rugby community. His commitment to the sport goes beyond just playing—he deeply values the sense of camaraderie and the positive impact rugby has on bringing people together. Bernard’s love for the game and his connection to the club continue to drive his involvement and contributions to the growth of rugby in Rwanda.",
+          socialMedia: [
+            {
+              platform: "Facebook",
+              url: "https://www.facebook.com/rwagasoreb",
+              icon: "fa-facebook-f",
+              color: "#1877F2",
+            },
+            {
+              platform: "Instagram",
+              url: "https://www.instagram.com/rwagaben/",
+              icon: "fa-instagram",
+              color: "#E4405F",
+            },
+            {
+              platform: "Twitter",
+              url: "https://x.com/NJdamour",
+              icon: "fa-x-twitter",
+              color: "#1DA1F2",
+            },
+            {
+              platform: "LinkedIn",
+              url: "",
+              icon: "fa-linkedin-in",
+              color: "#0077B5",
+            },
+          ],
+        },
       };
 
       const urlParams = new URLSearchParams(window.location.search);
@@ -145,9 +225,15 @@
         document.getElementById("member-description").innerText =
           member.description;
 
-        const socialMediaList = document.getElementById("social-media-list");
+        const socialMediaList = document.querySelector("ul");
+        socialMediaList.innerHTML = "";
         member.socialMedia.forEach((social) => {
           const li = document.createElement("li");
+          li.classList.add(
+            "hover:text-" + social.color.slice(1),
+            "transition-colors",
+            "duration-300"
+          );
           li.innerHTML = `<a href="${social.url}" aria-label="${social.platform}" target="_blank">
             <i class="fa-brands ${social.icon}" style="color:${social.color}"></i>
           </a>`;
