@@ -12,7 +12,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       /* Custom CSS for responsiveness */
-      @media (max-width: 500px) {
+      @media (max-width: 100px) {
         #member-image {
           height: 480px;
         }
@@ -39,30 +39,15 @@
         }
 
         ul {
-          flex-direction: row;
-          justify-content: center;
+          display: flex;
+          flex-direction: row; /* Ensure horizontal layout */
+          justify-content: center; /* Center the icons */
+          list-style-type: none; /* Remove bullet points */
+          padding: 0;
         }
 
         ul li {
-          margin: 0 10px;
-        }
-      }
-
-      @media (min-width: 501px) {
-        #member-image {
-          height: 480px;
-        }
-
-        .flex {
-          flex-direction: row;
-        }
-
-        .text-center {
-          text-align: left;
-        }
-
-        ul {
-          justify-content: flex-start;
+          margin: 0 10px; /* Add horizontal spacing */
         }
       }
     </style>
