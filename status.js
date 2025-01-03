@@ -1,7 +1,7 @@
 const players = [
   {
     name: "ISIMBI Jean Calros",
-    img: "player1.png",
+    img: "",
     performance: 80,
     triesScored: 12,
     competition: "League",
@@ -10,7 +10,7 @@ const players = [
   },
   {
     name: "  Shema Prince",
-    img: "player2.png",
+    img: "",
     performance: 20,
     triesScored: 25,
     competition: "League",
@@ -19,7 +19,7 @@ const players = [
   },
   {
     name: "RUKUNDO Jackson",
-    img: "player3.png",
+    img: "",
     performance: 90,
     triesScored: 10,
     competition: "League",
