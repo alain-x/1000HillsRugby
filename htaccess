@@ -1,0 +1,13 @@
+# Exclude robots.txt and sitemap.xml from rewrite rules
+RewriteCond %{REQUEST_URI} !^/robots\.txt$
+RewriteCond %{REQUEST_URI} !^/sitemap\.xml$
+
+# Rewrite rule to add .html extension if the file exists
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html [NC,L]
+
+# Redirect non-www to www
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^1000hillsrugby\.rw$ [NC]
+RewriteRule ^(.*)$ https://www.1000hillsrugby.rw/$1 [L,R=301]
