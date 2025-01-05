@@ -1,0 +1,29 @@
+{
+  "name": "1000 Hills Rugby",
+  "short_name": "1HR",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    }
+  ],
+  "theme_color": "#1a202c",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/",
+  "description": "Official website of the 1000 Hills Rugby Club in Kigali, Rwanda. Stay updated with the latest news, matches, and events.",
+  "lang": "en",
+  "dir": "ltr"
+}
