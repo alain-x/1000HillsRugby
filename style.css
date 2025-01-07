@@ -307,6 +307,7 @@ body {
 
 /* Dropdown menu styling */
 #menu ul li ul {
+  width: auto;
   padding: 0;
   border-radius: 8px;
 }
