@@ -3,7 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Player Profile</title>
+    <meta
+      id="meta-description"
+      name="description"
+      content="Player Profile - 1000 Hills Rugby Club"
+    />
+    <meta
+      id="meta-keywords"
+      name="keywords"
+      content="Rugby, Player, Profile, 1000 Hills Rugby"
+    />
+    <meta name="author" content="1000 Hills Rugby Club" />
+    <meta property="og:title" content="Player Profile - 1000 Hills Rugby" />
+    <meta
+      property="og:description"
+      content="View the profile of a player from the 1000 Hills Rugby Club, including stats, biography, and more."
+    />
+    <meta property="og:image" content="./images/t_icon.png" />
+    <meta
+      property="og:url"
+      content="https://www.1000hillsrugby.rw/profiles.html"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@1000HillsRugby" />
+    <title id="page-title">Player Profile</title>
+    <link rel="icon" href="./images/t_icon.png" type="image/png" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SportsTeam",
+        "name": "1000 Hills Rugby Club",
+        "member": []
+      }
+    </script>
+
     <style>
       body {
         margin: 0;
@@ -106,6 +140,7 @@
       }
     </style>
   </head>
+
   <body>
     <div class="header">
       <h1>Player Profile</h1>
@@ -148,19 +183,39 @@
 
     <script>
       // Fetch player data from localStorage
-      const player = JSON.parse(localStorage.getItem("selectedPlayer"));
+      let player;
+      try {
+        player = JSON.parse(localStorage.getItem("selectedPlayer"));
 
-      // Populate the profile with player data
-      document.getElementById("playerImage").src = player.img;
-      document.getElementById("playerName").innerText = player.name;
-      document.getElementById("playerRole").innerText =
-        player.role || "Not specified"; // Add role or default
-      document.getElementById("playerAge").innerText = player.age;
-      document.getElementById("playerWeight").innerText = player.weight;
-      document.getElementById("playerHeight").innerText = player.height;
-      document.getElementById("playerGames").innerText = player.games;
-      document.getElementById("playerPoints").innerText = player.points;
-      document.getElementById("playerTries").innerText = player.tries;
+        // Check if player data exists
+        if (!player) {
+          alert("No player data found. Redirecting to main page.");
+          window.location.href = "menprofiles.html"; // Redirect to the main page or list
+        }
+
+        // Populate the profile with player data
+        document.getElementById("playerImage").src = player.img || "";
+        document.getElementById("playerName").innerText =
+          player.name || "Name not available";
+        document.getElementById("playerRole").innerText =
+          player.role || "Role not specified";
+        document.getElementById("playerAge").innerText =
+          player.age || "Not specified";
+        document.getElementById("playerWeight").innerText =
+          player.weight || "Not specified";
+        document.getElementById("playerHeight").innerText =
+          player.height || "Not specified";
+        document.getElementById("playerGames").innerText =
+          player.games || "Not specified";
+        document.getElementById("playerPoints").innerText =
+          player.points || "Not specified";
+        document.getElementById("playerTries").innerText =
+          player.tries || "Not specified";
+      } catch (error) {
+        console.error("Error parsing player data:", error);
+        alert("Error retrieving player data. Redirecting to main page.");
+        window.location.href = "./menprofiles.html"; // Redirect to the main page or list
+      }
     </script>
   </body>
 </html>

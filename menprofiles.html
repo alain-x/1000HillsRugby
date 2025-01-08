@@ -5,17 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Men's Squad -1000 Hills Rugby Player Profiles"
+      content="Men's Squad - 1000 Hills Rugby Player Profiles"
     />
     <meta name="keywords" content="Rugby, Players, Team, Profiles" />
     <meta name="author" content="1000 Hills Rugby Club" />
 
+    <!-- External Stylesheets -->
     <link rel="stylesheet" href="./style.css" />
     <title>Men's Squad</title>
     <link rel="icon" href="./images/t_icon.png" type="image/png" />
+
+    <!-- TailwindCSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Styles and Fonts -->
+    <!-- CDN for Fonts and Icons -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
@@ -27,9 +30,57 @@
     />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/4.1.1/animate.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
     />
 
+    <!-- Structured Data (JSON-LD) for SEO -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SportsTeam",
+        "name": "1000 Hills Rugby Club",
+        "member": []
+      }
+    </script>
+
+    <!-- Open Graph Metadata for Social Sharing -->
+    <meta
+      property="og:title"
+      content="Men's Squad - 1000 Hills Rugby Player Profiles"
+    />
+    <meta
+      property="og:description"
+      content="Meet the talented players of 1000 Hills Rugby Club and explore their profiles."
+    />
+    <meta
+      property="og:image"
+      content="https://www.1000hillsrugby.rw/images/t_icon.png"
+    />
+    <meta
+      property="og:url"
+      content="https://www.1000hillsrugby.rw/menprofiles"
+    />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Card Metadata for Twitter Sharing -->
+    <meta
+      name="twitter:title"
+      content="Men's Squad - 1000 Hills Rugby Player Profiles"
+    />
+    <meta
+      name="twitter:description"
+      content="Meet the talented players of 1000 Hills Rugby Club and explore their profiles."
+    />
+    <meta
+      name="twitter:image"
+      content="https://www.1000hillsrugby.rw/images/t_icon.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Mobile Viewport Configuration -->
+    <meta name="theme-color" content="#000" />
+
+    <!-- Additional Styles for Layout -->
     <style>
       body {
         margin: 0;
@@ -86,7 +137,7 @@
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
         width: 100%;
-        height: 230px;
+        height: 310px;
         object-fit: cover;
       }
 
@@ -155,6 +206,7 @@
       }
     </style>
   </head>
+
   <body>
     <!-- Transparent Navbar -->
     <nav
@@ -605,14 +657,20 @@
         <label for="roleFilter"></label>
         <select id="roleFilter">
           <option value="">All Roles</option>
-          <option value="Full Back">Full Back</option>
-          <option value="Fly Half">Fly Half</option>
-          <option value="Center">Center</option>
-          <option value="Scrum Half">Scrum Half</option>
-          <option value="Winger">Winger</option>
+          <option value="Full Back">Full-Back</option>
+          <option value="Fly Half">Fly-Half</option>
+          <option value="Inside centre">Inside centre</option>
+          <option value="Outside centre">Outside centre</option>
+          <option value="Scrum Half">Scrum-Half</option>
+          <option value="Left wing">Left wing</option>
+          <option value="Right wing">Right wing</option>
+          <option value="Blindside flanker">Blindside flanker</option>
+          <option value="Open side flanker">Open side flanker</option>
+          <option value="Number 8">Number 8</option>
           <option value="Lock">Lock</option>
           <option value="Hooker">Hooker</option>
-          <option value="Prop">Prop</option>
+          <option value="Loose-head prop">Loose-head prop</option>
+          <option value="Tight-head prop">Tight-head prop</option>
         </select>
       </div>
     </div>
@@ -686,7 +744,7 @@
           name: "D Diego MUCUNGURA",
           img: "./plofilesM/MUCUNGURA D Diego.JPG",
           age: 23,
-          role: "Center",
+          role: "Inside centre",
           category: "Backs",
           weight: "78 kg",
           height: "180 cm",
@@ -698,7 +756,7 @@
           name: "Johnson KAYIHURA",
           img: "./plofilesM/KAYIHURA Johnson.JPG",
           age: 23,
-          role: "Winger",
+          role: "Left wing",
           category: "Backs",
           weight: "78 kg",
           height: "180 cm",
@@ -710,7 +768,7 @@
           name: "J Paul HAJALI",
           img: "./plofilesM/HAJALI J Paul.JPG",
           age: 23,
-          role: "Center",
+          role: "Inside centre",
           category: "Backs",
           weight: "78 kg",
           height: "180 cm",
@@ -722,7 +780,7 @@
           name: "Irene HAKIZIMANA",
           img: "./plofilesM/HAKIZIMANA Irene.JPG",
           age: 23,
-          role: "Center",
+          role: "Outside centre",
           category: "Backs",
           weight: "78 kg",
           height: "180 cm",
@@ -734,7 +792,7 @@
           name: "Fabien GATOYA",
           img: "./plofilesM/GATOYA Fabien.JPG",
           age: 25,
-          role: "Lock",
+          role: "Blindside flanker",
           category: "Forwards",
           weight: "90 kg",
           height: "190 cm",
@@ -746,7 +804,7 @@
           name: "Roger RUKUNDO",
           img: "./plofilesM/RUKUNDO Roger.JPG",
           age: 22,
-          role: "Hooker",
+          role: "Open side flanker",
           category: "Forwards",
           weight: "98 kg",
           height: "165 cm",
@@ -758,7 +816,7 @@
           name: "Elisa TWIZEYIMANA",
           img: "./plofilesM/TWIZEYIMANA Elisa.JPG",
           age: 23,
-          role: "Prop",
+          role: "Blindside flanker",
           category: "Forwards",
           weight: "91 kg",
           height: "187 cm",
@@ -782,7 +840,7 @@
           name: "Heritier HABIMANA",
           img: "./plofilesM/HABIMANA Heritier.JPG",
           age: 23,
-          role: "Prop",
+          role: "Tight-head prop",
           category: "Forwards",
           weight: "91 kg",
           height: "187 cm",
@@ -790,8 +848,128 @@
           points: 1500,
           tries: 50,
         },
-      ];
 
+        {
+          name: "GASORE ALAIN VALENTIN",
+          img: "./plofilesM/GASORE ALAIN VALENTIN.jpeg",
+          age: 23,
+          role: "Right wing",
+          category: "Backs",
+          weight: "64 kg",
+          height: "167 cm",
+          games: 4,
+          points: 15,
+          tries: 3,
+        },
+        {
+          name: "FELIX",
+          img: "./plofilesM/FELIX.png",
+          age: 18,
+          role: "Inside centre",
+          category: "Backs",
+          weight: "64 kg",
+          height: "165 cm",
+          games: 10,
+          points: 25,
+          tries: 5,
+        },
+        {
+          name: "FRED",
+          img: "./plofilesM/FRED.png",
+          age: 19,
+          role: "Right wing",
+          category: "Backs",
+          weight: "64 kg",
+          height: "180 cm",
+          games: 0,
+          points: 0,
+          tries: 0,
+        },
+        {
+          name: "IRADUKUNDA CHANCE",
+          img: "./plofilesM/IRADUKUNDA CHANCE.png",
+          age: 20,
+          role: "Outside centre",
+          category: "Backs",
+          weight: "64 kg",
+          height: "165 cm",
+          games: 14,
+          points: 30,
+          tries: 6,
+        },
+        {
+          name: "IRASUBIZA NEHEMIE",
+          img: "./plofilesM/IRASUBIZA NEHEMIE.png",
+          age: 20,
+          role: "Hoocker",
+          category: "Forwards",
+          weight: "64 kg",
+          height: "180 cm",
+          games: 0,
+          points: 0,
+          tries: 0,
+        },
+        {
+          name: "IZABAYO JEREMY",
+          img: "./plofilesM/IZABAYO JEREMY.png",
+          age: 20,
+          role: "Left wing",
+          category: "Backs",
+          weight: "64 kg",
+          height: "180 cm",
+          games: 0,
+          points: 0,
+          tries: 0,
+        },
+        {
+          name: "MUGABO PARIS",
+          img: "./plofilesM/MUGABO PARIS.png",
+          age: 25,
+          role: "Loose-head prop",
+          category: "Forwards",
+          weight: "105 kg",
+          height: "180 cm",
+          games: 0,
+          points: 0,
+          tries: 0,
+        },
+        {
+          name: "NKURUNZIZA EMMANUEL",
+          img: "./plofilesM/NKURUNZIZA EMMANUEL.png",
+          age: 25,
+          role: "Right wing",
+          category: "Backs",
+          weight: "63 kg",
+          height: "166 cm",
+          games: 16,
+          points: 30,
+          tries: 6,
+        },
+        {
+          name: "NTAKIRUTIMANA FILS",
+          img: "./plofilesM/NTAKIRUTIMANA FILS.png",
+          age: 25,
+          role: "Left wing",
+          category: "Backs",
+          weight: "63 kg",
+          height: "166 cm",
+          games: 53,
+          points: 265,
+          tries: 40,
+        },
+        {
+          name: "SINGIZWA JEAN SAUVEUR",
+          img: "./plofilesM/SINGIZWA JEAN SAUVEUR.png",
+          age: 25,
+          role: "Number 8",
+          category: "Forwards",
+          weight: "90 kg",
+          height: "178 cm",
+          games: 20,
+          points: 30,
+          tries: 6,
+        },
+      ];
       // Function to generate player cards dynamically
       function generatePlayerCards(players) {
         const playerCardsContainer = document.getElementById("playerCards");
@@ -802,22 +980,22 @@
           playerCard.classList.add("player-card");
 
           playerCard.innerHTML = `
-                <div class="player-image">
-                  <img src="${player.img}" alt="${player.name}" class="player-image-clickable" data-name="${player.name}" data-age="${player.age}" data-role="${player.role}" data-category="${player.category}" data-weight="${player.weight}" data-height="${player.height}" data-games="${player.games}" data-points="${player.points}" data-tries="${player.tries}" />
-                </div>
-                <div class="player-details">
-                  <div class="player-name">${player.name}</div>
-                  <div class="player-position">${player.role}</div>
-                </div>
-                <div class="player-details-extra">
-                  <p><strong>Age:</strong> ${player.age}</p>
-                  <p><strong>Weight:</strong> ${player.weight}</p>
-                  <p><strong>Height:</strong> ${player.height}</p>
-                  <p><strong>Games Played:</strong> ${player.games}</p>
-                  <p><strong>Points:</strong> ${player.points}</p>
-                  <p><strong>Tries:</strong> ${player.tries}</p>
-                </div>
-              `;
+      <div class="player-image">
+        <img src="${player.img}" alt="${player.name}" class="player-image-clickable" data-name="${player.name}" data-age="${player.age}" data-role="${player.role}" data-category="${player.category}" data-weight="${player.weight}" data-height="${player.height}" data-games="${player.games}" data-points="${player.points}" data-tries="${player.tries}" />
+      </div>
+      <div class="player-details">
+        <div class="player-name">${player.name}</div>
+        <div class="player-position">${player.role}</div>
+      </div>
+      <div class="player-details-extra">
+        <p><strong>Age:</strong> ${player.age}</p>
+        <p><strong>Weight:</strong> ${player.weight}</p>
+        <p><strong>Height:</strong> ${player.height}</p>
+        <p><strong>Games Played:</strong> ${player.games}</p>
+        <p><strong>Points:</strong> ${player.points}</p>
+        <p><strong>Tries:</strong> ${player.tries}</p>
+      </div>
+    `;
 
           playerCardsContainer.appendChild(playerCard);
         });
@@ -849,19 +1027,48 @@
         });
       }
 
-      // Initialize player cards with Backs players first
-      const backsPlayers = squad.filter(
-        (player) => player.category === "Backs"
-      );
-      generatePlayerCards(backsPlayers);
+      // Function to update the role filter based on the selected category
+      function updateRoleFilter(category) {
+        const roleFilter = document.getElementById("roleFilter");
+        roleFilter.innerHTML = ""; // Clear current options
+
+        // Add the "All Roles" option first
+        const allRolesOption = document.createElement("option");
+        allRolesOption.value = "";
+        allRolesOption.textContent = "All Roles";
+        roleFilter.appendChild(allRolesOption);
+
+        // Filter players by category
+        const filteredPlayers = squad.filter(
+          (player) => player.category === category
+        );
+        const roles = [
+          ...new Set(filteredPlayers.map((player) => player.role)),
+        ]; // Get unique roles
+
+        // Add each role as an option in the filter
+        roles.forEach((role) => {
+          const option = document.createElement("option");
+          option.value = role;
+          option.textContent = role;
+          roleFilter.appendChild(option);
+        });
+      }
 
       // Filtering by Role
       const roleFilter = document.getElementById("roleFilter");
       roleFilter.addEventListener("change", (e) => {
         const selectedRole = e.target.value;
+        const category =
+          document.querySelector(".tab.active").id === "backsTab"
+            ? "Backs"
+            : "Forwards";
         const filteredPlayers = selectedRole
-          ? squad.filter((player) => player.role === selectedRole)
-          : squad;
+          ? squad.filter(
+              (player) =>
+                player.role === selectedRole && player.category === category
+            )
+          : squad.filter((player) => player.category === category);
         generatePlayerCards(filteredPlayers);
       });
 
@@ -870,24 +1077,33 @@
       const forwardsTab = document.getElementById("forwardsTab");
 
       backsTab.classList.add("active"); // Ensure the Backs tab is active initially
+      updateRoleFilter("Backs"); // Update filter for "Backs" roles
 
       backsTab.addEventListener("click", () => {
         backsTab.classList.add("active");
         forwardsTab.classList.remove("active");
-        const filteredPlayers = squad.filter(
+        const backsPlayers = squad.filter(
           (player) => player.category === "Backs"
         );
-        generatePlayerCards(filteredPlayers);
+        generatePlayerCards(backsPlayers); // Show all Backs players
+        updateRoleFilter("Backs"); // Update role filter for Back players
       });
 
       forwardsTab.addEventListener("click", () => {
         forwardsTab.classList.add("active");
         backsTab.classList.remove("active");
-        const filteredPlayers = squad.filter(
+        const forwardsPlayers = squad.filter(
           (player) => player.category === "Forwards"
         );
-        generatePlayerCards(filteredPlayers);
+        generatePlayerCards(forwardsPlayers); // Show all Forwards players
+        updateRoleFilter("Forwards"); // Update role filter for Forwards players
       });
+
+      // Initially load All players for "Backs" category
+      const backsPlayers = squad.filter(
+        (player) => player.category === "Backs"
+      );
+      generatePlayerCards(backsPlayers);
     </script>
 
     <script src="./index.js"></script>
