@@ -108,6 +108,7 @@
 
       /* Hover Effect - Show all details */
       .player-card .player-details-extra {
+        height: 400px;
         display: none;
         position: absolute;
         bottom: 0;
@@ -152,6 +153,25 @@
       .role-filter select:focus {
         outline: none;
         border-color: #007bff; /* Highlight border color on focus */
+      }
+
+      @media (max-width: 900px) {
+        .player-card {
+          height: 500px;
+          width: 400px;
+          margin: 10px auto;
+        }
+
+        .player-name {
+          font-size: 1em;
+        }
+        .player-image img {
+          border-top-left-radius: 10px;
+          border-top-right-radius: 10px;
+          width: 100%;
+          height: 400px;
+          object-fit: cover;
+        }
       }
     </style>
   </head>
@@ -815,66 +835,99 @@
           playerCard.classList.add("player-card");
 
           playerCard.innerHTML = `
-                <div class="player-image">
-                  <img src="${player.img}" alt="${player.name}" class="player-image-clickable" data-name="${player.name}" data-age="${player.age}" data-role="${player.role}" data-category="${player.category}" data-weight="${player.weight}" data-height="${player.height}" data-games="${player.games}" data-points="${player.points}" data-tries="${player.tries}" />
-                </div>
-                <div class="player-details">
-                  <div class="player-name">${player.name}</div>
-                  <div class="player-position">${player.role}</div>
-                </div>
-                <div class="player-details-extra">
-                  <p><strong>Age:</strong> ${player.age}</p>
-                  <p><strong>Weight:</strong> ${player.weight}</p>
-                  <p><strong>Height:</strong> ${player.height}</p>
-                  <p><strong>Games Played:</strong> ${player.games}</p>
-                  <p><strong>Points:</strong> ${player.points}</p>
-                  <p><strong>Tries:</strong> ${player.tries}</p>
-                </div>
-              `;
+        <div class="player-image">
+          <img src="${player.img}" alt="${player.name}" class="player-image-clickable" data-name="${player.name}" data-age="${player.age}" data-role="${player.role}" data-category="${player.category}" data-weight="${player.weight}" data-height="${player.height}" data-games="${player.games}" data-points="${player.points}" data-tries="${player.tries}" />
+        </div>
+        <div class="player-details">
+          <div class="player-name">${player.name}</div>
+          <div class="player-position">${player.role}</div>
+        </div>
+
+
+       <div class="player-details-extra">
+        <div class="flex justify-between mb-2 mt-[40px]">
+          <p><strong>Age:</strong></p> 
+          <span>${player.age}</span>
+        </div>
+      <div class="flex justify-between mb-2">
+         <p><strong>Weight:</strong></p>
+         <span>${player.weight}</span>
+      </div>
+      <div class="flex justify-between mb-2">
+        <p><strong>Height:</strong></p>
+        <span>${player.height}</span>
+      </div>
+      <div class="flex justify-between mb-2">
+        <p><strong>Games Played:</strong></p>
+        <span>${player.games}</span>
+      </div>
+      <div class="flex justify-between mb-2">
+        <p><strong>Points:</strong></p>
+        <span>${player.points}</span>
+      </div>
+      <div class="flex justify-between mb-2">
+        <p><strong>Tries:</strong></p>
+        <span>${player.tries}</span>
+      </div>
+      <button class=" w-[300px] py-2 bg-green-500 text-white text-sm mt-[40px] font-bold rounded hover:bg-green-600" onclick="viewPlayerProfile('${player.name}')">View All About ${player.name}</button>
+
+</div>
+      `;
 
           playerCardsContainer.appendChild(playerCard);
         });
 
         // Add click event listener to each image
-        const images = document.querySelectorAll(".player-image-clickable");
-        images.forEach((image) => {
-          image.addEventListener("click", (event) => {
-            const playerDetails = {
-              name: event.target.dataset.name,
-              img: event.target.src,
-              age: event.target.dataset.age,
-              role: event.target.dataset.role,
-              category: event.target.dataset.category,
-              weight: event.target.dataset.weight,
-              height: event.target.dataset.height,
-              games: event.target.dataset.games,
-              points: event.target.dataset.points,
-              tries: event.target.dataset.tries,
-            };
-            // Save player data to localStorage
-            localStorage.setItem(
-              "selectedPlayer",
-              JSON.stringify(playerDetails)
-            );
-            // Redirect to player profile page
-            window.location.href = "profiles.html";
-          });
-        });
       }
 
-      // Initialize player cards with Backs players first
-      const backsPlayers = squad.filter(
-        (player) => player.category === "Backs"
-      );
-      generatePlayerCards(backsPlayers);
+      // Function to view player profile
+      function viewPlayerProfile(playerName) {
+        const player = squad.find((p) => p.name === playerName);
+        localStorage.setItem("selectedPlayer", JSON.stringify(player));
+        window.location.href = "women_players_profiles.html";
+      }
+      // Function to update the role filter based on the selected category
+      function updateRoleFilter(category) {
+        const roleFilter = document.getElementById("roleFilter");
+        roleFilter.innerHTML = ""; // Clear current options
+
+        // Add the "All Roles" option first
+        const allRolesOption = document.createElement("option");
+        allRolesOption.value = "";
+        allRolesOption.textContent = "All Roles";
+        roleFilter.appendChild(allRolesOption);
+
+        // Filter players by category
+        const filteredPlayers = squad.filter(
+          (player) => player.category === category
+        );
+        const roles = [
+          ...new Set(filteredPlayers.map((player) => player.role)),
+        ]; // Get unique roles
+
+        // Add each role as an option in the filter
+        roles.forEach((role) => {
+          const option = document.createElement("option");
+          option.value = role;
+          option.textContent = role;
+          roleFilter.appendChild(option);
+        });
+      }
 
       // Filtering by Role
       const roleFilter = document.getElementById("roleFilter");
       roleFilter.addEventListener("change", (e) => {
         const selectedRole = e.target.value;
+        const category =
+          document.querySelector(".tab.active").id === "backsTab"
+            ? "Backs"
+            : "Forwards";
         const filteredPlayers = selectedRole
-          ? squad.filter((player) => player.role === selectedRole)
-          : squad;
+          ? squad.filter(
+              (player) =>
+                player.role === selectedRole && player.category === category
+            )
+          : squad.filter((player) => player.category === category);
         generatePlayerCards(filteredPlayers);
       });
 
@@ -883,24 +936,33 @@
       const forwardsTab = document.getElementById("forwardsTab");
 
       backsTab.classList.add("active"); // Ensure the Backs tab is active initially
+      updateRoleFilter("Backs"); // Update filter for "Backs" roles
 
       backsTab.addEventListener("click", () => {
         backsTab.classList.add("active");
         forwardsTab.classList.remove("active");
-        const filteredPlayers = squad.filter(
+        const backsPlayers = squad.filter(
           (player) => player.category === "Backs"
         );
-        generatePlayerCards(filteredPlayers);
+        generatePlayerCards(backsPlayers); // Show all Backs players
+        updateRoleFilter("Backs"); // Update role filter for Back players
       });
 
       forwardsTab.addEventListener("click", () => {
         forwardsTab.classList.add("active");
         backsTab.classList.remove("active");
-        const filteredPlayers = squad.filter(
+        const forwardsPlayers = squad.filter(
           (player) => player.category === "Forwards"
         );
-        generatePlayerCards(filteredPlayers);
+        generatePlayerCards(forwardsPlayers); // Show all Forwards players
+        updateRoleFilter("Forwards"); // Update role filter for Forwards players
       });
+
+      // Initially load All players for "Backs" category
+      const backsPlayers = squad.filter(
+        (player) => player.category === "Backs"
+      );
+      generatePlayerCards(backsPlayers);
     </script>
 
     <script src="./index.js"></script>

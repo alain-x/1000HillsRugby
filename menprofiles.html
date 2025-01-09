@@ -137,7 +137,7 @@
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
         width: 100%;
-        height: 310px;
+        height: 330px;
         object-fit: cover;
       }
 
@@ -159,6 +159,7 @@
 
       /* Hover Effect - Show all details */
       .player-card .player-details-extra {
+        height: 410px;
         display: none;
         position: absolute;
         bottom: 0;
@@ -184,7 +185,7 @@
         margin: 8px 0;
         display: flex;
         align-items: center;
-        padding: 5px; /* Add padding for spacing */
+        padding: 5px;
       }
 
       .role-filter label {
@@ -194,15 +195,34 @@
 
       .role-filter select {
         color: black;
-        background-color: #fff; /* White background for better contrast */
+        background-color: #fff;
         padding: 5px 10px;
-        border: 1px solid #222; /* Consistent border for the select */
-        border-radius: 4px; /* Optional: rounded corners */
+        border: 1px solid #222;
+        border-radius: 4px;
       }
 
       .role-filter select:focus {
         outline: none;
-        border-color: #007bff; /* Highlight border color on focus */
+        border-color: #007bff;
+      }
+
+      /* Media Queries */
+
+      /* For screens up to 599px (small devices) */
+      @media (max-width: 900px) {
+        .player-card {
+          height: 560px;
+          width: 500px;
+          margin: 10px auto;
+        }
+        .player-image {
+          width: 100%;
+        }
+
+        .player-image img {
+          width: 500px;
+          height: 470px;
+        }
       }
     </style>
   </head>
@@ -980,53 +1000,58 @@
           playerCard.classList.add("player-card");
 
           playerCard.innerHTML = `
-      <div class="player-image">
-        <img src="${player.img}" alt="${player.name}" class="player-image-clickable" data-name="${player.name}" data-age="${player.age}" data-role="${player.role}" data-category="${player.category}" data-weight="${player.weight}" data-height="${player.height}" data-games="${player.games}" data-points="${player.points}" data-tries="${player.tries}" />
+        <div class="player-image">
+          <img src="${player.img}" alt="${player.name}" class="player-image-clickable" data-name="${player.name}" data-age="${player.age}" data-role="${player.role}" data-category="${player.category}" data-weight="${player.weight}" data-height="${player.height}" data-games="${player.games}" data-points="${player.points}" data-tries="${player.tries}" />
+        </div>
+        <div class="player-details">
+          <div class="player-name">${player.name}</div>
+          <div class="player-position">${player.role}</div>
+        </div>
+
+
+       <div class="player-details-extra">
+        <div class="flex justify-between mb-2 mt-[40px]">
+          <p><strong>Age:</strong></p> 
+          <span>${player.age}</span>
+        </div>
+      <div class="flex justify-between mb-2">
+         <p><strong>Weight:</strong></p>
+         <span>${player.weight}</span>
       </div>
-      <div class="player-details">
-        <div class="player-name">${player.name}</div>
-        <div class="player-position">${player.role}</div>
+      <div class="flex justify-between mb-2">
+        <p><strong>Height:</strong></p>
+        <span>${player.height}</span>
       </div>
-      <div class="player-details-extra">
-        <p><strong>Age:</strong> ${player.age}</p>
-        <p><strong>Weight:</strong> ${player.weight}</p>
-        <p><strong>Height:</strong> ${player.height}</p>
-        <p><strong>Games Played:</strong> ${player.games}</p>
-        <p><strong>Points:</strong> ${player.points}</p>
-        <p><strong>Tries:</strong> ${player.tries}</p>
+      <div class="flex justify-between mb-2">
+        <p><strong>Games Played:</strong></p>
+        <span>${player.games}</span>
       </div>
-    `;
+      <div class="flex justify-between mb-2">
+        <p><strong>Points:</strong></p>
+        <span>${player.points}</span>
+      </div>
+      <div class="flex justify-between mb-2">
+        <p><strong>Tries:</strong></p>
+        <span>${player.tries}</span>
+      </div>
+      <button class=" w-[300px] py-2 bg-green-500 text-white text-sm mt-[40px] font-bold rounded hover:bg-green-600" onclick="viewPlayerProfile('${player.name}')">View All About ${player.name}</button>
+
+</div>
+
+      `;
 
           playerCardsContainer.appendChild(playerCard);
         });
 
         // Add click event listener to each image
-        const images = document.querySelectorAll(".player-image-clickable");
-        images.forEach((image) => {
-          image.addEventListener("click", (event) => {
-            const playerDetails = {
-              name: event.target.dataset.name,
-              img: event.target.src,
-              age: event.target.dataset.age,
-              role: event.target.dataset.role,
-              category: event.target.dataset.category,
-              weight: event.target.dataset.weight,
-              height: event.target.dataset.height,
-              games: event.target.dataset.games,
-              points: event.target.dataset.points,
-              tries: event.target.dataset.tries,
-            };
-            // Save player data to localStorage
-            localStorage.setItem(
-              "selectedPlayer",
-              JSON.stringify(playerDetails)
-            );
-            // Redirect to player profile page
-            window.location.href = "profiles.html";
-          });
-        });
       }
 
+      // Function to view player profile
+      function viewPlayerProfile(playerName) {
+        const player = squad.find((p) => p.name === playerName);
+        localStorage.setItem("selectedPlayer", JSON.stringify(player));
+        window.location.href = "profiles.html";
+      }
       // Function to update the role filter based on the selected category
       function updateRoleFilter(category) {
         const roleFilter = document.getElementById("roleFilter");
