@@ -205,6 +205,16 @@
         outline: none;
         border-color: #007bff; /* Highlight border color on focus */
       }
+      .btn {
+        margin-left: 5px;
+        margin-top: 100px;
+        background: linear-gradient(to right, green, rgb(62, 72, 62));
+        color: rgb(3, 3, 3);
+        padding: 5px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
 
       @media (max-width: 900px) {
         .player-card {
@@ -1149,19 +1159,8 @@
         <p><strong>Height:</strong></p>
         <span>${player.height}</span>
       </div>
-      <div class="flex justify-between mb-2">
-        <p><strong>Games Played:</strong></p>
-        <span>${player.games}</span>
-      </div>
-      <div class="flex justify-between mb-2">
-        <p><strong>Points:</strong></p>
-        <span>${player.points}</span>
-      </div>
-      <div class="flex justify-between mb-2">
-        <p><strong>Tries:</strong></p>
-        <span>${player.tries}</span>
-      </div>
-      <button class="btn w-[300px] py-2 bg-green-500 text-white text-sm mt-[40px] font-bold rounded hover:bg-green-600" onclick="viewPlayerProfile('${player.name}')">View All About ${player.name}</button>
+       
+      <button class="btn w-[300px] py-2 bg-green-500 text-white text-sm   font-bold rounded hover:bg-green-600" onclick="viewPlayerProfile('${player.name}')">View All About ${player.name}</button>
 
 </div>
 
