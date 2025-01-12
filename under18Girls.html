@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Under 16 Girls -1000 Hills Rugby Player Profiles"
+    />
+    <meta name="keywords" content="Rugby, Players, Team, Profiles" />
+    <meta name="author" content="1000 Hills Rugby Club" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Under 16 Girls</title>
+    <link rel="icon" href="./images/t_icon.png" type="image/png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Styles and Fonts -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    />
+    <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/4.1.1/animate.min.css"
+    />
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        color: #fff;
+        background: #000;
+      }
+
+      .header {
+        margin-top: 40px;
+        text-align: center;
+        padding: 20px;
+      }
+
+      /* Player Cards */
+      .player-card {
+        background: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .player-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      .player-image img {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        width: 100%;
+        height: 320px;
+        object-fit: cover;
+      }
+
+      .player-details {
+        padding: 15px;
+        text-align: center;
+      }
+
+      .player-name {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .player-position {
+        font-size: 0.9em;
+        color: #555;
+      }
+
+      /* Hover Effect - Show all details */
+      .player-card .player-details-extra {
+        height: 400px;
+        display: none;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 15px;
+        font-size: 0.8em;
+        text-align: left;
+        transform: translateY(100%);
+        transition: transform 0.3s ease-in-out;
+      }
+
+      .player-card:hover .player-details-extra {
+        display: block;
+        transform: translateY(0);
+      }
+
+      .role-filter {
+        color: black;
+        margin: 8px 0;
+        display: flex;
+        align-items: center;
+        padding: 5px; /* Add padding for spacing */
+      }
+
+      .role-filter label {
+        color: black;
+        margin-right: 10px;
+      }
+
+      .role-filter select {
+        color: black;
+        background-color: #fff; /* White background for better contrast */
+        padding: 5px 10px;
+        border: 1px solid #222; /* Consistent border for the select */
+        border-radius: 4px; /* Optional: rounded corners */
+      }
+
+      .role-filter select:focus {
+        outline: none;
+        border-color: #007bff; /* Highlight border color on focus */
+      }
+      .btn {
+        margin-left: 5px;
+        margin-top: 100px;
+        background: linear-gradient(to right, green, rgb(62, 72, 62));
+        color: rgb(3, 3, 3);
+        padding: 5px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      @media (max-width: 900px) {
+        .player-card {
+          height: 500px;
+          width: 400px;
+          margin: 10px;
+        }
+
+        .player-name {
+          font-size: 1em;
+        }
+        .player-image img {
+          border-top-left-radius: 10px;
+          border-top-right-radius: 10px;
+          width: 100%;
+          height: 400px;
+          object-fit: cover;
+        }
+
+        .player-card .player-details-extra {
+          height: 500px;
+          display: none;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background-color: rgba(0, 0, 0, 0.7);
+          color: white;
+          padding: 15px;
+          font-size: 0.8em;
+          text-align: left;
+          transform: translateY(100%);
+          transition: transform 0.3s ease-in-out;
+        }
+        .btn {
+          margin-left: 20px;
+          margin-top: 100px;
+          background: linear-gradient(to right, green, rgb(62, 72, 62));
+          color: rgb(3, 3, 3);
+          padding: 5px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Player Cards Section -->
+    <section class="pt-24 px-4 md:px-16 bg-black lg:px-24">
+        <div class="container mx-auto bg-black flex justify-between items-center">
+            <h1 class="text-center text-2xl ml-2 text-white font-bold mb-8  ">
+              Under 16 Girls
+            </h1>
+          
+            <!-- Filter Dropdown -->
+            <div class="role-filter text-white  mb-8">
+              <label for="sortOrder"  >Sort by Name:</label>
+              <select id="sortOrder" onchange="sortPlayers()">
+                <option value="A-Z">A-Z</option>
+                <option value="Z-A">Z-A</option>
+              </select>
+            </div>
+          </div>
+          
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          id="playerCards"
+        >
+          <!-- Dynamic player cards will be inserted here -->
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // Sample player data
+      const squad = [
+      {
+        name: "AKARIZA CYNTHIA",
+        img: "./under18GirlsImages/AKARIZA CYNTHIA.png",
+        age: 14,  
+        weight: "28",
+        height: "130 cm",
+        games: 0,
+        points: 0,
+        tries: 0,
+      },{
+        name: "SANDRA",
+        img: "./under18GirlsImages/SANDRA.png",
+        age: 15,  
+        weight: "27",
+        height: "130 cm",
+        games: 0,
+        points: 0,
+        tries: 0,
+      },{
+        name: "UWIMANA REHEMA",
+        img: "./under18GirlsImages/UWIMANA REHEMA.png",
+        age: 14,  
+        weight: "29",
+        height: "130 cm",
+        games: 0,
+        points: 0,
+        tries: 0,
+      }, 
+      ];
+
+      // Function to generate player cards dynamically
+      function generatePlayerCards(players) {
+        const playerCardsContainer = document.getElementById("playerCards");
+        playerCardsContainer.innerHTML = ""; // Clear existing cards
+
+        players.forEach((player) => {
+          const playerCard = document.createElement("div");
+          playerCard.classList.add("player-card");
+
+          playerCard.innerHTML = `
+        <div class="player-image">
+          <img src="${player.img}" alt="${player.name}" class="player-image-clickable" data-name="${player.name}" data-age="${player.age}" data-role="${player.role}" data-category="${player.category}" data-weight="${player.weight}" data-height="${player.height}" data-games="${player.games}" data-points="${player.points}" data-tries="${player.tries}" />
+        </div>
+        <div class="player-details">
+          <div class="player-name">${player.name}</div>
+          <div class="player-position">${player.role}</div>
+        </div>
+        <div class="player-details-extra">
+          <div class="flex justify-between mb-2 mt-[40px]">
+            <p><strong>Age:</strong></p> 
+            <span>${player.age}</span>
+          </div>
+          <div class="flex justify-between mb-2">
+            <p><strong>Weight:</strong></p>
+            <span>${player.weight}</span>
+          </div>
+          <div class="flex justify-between mb-2">
+            <p><strong>Height:</strong></p>
+            <span>${player.height}</span>
+          </div>
+           
+          <button class="btn w-[300px] py-2 bg-green-500 text-white text-sm   font-bold rounded hover:bg-green-600" onclick="viewPlayerProfile('${player.name}')">View All About ${player.name}</button>
+        </div>
+      `;
+
+          playerCardsContainer.appendChild(playerCard);
+        });
+      }
+
+      // Function to view player profile
+      function viewPlayerProfile(playerName) {
+        const player = squad.find((p) => p.name === playerName);
+        localStorage.setItem("selectedPlayer", JSON.stringify(player));
+        window.location.href = "profiles.html";
+      }
+
+      // Function to sort players
+      function sortPlayers() {
+        const sortOrder = document.getElementById("sortOrder").value;
+        let sortedSquad;
+
+        if (sortOrder === "A-Z") {
+          sortedSquad = [...squad].sort((a, b) => a.name.localeCompare(b.name));
+        } else {
+          sortedSquad = [...squad].sort((a, b) => b.name.localeCompare(a.name));
+        }
+
+        generatePlayerCards(sortedSquad);
+      }
+
+      // Initially load all players
+      generatePlayerCards(squad);
+    </script>
+  </body>
+</html>
