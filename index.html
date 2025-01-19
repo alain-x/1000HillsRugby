@@ -17,6 +17,8 @@
     <meta property="og:image" content="https://www.1000hillsrugby.rw/images/logo.png" />
     <meta property="og:url" content="https://www.1000hillsrugby.rw" />
     <meta property="og:type" content="website" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
 
     <!-- Structured Data (Schema.org) -->
     <script type="application/ld+json">
@@ -44,6 +46,65 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="./style.css" />
+
+
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+
+
+      .container {
+        padding-top: 100px;
+      }
+      
+      h2 {
+        text-align: center;
+        padding: 20px;
+        font-size: 2rem;
+        color: #333;
+      }
+      
+      .slick-slide {
+        margin: 0 10px;
+      }
+      
+      .slick-slide img {
+        width: 100%;
+        max-height: 150px;
+        object-fit: contain;
+      }
+      
+      .slick-slider {
+        position: relative;
+        display: block;
+        box-sizing: border-box;
+      }
+      
+      .slick-list {
+        position: relative;
+        display: block;
+        overflow: hidden;
+        margin: 0 auto;
+        padding: 0;
+        max-width: 95%;
+      }
+      
+      .slick-track {
+        position: relative;
+        display: flex;
+      }
+      
+      .slick-initialized .slick-slide {
+        display: block;
+      }
+      
+      .copy {
+        padding-top: 50px;
+        font-size: 1rem;
+        color: #555;
+      }
+    </style>
 </head>
 
 
@@ -1318,11 +1379,7 @@
         <div
           class="relative z-0 flex flex-col gap-6 lg:w-8/12 md:w-10/12 sm:w-11/12 w-11/12 border-l-8 border-[#dcbb26] lg:mt-44 pl-6 lg:ml-10 text-white animate-fade-in"
         >
-          <p
-            class="lg:text-[28px] md:text-[24px] sm:text-[22px] text-[18px] font-light uppercase tracking-widest animate-slide-up"
-          >
-            Continuous Training
-          </p>
+           
 
           <!-- Main Title with Shadow and Animation -->
           <h1
@@ -1335,7 +1392,7 @@
           <p
             class="lg:text-2xl md:text-xl sm:text-lg text-md font-light mt-4 animate-fade-in"
           >
-          Empowering your growth with customized, cutting-edge training solutions from 1000 Hills Rugby.
+          Helping you grow with tailored training at 1000 Hills Rugby.
           </p>
 
           <!-- Call to Action Buttons with Hover Effects -->
@@ -1509,6 +1566,83 @@
           ></div>
         </div>
 
+        <section class="py-20 bg-[#F5F9F8] relative overflow-hidden">
+          <div
+            class="absolute inset-0 bg-gradient-to-b from-white via-transparent to-[#F5F9F8]"
+          ></div>
+          <div
+            class="w-11/12 max-w-7xl mx-auto text-center flex flex-col items-center relative z-10"
+          >
+            <h2
+              class="text-5xl font-extrabold mb-6 text-[#0B3D39] tracking-wide drop-shadow-sm"
+            >
+              Our Partners
+            </h2>
+            <p
+              class="text-lg mb-12 text-gray-700 lg:w-[60%] md:w-[75%] w-[90%] leading-relaxed drop-shadow-sm lg:text-center text-start"
+            >
+              We are immensely proud and grateful to be supported by these
+              trusted companies and organizations. Their generous
+              contributions, dedication, and partnership play a crucial role in
+              bringing all we do to life, ensuring 1000 Hills Rugby success, 
+              and helping us achieve our shared goals.
+            </p>
+            
+            
+            <div class="container"> 
+              <section class="customer-logos slider">
+                <div class="slide"><img src="images/rqt.jpg" alt="logo" /></div>
+                <div class="slide"><img src="images/anymore.jpg" alt="logo" /></div>
+                <div class="slide"><img src="images/plgym.png" alt="logo" /></div>
+                <div class="slide"><img src="images/pwr.png" alt="logo" /></div>
+                <div class="slide"><img src="images/TTA.jpg" alt="logo" /></div>
+                <div class="slide"><img src="images/rqt.jpg" alt="logo" /></div>
+                <div class="slide"><img src="images/anymore.jpg" alt="logo" /></div>
+                <div class="slide"><img src="images/plgym.png" alt="logo" /></div>
+                <div class="slide"><img src="images/pwr.png" alt="logo" /></div>
+                <div class="slide"><img src="images/TTA.jpg" alt="logo" /></div>
+              </section>
+               
+            </div>
+          </div>
+        </section>
+
+        <script>
+          $(document).ready(function () {
+            $(".customer-logos").slick({
+              slidesToShow: 6,
+              slidesToScroll: 1,
+              autoplay: true,
+              autoplaySpeed: 1500,
+              arrows: false,
+              dots: false,
+              pauseOnHover: false,
+              responsive: [
+                {
+                  breakpoint: 900,
+                  settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                  },
+                },
+                {
+                  breakpoint: 600,
+                  settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                  },
+                },
+                {
+                  breakpoint: 480,
+                  settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                  },
+                },
+              ],
+            });
+          });
+        </script>
         <div
           class="w-11/12 max-w-4xl mx-auto text-center text-black relative z-10"
         >
@@ -1647,8 +1781,8 @@
             <p class="text-[20px] lg:text-[24px] font-thin">ABOUT US</p>
             <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-[650] leading-tight">
 
-              THE HIGHEST LEVEL OF COACHING AND SKILL DEVELOPMENT
-              <span class="text-[#dcbb26]">GROWTH</span>
+              THE HIGHEST LEVEL OF COACHING AND 
+              <span class="text-[#dcbb26]">SKILLS DEVELOPMENT</span>
             </h1>
           </div>
           <div class="lg:w-5/12 w-full mt-6 lg:mt-10">
