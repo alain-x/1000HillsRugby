@@ -16,10 +16,69 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
     />
+
+    
+     
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
   </head>
 
   <style>
-    /* Display the menu when the checkbox is checked */
+    @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+
+
+.container {
+  padding-top: 100px;
+}
+
+h2 {
+  text-align: center;
+  padding: 20px;
+  font-size: 2rem;
+  color: #333;
+}
+
+.slick-slide {
+  margin: 0 10px;
+}
+
+.slick-slide img {
+  width: 100%;
+  max-height: 150px;
+  object-fit: contain;
+}
+
+.slick-slider {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+}
+
+.slick-list {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 95%;
+}
+
+.slick-track {
+  position: relative;
+  display: flex;
+}
+
+.slick-initialized .slick-slide {
+  display: block;
+}
+
+.copy {
+  padding-top: 50px;
+  font-size: 1rem;
+  color: #555;
+}
+
     #menu-toggle:checked ~ #menu {
       display: block;
     }
@@ -50,6 +109,8 @@
       color: #c2ffc1; /* Slightly lighter shade on hover */
       text-decoration: none;
     }
+
+
   </style>
 
   <body>
@@ -1151,72 +1212,93 @@
             bringing all we do to life, ensuring 1000 Hills Rugby success, 
             and helping us achieve our shared goals.
           </p>
-          <div class="flex flex-wrap gap-6 justify-center items-center">
-            <!-- Sponsor 1 -->
-            <div
-              class="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition duration-300 ease-in-out transform hover:scale-105 border border-gray-200"
-            >
-              <img
-                src="./images/rqt.jpg"
-                alt="partner 1"
-                class="h-20 w-auto mx-auto filter grayscale hover:grayscale-0 transition duration-300"
-              />
-            </div>
-            <!-- Sponsor 2 -->
-            <div
-              class="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition duration-300 ease-in-out transform hover:scale-105 border border-gray-200"
-            >
-              <img
-                src="./images/1000-hills-logo.png"
-                alt="partner 2"
-                class="h-20 w-auto mx-auto filter grayscale hover:grayscale-0 transition duration-300"
-              />
-            </div>
-            <!-- Sponsor 3 -->
-            <div
-              class="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition duration-300 ease-in-out transform hover:scale-105 border border-gray-200"
-            >
-              <img
-                src="./images/TTA.jpg"
-                alt="partner 3"
-                class="h-20 w-auto mx-auto filter grayscale hover:grayscale-0 transition duration-300"
-              />
-            </div>
-
-            <!-- Sponsor 4 -->
-            <div
-              class="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition duration-300 ease-in-out transform hover:scale-105 border border-gray-200"
-            >
-              <img
-                src="./images/pwr.png"
-                alt="partner 4"
-                class="h-20 w-auto mx-auto filter grayscale hover:grayscale-0 transition duration-300"
-              />
-            </div>
-
-            <!-- Sponsor 5 -->
-            <div
-              class="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition duration-300 ease-in-out transform hover:scale-105 border border-gray-200"
-            >
-              <img
-                src="./images/plgym.png"
-                alt="partner 5"
-                class="h-20 w-auto mx-auto filter grayscale hover:grayscale-0 transition duration-300"
-              />
-            </div>
-            <!-- Sponsor 6 -->
-            <div
-              class="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition duration-300 ease-in-out transform hover:scale-105 border border-gray-200"
-            >
-              <img
-                src="./images/anymore.jpg"
-                alt="partner 6"
-                class="h-20 w-auto mx-auto filter grayscale hover:grayscale-0 transition duration-300"
-              />
-            </div>
+          
+          
+          <div class="container">
+            <h2 class="text-center font-weight-bold">Our Partners</h2>
+            <section class="customer-logos slider">
+              <div class="slide"><img src="images/rqt.jpg" alt="logo" /></div>
+              <div class="slide"><img src="images/anymore.jpg" alt="logo" /></div>
+              <div class="slide"><img src="images/plgym.png" alt="logo" /></div>
+              <div class="slide"><img src="images/pwr.png" alt="logo" /></div>
+              <div class="slide"><img src="images/TTA.jpg" alt="logo" /></div>
+              <div class="slide"><img src="images/rqt.jpg" alt="logo" /></div>
+              <div class="slide"><img src="images/anymore.jpg" alt="logo" /></div>
+              <div class="slide"><img src="images/plgym.png" alt="logo" /></div>
+              <div class="slide"><img src="images/pwr.png" alt="logo" /></div>
+              <div class="slide"><img src="images/TTA.jpg" alt="logo" /></div>
+            </section>
+            <section class="customer-logos slider">
+              <div class="slide"><img src="images/rqt.jpg" alt="logo" /></div>
+              <div class="slide"><img src="images/anymore.jpg" alt="logo" /></div>
+              <div class="slide"><img src="images/plgym.png" alt="logo" /></div>
+              <div class="slide"><img src="images/pwr.png" alt="logo" /></div>
+              <div class="slide"><img src="images/TTA.jpg" alt="logo" /></div>
+              <div class="slide"><img src="images/rqt.jpg" alt="logo" /></div>
+              <div class="slide"><img src="images/anymore.jpg" alt="logo" /></div>
+              <div class="slide"><img src="images/plgym.png" alt="logo" /></div>
+              <div class="slide"><img src="images/pwr.png" alt="logo" /></div>
+              <div class="slide"><img src="images/TTA.jpg" alt="logo" /></div>
+            </section>
           </div>
         </div>
       </section>
+
+
+
+
+
+
+
+
+
+
+      <script>
+        $(document).ready(function () {
+          $(".customer-logos").slick({
+            slidesToShow: 6,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 1500,
+            arrows: false,
+            dots: false,
+            pauseOnHover: false,
+            responsive: [
+              {
+                breakpoint: 900,
+                settings: {
+                  slidesToShow: 4,
+                  slidesToScroll: 1,
+                },
+              },
+              {
+                breakpoint: 600,
+                settings: {
+                  slidesToShow: 3,
+                  slidesToScroll: 1,
+                },
+              },
+              {
+                breakpoint: 480,
+                settings: {
+                  slidesToShow: 2,
+                  slidesToScroll: 1,
+                },
+              },
+            ],
+          });
+        });
+      </script>
+
+
+
+
+
+
+
+
+
+
 
       <section class="py-20 relative overflow-hidden">
         <!-- Enhanced Background with Particles and Gradient -->
