@@ -12,7 +12,13 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
     />
+
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
     <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
       body {
         font-family: Arial, sans-serif;
         margin: 0;
@@ -231,7 +237,7 @@
       }
 
       /* Media Queries for responsiveness */
-      @media (max-width: 600px) {
+      @media (max-width: 900px) {
         .content {
           grid-template-columns: 1fr; /* Single column layout */
           gap: 20px;
@@ -313,6 +319,94 @@
           bottom: -9px;
         }
       }
+
+      @media (min-width: 1500px) and (max-width: 2000px) {
+        body {
+          font-size: 20px;
+        }
+      
+        section.slideshow-container {
+          height: 550px;
+          font-size: 30px;
+        }
+      
+        .text-container {
+          padding: 15px;
+        }
+      
+        .main-content {
+          gap: 15px;
+          padding: 15px;
+          margin-right: 30px;
+        }
+      
+        .slider-container #slider-image {
+          max-width: 1300px;
+          height: 850px;
+          padding: 15px;
+        }
+      
+        /* Contact Us section styling */
+        .contact-us {
+          position: absolute;
+          top: 90%;
+          right: 70px;
+          transform: translateY(-50%);
+          max-width: 1000px;
+          padding: 20px;
+          background-color: #2b4a78;
+          color: #ffffff;
+          border-radius: 8px;
+          text-align: center;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+      
+        .contact-us h3 {
+          font-size: 20px;
+          margin-bottom: 10px;
+        }
+      
+        .contact-us p {
+          font-size: 20px;
+          margin: 5px 0;
+        }
+      
+        .contact-us ul li {
+          color: white;
+        }
+      
+        .contact-us a {
+          color: #ffb400;
+          text-decoration: none;
+          font-weight: bold;
+        }
+      
+        .content {
+          grid-template-columns: repeat(2, 1fr); /* 2 columns for better use of space */
+          gap: 15px;
+          padding: 1.5rem;
+        }
+      
+        .card1 img {
+          height: 400px; /* Adjust image height */
+        }
+      
+        .foter {
+          font-size: 14px;
+        }
+      
+        .nav-buttons {
+          bottom: -300px;
+          left: 30%;
+        }
+      
+        .nav-buttons button {
+          font-size: 24px; /* Adjust button font size */
+          padding: 8px; /* Adjust button padding */
+        }
+      }
+      
+      
     </style>
   </head>
   <body>
