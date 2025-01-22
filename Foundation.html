@@ -104,7 +104,11 @@
         text-align: center;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         margin: 20px auto;
-      }
+        position: relative; /* Allow relative positioning */
+        top: -900px; /* Move it up */
+        left: 400px; /* Move it left */
+    }
+    
     
       .contact-us h3 {
         font-size: 20px;
@@ -173,87 +177,99 @@
         cursor: not-allowed;
       }
     
-      /* Media Queries */
-      @media (max-width: 768px) {
-        /* Slideshow Section */
-        section.slideshow-container {
-          height: 300px;
-          font-size: 28px;
-        }
-    
-        .slider-container #slider-image {
-          width: 600px;
-          height: 400px;
-          background-color: #2b4a78;
-          padding: 20px;
-          border-radius: 10px;
-          text-align: center;
-          position: relative;
-          margin: 0 auto; /* Center align for smaller screens */
-        }
-    
-        /* Content Layout */
-        .content {
-          grid-template-columns: 1fr; /* Single column layout */
-          padding: 1rem;
-        }
-    
-        /* Contact Us Section */
-        .contact-us {
-          max-width: 100%; /* Full width for small screens */
-        }
-    
-        /* Navigation Buttons */
-        .nav-buttons {
-          gap: 5px;
-        }
-    
-        .nav-buttons button {
-          font-size: 14px;
-          padding: 8px;
-        }
-    
-        /* Footer Section */
-        .foter {
-          font-size: 12px;
-        }
-      }
-    
-      @media (min-width: 1200px) {
-        
-        section.slideshow-container {
-          height: 550px; 
-          font-size: 40px;
-        }
-    
-        .slider-container #slider-image {
-          margin: 60px auto 0 auto; 
-          width: auto;  
-          height: 600px; 
-          background-color: #2b4a78;
-          padding: 20px;
-          border-radius: 10px;
-          text-align: center;
-          position: relative;
-        }
-     
-        .content {
-          grid-template-columns: repeat(2, 1fr); 
-          gap: 30px;
-        } 
-        .card1 img {
-          max-height: 500px; 
-        } 
-        .contact-us {
-          font-size: 16px;  
-          padding: 30px;  
-        }
-     
-        .nav-buttons button {
-          font-size: 20px;  
-          padding: 12px; 
-        }
-      }
+     /* Mobile and tablet devices */
+@media (max-width: 768px) {
+  /* Slideshow Section */
+  section.slideshow-container {
+      height: 300px;
+      font-size: 28px;
+  }
+
+  .slider-container #slider-image {
+      width: 100%; /* Make it responsive */
+      height: auto; /* Maintain aspect ratio */
+      background-color: #2b4a78;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      position: relative;
+      margin: 0 auto; /* Center align for smaller screens */
+  }
+
+  /* Content Layout */
+  .content {
+      grid-template-columns: 1fr; /* Single column layout */
+      padding: 1rem;
+  }
+
+  /* Contact Us Section */
+  .contact-us {
+      max-width: 100%; /* Full width for small screens */
+      top: 0; /* Reset position */
+      left: 0; /* Reset position */
+      margin-top: 20px; /* Space above the contact-us section */
+  }
+
+  /* Navigation Buttons */
+  .nav-buttons {
+      gap: 5px;
+  }
+
+  .nav-buttons button {
+      font-size: 14px;
+      padding: 8px;
+  }
+
+  /* Footer Section */
+  .foter {
+      font-size: 12px;
+  }
+}
+
+/* Larger screens (Desktops) */
+@media (min-width: 1200px) {
+  section.slideshow-container {
+      height: 550px;
+      font-size: 40px;
+  }
+
+  .slider-container #slider-image {
+      margin: 60px auto 0 auto;
+      width: 80%; /* Limit width */
+      height: auto; /* Maintain aspect ratio */
+      background-color: #2b4a78;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      position: relative;
+  }
+
+  /* Content Layout */
+  .content {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+  }
+
+  .card1 img {
+      max-height: 500px;
+  }
+
+  /* Contact Us Section */
+  .contact-us {
+      font-size: 16px;
+      padding: 30px;
+      position: relative; /* Make sure it moves up/left for desktop */
+      top: -900px; 
+      left: 400px;  
+  }
+
+  /* Navigation Buttons */
+  .nav-buttons button {
+      font-size: 20px;
+      padding: 12px;
+  }
+}
+
     </style>
     
   </head>
@@ -824,19 +840,7 @@
         </div>
       </div>
 
-      <!-- Contact Us Section -->
-      <div class="contact-us">
-        <h3>Contact Us</h3>
-        <ul>
-          <li>Email: info@rqt.careers</li>
-          <li>Phone: +250 785 439 770</li>
-          <li>Phone: +44 (0) 7797 749 134</li>
-          <li>Address: Kigali, Rwanda</li>
-          <li>
-            <a href="http://www.rqt.careers/"><li>www.rqt.careers</li></a>
-          </li>
-        </ul>
-      </div>
+      
     </div>
 
     <section class="content">
@@ -1035,6 +1039,20 @@
         </div>
       </div>
     </section>
+
+    <!-- Contact Us Section -->
+    <div class="contact-us">
+      <h3>Contact Us</h3>
+      <ul>
+        <li>Email: info@rqt.careers</li>
+        <li>Phone: +250 785 439 770</li>
+        <li>Phone: +44 (0) 7797 749 134</li>
+        <li>Address: Kigali, Rwanda</li>
+        <li>
+          <a href="http://www.rqt.careers/"><li>www.rqt.careers</li></a>
+        </li>
+      </ul>
+    </div>
 
     <section class="foter">
       <p>
