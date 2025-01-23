@@ -842,6 +842,21 @@
           id="playerCards"
         >
           <!-- Dynamic player cards will be inserted here -->
+          <img 
+          src="${player.img}" 
+          alt="${player.name}" 
+          class="player-image-clickable" 
+          data-name="${player.name}" 
+          data-age="${player.age}" 
+          data-role="${player.role}" 
+          data-category="${player.category}" 
+          data-weight="${player.weight}" 
+          data-height="${player.height}" 
+          data-games="${player.games}" 
+          data-points="${player.points}" 
+          data-tries="${player.tries}" 
+        />
+
         </div>
       </div>
     </section>
@@ -1127,16 +1142,39 @@
           tries: 6,
         },
       ];
+
+
+
+      
       // Function to generate player cards dynamically
-      function generatePlayerCards(players) {
-        const playerCardsContainer = document.getElementById("playerCards");
-        playerCardsContainer.innerHTML = ""; // Clear existing cards
+  function generatePlayerCards(players) {
+    const playerCardsContainer = document.getElementById("playerCards");
+    playerCardsContainer.innerHTML = ""; // Clear existing cards
 
-        players.forEach((player) => {
-          const playerCard = document.createElement("div");
-          playerCard.classList.add("player-card");
+    players.forEach((player) => {
+      // Create JSON-LD structured data
+      const script = document.createElement("script");
+      script.type = "application/ld+json";
+      script.textContent = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": player.name,
+        "image": player.img,
+        "age": player.age,
+        "jobTitle": player.role,
+        "description": `${player.role} (${player.category}) - Weight: ${player.weight}, Height: ${player.height}, Games Played: ${player.games}, Points: ${player.points}, Tries: ${player.tries}`,
+        "memberOf": {
+          "@type": "SportsTeam",
+          "name": "1000 Hills Rugby Club"
+        }
+      });
+      document.head.appendChild(script);
 
-          playerCard.innerHTML = `
+      // Create the player card
+      const playerCard = document.createElement("div");
+      playerCard.classList.add("player-card");
+
+      playerCard.innerHTML = `
         <div class="player-image">
           <img src="${player.img}" alt="${player.name}" class="player-image-clickable" data-name="${player.name}" data-age="${player.age}" data-role="${player.role}" data-category="${player.category}" data-weight="${player.weight}" data-height="${player.height}" data-games="${player.games}" data-points="${player.points}" data-tries="${player.tries}" />
         </div>
@@ -1144,40 +1182,35 @@
           <div class="player-name">${player.name}</div>
           <div class="player-position">${player.role}</div>
         </div>
-
-
-       <div class="player-details-extra">
-        <div class="flex justify-between mb-2 mt-[40px]">
-          <p><strong>Age:</strong></p> 
-          <span>${player.age}</span>
+        <div class="player-details-extra">
+          <div class="flex justify-between mb-2 mt-[40px]">
+            <p><strong>Age:</strong></p> 
+            <span>${player.age}</span>
+          </div>
+          <div class="flex justify-between mb-2">
+            <p><strong>Weight:</strong></p>
+            <span>${player.weight}</span>
+          </div>
+          <div class="flex justify-between mb-2">
+            <p><strong>Height:</strong></p>
+            <span>${player.height}</span>
+          </div>
+          <button class="btn w-[300px] py-2 bg-green-500 text-white text-sm font-bold rounded hover:bg-green-600" onclick="viewPlayerProfile('${player.name}')">View All About ${player.name}</button>
         </div>
-      <div class="flex justify-between mb-2">
-         <p><strong>Weight:</strong></p>
-         <span>${player.weight}</span>
-      </div>
-      <div class="flex justify-between mb-2">
-        <p><strong>Height:</strong></p>
-        <span>${player.height}</span>
-      </div>
-       
-      <button class="btn w-[300px] py-2 bg-green-500 text-white text-sm   font-bold rounded hover:bg-green-600" onclick="viewPlayerProfile('${player.name}')">View All About ${player.name}</button>
-
-</div>
-
       `;
 
-          playerCardsContainer.appendChild(playerCard);
-        });
+      playerCardsContainer.appendChild(playerCard);
+    });
 
         // Add click event listener to each image
       }
 
       // Function to view player profile
-      function viewPlayerProfile(playerName) {
-        const player = squad.find((p) => p.name === playerName);
-        localStorage.setItem("selectedPlayer", JSON.stringify(player));
-        window.location.href = "profiles.html";
-      }
+  function viewPlayerProfile(playerName) {
+    const player = squad.find((p) => p.name === playerName);
+    localStorage.setItem("selectedPlayer", JSON.stringify(player));
+    window.location.href = "profiles.html";
+  }
       // Function to update the role filter based on the selected category
       function updateRoleFilter(category) {
         const roleFilter = document.getElementById("roleFilter");
@@ -1255,6 +1288,9 @@
         (player) => player.category === "Backs"
       );
       generatePlayerCards(backsPlayers);
+
+
+      
     </script>
 
     <script src="./index.js"></script>
