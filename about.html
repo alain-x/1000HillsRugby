@@ -36,6 +36,13 @@
     color: #c2ffc1; /* Slightly lighter shade on hover */
     text-decoration: none;
   }
+
+  @media (min-width: 1300px) and (max-width: 1502px) {
+    .milestones-section {
+      margin-top: -100px; /* Adjust this value as needed */
+    }
+  }
+  
 </style>
 
 <body class="bg-white">
@@ -665,7 +672,7 @@
         <section class="second-section flex flex-col md:flex-row w-[95%] sm:w-[85%] md:w-[80%] mx-auto justify-between items-start gap-12 mt-10">
   
           <!-- Left Side - Milestones Achieved -->
-<div class="flex flex-col gap-6 w-full md:w-1/2 text-start -mt-4">
+<div class=" milestones-section flex flex-col gap-6 w-full md:w-1/2 text-start ">
   <h2 class="font-bold text-2xl text-[#00743F]">Milestones Achieved</h2>  
   <ul class="list-disc list-inside space-y-3 text-black leading-relaxed">
     <li>In 2016, we proudly contributed five players to Rwanda Rugby’s National Team for the African Rugby Cup Division 2 South.</li>
