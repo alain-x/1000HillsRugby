@@ -596,7 +596,7 @@
           </p>
 
           <!-- Hidden Content -->
-          <div id="moreText1" class="hidden">
+          <div id="moreText01" class="hidden">
             <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
               <li>Enhancing technical and tactical rugby skills</li>
               <li>Building strength, endurance, and agility</li>
@@ -611,7 +611,7 @@
           </div>
 
           <!-- Read More Button -->
-          <button id="readMoreBtn1" class="text-green-600 hover:underline">
+          <button id="readMoreBtn01" class="text-green-600 hover:underline">
             Read More
           </button>
         </div>
@@ -648,7 +648,7 @@
 
           <!-- Read More Button -->
           <button
-            id="readMoreBtn2"
+            id="readMoreBtn02"
             class="text-green-600 font-semibold hover:underline focus:outline-none"
           >
             Read More
@@ -657,7 +657,7 @@
 
         <!-- Hidden Extra Content (Will Move Below Image on Read More) -->
         <div
-          id="moreText2"
+          id="moreText02"
           class="hidden space-y-3 text-gray-700 text-base md:col-span-2"
         >
           <p>
@@ -789,7 +789,7 @@
 
           <!-- Read More Button -->
           <button
-            id="readMoreBtn3"
+            id="readMoreBtn03"
             class="text-green-600 font-semibold hover:underline focus:outline-none"
           >
             Read More
@@ -798,7 +798,7 @@
 
         <!-- Hidden Extra Content (Moves Below Image on Read More) -->
         <div
-          id="moreText3"
+          id="moreText03"
           class="hidden space-y-3 text-gray-700 text-base md:col-span-2"
         >
           <p><strong>Program Highlights:</strong></p>
@@ -896,7 +896,7 @@
 
           <!-- Read More Button -->
           <button
-            id="readMoreBtn4"
+            id="readMoreBtn04"
             class="text-green-600 font-semibold hover:underline focus:outline-none"
           >
             Read More
@@ -905,7 +905,7 @@
 
         <!-- Hidden Extra Content -->
         <div
-          id="moreText4"
+          id="moreText04"
           class="hidden space-y-3 text-gray-700 text-base md:col-span-2"
         >
           <p><strong>Who Can Join?</strong></p>
@@ -1008,35 +1008,27 @@
 
     <!-- JavaScript for Read More Functionality -->
     <script>
-      window.onload = function () {
-        function toggleText(contentId, btnId) {
-          var content = document.getElementById(contentId);
-          var btn = document.getElementById(btnId);
+      document.addEventListener("DOMContentLoaded", function () {
+        function setupReadMore(buttonId, contentId) {
+          const button = document.getElementById(buttonId);
+          const content = document.getElementById(contentId);
 
-          content.classList.toggle("hidden");
-          btn.textContent = content.classList.contains("hidden")
-            ? "Read More"
-            : "Read Less";
+          button.addEventListener("click", function () {
+            if (content.classList.contains("hidden")) {
+              content.classList.remove("hidden");
+              button.textContent = "Read Less";
+            } else {
+              content.classList.add("hidden");
+              button.textContent = "Read More";
+            }
+          });
         }
 
-        document
-          .getElementById("readMoreBtn2")
-          .addEventListener("click", function () {
-            toggleText("moreText2", "readMoreBtn2");
-          });
-      };
-      document
-        .getElementById("readMoreBtn4")
-        .addEventListener("click", function () {
-          var moreText = document.getElementById("moreText4");
-          if (moreText.classList.contains("hidden")) {
-            moreText.classList.remove("hidden");
-            this.textContent = "Read Less";
-          } else {
-            moreText.classList.add("hidden");
-            this.textContent = "Read More";
-          }
-        });
+        setupReadMore("readMoreBtn01", "moreText01");
+        setupReadMore("readMoreBtn02", "moreText02");
+        setupReadMore("readMoreBtn03", "moreText03");
+        setupReadMore("readMoreBtn04", "moreText04");
+      });
     </script>
 
     <footer
@@ -1173,45 +1165,6 @@
       </div>
     </footer>
 
-    <script>
-      // JavaScript for Read More Button
-      document
-        .getElementById("readMoreBtn")
-        .addEventListener("click", function () {
-          const moreText = document.getElementById("moreText");
-          if (moreText.classList.contains("hidden")) {
-            moreText.classList.remove("hidden");
-            this.textContent = "Read Less";
-          } else {
-            moreText.classList.add("hidden");
-            this.textContent = "Read More";
-          }
-        });
-
-      // JavaScript for Dropdown Toggle
-      function toggleDropdown(id) {
-        const dropdown = document.getElementById(id);
-        dropdown.classList.toggle("hidden");
-      }
-
-      // JavaScript for Mobile Menu Toggle
-      document
-        .getElementById("menu-toggle")
-        .addEventListener("change", function () {
-          const menu = document.getElementById("menu");
-          const menuOpenIcon = document.getElementById("menu-open-icon");
-          const menuCloseIcon = document.getElementById("menu-close-icon");
-          if (this.checked) {
-            menu.classList.remove("hidden");
-            menuOpenIcon.classList.add("hidden");
-            menuCloseIcon.classList.remove("hidden");
-          } else {
-            menu.classList.add("hidden");
-            menuOpenIcon.classList.remove("hidden");
-            menuCloseIcon.classList.add("hidden");
-          }
-        });
-    </script>
     <script src="index.js"></script>
   </body>
 </html>
