@@ -949,6 +949,77 @@
 
     </main>
 
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Toggle for "Rugby & Life Skills Program"
+        const readMoreBtn3 = document.getElementById("readMoreBtn3");
+        const moreText3 = document.getElementById("moreText3");
+      
+        if (readMoreBtn3) {
+          readMoreBtn3.addEventListener("click", function () {
+            if (moreText3.classList.contains("hidden")) {
+              moreText3.classList.remove("hidden"); // Show more content
+              readMoreBtn3.textContent = "Read Less"; // Change button text
+            } else {
+              moreText3.classList.add("hidden"); // Hide content again
+              readMoreBtn3.textContent = "Read More"; // Reset button text
+            }
+          });
+        }
+      
+        // Toggle for "Rising with 1000 Hills"
+        const readMoreBtn = document.getElementById("readMoreBtn");
+        const moreText = document.getElementById("moreText");
+      
+        if (readMoreBtn) {
+          readMoreBtn.addEventListener("click", function () {
+            if (moreText.classList.contains("hidden")) {
+              moreText.classList.remove("hidden"); // Show more content
+              readMoreBtn.textContent = "Read Less"; // Change button text
+            } else {
+              moreText.classList.add("hidden"); // Hide content again
+              readMoreBtn.textContent = "Read More"; // Reset button text
+            }
+          });
+        }
+      
+        // Toggle for "Program Structure and Pathways"
+        const readMoreBtn0 = document.getElementById("readMoreBtn0");
+        const moreText0 = document.getElementById("moreText0");
+        const shortText0 = document.getElementById("shortText0");
+      
+        if (readMoreBtn0) {
+          readMoreBtn0.addEventListener("click", function () {
+            if (moreText0.classList.contains("hidden")) {
+              moreText0.classList.remove("hidden"); // Show full content
+              shortText0.classList.add("hidden"); // Hide short text
+              readMoreBtn0.textContent = "Read Less"; // Change button text
+            } else {
+              moreText0.classList.add("hidden"); // Hide full content
+              shortText0.classList.remove("hidden"); // Show short text
+              readMoreBtn0.textContent = "Read More"; // Reset button text
+            }
+          });
+        }
+      
+        const readMoreBtn1 = document.getElementById("readMoreBtn1");
+        const moreText1 = document.getElementById("moreText1");
+      
+        if (readMoreBtn1) {
+          readMoreBtn1.addEventListener("click", function () {
+            if (moreText1.classList.contains("hidden")) {
+              moreText1.classList.remove("hidden"); // Show more content
+              readMoreBtn1.textContent = "Read Less"; // Change button text
+            } else {
+              moreText1.classList.add("hidden"); // Hide content again
+              readMoreBtn1.textContent = "Read More"; // Reset button text
+            }
+          });
+        }
+      });
+      
+    </script>
+
     <footer
     class="w-full mb-[1px] px-6 py-12 grid grid-cols-12 gap-y-12 lg:gap-8 text-white bg-gradient-to-b from-black to-gray-900 lg:h-auto"
   >
