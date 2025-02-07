@@ -4,7 +4,15 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Program</title>
+    <meta
+      name="description"
+      content="1000 Hills Rugby Club - Player Development Program, Women’s Rugby Program, and more."
+    />
+    <meta
+      name="keywords"
+      content="Rugby, 1000 Hills, Player Development, Women’s Rugby, Grassroots Rugby"
+    />
+    <title>Programs - 1000 Hills Rugby</title>
     <link rel="icon" href="./images/t_icon.png" type="image/png" />
     <link rel="stylesheet" href="./style.css" />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -13,7 +21,11 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
     />
   </head>
+
   <style>
+    .hidden {
+      display: none;
+    }
     .foter {
       bottom: 0;
       left: 0;
@@ -23,565 +35,538 @@
       background-color: #1d6c1c;
       color: #fff;
       z-index: 1000;
-      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for visual enhancement */
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
     }
 
     .foter a {
       color: #fff;
-      text-decoration: underline; /* Or none if you prefer no underline */
+      text-decoration: underline;
       margin-left: 0.5rem;
     }
 
     .foter a:hover {
-      color: #c2ffc1; /* Slightly lighter shade on hover */
+      color: #c2ffc1;
       text-decoration: none;
     }
   </style>
   <body class="bg-gray-50">
     <!-- Transparent Navbar -->
     <nav
-    class="navbar fixed top-0 left-0 w-full px-2 z-20 h-[10vh] flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300"
-  >
-    <!-- Logo -->
-    <div class="navbar-logo w-2/12">
-      <a href="./">
-        <img
-          class="w-[60px] hover:w-[70px] transition-transform duration-300"
-          src="./images/1000-hills-logo.png"
-          alt="1000 Hills Rugby"
-        />
-      </a>
-    </div>
- 
-    <!-- Desktop Navigation -->
-    <ul
-      class="hidden lg:flex lg:space-x-8 font-600 text-gray-800 text-sm tracking-wider"
+      class="navbar fixed top-0 left-0 w-full px-2 z-20 h-[10vh] flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300"
     >
-      <li>
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-          href="./"
-          >Home</a
-        >
-      </li>
-      <li>
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-          href="./about"
-          >About</a
-        >
-      </li>
-      <li>
-       <a
-         class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-         href="./services.html"
-         >Services</a
-       >
-     </li>
-     <li>
-       <a
-         class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-         href="./community"
-         >Community</a
-       >
-     </li>
-      <li>
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-          href="./shop"
-          >Shop</a
-        >
-      </li>
-      <li class="relative group">
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
-          >Education<i class="fas fa-chevron-down text-sm"></i
-        ></a>
-        <ul
-          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
-        >
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./education"
-              >Education</a
-            >
-          </li>
-          <li>
-            <a
-              class="block px-4 py-2 w-[180px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./Foundation"
-              >Career Foundation</a
-            >
-          </li>
-        </ul>
-      </li>
-      <li class="relative group">
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
-          >Events<i class="fas fa-chevron-down text-sm"></i
-        ></a>
-        <ul
-          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
-        >
-          <li>
-            <a
-              class="block px-4 py-2  hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./events"
-              >Events</a
-            >
-          </li>
-          <li>
-            <a
-              class="block px-4 py-2 w-[150px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./news"
-              >News & Media</a
-            >
-          </li>
-        </ul>
-      </li>
-      <li class="relative group">
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
-          >Result<i class="fas fa-chevron-down text-sm"></i
-        ></a>
-        <ul
-          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
-        >
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./fixtures"
-              >Fixtures</a
-            >
-          </li>
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./results"
-              >Results</a
-            >
-          </li>
-        </ul>
-      </li>
-      <li class="relative group">
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
-          >Teams<i class="fas fa-chevron-down text-sm"></i
-        ></a>
-        <ul
-          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
-        >
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./menprofiles"
-              >Men's Senior</a
-            >
-          </li>
-          <li>
-            <a
-              class="block px-4 py-2 w-[150px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./womenprofiles"
-              >Women's Senior</a
-            >
-          </li>
-          
-
-          <li class="relative">
-            <!-- Parent Dropdown -->
-            <button
-              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-              onclick="toggleDropdown('academy-menu')"
-            >
-              Academy  </i>
-            </button>
-            <ul
-              id="academy-menu"
-              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-            >
-              <!-- Under 18 Dropdown -->
-              <li class="relative">
-                <button
-                  class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                  onclick="toggleDropdown('under18-menu')"
-                >
-                  Under 18 <i class="fas fa-chevron-down text-sm"></i>
-                </button>
-                <ul
-                  id="under18-menu"
-                  class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-                >
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under18Boys"
-                      >Boys</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under18Girls"
-                      >Girls</a
-                    >
-                  </li>
-                </ul>
-              </li>
-          
-              <!-- Under 16 Dropdown -->
-              <li class="relative">
-                <button
-                  class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                  onclick="toggleDropdown('under16-menu')"
-                >
-                  Under 16 <i class="fas fa-chevron-down text-sm"></i>
-                </button>
-                <ul
-                  id="under16-menu"
-                  class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-                >
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under16Boys"
-                      >Boys</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under16Girls"
-                      >Girls</a
-                    >
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          
-         
-        </ul>
-      </li>
-      <li class="relative group">
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none mr-10"
-          >Contact<i class="fas fa-chevron-down text-sm"></i
-        ></a>
-        <ul
-          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
-        >
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./staff"
-              >Staff</a
-            >
-          </li>
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./contact"
-              >Contact us</a
-            >
-          </li>
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./register#reForm"
-              >Register</a
-            >
-          </li>
-        </ul>
-      </li>
-    </ul>
- 
-    <!-- Mobile Menu & Social Media -->
-    <div class="relative lg:hidden flex flex-wrap items-center">
-      <!-- Mobile Menu Toggle -->
-      <input type="checkbox" id="menu-toggle" class="hidden" />
-      <label for="menu-toggle" class="cursor-pointer text-2xl text-black">
-        <i class="fa-solid fa-bars" id="menu-open-icon"></i>
-        <i class="fa-solid fa-times hidden" id="menu-close-icon"></i>
-      </label>
- 
-      <!-- Mobile Menu -->
-      <div
-        id="menu"
-        class="absolute top-full right-0 bg-white text-gray-800 w-48 mt-2 rounded-md shadow-lg hidden transition-all duration-300"
-      >
-        <ul class="flex flex-col text-left space-y-1">
-          <!-- Main Menu Items -->
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./"
-              >Home</a
-            >
-          </li>
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./about"
-              >About</a
-            >
-          </li>
-          <li>
-           <a
-             class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-             href="./services"
-             >Services</a
-           >
-         </li>
-         <li>
-           <a
-             class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-             href="./community"
-             >Community</a
-           >
-         </li>
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./shop"
-              >Shop</a
-            >
-          </li>
- 
-          <!-- Dropdown for Education -->
-          <li class="relative">
-            <button
-              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-              onclick="toggleDropdown('education-menu-mobile')"
-            >
-              Education <i class="fas fa-chevron-down text-sm"></i>
-            </button>
-            <ul
-              id="education-menu-mobile"
-              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-            >
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./education"
-                  >Education</a
-                >
-              </li>
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./Foundation"
-                  >Career Foundation</a
-                >
-              </li>
-            </ul>
-          </li>
- 
-          <!-- Dropdown for Events -->
-          <li class="relative">
-            <button
-              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-              onclick="toggleDropdown('events-menu-mobile')"
-            >
-              Events <i class="fas fa-chevron-down text-sm"></i>
-            </button>
-            <ul
-              id="events-menu-mobile"
-              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-            >
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./events"
-                  >Events</a
-                >
-              </li>
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./news"
-                  >News & Media</a
-                >
-              </li>
-            </ul>
-          </li>
- 
-          <!-- Dropdown for Results -->
-          <li class="relative">
-            <button
-              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-              onclick="toggleDropdown('results-menu-mobile')"
-            >
-              Results <i class="fas fa-chevron-down text-sm"></i>
-            </button>
-            <ul
-              id="results-menu-mobile"
-              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-            >
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./fixtures"
-                  >Fixtures</a
-                >
-              </li>
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./results"
-                  >Results</a
-                >
-              </li>
-            </ul>
-          </li>
- 
-           
-          <!-- Dropdown for Teams -->
-
-        <li class="relative">
-         <button
-          class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-          onclick="toggleDropdown('teams-menu-mobile')"
-         >
-          Teams <i class="fas fa-chevron-down text-sm"></i>
-         </button>
-         <ul
-          id="teams-menu-mobile"
-          class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-         >
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./menprofiles"
-              >Men's Senior</a
-            >
-          </li>
-
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./womenprofiles"
-              >Women's Senior</a
-            >
-          </li>
-          <li class="relative">
-            <!-- Parent Dropdown -->
-            <button
-              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-              onclick="toggleDropdown('academy-menu-mobile')"
-            >
-              Academy </i>
-            </button>
-            <ul
-              id="academy-menu-mobile"
-              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-            >
-              <!-- Under 18 Dropdown -->
-              <li class="relative">
-                <button
-                  class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                  onclick="toggleDropdown('under18-menu-mobile')"
-                >
-                  Under 18 <i class="fas fa-chevron-down text-sm"></i>
-                </button>
-                <ul
-                  id="under18-menu-mobile"
-                  class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-                >
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under18Boys"
-                      >Boys</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under18Girls"
-                      >Girls</a
-                    >
-                  </li>
-                </ul>
-              </li>
-          
-              <!-- Under 16 Dropdown -->
-              <li class="relative">
-                <button
-                  class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                  onclick="toggleDropdown('under16-menu-mobile')"
-                >
-                  Under 16 <i class="fas fa-chevron-down text-sm"></i>
-                </button>
-                <ul
-                  id="under16-menu-mobile"
-                  class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-                >
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under16Boys"
-                      >Boys</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under16Girls"
-                      >Girls</a
-                    >
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          
-          </ul>
-      </li>
- 
-          <!-- Contact -->
-          <li class="relative">
-            <button
-              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-              onclick="toggleDropdown('contact-menu-mobile')"
-            >
-              Contact <i class="fas fa-chevron-down text-sm"></i>
-            </button>
-            <ul
-              id="contact-menu-mobile"
-              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-            >
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./staff"
-                  >Staff</a
-                >
-              </li>
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./contact"
-                  >Contact Us</a
-                >
-              </li>
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./register#reForm"
-                  >Register</a
-                >
-              </li>
-            </ul>
-          </li>
-        </ul>
+      <!-- Logo -->
+      <div class="navbar-logo w-2/12">
+        <a href="./">
+          <img
+            class="w-[60px] hover:w-[70px] transition-transform duration-300"
+            src="./images/1000-hills-logo.png"
+            alt="1000 Hills Rugby Logo"
+          />
+        </a>
       </div>
-    </div>
-  </nav>
+
+      <!-- Desktop Navigation -->
+      <ul
+        class="hidden lg:flex lg:space-x-8 font-600 text-gray-800 text-sm tracking-wider"
+      >
+        <li>
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+            href="./"
+            >Home</a
+          >
+        </li>
+        <li>
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+            href="./about"
+            >About</a
+          >
+        </li>
+        <li>
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+            href="./services.html"
+            >Services</a
+          >
+        </li>
+        <li>
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+            href="./community"
+            >Community</a
+          >
+        </li>
+        <li>
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+            href="./shop"
+            >Shop</a
+          >
+        </li>
+        <li class="relative group">
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
+            >Education<i class="fas fa-chevron-down text-sm"></i
+          ></a>
+          <ul
+            class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
+          >
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./education"
+                >Education</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 w-[180px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./Foundation"
+                >Career Foundation</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="relative group">
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
+            >Events<i class="fas fa-chevron-down text-sm"></i
+          ></a>
+          <ul
+            class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
+          >
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./events"
+                >Events</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 w-[150px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./news"
+                >News & Media</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="relative group">
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
+            >Result<i class="fas fa-chevron-down text-sm"></i
+          ></a>
+          <ul
+            class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
+          >
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./fixtures"
+                >Fixtures</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./results"
+                >Results</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="relative group">
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
+            >Teams<i class="fas fa-chevron-down text-sm"></i
+          ></a>
+          <ul
+            class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
+          >
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./menprofiles"
+                >Men's Senior</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 w-[150px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./womenprofiles"
+                >Women's Senior</a
+              >
+            </li>
+            <li class="relative">
+              <button
+                class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                onclick="toggleDropdown('academy-menu')"
+              >
+                Academy
+              </button>
+              <ul
+                id="academy-menu"
+                class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+              >
+                <li class="relative">
+                  <button
+                    class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                    onclick="toggleDropdown('under18-menu')"
+                  >
+                    Under 18 <i class="fas fa-chevron-down text-sm"></i>
+                  </button>
+                  <ul
+                    id="under18-menu"
+                    class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+                  >
+                    <li>
+                      <a
+                        class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                        href="./under18Boys"
+                        >Boys</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                        href="./under18Girls"
+                        >Girls</a
+                      >
+                    </li>
+                  </ul>
+                </li>
+                <li class="relative">
+                  <button
+                    class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                    onclick="toggleDropdown('under16-menu')"
+                  >
+                    Under 16 <i class="fas fa-chevron-down text-sm"></i>
+                  </button>
+                  <ul
+                    id="under16-menu"
+                    class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+                  >
+                    <li>
+                      <a
+                        class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                        href="./under16Boys"
+                        >Boys</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                        href="./under16Girls"
+                        >Girls</a
+                      >
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="relative group">
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none mr-10"
+            >Contact<i class="fas fa-chevron-down text-sm"></i
+          ></a>
+          <ul
+            class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
+          >
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./staff"
+                >Staff</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./contact"
+                >Contact us</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./register#reForm"
+                >Register</a
+              >
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- Mobile Menu & Social Media -->
+      <div class="relative lg:hidden flex flex-wrap items-center">
+        <!-- Mobile Menu Toggle -->
+        <input type="checkbox" id="menu-toggle" class="hidden" />
+        <label for="menu-toggle" class="cursor-pointer text-2xl text-black">
+          <i class="fa-solid fa-bars" id="menu-open-icon"></i>
+          <i class="fa-solid fa-times hidden" id="menu-close-icon"></i>
+        </label>
+
+        <!-- Mobile Menu -->
+        <div
+          id="menu"
+          class="absolute top-full right-0 bg-white text-gray-800 w-48 mt-2 rounded-md shadow-lg hidden transition-all duration-300"
+        >
+          <ul class="flex flex-col text-left space-y-1">
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./"
+                >Home</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./about"
+                >About</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./services"
+                >Services</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./community"
+                >Community</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./shop"
+                >Shop</a
+              >
+            </li>
+            <li class="relative">
+              <button
+                class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                onclick="toggleDropdown('education-menu-mobile')"
+              >
+                Education <i class="fas fa-chevron-down text-sm"></i>
+              </button>
+              <ul
+                id="education-menu-mobile"
+                class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+              >
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./education"
+                    >Education</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./Foundation"
+                    >Career Foundation</a
+                  >
+                </li>
+              </ul>
+            </li>
+            <li class="relative">
+              <button
+                class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                onclick="toggleDropdown('events-menu-mobile')"
+              >
+                Events <i class="fas fa-chevron-down text-sm"></i>
+              </button>
+              <ul
+                id="events-menu-mobile"
+                class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+              >
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./events"
+                    >Events</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./news"
+                    >News & Media</a
+                  >
+                </li>
+              </ul>
+            </li>
+            <li class="relative">
+              <button
+                class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                onclick="toggleDropdown('results-menu-mobile')"
+              >
+                Results <i class="fas fa-chevron-down text-sm"></i>
+              </button>
+              <ul
+                id="results-menu-mobile"
+                class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+              >
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./fixtures"
+                    >Fixtures</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./results"
+                    >Results</a
+                  >
+                </li>
+              </ul>
+            </li>
+            <li class="relative">
+              <button
+                class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                onclick="toggleDropdown('teams-menu-mobile')"
+              >
+                Teams <i class="fas fa-chevron-down text-sm"></i>
+              </button>
+              <ul
+                id="teams-menu-mobile"
+                class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+              >
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./menprofiles"
+                    >Men's Senior</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./womenprofiles"
+                    >Women's Senior</a
+                  >
+                </li>
+                <li class="relative">
+                  <button
+                    class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                    onclick="toggleDropdown('academy-menu-mobile')"
+                  >
+                    Academy
+                  </button>
+                  <ul
+                    id="academy-menu-mobile"
+                    class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+                  >
+                    <li class="relative">
+                      <button
+                        class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                        onclick="toggleDropdown('under18-menu-mobile')"
+                      >
+                        Under 18 <i class="fas fa-chevron-down text-sm"></i>
+                      </button>
+                      <ul
+                        id="under18-menu-mobile"
+                        class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+                      >
+                        <li>
+                          <a
+                            class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                            href="./under18Boys"
+                            >Boys</a
+                          >
+                        </li>
+                        <li>
+                          <a
+                            class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                            href="./under18Girls"
+                            >Girls</a
+                          >
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="relative">
+                      <button
+                        class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                        onclick="toggleDropdown('under16-menu-mobile')"
+                      >
+                        Under 16 <i class="fas fa-chevron-down text-sm"></i>
+                      </button>
+                      <ul
+                        id="under16-menu-mobile"
+                        class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+                      >
+                        <li>
+                          <a
+                            class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                            href="./under16Boys"
+                            >Boys</a
+                          >
+                        </li>
+                        <li>
+                          <a
+                            class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                            href="./under16Girls"
+                            >Girls</a
+                          >
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li class="relative">
+              <button
+                class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                onclick="toggleDropdown('contact-menu-mobile')"
+              >
+                Contact <i class="fas fa-chevron-down text-sm"></i>
+              </button>
+              <ul
+                id="contact-menu-mobile"
+                class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+              >
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./staff"
+                    >Staff</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./contact"
+                    >Contact Us</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./register#reForm"
+                    >Register</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
     <!-- Content Sections -->
     <main class="pt-24 space-y-16">
-      <!-- Section Template -->
+      <!-- Section 1 -->
       <section
         id="p1"
         class="flex flex-col md:flex-row w-[90%] lg:w-[80%] mx-auto items-center gap-6"
@@ -598,118 +583,461 @@
             Player Development Program
           </h2>
           <p class="text-gray-700 text-lg font-medium">
-            At 1000 Hills Rugby, we believe in nurturing talent both on and off 
-            the field, and our Player Development Program is at the heart of 
-            this mission. This program is designed to help players grow their 
-            skills, build confidence, and reach their full potential. 
-            From technical rugby training to personal development sessions, 
-            we ensure our players are prepared for success in the game and beyond. 
-            It’s more than just rugby—it’s about empowering individuals with the 
-            tools they need to excel in life. Together, we are building a strong 
-            foundation for future champions. 
-             <strong>Age Group:</strong> 18+ years
+            At 1000 Hills Rugby, we believe in nurturing talent both on and off
+            the field, and our Player Development Program is at the heart of
+            this mission. This program is designed to help players grow their
+            skills, build confidence, and reach their full potential. From
+            technical rugby training to personal development sessions, we ensure
+            our players are prepared for success in the game and beyond. It’s
+            more than just rugby—it’s about empowering individuals with the
+            tools they need to excel in life. Together, we are building a strong
+            foundation for future champions.
+            <strong>Age Group:</strong> 18+ years
           </p>
-          <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
-            <li>Enhancing technical and tactical rugby skills</li>
-            <li>Building strength, endurance, and agility</li>
-            <li>Offering workshops on leadership, teamwork, communication, and life skills</li>
-            <li>Preparing players for opportunities within and outside of rugby</li>
-          </ul>
+
+          <!-- Hidden Content -->
+          <div id="moreText1" class="hidden">
+            <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
+              <li>Enhancing technical and tactical rugby skills</li>
+              <li>Building strength, endurance, and agility</li>
+              <li>
+                Offering workshops on leadership, teamwork, communication, and
+                life skills
+              </li>
+              <li>
+                Preparing players for opportunities within and outside of rugby
+              </li>
+            </ul>
+          </div>
+
+          <!-- Read More Button -->
+          <button id="readMoreBtn1" class="text-green-600 hover:underline">
+            Read More
+          </button>
         </div>
       </section>
 
+      <!-- Section 2 -->
       <section
         id="p2"
-        class="flex flex-col md:flex-row w-[90%] lg:w-[80%] mx-auto items-center gap-6"
+        class="grid grid-cols-1 md:grid-cols-2 w-[90%] lg:w-[80%] mx-auto items-start gap-6"
       >
-        <div class="md:w-1/2">
+        <!-- Image -->
+        <div class="md:row-span-2">
           <img
             src="./images/wm.jpg"
             alt="Women's Rugby"
-            class="w-full h-full object-cover transform hover:scale-105 transition duration-500 ease-in-out"
+            class="w-full h-full object-cover transform hover:scale-105 transition duration-500 ease-in-out rounded-lg shadow-lg"
           />
         </div>
-        <div class="md:w-1/2 space-y-4 text-center md:text-left">
+
+        <!-- Content -->
+        <div class="space-y-4 text-center md:text-left">
           <h2 class="text-3xl font-extrabold text-black">
             Women’s Rugby Program
           </h2>
           <p class="text-gray-700 text-lg font-medium">
-            Dedicated to empowering women through rugby, this program encourages
-            females of all ages to participate in the sport.
-            <strong>Age Group:</strong> 16+ years
+            <strong>Empowering Women Through Rugby</strong>
           </p>
-          <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
-            <li>Regular training sessions and fitness programs</li>
-            <li>Participation in local and regional tournaments</li>
-            <li>Leadership and personal development workshops</li>
-            <li>Mentorship from experienced players</li>
+          <p class="text-gray-700 text-lg font-medium">
+            At 1000 Hills Rugby, we believe in the transformative power of
+            sports to inspire, uplift, and empower women. Our Women’s Rugby
+            Program is thoughtfully designed to create opportunities for females
+            aged 12 and above to thrive both on and off the field.
+          </p>
+
+          <!-- Read More Button -->
+          <button
+            id="readMoreBtn2"
+            class="text-green-600 font-semibold hover:underline focus:outline-none"
+          >
+            Read More
+          </button>
+        </div>
+
+        <!-- Hidden Extra Content (Will Move Below Image on Read More) -->
+        <div
+          id="moreText2"
+          class="hidden space-y-3 text-gray-700 text-base md:col-span-2"
+        >
+          <p>
+            <strong>Who Can Join?</strong> <br />
+            <strong>Age Group:</strong> 12+ years.
+          </p>
+          <p>
+            Open to beginners and experienced players alike, our program
+            welcomes all women looking to enhance their rugby skills and
+            personal development.
+          </p>
+
+          <p><strong>What We Offer:</strong></p>
+          <ul class="list-disc list-inside">
+            <strong>Regular Training and Fitness Programs</strong>
+            <li>
+              <strong>Train Like a Champion:</strong> Participate in weekly
+              sessions focused on sharpening rugby skills and boosting overall
+              fitness, setting players up for success on the field.
+            </li>
+            <li>
+              <strong>Customized for Excellence:</strong> Tailored training
+              plans ensure that every player, from beginner to advanced,
+              achieves their full potential.
+            </li>
+            <br />
+
+            <strong>Education and Employability Opportunities </strong>
+            <li>
+              <strong>Learn, Grow, Succeed:</strong> Engage in workshops that
+              build essential skills for academic achievement and career
+              advancement.
+            </li>
+            <li>
+              <strong>Your Future, Empowered:</strong> Access mentorship and
+              career guidance that opens doors to limitless opportunities.
+            </li>
+            <li>
+              <strong>Supporting Education:</strong> We facilitate school fees
+              and provide necessary materials such as books, bags, and other
+              essentials to ensure our players can excel both in the classroom
+              and on the field.
+            </li>
+            <br />
+
+            <strong>Competitive Play</strong>
+            <li>
+              <strong>Compete, Win, Inspire:</strong> Take part in thrilling
+              local and regional tournaments, building teamwork and a winning
+              mindset
+            </li>
+            <li>
+              <strong>On the World Stage:</strong> Represent the club and Rwanda
+              with pride, showcasing your talent on national and international
+              platforms.
+            </li>
+            <br />
+
+            <strong>Leadership and Personal Development</strong>
+            <li>
+              <strong>Leaders On and Off the Field:</strong> Develop leadership
+              skills that inspire teammates and create positive change beyond
+              rugby.
+            </li>
+            <li>
+              <strong>Confidence Unlocked:</strong> Participate in workshops
+              that strengthen resilience and prepare you to tackle life’s
+              challenges.
+            </li>
+            <br />
+
+            <strong>Mentorship</strong>
+            <li>
+              <strong>Guidance for Greatness:</strong> Learn from experienced
+              players and coaches who provide invaluable support for both
+              personal and athletic growth.
+            </li>
+            <li>
+              <strong>Inspiring the Next Generation: </strong>Receive mentorship
+              that shapes you into a role model for future players.
+            </li>
           </ul>
+
+          <p>
+            Whether you’re looking to play competitively, improve your fitness,
+            or simply be part of a supportive community, the Women’s Rugby
+            Program is your platform to grow, learn, and shine. Join us in
+            empowering women through rugby!
+            <a href="#" class="text-green-600 font-semibold hover:underline"
+              >REGISTER NOW</a
+            >
+          </p>
         </div>
       </section>
 
+      <!-- Section 3-->
+      <!-- Section 3 -->
       <section
         id="p3"
-        class="flex flex-col md:flex-row w-[90%] lg:w-[80%] mx-auto items-center gap-6"
+        class="grid grid-cols-1 md:grid-cols-2 w-[90%] lg:w-[80%] mx-auto items-start gap-6 mt-12"
       >
-        <div class="md:w-1/2">
+        <!-- Image -->
+        <div class="md:row-span-2">
           <img
             src="./images/gr.jpg"
-            alt="Grassroots Initiative"
-            class="w-full h-full object-cover transform hover:scale-105 transition duration-500 ease-in-out"
+            alt="Rugby & Life Skills Program"
+            class="w-full h-full object-cover transform hover:scale-105 transition duration-500 ease-in-out rounded-lg shadow-lg"
           />
         </div>
-        <div class="md:w-1/2 space-y-4 text-center md:text-left">
+
+        <!-- Content -->
+        <div class="space-y-4 text-center md:text-left">
           <h2 class="text-3xl font-extrabold text-black">
             Rugby & Life Skills Program
           </h2>
           <p class="text-gray-700 text-lg font-medium">
-            We use rugby to teach essential life skills such as teamwork, 
-            discipline, communication, and leadership, empowering players 
-            to succeed both on and off the field.
-            <strong>Age Group:</strong> 16-35 years
+            <strong>Empowering Future Leaders Through Rugby</strong>
           </p>
-          <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
-            <li>Leadership, communication, and teamwork workshops</li>
-            <li>Financial literacy, health, and career development sessions</li>
-            <li>Mentorship from senior players and community leaders</li>
-            <li>Focus on character building and real-world skills</li>
+          <p class="text-gray-700 text-lg font-medium">
+            At 1000 Hills Rugby, we understand that rugby is more than just a
+            game; it is a powerful tool for personal and community development.
+            Our Rugby & Life Skills Program is specifically designed for players
+            aged 10 and above, combining high-quality rugby training with
+            essential life skills education. This holistic approach ensures that
+            our participants not only excel in their athletic pursuits but also
+            grow into well-rounded individuals ready to face the challenges of
+            life.
+          </p>
+
+          <!-- Read More Button -->
+          <button
+            id="readMoreBtn3"
+            class="text-green-600 font-semibold hover:underline focus:outline-none"
+          >
+            Read More
+          </button>
+        </div>
+
+        <!-- Hidden Extra Content (Moves Below Image on Read More) -->
+        <div
+          id="moreText3"
+          class="hidden space-y-3 text-gray-700 text-base md:col-span-2"
+        >
+          <p><strong>Program Highlights:</strong></p>
+          <ul class="list-disc list-inside">
+            <li>
+              <strong>Inclusive Participation</strong>
+              Open to boys and girls of all skill levels, our program welcomes
+              everyone from senior teams to development squads and juniors,
+              fostering a supportive and inclusive environment.
+            </li>
+            <br />
+
+            <li>
+              <strong>Comprehensive Workshops</strong>
+              Participants engage in workshops focused on leadership,
+              communication, and teamwork, where they learn to lead with
+              integrity and collaborate effectively with others.
+            </li>
+            <br />
+
+            <li>
+              <strong>Practical Life Skills</strong> Our curriculum includes
+              sessions on financial literacy, health, and career development,
+              equipping players with the knowledge and skills necessary for
+              making informed life choices and achieving their professional
+              aspirations.
+            </li>
+            <br />
+
+            <li>
+              <strong>Mentorship Opportunities</strong>Players benefit from
+              mentorship by senior players and community leaders, gaining
+              valuable insights and guidance that inspire personal and
+              professional growth.
+            </li>
+            <br />
+
+            <li>
+              <strong>Character Development</strong> We emphasize the importance
+              of discipline, integrity, and resilience, helping players navigate
+              challenges both on and off the field while preparing them to be
+              active contributors to society.
+            </li>
           </ul>
+
+          <p>
+            <strong>Why Choose Our Program?</strong> <br />
+            The Rugby & Life Skills Program at 1000 Hills Rugby is committed to
+            nurturing disciplined, empowered individuals who embody the values
+            of sportsmanship, mutual respect, and community engagement. By
+            integrating athletic training with life skills education, we prepare
+            our players to become leaders and role models, ready to represent
+            Rwanda with pride on the international stage.
+          </p>
+
+          <p>
+            Join us in building champions on and off the field!
+            <a href="#" class="text-green-600 font-semibold hover:underline"
+              >REGISTER NOW</a
+            >
+          </p>
         </div>
       </section>
-
+      <!-- Section 4 -->
       <section
         id="p4"
-        class="flex flex-col md:flex-row w-[90%] lg:w-[80%] mx-auto items-center gap-6"
+        class="grid grid-cols-1 md:grid-cols-2 w-[90%] lg:w-[80%] mx-auto items-start gap-6 mt-12"
       >
-        <div class="md:w-1/2">
+        <!-- Image -->
+        <div class="md:row-span-2">
           <img
             src="./images/u6.jpg"
-            alt="Community Outreach"
-            class="w-full h-full object-cover transform hover:scale-105 transition duration-500 ease-in-out"
+            alt="Grassroots Rugby Initiative"
+            class="w-full h-full object-cover transform hover:scale-105 transition duration-500 ease-in-out rounded-lg shadow-lg"
           />
         </div>
-        <div class="md:w-1/2 space-y-4 text-center md:text-left">
+
+        <!-- Content -->
+        <div class="space-y-4 text-center md:text-left">
           <h2 class="text-3xl font-extrabold text-black">
             Grassroots Rugby Initiative
           </h2>
           <p class="text-gray-700 text-lg font-medium">
-            This outreach program aims to bring rugby to underserved
-            communities, providing training, equipment, and opportunities for
-            young people to engage with the sport.
-
-            <strong>Age Group:</strong> 6-15 years
+            <strong>Bringing Rugby to Every Corner of Rwanda</strong>
           </p>
-          <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
-            <li>Rugby introduction clinics in schools and communities</li>
-            <li>Free access to equipment and training</li>
-            <li>Collaboration with local schools to promote rugby education</li>
+          <p class="text-gray-700 text-lg font-medium">
+            At 1000 Hills Rugby, we believe that every child deserves the
+            opportunity to discover the joy of rugby and the invaluable life
+            skills it imparts. Our Grassroots Rugby Initiative is dedicated to
+            introducing the sport to underserved communities, breaking down
+            barriers, and nurturing future talent. This program aligns with our
+            mission to foster inclusivity, develop youth, and empower
+            communities through the transformative power of rugby.
+          </p>
+
+          <!-- Read More Button -->
+          <button
+            id="readMoreBtn4"
+            class="text-green-600 font-semibold hover:underline focus:outline-none"
+          >
+            Read More
+          </button>
+        </div>
+
+        <!-- Hidden Extra Content -->
+        <div
+          id="moreText4"
+          class="hidden space-y-3 text-gray-700 text-base md:col-span-2"
+        >
+          <p><strong>Who Can Join?</strong></p>
+          <ul class="list-disc list-inside">
+            <li><strong>Age Group:</strong> 6–15 years</li>
             <li>
-              Talent scouting for entry into the Youth Development Program
+              Open to boys and girls in schools and communities with limited
+              access to sports programs, our initiative welcomes all young
+              aspiring athletes.
             </li>
           </ul>
+
+          <p><strong>What We Offer:</strong></p>
+          <ul class="list-disc list-inside">
+            <strong
+              >Rugby Introduction Clinics in Schools and Communities</strong
+            >
+            <li>
+              <strong>Engaging Learning Experiences:</strong>
+            </li>
+            <li>
+              <strong>Expert Coaching:</strong> Age-appropriate training
+              delivered by experienced coaches to ensure a positive introduction
+              to the sport.
+            </li>
+            <br />
+
+            <strong>Free Access to Equipment and Training</strong>
+            <li>
+              <strong>Essential Gear Provided:</strong> We supply rugby balls,
+              kits, and other necessary equipment to ensure that all
+              participants can engage fully in the program.
+            </li>
+            <li>
+              <strong>Inclusive Training Environment:</strong> Our sessions
+              prioritize safety, teamwork, and sportsmanship, creating a
+              welcoming atmosphere for all.
+            </li>
+            <br />
+
+            <strong
+              >Collaboration with Local Schools to Promote Rugby
+              Education</strong
+            >
+            <li>
+              <strong>Partnerships for Progress:</strong> We work closely with
+              schools to integrate rugby into their physical education programs,
+              enhancing the overall sports curriculum.
+            </li>
+            <li>
+              <strong>Teacher Workshops:</strong> Hosting workshops for
+              educators to equip them with the tools and knowledge to support
+              long-term rugby education in their schools.
+            </li>
+            <br />
+
+            <strong>Facilitating Education Support</strong>
+            <li>
+              <strong>Comprehensive Assistance:</strong> We provide school fees
+              and essential materials such as books, bags, and uniforms to
+              ensure that all participants can thrive both academically and
+              athletically.
+            </li>
+            <li>
+              <strong>Holistic Development:</strong> Our goal is to ensure that
+              young players have the resources they need to succeed in all
+              aspects of their lives.
+            </li>
+            <br />
+
+            <strong>Talent Scouting for the Youth Development Program</strong>
+            <li>
+              <strong>Identifying Future Stars:</strong> We actively scout and
+              nurture young talent, providing pathways for skilled players to
+              advance into our Youth Development Program for continued growth
+              and competitive play.
+            </li>
+          </ul>
+
+          <p>
+            <strong>Why Join?</strong> <br />
+            The Grassroots Rugby Initiative aims to inspire the next generation
+            of players by instilling core values of discipline, mutual respect,
+            and teamwork. By making rugby accessible to all, we empower young
+            people to become confident, active members of their communities,
+            ready to embrace the challenges of life both on and off the field.
+          </p>
+
+          <p>
+            <strong>Get Involved!</strong> <br />Support Grassroots Rugby Join
+            us in our mission to bring rugby to every corner of Rwanda!
+            <a href="#" class="text-green-600 font-semibold hover:underline"
+              >Support Grassroots Rugby</a
+            >
+            through donations, volunteering, or partnerships.
+          </p>
         </div>
       </section>
     </main>
+
+    <!-- JavaScript for Read More Functionality -->
+    <script>
+      window.onload = function () {
+        function toggleText(contentId, btnId) {
+          var content = document.getElementById(contentId);
+          var btn = document.getElementById(btnId);
+
+          content.classList.toggle("hidden");
+          btn.textContent = content.classList.contains("hidden")
+            ? "Read More"
+            : "Read Less";
+        }
+
+        document
+          .getElementById("readMoreBtn2")
+          .addEventListener("click", function () {
+            toggleText("moreText2", "readMoreBtn2");
+          });
+      };
+      document
+        .getElementById("readMoreBtn4")
+        .addEventListener("click", function () {
+          var moreText = document.getElementById("moreText4");
+          if (moreText.classList.contains("hidden")) {
+            moreText.classList.remove("hidden");
+            this.textContent = "Read Less";
+          } else {
+            moreText.classList.add("hidden");
+            this.textContent = "Read More";
+          }
+        });
+    </script>
 
     <footer
       class="w-full mb-[1px] mt-[30px] px-6 py-12 grid grid-cols-12 gap-y-12 lg:gap-8 text-white bg-gradient-to-b from-black to-gray-900 lg:h-auto"
@@ -721,7 +1049,7 @@
         <img
           class="lg:w-[150px] h-[150px] w-[120px] lg:h-[120px] object-contain transition-transform duration-300 hover:scale-105"
           src="./images/1000-hills-logo.png"
-          alt="Logo"
+          alt="1000 Hills Rugby Logo"
         />
       </div>
 
@@ -818,35 +1146,72 @@
               <a
                 href="https://www.facebook.com/1000hillsrugby/"
                 aria-label="Facebook"
-              >
-                <i class="fa-brands fa-facebook-f"></i>
-              </a>
+                ><i class="fa-brands fa-facebook-f"></i
+              ></a>
             </li>
             <li class="hover:text-[#E4405F] transition-colors duration-300">
               <a
                 href="https://www.instagram.com/1000hillsrugby/"
                 aria-label="Instagram"
-              >
-                <i class="fa-brands fa-instagram"></i>
-              </a>
+                ><i class="fa-brands fa-instagram"></i
+              ></a>
             </li>
             <li class="hover:text-[#1DA1F2] transition-colors duration-300">
-              <a href="https://x.com/1000HillsRugby" aria-label="Twitter">
-                <i class="fa-brands fa-x-twitter"></i>
-              </a>
+              <a href="https://x.com/1000HillsRugby" aria-label="Twitter"
+                ><i class="fa-brands fa-x-twitter"></i
+              ></a>
             </li>
             <li class="hover:text-[#FF0000] transition-colors duration-300">
               <a
                 href="https://www.youtube.com/@1000HillsRugby"
                 aria-label="YouTube"
-              >
-                <i class="fa-brands fa-youtube"></i>
-              </a>
+                ><i class="fa-brands fa-youtube"></i
+              ></a>
             </li>
           </ul>
         </div>
       </div>
     </footer>
+
+    <script>
+      // JavaScript for Read More Button
+      document
+        .getElementById("readMoreBtn")
+        .addEventListener("click", function () {
+          const moreText = document.getElementById("moreText");
+          if (moreText.classList.contains("hidden")) {
+            moreText.classList.remove("hidden");
+            this.textContent = "Read Less";
+          } else {
+            moreText.classList.add("hidden");
+            this.textContent = "Read More";
+          }
+        });
+
+      // JavaScript for Dropdown Toggle
+      function toggleDropdown(id) {
+        const dropdown = document.getElementById(id);
+        dropdown.classList.toggle("hidden");
+      }
+
+      // JavaScript for Mobile Menu Toggle
+      document
+        .getElementById("menu-toggle")
+        .addEventListener("change", function () {
+          const menu = document.getElementById("menu");
+          const menuOpenIcon = document.getElementById("menu-open-icon");
+          const menuCloseIcon = document.getElementById("menu-close-icon");
+          if (this.checked) {
+            menu.classList.remove("hidden");
+            menuOpenIcon.classList.add("hidden");
+            menuCloseIcon.classList.remove("hidden");
+          } else {
+            menu.classList.add("hidden");
+            menuOpenIcon.classList.remove("hidden");
+            menuCloseIcon.classList.add("hidden");
+          }
+        });
+    </script>
     <script src="index.js"></script>
   </body>
 </html>
