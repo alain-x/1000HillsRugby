@@ -7,11 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>1000 Hills Rugby | Player Ranking</title>
     <style>
+      /* Custom Styles */
       body {
-        font-family: Arial, sans-serif;
+        font-family: "Inter", Arial, sans-serif;
         margin: 0;
         padding: 0;
         background-color: #f4f4f9;
+        color: #333;
       }
 
       /* Header */
@@ -22,17 +24,24 @@
         align-items: center;
         padding: 10px 20px;
         border-bottom: 2px solid #ddd;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
 
       header img {
         height: 40px;
+        transition: transform 0.3s ease;
+      }
+
+      header img:hover {
+        transform: scale(1.1);
       }
 
       header nav a {
         margin: 0 15px;
         text-decoration: none;
         color: #000;
-        font-weight: bold;
+        font-weight: 600;
+        transition: color 0.3s ease, border-bottom 0.3s ease;
       }
 
       header nav a:hover,
@@ -42,21 +51,32 @@
         padding-bottom: 2px;
       }
 
+      /* Filters */
       .filters {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         margin: 20px 0;
+        gap: 10px;
       }
 
       .filters select {
         margin: 10px;
-        padding: 8px;
-        border-radius: 4px;
+        padding: 10px 15px;
+        border-radius: 8px;
         border: 1px solid #ccc;
         min-width: 150px;
+        background-color: #fff;
+        font-size: 14px;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
       }
 
+      .filters select:hover {
+        border-color: #0a7420;
+        box-shadow: 0 0 8px rgba(10, 116, 32, 0.2);
+      }
+
+      /* Main Container */
       .main-container {
         display: flex;
         justify-content: space-between;
@@ -69,18 +89,29 @@
       .news {
         background-color: white;
         padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         flex: 1;
         min-width: 250px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .player-ranking:hover,
+      .news:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
       }
 
       .player-ranking h2,
       .news h3 {
         text-align: center;
         margin-bottom: 20px;
+        color: #0a7420;
+        font-size: 24px;
+        font-weight: 700;
       }
 
+      /* Ranking Table */
       .ranking-table {
         width: 100%;
         border-collapse: collapse;
@@ -89,12 +120,13 @@
       .ranking-table th,
       .ranking-table td {
         text-align: left;
-        padding: 10px;
+        padding: 12px;
         border-bottom: 1px solid #ddd;
       }
 
       .ranking-table th {
         background-color: #f4f4f4;
+        font-weight: 600;
       }
 
       .player img {
@@ -102,6 +134,11 @@
         height: 40px;
         border-radius: 50%;
         margin-right: 20px;
+        transition: transform 0.3s ease;
+      }
+
+      .player img:hover {
+        transform: scale(1.1);
       }
 
       .bar-container {
@@ -114,33 +151,48 @@
         background-color: #4caf50;
         border-radius: 5px;
         margin-right: 10px;
+        transition: width 0.5s ease;
       }
 
       .percentage {
         font-size: 12px;
+        color: #666;
       }
 
+      /* News Section */
       .news .news-item {
         display: flex;
         align-items: center;
         margin-bottom: 15px;
+        padding: 10px;
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+      }
+
+      .news .news-item:hover {
+        background-color: #f9f9f9;
       }
 
       .news .news-item img {
         width: 60px;
         height: 60px;
-        border-radius: 4px;
+        border-radius: 8px;
         margin-right: 10px;
+        object-fit: cover;
       }
 
       .news .news-item h4 {
         margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
       }
 
-      /* Mobile view adjustments */
+      /* Mobile View Adjustments */
       @media (max-width: 768px) {
         .filters select {
           margin: 10px 0;
+          width: 100%;
         }
 
         .main-container {
@@ -153,6 +205,17 @@
           width: 100%;
           min-width: 100%;
           margin-bottom: 20px;
+        }
+
+        header nav {
+          display: none;
+        }
+
+        #mobile-menu {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          padding: 10px;
         }
       }
     </style>
@@ -283,5 +346,18 @@
     </div>
 
     <script src="./status.js"></script>
+    <script>
+      // Mobile Menu Toggle
+      const menuToggle = document.getElementById("menu-toggle");
+      const mobileMenu = document.getElementById("mobile-menu");
+      const hamburgerIcon = document.getElementById("hamburger-icon");
+      const closeIcon = document.getElementById("close-icon");
+
+      menuToggle.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+        hamburgerIcon.classList.toggle("hidden");
+        closeIcon.classList.toggle("hidden");
+      });
+    </script>
   </body>
 </html>

@@ -2,15 +2,83 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" href="./images/t_icon.png" type="image/png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rugby League Table</title>
+    <meta
+      name="description"
+      content="1000 Hills Rugby League Table - Stay updated with the latest rankings, points, and standings."
+    />
+    <meta
+      name="keywords"
+      content="1000 Hills Rugby, rugby league table, rugby standings, Kigali, Rwanda rugby"
+    />
+    <meta name="author" content="1000 Hills Rugby Club" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#1a202c" />
+
+    <!-- Open Graph Metadata (For Social Media Sharing) -->
+    <meta property="og:title" content="1000 Hills Rugby - League Table" />
+    <meta
+      property="og:description"
+      content="Check the latest rugby league standings and team positions at 1000 Hills Rugby Club."
+    />
+    <meta
+      property="og:image"
+      content="https://www.1000hillsrugby.rw/images/league-table-banner.png"
+    />
+    <meta property="og:url" content="https://www.1000hillsrugby.rw/table" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="1000 Hills Rugby - League Standings" />
+    <meta
+      name="twitter:description"
+      content="Check the latest rugby league standings and rankings of 1000 Hills Rugby Club."
+    />
+    <meta
+      name="twitter:image"
+      content="https://www.1000hillsrugby.rw/images/league-table-banner.png"
+    />
+    <meta name="twitter:site" content="@1000HillsRugby" />
+
+    <!-- Structured Data (Schema.org for SEO) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "1000 Hills Rugby - League Table",
+        "url": "https://www.1000hillsrugby.rw/table",
+        "about": {
+          "@type": "SportsEvent",
+          "name": "Rugby League Standings",
+          "sport": "Rugby"
+        }
+      }
+    </script>
+
+    <title>1000 hills Rugby | League Table</title>
+    <link rel="icon" href="./images/t_icon.png" type="image/png" />
+    <link rel="canonical" href="https://www.1000hillsrugby.rw/table" />
+
+    <!-- External Styles and Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+
+    <!-- Custom Styles -->
     <style>
       /* Global Styles */
       body {
         margin: 0;
-        font-family: Arial, sans-serif;
+        font-family: "Poppins", Arial, sans-serif;
         background-color: #f4f4f4;
       }
 
@@ -119,6 +187,7 @@
       .icon-down {
         color: red;
       }
+
       /* Responsive Styles */
       @media (max-width: 768px) {
         .filters {
@@ -152,6 +221,7 @@
       }
     </style>
   </head>
+
   <body>
     <header
       class="bg-white border-b-2 border-gray-200 flex items-center justify-between p-4 md:p-6"
