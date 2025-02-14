@@ -3,38 +3,294 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Calendar 2024 - 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>1000 Hills Rugby Activity Calendar 2025</title>
+    <script>
+      function filterTable() {
+        let input = document.getElementById("dateFilter").value.toLowerCase();
+        let rows = document.querySelectorAll("tbody tr");
 
-    <style>
-      h1 {
-        text-align: center;
-        margin-top: 20vh;
-        font-size: 50px;
-        color: #12630c;
+        rows.forEach((row) => {
+          let dateCell = row.cells[0].textContent.toLowerCase();
+          row.style.display = dateCell.includes(input) ? "" : "none";
+        });
       }
-      .button-container {
-        text-align: center;
-        margin-top: 20px;
-      }
-      .home-button {
-        padding: 10px 20px;
-        font-size: 18px;
-        color: #fff;
-        background-color: #12630c;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        text-decoration: none;
-      }
-      .home-button:hover {
-        background-color: #0a4210;
-      }
-    </style>
+    </script>
   </head>
-  <body>
-    <h1>Coming soon!!</h1>
-    <div class="button-container">
-      <a href="./" class="home-button">Go Home</a>
+  <body class="bg-gray-100 p-6">
+    <div class="container mx-auto">
+      <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">
+        1000 Hills Rugby Activity Calendar 2025
+      </h2>
+      <div class="mb-4 text-center">
+        <input
+          type="text"
+          id="dateFilter"
+          placeholder="Filter by date (e.g., Jan 11, 2025)"
+          class="p-2 border border-gray-400 rounded-lg mr-[20px]"
+          onkeyup="filterTable()"
+        />
+        <a
+          href="files/1HR_Activity_calendar_2025.xlsx"
+          download="1HR_Activity_calendar_2025.xlsx"
+          >Download Calendar of the year 2025</a
+        >
+      </div>
+      <div class="overflow-x-auto max-w-full">
+        <table
+          class="w-full border-collapse shadow-lg rounded-lg overflow-hidden whitespace-normal"
+        >
+          <thead>
+            <tr class="bg-blue-600 text-white text-left">
+              <th class="p-3">Date</th>
+              <th class="p-3">Activity/Event</th>
+              <th class="p-3">Beneficiaries</th>
+              <th class="p-3">Location</th>
+              <th class="p-3">Activity Details</th>
+              <th class="p-3">Frequency</th>
+              <th class="p-3">Target Group</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white">
+            <tr class="border-b hover:bg-gray-100">
+              <td class="p-3">Nov 16, 2024</td>
+              <td class="p-3">
+                1000 Hills Rugby General Assembly Members Meeting
+              </td>
+              <td class="p-3">
+                Members, stakeholders, sponsors, local authorities, community
+                reps, and rugby supporters.
+              </td>
+              <td class="p-3">Don Bosco Gatenga Hospitality Center</td>
+              <td class="p-3"></td>
+              <td class="p-3">Annually</td>
+              <td class="p-3">
+                Members, leadership teams, partners, sponsors, media, and local
+                government representatives.
+              </td>
+            </tr>
+            <tr class="border-b hover:bg-gray-100">
+              <td class="p-3">Jan 11, 2025</td>
+              <td class="p-3">
+                1000 Hills Rugby Quarterly BOD and Executive Committee Meeting
+                (Q2)
+              </td>
+              <td class="p-3">
+                The Quarterly Executive Committee Meeting is a key platform for
+                reviewing progress, setting strategic priorities, and addressing
+                challenges within 1000 Hills Rugby. This meeting will focus on
+                aligning ongoing activities, such as tournaments, workshops, and
+                partnerships, with the organization’s mission to develop rugby
+                in Rwanda and nurture future stars.
+              </td>
+              <td class="p-3">Don Bosco Gatenga Hospitality Center</td>
+              <td class="p-3">
+                A regular meeting to ensure the proper functioning of the
+                organization, where the BOD reviews progress against goals,
+                finances, and key initiatives. The ExCom presents updates on
+                operational activities, ensuring alignment with the strategic
+                direction and long-term vision of the organization.
+              </td>
+              <td class="p-3">
+                Held every three months, with four meetings scheduled annually.
+              </td>
+              <td class="p-3">
+                Board of Directors (BOD): Strategic oversight and governance of
+                the organization. Executive Committee (ExCom): Responsible for
+                operational decisions, program delivery, and reporting to the
+                BOD.
+              </td>
+            </tr>
+            <tr class="border-b hover:bg-gray-100">
+              <td class="p-3">Feb 1, 2025</td>
+              <td class="p-3">Heroes Rugby Cup 2025</td>
+              <td class="p-3">
+                Senior, Youth (U18, U16, U12): Kicukiro community to support the
+                initiative and celebrate together
+              </td>
+              <td class="p-3">Gatenga, Kicukiro</td>
+              <td class="p-3">
+                Celebrating The Heroes Day Seniors, Young Boys and Girls
+              </td>
+              <td class="p-3">Annually</td>
+              <td class="p-3">
+                Youth (Boys and Girls), Local Community, Senior Teams, Local
+                Government
+              </td>
+            </tr>
+            <tr class="border-b hover:bg-gray-100">
+              <td class="p-3">Feb 8, 2025</td>
+              <td class="p-3">
+                1HR Education Program Screening with Parents and Player
+              </td>
+              <td class="p-3">
+                Parents: Parents of the selected youth players who will be
+                involved in the scholarships and educational support program,
+                helping to ensure alignment with the education and safeguarding
+                policies and sign consent forms.
+              </td>
+              <td class="p-3">Don Bosco Gatenga Hospitality Center</td>
+              <td class="p-3">
+                This event is designed to introduce the selected players and
+                their parents to the education program, detailing the
+                scholarships and opportunities available. It will include a
+                scholarship announcement and a presentation of the players
+                chosen for the scholarship program. Consent Agreement: Signing a
+                consent agreement with parents and players to formalize their
+                commitment to the program and its long-term goals. Safeguarding
+                Policies: Introduction to the club’s safeguarding policies,
+                ensuring parents and players understand the importance of child
+                protection in education and sports. Parental Involvement:
+                Discuss how parents can support the development of their
+                children in a safe, positive, and empowering learning
+                environment.
+              </td>
+              <td class="p-3">
+                Once: Held once at the beginning of the education program to
+                ensure that all parties are aligned and committed.
+              </td>
+              <td class="p-3">
+                Youth Players: Boys and girls who are selected for the
+                educational scholarship program.
+              </td>
+            </tr>
+            <tr class="border-b hover:bg-gray-100">
+              <td class="p-3">TBC Feb 2025</td>
+              <td class="p-3">Car Free Day</td>
+              <td class="p-3">1000 Hills Rugby Members and Kigali Community</td>
+              <td class="p-3">Gatenga, Kicukiro</td>
+              <td class="p-3">
+                1000 Hills Rugby will actively participate in Kigali’s Car Free
+                Day, a monthly initiative encouraging physical activity and
+                fostering community engagement. Our players and coaches will
+                participate in fitness sessions, showcase rugby skills, and
+                interact with the community to promote the sport and its values
+                of teamwork, discipline, and unity. This event is a fantastic
+                opportunity to inspire healthy lifestyles while building
+                stronger connections with the local community.
+              </td>
+              <td class="p-3">Monthly</td>
+              <td class="p-3">
+                1000 Hills Rugby members Residents of Kigali and surrounding
+                areas Stakeholders in health, fitness, and community development
+                Join us as we champion fitness, unity, and the spirit of rugby
+                in this vibrant community initiative!
+              </td>
+            </tr>
+            <tr class="border-b hover:bg-gray-100">
+              <td class="p-3">Feb 15, 2025</td>
+              <td class="p-3">Jade Water Rugby 7s games</td>
+              <td class="p-3">1HR Senior Men</td>
+              <td class="p-3">Amohoro Stadium</td>
+              <td class="p-3"></td>
+              <td class="p-3">Annually</td>
+              <td class="p-3">Players, Parents, Rugby Fans</td>
+            </tr>
+            <tr class="border-b hover:bg-gray-100">
+              <td class="p-3">Feb - June 2025</td>
+              <td class="p-3">
+                Rwanda Rugby Men's 15s National League Season 2025
+              </td>
+              <td class="p-3">Senior Men Team</td>
+              <td class="p-3">Home & Away Venues Across Rwanda</td>
+              <td class="p-3">
+                Competitive rugby league season to develop talent, promote
+                rugby, and engage communities.
+              </td>
+              <td class="p-3">Annually</td>
+              <td class="p-3">Male Rugby Players, Fans, Local Communities</td>
+            </tr>
+
+            <tr class="border-b hover:bg-gray-100">
+              <td class="p-3">Feb 22, 2025</td>
+              <td class="p-3">Umuganda Fun Rugby</td>
+              <td class="p-3">
+                Youth (U18, U16, U12), Senior Men and Women Teams, Local
+                Community
+              </td>
+              <td class="p-3">Gatenga, Kicukiro</td>
+              <td class="p-3">
+                Community service followed by rugby games at 2PM to promote the
+                sport and its values.
+              </td>
+              <td class="p-3">Monthly</td>
+              <td class="p-3">
+                Youth, Local Community, Senior Teams, Local Government
+              </td>
+            </tr>
+            <tr class="border-b hover:bg-gray-100">
+              <td class="p-3">Mar 1, 2025</td>
+              <td class="p-3">Workshop: Gender Equity</td>
+              <td class="p-3">Members, Senior Men and Women Teams</td>
+              <td class="p-3">Don Bosco Gatenga Hospitality Center</td>
+              <td class="p-3">
+                As part of the Laureus Sport for Good SESLA program, this
+                workshop emphasizes gender equity in education and employability
+                through sport.
+              </td>
+              <td class="p-3">Annually</td>
+              <td class="p-3">
+                Players, Coaches, Management, Gender Equity Stakeholders
+              </td>
+            </tr>
+            <tr class="border-b hover:bg-gray-100">
+              <td class="p-3">Mar 8, 2025</td>
+              <td class="p-3">
+                International Women’s Day – Women’s Rugby Cup & Concert
+              </td>
+              <td class="p-3">
+                Senior Women Team, Youth U18/U16 Girls, Local Women Community,
+                and Fans
+              </td>
+              <td class="p-3">Gatenga Rugby Ground</td>
+              <td class="p-3">
+                Women’s Rugby Cup matches and a cultural concert with music,
+                freestyle performances, poetry, dance, and a fashion show.
+              </td>
+              <td class="p-3">Annually</td>
+              <td class="p-3">
+                Female Rugby Players, Youth Girls, Local Communities
+              </td>
+            </tr>
+            <tr class="border-b hover:bg-gray-100">
+              <td class="p-3">Mar 15, 2025</td>
+              <td class="p-3">
+                1000 Hills Rugby Quarterly BOD & Executive Committee Meeting
+                (Q3)
+              </td>
+              <td class="p-3">
+                Board of Directors (BOD), Executive Committee (ExCom)
+              </td>
+              <td class="p-3">Don Bosco Gatenga Hospitality Center</td>
+              <td class="p-3">
+                A quarterly meeting to review strategic objectives, financial
+                updates, and key initiatives.
+              </td>
+              <td class="p-3">Quarterly</td>
+              <td class="p-3">
+                BOD (Strategic Oversight), ExCom (Operational Decisions)
+              </td>
+            </tr>
+            <tr class="border-b hover:bg-gray-100">
+              <td class="p-3">Mar 29, 2025</td>
+              <td class="p-3">Umuganda Fun Rugby</td>
+              <td class="p-3">
+                Youth (U18, U16, U12), Senior Men and Women Teams, Local
+                Community
+              </td>
+              <td class="p-3">Gatenga, Kicukiro</td>
+              <td class="p-3">
+                Community service followed by rugby games at 2PM to promote the
+                game and its values.
+              </td>
+              <td class="p-3">Monthly</td>
+              <td class="p-3">
+                Youth, Local Community, Senior Teams, Local Government
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </body>
 </html>
