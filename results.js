@@ -1,5 +1,20 @@
 const matches = [
   {
+    date: "SAT FEB 15 - 04:30",
+    stadium: "IPRC Kigali Ground",
+    homeTeam: { name: "1HR", logo: "./logos_/logoT.jpg" },
+    awayTeam: {
+      name: "GITISI A TSS RFC",
+      logo: "./logos_/.jpeg",
+    },
+    score: "14 - 12",
+    goalScorers: [],
+    gender: "MEN",
+    competition: "league",
+    location: "Away",
+    season: "2025",
+  },
+  {
     date: "SAT FEB 15 - 02:00",
     stadium: "IPRC Kigali Ground",
     homeTeam: { name: "1HR", logo: "./logos_/logoT.jpg" },
