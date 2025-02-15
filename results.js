@@ -4,6 +4,21 @@ const matches = [
     stadium: "Don Bosco Gatenga Ground",
     homeTeam: { name: "1HR", logo: "./logos_/logoT.jpg" },
     awayTeam: {
+      name: "GITISI B",
+      logo: "./logos_/.jpeg",
+    },
+    score: "40 - 00",
+    goalScorers: [],
+    gender: "MEN",
+    competition: "7league ",
+    location: "Home",
+    season: "2024-2025",
+  },
+  {
+    date: "WED SEP 07 - 02:15",
+    stadium: "Don Bosco Gatenga Ground",
+    homeTeam: { name: "1HR", logo: "./logos_/logoT.jpg" },
+    awayTeam: {
       name: "A. Kagugu",
       logo: "./logos_/alpa_logo.jpeg",
     },
