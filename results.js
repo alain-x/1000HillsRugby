@@ -1,7 +1,7 @@
 const matches = [
   {
-    date: "WED SEP 07 - 02:15",
-    stadium: "Don Bosco Gatenga Ground",
+    date: "SAT FEB 15 - 09:15",
+    stadium: "IPRC Kigali Ground",
     homeTeam: { name: "1HR", logo: "./logos_/logoT.jpg" },
     awayTeam: {
       name: "GITISI B",
@@ -10,9 +10,9 @@ const matches = [
     score: "40 - 00",
     goalScorers: [],
     gender: "MEN",
-    competition: "7league ",
-    location: "Home",
-    season: "2024-2025",
+    competition: "league",
+    location: "Away",
+    season: "2025",
   },
   {
     date: "WED SEP 07 - 02:15",
@@ -25,9 +25,9 @@ const matches = [
     score: "41 - 00",
     goalScorers: [],
     gender: "MEN",
-    competition: "league ",
+    competition: "7league",
     location: "Home",
-    season: "2024-2025",
+    season: "2025",
   },
   {
     date: "THU SEP 23 - 22:00",
@@ -43,9 +43,9 @@ const matches = [
     score: "24 - 21",
     goalScorers: [],
     gender: "MEN",
-    competition: "league",
+    competition: "7league",
     location: "Away",
-    season: "2024-2025",
+    season: "2025",
   },
 ];
 
