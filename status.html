@@ -324,7 +324,6 @@
       </select>
       <select id="ranking-filter">
         <option value="Tries">Try</option>
-        <option value="Ranking">Player Ranking</option>
       </select>
     </div>
 
@@ -334,7 +333,8 @@
         <table class="ranking-table" id="ranking-table">
           <tr>
             <th>Player</th>
-            <th id="ranking-header">Performance</th>
+            <th>Tries Scored</th>
+            <th>Performance</th>
           </tr>
         </table>
       </div>
@@ -346,18 +346,5 @@
     </div>
 
     <script src="./status.js"></script>
-    <script>
-      // Mobile Menu Toggle
-      const menuToggle = document.getElementById("menu-toggle");
-      const mobileMenu = document.getElementById("mobile-menu");
-      const hamburgerIcon = document.getElementById("hamburger-icon");
-      const closeIcon = document.getElementById("close-icon");
-
-      menuToggle.addEventListener("click", () => {
-        mobileMenu.classList.toggle("hidden");
-        hamburgerIcon.classList.toggle("hidden");
-        closeIcon.classList.toggle("hidden");
-      });
-    </script>
   </body>
 </html>
