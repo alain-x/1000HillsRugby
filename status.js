@@ -217,7 +217,7 @@ function updateRankingTable() {
                 <img src="${player.img}" alt="${player.name}" />
                 ${player.name}
               </td>
-              <td>${player.triesScored} Tries</td>
+              <td>${player.triesScored} Try</td>
             `;
     } else {
       row.innerHTML = `
