@@ -3,7 +3,7 @@ const players = [
     name: " Harerimana Robert",
     img: "",
     performance: 80,
-    triesScored: 4,
+    triesScored: 5,
     competition: "League",
     year: "2025",
     ranking: "Tries",

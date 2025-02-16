@@ -4,10 +4,10 @@ const matches = [
     stadium: "IPRC Kigali Ground",
     homeTeam: { name: "1HR", logo: "./logos_/logoT.jpg" },
     awayTeam: {
-      name: "GITISI A TSS RFC",
+      name: "GITISI TSS A RFC",
       logo: "./logos_/.jpeg",
     },
-    score: "14 - 12",
+    score: "21 - 19",
     goalScorers: [],
     gender: "MEN",
     competition: "league",
