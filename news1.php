@@ -47,6 +47,14 @@ if ($result->num_rows > 0) {
 
         echo '<div class="w-10/12">';
         echo '<p class="text-gray-700 leading-relaxed">' . $row["content"] . '</p>';
+        echo '<div class="flex gap-3 items-center">';
+        echo '<p class="text-sm font-bold">FOLLOW US:</p>';
+        echo '<ul class="flex gap-3 text-xl text-[#1b75bc]">';
+        echo '<li><a class="hover:text-2xl" href="https://www.facebook.com/1000hillsrugby/"><i class="fa-brands fa-facebook-f"></i></a></li>';
+        echo '<li><a class="hover:text-2xl" href="https://www.instagram.com/1000hillsrugby/"><i class="fa-brands fa-instagram"></i></a></li>';
+        echo '<li><a class="hover:text-2xl" href="https://x.com/1000HillsRugby?t=S0PTUa88AFrp6SJs5meJ6A&s=08"><i class="fa-brands fa-x-twitter"></i></a></li>';
+        echo '<li><a class="hover:text-2xl" href="https://www.youtube.com/@1000HillsRugby"><i class="fa-brands fa-youtube"></i></a></li>';
+        echo '</ul>'; 
         echo '</div>';
         echo '</section>';
     }
