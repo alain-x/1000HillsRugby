@@ -8,6 +8,44 @@
     <link rel="stylesheet" href="./style.css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
+    <style>
+      /* Toggle Mobile Menu Display */
+      #menu-toggle:checked + label + #menu {
+        display: block;
+      }
+    /* Display the menu when the checkbox is checked */
+    #menu-toggle:checked ~ #menu {
+      display: block;
+    }
+
+    /* Hide the menu if not checked */
+    #menu:hover {
+      display: block;
+    }
+    .foter {
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      padding: 1rem;
+      background-color: #1d6c1c;
+      color: #fff;
+      z-index: 1000;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for visual enhancement */
+    }
+
+    .foter a {
+      color: #fff;
+      text-decoration: underline; /* Or none if you prefer no underline */
+      margin-left: 0.5rem;
+    }
+
+    .foter a:hover {
+      color: #c2ffc1; /* Slightly lighter shade on hover */
+      text-decoration: none;
+    }
+  </style>
+  
 </head>
 <body class="bg-gray-100 text-gray-900">
     <!-- Transparent Navbar -->
@@ -548,13 +586,7 @@
       </ul>
     </div>
   </nav>
-
-    <style>
-      /* Toggle Mobile Menu Display */
-      #menu-toggle:checked + label + #menu {
-        display: block;
-      }
-    </style>
+ 
 
 <section
         class="news-home-page bg-cover h-[120vh] max-w-full grid grid-cols-12 items-center"
