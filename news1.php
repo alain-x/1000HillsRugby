@@ -30,46 +30,46 @@
     >
       <li>
         <a
-          class="hover:text-green-600 text-[white] hover:border-b-2 hover:border-green-600 transition-all duration-300"
+          class="hover:text-green-600 text-[black] hover:border-b-2 hover:border-green-600 transition-all duration-300"
           href="./"
           >Home</a
         >
       </li>
       <li>
         <a
-          class="hover:text-green-600 text-[white] hover:border-b-2 hover:border-green-600 transition-all duration-300"
+          class="hover:text-green-600 text-[black] hover:border-b-2 hover:border-green-600 transition-all duration-300"
           href="./about"
           >About</a
         >
       </li>
       <li>
         <a
-          class="hover:text-green-600 text-[white] hover:border-b-2 hover:border-green-600 transition-all duration-300"
+          class="hover:text-green-600 text-[black] hover:border-b-2 hover:border-green-600 transition-all duration-300"
           href="./program"
           >Programs</a
         >
       </li>
       <li>
         <a
-          class="hover:text-green-600 text-[white] hover:border-b-2 hover:border-green-600 transition-all duration-300"
+          class="hover:text-green-600 text-[black] hover:border-b-2 hover:border-green-600 transition-all duration-300"
           href="./community"
           >Community</a
         >
       </li>
       <li>
         <a
-          class="hover:text-green-600 text-[white] hover:border-b-2 hover:border-green-600 transition-all duration-300"
+          class="hover:text-green-600 text-[black] hover:border-b-2 hover:border-green-600 transition-all duration-300"
           href="./shop"
           >Shop</a
         >
       </li>
       <li class="relative group">
         <a
-          class="hover:text-green-600 text-[white] hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
+          class="hover:text-green-600 text-[black] hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
           >Education <i class="fas fa-chevron-down text-sm"></i
         ></a>
         <ul
-          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
+          class="absolute left-0 hidden group-hover:block bg-black text-gray-800 text-sm shadow-md"
         >
           <li>
             <a
