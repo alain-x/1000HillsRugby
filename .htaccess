@@ -1,6 +1,6 @@
-# Exclude robots.txt and sitemap.xml from rewrite rules
 RewriteCond %{REQUEST_URI} !^/robots\.txt$
 RewriteCond %{REQUEST_URI} !^/sitemap\.xml$
+RewriteCond %{REQUEST_URI} !\.php$  # Exclude PHP files
 
 RewriteEngine on 
 RewriteCond %{REQUEST_FILENAME} !-d
