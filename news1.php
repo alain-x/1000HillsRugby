@@ -41,7 +41,7 @@ if ($result->num_rows > 0) {
         // Display Image
         if (!empty($row["image_path"]) && file_exists($row["image_path"])) {
             echo '<div>';
-            echo '<img class="w-[500px] h-[500px] object-cover rounded-lg" src="' . $row["image_path"] . '" alt="' . $row["title"] . '" />';
+            echo '<img class="w-[700px] h-[800px] object-cover rounded-lg" src="' . $row["image_path"] . '" alt="' . $row["title"] . '" />';
             echo '</div>';
         }
 
