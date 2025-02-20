@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rugby News</title>
+    <title>1000 Hills Rugby | News</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
     <style>
@@ -96,13 +96,18 @@ $dbname = "hillsrug_db";
     </main>
 
     <!-- Footer -->
-    <footer class="bg-[#1b75bc] text-white py-6 mt-8">
-        <div class="container mx-auto text-center">
-            <p>&copy; 2023 Rugby News. All rights reserved.</p>
-        </div>
-    </footer>
+<footer class="bg-[#1b75bc] text-white py-6 fixed bottom-0 w-full">
+    <div class="container mx-auto text-center px-4">
+        <p>&copy; <span id="year"></span> 1000 Hills Rugby News. All rights reserved.</p>
+    </div>
+</footer>
+ 
+
+
 
     <script>
+          document.getElementById("year").textContent = new Date().getFullYear();
+
         // JavaScript to handle showing and hiding full articles
         function showFullArticle(articleId) {
             // Fetch the full article content (you can use AJAX or preload data)
