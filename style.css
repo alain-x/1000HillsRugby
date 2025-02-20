@@ -56,13 +56,17 @@ body {
 /* Mobile-specific styles */
 @media (max-width: 640px) {
   .news-home-page {
-    height: 60vh; /* Reduce height only on mobile */
-    background-size: contain; /* Try 'contain' if 'cover' doesn't work */
+    height: 60vh; /* Reduce height */
+    background-size: contain;
   }
-  .news-home-page h1 {
-    font-size: 40px;
+
+  /* Target h1 correctly */
+  .news-home-page .text-container h1 {
+    font-size: 30px !important; /* Ensure it applies */
+    line-height: 1.2; /* Improve readability */
   }
 }
+
 /* ---Events Page--- */
 /* Events Animation */
 .events-home-page {
