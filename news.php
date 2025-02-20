@@ -594,7 +594,7 @@
   <div
     class="text-container border-l-[10px] flex flex-col gap-2 col-span-9 border-white-500 pl-4 text-white"
   >
-    <h1 class="lg:text-[60px] text-[60px] sm:text-[60px] font-semibold">
+    <h1 class="lg:text-[60px] text-[40px] sm:text-[60px] font-semibold">
       NEW <br />
       <span class="text-[#1b75bc]">
         OPPORTUNITIES <br />
