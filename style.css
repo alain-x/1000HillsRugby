@@ -58,6 +58,7 @@ body {
   .news-home-page {
     height: 60vh; /* Reduce height only on mobile */
     background-size: contain; /* Try 'contain' if 'cover' doesn't work */
+    font-size: 40px;
   }
 }
 /* ---Events Page--- */
