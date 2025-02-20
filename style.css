@@ -53,7 +53,13 @@ body {
 .news-home-page {
   background-image: url(./images/26.JPG);
 }
-
+/* Mobile-specific styles */
+@media (max-width: 640px) {
+  .news-home-page {
+    height: 60vh; /* Reduce height only on mobile */
+    background-size: contain; /* Try 'contain' if 'cover' doesn't work */
+  }
+}
 /* ---Events Page--- */
 /* Events Animation */
 .events-home-page {
