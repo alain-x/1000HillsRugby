@@ -588,12 +588,12 @@
   </nav>
  
   <section
-  class="news-home-page bg-cover h-[90vh] max-w-full grid grid-cols-12 items-center sm:h-[60vh] sm:bg-contain sm:bg-center sm:bg-no-repeat"
+  class="news-home-page bg-cover h-[90vh] max-w-full grid grid-cols-12 items-center sm:h-[40vh] sm:bg-contain sm:bg-center sm:bg-no-repeat"
 >
   <div
     class="text-container border-l-[10px] flex flex-col gap-2 col-span-9 border-white-500 pl-4 text-white"
   >
-    <h1 class="lg:text-[40px] sm:text-[30px] font-semibold">
+    <h1 class="lg:text-[40px] sm:text-[40px] font-semibold">
       NEW <br />
       <span class="text-[#1b75bc]">
         OPPORTUNITIES <br />
