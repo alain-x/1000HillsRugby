@@ -587,22 +587,22 @@
     </div>
   </nav>
  
+  <section
+  class="news-home-page bg-cover h-[120vh] sm:h-[60vh] max-w-full grid grid-cols-12 items-center"
+>
+  <div
+    class="text-container border-l-[10px] flex flex-col gap-2 col-span-9 border-white-500 pl-4 sm:pl-2 text-white"
+  >
+    <h1 class="lg:text-[80px] text-7xl sm:text-3xl font-semibold leading-tight">
+      NEW <br />
+      <span class="text-[#1b75bc]">
+        OPPORTUNITIES <br />
+        AT 1000 HILLS RUGBY
+      </span>
+    </h1>
+  </div>
+</section>
 
-<section
-        class="news-home-page bg-cover h-[90vh] max-w-full grid grid-cols-12 items-center"
-      >
-        <div
-          class="text-container border-l-[10px] flex flex-col gap-2 col-span-9 border-white-500 pl-4 text-white"
-        >
-          <h1 class="lg:text-[40px] text-7xl font-semibold">
-            NEW <br /> 
-            <span class="text-[#1b75bc]"
-              >OPPORTUNITIES <br />
-              AT 1000 HILLS RUGBY</span
-            >
-          </h1>
-        </div>
-      </section>
 
 <?php
 $servername = "localhost:3306";
