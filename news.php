@@ -589,7 +589,7 @@
  
 
 <section
-  class="news-home-page bg-cover h-[120vh] max-w-full grid grid-cols-12 items-center sm:h-[60vh]"
+  class="news-home-page bg-cover h-[120vh] max-w-full grid grid-cols-12 items-center sm:h-[90vh]"
 >
   <div
     class="text-container border-l-[10px] flex flex-col gap-2 col-span-9 border-white-500 pl-4 text-white"
