@@ -96,7 +96,7 @@ $dbname = "hillsrug_db";
     </main>
 
     <!-- Footer -->
-<footer class="bg-[#1b75bc] text-white py-6 fixed bottom-0 w-full">
+<footer class="bg-[#1b75bc] text-white py-6   bottom-0 w-full">
     <div class="container mx-auto text-center px-4">
         <p>&copy; <span id="year"></span> 1000 Hills Rugby News. All rights reserved.</p>
     </div>
