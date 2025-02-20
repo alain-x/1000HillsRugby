@@ -626,7 +626,7 @@ if ($result->num_rows > 0) {
         echo '<p class="lg:text-lg font-semibold">' . strtoupper($row["category"]) . '</p>';
         echo '</div>';
         echo '<div>';
-        echo '<p class="lg:w-11/12 text-[36px] font-bold hover:text-[#1b75bc] uppercase">' . $row["title"] . '</p>';
+        echo '<p class="lg:w-11/12 text-[36px] sm:text-[24px] text-[20px] font-bold hover:text-[#1b75bc] uppercase">' . $row["title"] . '</p>';
         echo '</div>';
         echo '<div class="flex gap-2 items-center">';
         echo '<i class="text-[#1b75bc] text-2xl fa-regular fa-clock"></i>';
