@@ -127,6 +127,15 @@ $dbname = "hillsrug_db";
                         ${detail.image_path ? `<img class="w-full h-auto object-cover mt-4" src="${detail.image_path}" alt="${detail.subtitle}" />` : ''}
                     `).join('')}
                 </div>
+                 <div>
+                    <p class="text-sm mt-[20px] font-bold">FOLLOW US:</p>
+                    <ul class="flex gap-3 text-xl text-[#1b75bc]">
+                        <li><a class="hover:text-2xl" href="https://www.facebook.com/1000hillsrugby/"><i class="fa-brands fa-facebook-f"></i></a></li>
+                        <li><a class="hover:text-2xl" href="https://www.instagram.com/1000hillsrugby/"><i class="fa-brands fa-instagram"></i></a></li>
+                        <li><a class="hover:text-2xl" href="https://x.com/1000HillsRugby?t=S0PTUa88AFrp6SJs5meJ6A&s=08"><i class="fa-brands fa-x-twitter"></i></a></li>
+                        <li><a class="hover:text-2xl" href="https://www.youtube.com/@1000HillsRugby"><i class="fa-brands fa-youtube"></i></a></li>
+                    </ul>
+                </div>
             `;
 
             document.getElementById('full-article-content').innerHTML = fullArticleContent;
