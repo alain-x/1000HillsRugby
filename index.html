@@ -959,54 +959,87 @@
         </div>
 
          <!-- News Section -->
-    <div class="grid lg:grid-cols-2 gap-8 news-slider" id="news-container">
-      <!-- News will be dynamically added here -->
-  </div>
+        <div class="grid lg:grid-cols-2 gap-8 news-slider" id="news-container">
+          <!-- News will be dynamically added here -->
+      </div>
 
-  <script>
-      document.addEventListener("DOMContentLoaded", function () {
-          fetch("news.php")
-              .then(response => {
-                  if (!response.ok) {
-                      throw new Error("Network response was not ok");
-                  }
-                  return response.json();
-              })
-              .then(news => {
-                  const container = document.getElementById("news-container");
-                  container.innerHTML = ""; // Clear existing content
+      <!-- Full Article View (Hidden by Default) -->
+      <div id="full-article-view" class="hidden fixed inset-0 bg-black bg-opacity-75 p-8 overflow-y-auto">
+          <div class="bg-white rounded-lg p-6 max-w-3xl mx-auto relative">
+              <button onclick="hideFullArticle()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                  <i class="fas fa-times text-2xl"></i>
+              </button>
+              <div id="full-article-content"></div>
+          </div>
+      </div>
+      <script>
+        // Set current year in footer
+        document.getElementById("year").textContent = new Date().getFullYear();
 
-                  if (news.length === 0) {
-                      container.innerHTML = "<p class='text-center text-xl font-semibold mt-10'>No news available.</p>";
-                      return;
-                  }
+        // Fetch news articles from the server
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("news.php")
+                .then(response => response.json())
+                .then(news => {
+                    const container = document.getElementById("news-container");
+                    container.innerHTML = ""; // Clear existing content
 
-                  // Generate HTML dynamically
-                  news.forEach((article) => {
-                      const newsCard = `
-                          <a href="news#${article.id}">
-                              <div class="news-card bg-white p-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:-translate-y-2 flex flex-col gap-4">
-                                  <div class="relative">
-                                      <img class="rounded-xl h-[200px] w-full object-cover transition-transform duration-500 ease-in-out transform hover:scale-110" src="${article.main_image_path}" alt="${article.title}" />
-                                  </div>
-                                  <div class="text-center">
-                                      <span class="text-sm text-gray-600">${new Date(article.date_published).toDateString()}</span>
-                                      <h3 class="font-bold text-lg mt-1">${article.title}</h3>
-                                  </div>
-                              </div>
-                          </a>
-                      `;
-                      container.innerHTML += newsCard;
-                  });
-              })
-              .catch(error => {
-                  console.error("Error fetching news:", error);
-                  const container = document.getElementById("news-container");
-                  container.innerHTML = "<p class='text-center text-xl font-semibold mt-10'>Failed to load news. Please try again later.</p>";
-              });
-      });
-  </script>
+                    if (news.length === 0) {
+                        container.innerHTML = "<p class='text-center text-xl font-semibold mt-10'>No news available.</p>";
+                        return;
+                    }
 
+                    // Generate HTML dynamically
+                    news.forEach((article, index) => {
+                        const newsCard = `
+                            <a href="news#${article.id}">
+                                <div class="news-card bg-white p-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:-translate-y-2 flex flex-col gap-4">
+                                    <div class="relative">
+                                        <img class="rounded-xl h-[200px] w-full object-cover transition-transform duration-500 ease-in-out transform hover:scale-110" src="${article.main_image_path}" alt="${article.title}" />
+                                    </div>
+                                    <div class="text-center">
+                                        <span class="text-sm text-gray-600">${new Date(article.date_published).toDateString()}</span>
+                                        <h3 class="font-bold text-lg mt-1">${article.title}</h3>
+                                    </div>
+                                </div>
+                            </a>
+                        `;
+
+                        container.innerHTML += newsCard;
+                    });
+                })
+                .catch(error => console.error("Error fetching news:", error));
+        });
+
+        // Show full article
+        function showFullArticle(articleId) {
+            fetch(`news.php?id=${articleId}`)
+                .then(response => response.json())
+                .then(article => {
+                    let fullArticleContent = `
+                        <h1 class="text-2xl font-bold mb-4">${article.title}</h1>
+                        <img class="w-full h-auto object-cover mb-6" src="${article.main_image_path}" alt="${article.title}" />
+                        <div class="space-y-4">
+                            ${article.details.map(detail => `
+                                ${detail.subtitle ? `<h3 class="text-xl font-semibold">${detail.subtitle}</h3>` : ''}
+                                ${detail.content ? `<p class="text-gray-700">${detail.content}</p>` : ''}
+                                ${detail.image_path ? `<img class="w-full h-auto object-cover mt-4" src="${detail.image_path}" alt="${detail.subtitle}" />` : ''}
+                            `).join('')}
+                        </div>
+                    `;
+
+                    // Display the full article
+                    document.getElementById('full-article-content').innerHTML = fullArticleContent;
+                    document.getElementById('full-article-view').classList.remove('hidden');
+                })
+                .catch(error => console.error("Error fetching article details:", error));
+        }
+
+        // Hide full article
+        function hideFullArticle() {
+            document.getElementById('full-article-view').classList.add('hidden');
+        }
+    </script>
         </div>
       </section>
 
