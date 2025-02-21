@@ -73,7 +73,7 @@
           <div class="lg:w-[50%]">
             <div class="relative flex flex-col gap-4 lg:p-6 p-1 rounded-xl transform hover:-translate-y-2 transition-all duration-300">
               <div class="relative group w-full">
-                <a href="news1.php#${news[0].id}">
+                <a href="news#${news[0].id}">
                   <img
                     class="rounded-xl h-[300px] md:h-[350px] lg:h-[400px] w-full object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-110 lazy filter grayscale-50 brightness-90 contrast-110 hover:filter-none"
                     src="${news[0].main_image_path}"
@@ -94,7 +94,7 @@
                   <a href="#" class="text-gray-600 hover:text-[#dcbb26]"><i class="fab fa-twitter-square"></i></a>
                   <a href="#" class="text-gray-600 hover:text-[#dcbb26]"><i class="fab fa-linkedin"></i></a>
                 </div>
-                <a href="news1.php" class="text-[#dcbb26] font-semibold hover:text-black transition-all duration-300">
+                <a href="news" class="text-[#dcbb26] font-semibold hover:text-black transition-all duration-300">
                   Read More <i class="fas fa-arrow-right ml-2"></i>
                 </a>
               </div>
@@ -110,7 +110,7 @@
         // Loop through the next 4 news items for the grid
         for (let i = 1; i < Math.min(news.length, 5); i++) {
           mediumCards += `
-            <a href="news1.php#${news[i].id}">
+            <a href="news#${news[i].id}">
               <div class="bg-white p-4 w-full rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:-translate-y-2 flex flex-col gap-2">
                 <div class="relative">
                   <img
