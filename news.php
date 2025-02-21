@@ -79,9 +79,26 @@
             } else {
                 echo "<p class='text-center text-xl font-semibold mt-10'>No articles found.</p>";
             }
+// Fetch latest news articles
+$sql = "SELECT id, title, date_published, main_image_path FROM articles ORDER BY date_published DESC LIMIT 5";
+$result = $conn->query($sql);
 
-            $conn->close();
-            ?>
+$news = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $news[] = [
+            "id" => $row["id"],
+            "title" => $row["title"],
+            "date_published" => $row["date_published"], // Return raw date for JavaScript to format
+            "main_image_path" => $row["main_image_path"]
+        ];
+    }
+}
+
+$conn->close();
+echo json_encode($news);
+?>
+
         </div>
 
         <!-- Full Article View (Hidden by Default) -->
