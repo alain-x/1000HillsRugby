@@ -25,10 +25,10 @@
     <main class="container mx-auto px-4 py-6">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="news-cards">
             <?php
-$servername = "localhost:3306";
-$username = "hillsrug_gasore";
-$password = "M00dle??";
-$dbname = "hillsrug_db";
+            $servername = "localhost:3306";
+            $username = "hillsrug_gasore";
+            $password = "M00dle??";
+            $dbname = "hillsrug_db";
 
             $conn = new mysqli($servername, $username, $password, $dbname);
             if ($conn->connect_error) {
@@ -69,9 +69,9 @@ $dbname = "hillsrug_db";
                 // Display article cards
                 foreach ($articles as $id => $article) {
                     echo '<div class="article-card bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer" onclick="showFullArticle(' . $id . ')">';
-                    echo '<img class="w-full h-49 object-cover" src="' . $article["main_image_path"] . '" alt="' . htmlspecialchars($article["title"]) . '" />';
+                    echo '<img class="w-full h-49 object-cover" src="' . htmlspecialchars($article["main_image_path"]) . '" alt="' . htmlspecialchars($article["title"]) . '" />';
                     echo '<div class="p-4">';
-                    echo '<h2 class="text-xl font-bold mb-2">' . $article["title"] . '</h2>';
+                    echo '<h2 class="text-xl font-bold mb-2">' . htmlspecialchars($article["title"]) . '</h2>';
                     echo '<p class="text-gray-500 text-sm">' . date("F j, Y", strtotime($article["date_published"])) . '</p>';
                     echo '</div>';
                     echo '</div>';
@@ -96,28 +96,30 @@ $dbname = "hillsrug_db";
     </main>
 
     <!-- Footer -->
-<footer class="bg-[#1b75bc] text-white py-6   bottom-0 w-full">
-    <div class="container mx-auto text-center px-4">
-        <p>&copy; <span id="year"></span> 1000 Hills Rugby News. All rights reserved.</p>
-    </div>
-</footer>
- 
-
-
+    <footer class="bg-[#1b75bc] text-white py-6 bottom-0 w-full">
+        <div class="container mx-auto text-center px-4">
+            <p>&copy; <span id="year"></span> 1000 Hills Rugby News. All rights reserved.</p>
+        </div>
+    </footer>
 
     <script>
-          document.getElementById("year").textContent = new Date().getFullYear();
+        // Set current year in footer
+        document.getElementById("year").textContent = new Date().getFullYear();
 
-        // JavaScript to handle showing and hiding full articles
+        // Preload articles data
+        const articles = <?php echo json_encode($articles, JSON_HEX_TAG); ?>;
+
         function showFullArticle(articleId) {
-            // Fetch the full article content (you can use AJAX or preload data)
-            const fullArticleContent = `
+            if (!articles[articleId]) return;
+
+            // Generate full article content
+            let fullArticleContent = `
                 <h1 class="text-2xl font-bold mb-4">${articles[articleId].title}</h1>
                 <img class="w-full h-auto object-cover mb-6" src="${articles[articleId].main_image_path}" alt="${articles[articleId].title}" />
                 <div class="space-y-4">
                     ${articles[articleId].details.map(detail => `
-                        ${detail.content ? `<p class="text-gray-700">${detail.content}</p>` : ''}
                         ${detail.subtitle ? `<h3 class="text-xl font-semibold">${detail.subtitle}</h3>` : ''}
+                        ${detail.content ? `<p class="text-gray-700">${detail.content}</p>` : ''}
                         ${detail.image_path ? `<img class="w-full h-auto object-cover mt-4" src="${detail.image_path}" alt="${detail.subtitle}" />` : ''}
                     `).join('')}
                 </div>
@@ -131,15 +133,6 @@ $dbname = "hillsrug_db";
         function hideFullArticle() {
             document.getElementById('full-article-view').classList.add('hidden');
         }
-
-        // Preload articles data (replace with your PHP data)
-        const articles = {
-            <?php
-            foreach ($articles as $id => $article) {
-                echo "$id: " . json_encode($article) . ",";
-            }
-            ?>
-        };
     </script>
 </body>
 </html>
