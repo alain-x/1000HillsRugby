@@ -958,167 +958,99 @@
           </p>
         </div>
 
-        <!-- News Slider with Cards -->
-        <div class="grid lg:grid-cols-2 gap-8 news-slider">
-          <!-- Featured News - Large Card -->
-          <div
-            class="relative lg:row-span-2 flex flex-col gap-4 lg:p-6 p-1 rounded-xl transform hover:-translate-y-2 transition-all duration-300"
-          >
-            <div class="relative group">
-              <a href="news#Robert">
-              <img
-                class="rounded-xl h-[300px] md:h-[350px] lg:h-[400px] w-full object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-110 lazy filter grayscale-50 brightness-90 contrast-110 hover:filter-none"
-                data-src="./imagesNews/img/robert.JPG"
-                alt="Harerimana Robert"
-              /></a>
-              <div
-                class="absolute bottom-4 left-4 bg-black/70 text-white lg:p-4 p-1 rounded-lg"
-              >
-                <span class="font-medium text-sm md:text-lg">Now</span>
-                <h3 class="font-semibold text-xl md:text-2xl mt-2">
-                  BREAKING NEWS: JADE WATER 7s CUP
-                </h3>
-              </div>
-            </div>
-
-            <div
-              class="bg-white text-black rounded-lg text-center shadow-lg lg:p-4 p-1 font-medium text-sm md:text-base lg:text-lg"
-            >
-            A Star in the Making – Harerimana Robert
-            </div>
-
-            <!-- New Additional Content Below the Main Card -->
-            <div
-              class="flex justify-between items-center bg-white p-4 mt-4 rounded-lg shadow-md"
-            >
-              <!-- Social Sharing Icons -->
-              <div class="flex gap-2">
-                <a href="#" class="text-gray-600 hover:text-[#dcbb26]"
-                  ><i class="fab fa-facebook-square"></i
-                ></a>
-                <a href="#" class="text-gray-600 hover:text-[#dcbb26]"
-                  ><i class="fab fa-twitter-square"></i
-                ></a>
-                <a href="#" class="text-gray-600 hover:text-[#dcbb26]"
-                  ><i class="fab fa-linkedin"></i
-                ></a>
-              </div>
-
-              <!-- Read More Button -->
-              <a
-                href="./events.html"
-                class="text-[#dcbb26] font-semibold hover:text-black transition-all duration-300"
-              >
-                Read More
-                <i class="fas fa-arrow-right ml-2"></i>
-              </a>
-            </div>
-          </div>
-
-          <!-- News Cards (Right Side on Large Screens) -->
-          <div class="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-8">
-            <!-- Regular News Cards -->
-            
-            
-
-            <a  href="news#fans">
-              <div
-                class="news-card bg-white p-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:-translate-y-2 flex flex-col gap-4"
-              >
-                <div class="relative">
-                  <img
-                    class="rounded-xl h-[150px] md:h-[180px] lg:h-[200px] w-full object-cover transition-transform duration-500 ease-in-out transform hover:scale-110 lazy"
-                    data-src="./imagesNews/img/fans.JPG"
-                    alt=""
-                  />
-                </div>
-                <div class="text-center">
-                  <span class="text-sm md:text-md text-gray-600"
-                    >15 February 2025</span
-                  >
-                  <h3 class="font-bold text-lg md:text-xl mt-1">
-                    A Thank You to Our Stakeholders
-                  </h3>
+        <script>
+          // Fetch latest news from the PHP endpoint
+          async function fetchLatestNews() {
+            try {
+              const response = await fetch("get_latest_news.php");
+              const news = await response.json();
+              displayLatestNews(news);
+            } catch (error) {
+              console.error("Error fetching latest news:", error);
+            }
+          }
+    
+          // Display the latest news in the HTML
+          function displayLatestNews(news) {
+            const newsContainer = document.querySelector(".news-container");
+            if (!newsContainer || news.length === 0) return;
+    
+            // Clear existing content
+            newsContainer.innerHTML = "";
+    
+            // Large Card (First News Item) - Left Side
+            const largeCard = `
+              <div class="lg:w-[50%]">
+                <div class="relative flex flex-col gap-4 lg:p-6 p-1 rounded-xl transform hover:-translate-y-2 transition-all duration-300">
+                  <div class="relative group w-full">
+                    <a href="news1.php#${news[0].id}">
+                      <img
+                        class="rounded-xl h-[300px] md:h-[350px] lg:h-[400px] w-full object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-110 lazy filter grayscale-50 brightness-90 contrast-110 hover:filter-none"
+                        src="${news[0].main_image_path}"
+                        alt="${news[0].title}"
+                      />
+                    </a>
+                    <div class="absolute bottom-4 left-4 bg-black/70 text-white lg:p-4 p-1 rounded-lg">
+                      <span class="font-medium text-sm md:text-lg">Now</span>
+                      <h3 class="font-semibold text-xl md:text-2xl mt-2">${news[0].title}</h3>
+                    </div>
+                  </div>
+                  <div class="bg-white text-black rounded-lg text-center shadow-lg lg:p-4 p-1 font-medium text-sm md:text-base lg:text-lg">
+                    ${news[0].author}
+                  </div>
+                  <div class="flex justify-between items-center bg-white p-4 mt-4 rounded-lg shadow-md">
+                    <div class="flex gap-2">
+                      <a href="#" class="text-gray-600 hover:text-[#dcbb26]"><i class="fab fa-facebook-square"></i></a>
+                      <a href="#" class="text-gray-600 hover:text-[#dcbb26]"><i class="fab fa-twitter-square"></i></a>
+                      <a href="#" class="text-gray-600 hover:text-[#dcbb26]"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                    <a href="news1.php" class="text-[#dcbb26] font-semibold hover:text-black transition-all duration-300">
+                      Read More <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                  </div>
                 </div>
               </div>
-              </a>
-
-            
-            <a href="news#Heroes_cup"> 
-              <div
-                class="news-card bg-white p-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:-translate-y-2 flex flex-col gap-4"
-              >
-                <div class="relative">
-                  <img
-                    class="rounded-xl h-[150px] md:h-[180px] lg:h-[200px] w-full object-cover transition-transform duration-500 ease-in-out transform hover:scale-110 lazy"
-                    data-src="./imagesNews/HEROES CUP 2025/017.JPG"
-                    alt="News Image 4"
-                  />
-                </div>
-                <div class="text-center">
-                  <span class="text-sm md:text-md text-gray-600"
-                    >1 FEBRUARY 2025</span
-                  >
-                  <h3 class="font-bold text-lg md:text-xl mt-1">
-                    Heroes Rugby Cup 2025: A Celebration of Sport and Legacy
-                  </h3>
-                </div>
-              </div>
-              </a>
-
-
-
-            <a href="news_#1"> 
-            <div
-              class="news-card bg-white p-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:-translate-y-2 flex flex-col gap-4"
-            >
-              <div class="relative">
-                <img
-                  class="rounded-xl h-[150px] md:h-[180px] lg:h-[200px] w-full object-cover transition-transform duration-500 ease-in-out transform hover:scale-110 lazy"
-                  data-src="./plofilesM/KUNESHANUKWAYO Shalom.JPG"
-                  alt="KUNESHANUKWAYO Shalom"
-                />
-              </div>
-              <div class="text-center">
-                <span class="text-sm md:text-md text-gray-600"
-                  >20 December 2024</span
-                >
-                <h3 class="font-bold text-lg md:text-xl mt-1">
-                  Exciting news For SHALOM Our Safeguarding Officer 
-                </h3>
-              </div>
-            </div>
-            </a>
-
-
-
-             <a href="news_#2"> 
-            <div
-              class="news-card bg-white p-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:-translate-y-2 flex flex-col gap-4"
-            >
-              <div class="relative">
-                <img
-                  class="rounded-xl h-[150px] md:h-[180px] lg:h-[200px] w-full object-cover transition-transform duration-500 ease-in-out transform hover:scale-110 lazy"
-                  data-src="./images/Girls2025.JPG" 
-                />
-              </div>
-              <div class="text-center">
-                <span class="text-sm md:text-md text-gray-600"
-                  >18 September 2024</span
-                >
-                <h3 class="font-bold text-lg md:text-xl mt-1">
-                  The Women's National League, One of a kind for our women's team
-                </h3>
-              </div>
-            </div>
-             </a>
-
-
-            
-            
-           
-          </div>
-        </div>
+            `;
+    
+            // Right Side: 2x2 Grid for Remaining News Cards
+            let mediumCards = `
+              <div class="lg:w-[50%] grid grid-cols-2 gap-4">
+            `;
+    
+            // Loop through the next 4 news items for the grid
+            for (let i = 1; i < Math.min(news.length, 5); i++) {
+              mediumCards += `
+                <a href="news1.php#${news[i].id}">
+                  <div class="bg-white p-4 w-full rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:-translate-y-2 flex flex-col gap-2">
+                    <div class="relative">
+                      <img
+                        class="rounded-xl h-[120px] md:h-[150px] lg:h-[180px] w-full object-cover transition-transform duration-500 ease-in-out transform hover:scale-110 lazy"
+                        src="${news[i].main_image_path}"
+                        alt="${news[i].title}"
+                      />
+                    </div>
+                    <div class="text-center">
+                      <span class="text-sm md:text-md text-gray-600">${new Date(
+                        news[i].date_published
+                      ).toLocaleDateString()}</span>
+                      <h3 class="font-bold text-base md:text-lg mt-1">${
+                        news[i].title
+                      }</h3>
+                    </div>
+                  </div>
+                </a>
+              `;
+            }
+    
+            mediumCards += `</div>`; // Close grid div
+    
+            // Append the large card + 2x2 grid to the news container
+            newsContainer.innerHTML = `<div class="flex flex-col lg:flex-row gap-6">${largeCard}${mediumCards}</div>`;
+          }
+    
+          // Fetch and display latest news when the page loads
+          document.addEventListener("DOMContentLoaded", fetchLatestNews);
+        </script>
       </section>
 
       <!-- events section -->
