@@ -27,6 +27,7 @@ $servername = "localhost:3306";
 $username = "hillsrug_gasore";
 $password = "M00dle??";
 $dbname = "hillsrug_db";
+
             $conn = new mysqli($servername, $username, $password, $dbname);
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
@@ -117,11 +118,12 @@ $dbname = "hillsrug_db";
 
             const articleUrl = `${window.location.origin}${window.location.pathname}#${articleId}`;
             const articleTitle = articles[articleId].title;
+            const articleImage = articles[articleId].main_image_path;
 
             const fullArticleContent = `
                 <h1 class="text-2xl font-bold mb-2">${articles[articleId].title}</h1>
                  
-                <img class="w-full h-auto object-cover mb-6" src="${articles[articleId].main_image_path}" alt="${articles[articleId].title}" />
+                <img class="w-full h-auto object-cover mb-6" src="${articleImage}" alt="${articles[articleId].title}" />
                 <div class="space-y-4">
                     ${articles[articleId].details.map(detail => `
                         ${detail.content ? `<p class="text-gray-700">${detail.content}</p>` : ''}
@@ -164,7 +166,7 @@ $dbname = "hillsrug_db";
                                 </a>
                             </li>
                             <li>
-                                <button onclick="shareOnInstagram('${articleTitle}', '${articleUrl}')" class="hover:text-2xl">
+                                <button onclick="shareOnInstagram('${articleTitle}', '${articleUrl}', '${articleImage}')" class="hover:text-2xl">
                                     <i class="fa-brands fa-instagram"></i>
                                 </button>
                             </li>
@@ -182,7 +184,7 @@ $dbname = "hillsrug_db";
             history.replaceState(null, null, window.location.pathname);
         }
 
-        function shareOnInstagram(title, url) {
+        function shareOnInstagram(title, url, image) {
             // Instagram does not support direct URL sharing, so we guide the user to copy the link
             const text = `${title} - ${url}`;
             navigator.clipboard.writeText(text).then(() => {
