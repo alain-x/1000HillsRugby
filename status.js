@@ -82,8 +82,8 @@ const players = [
   {
     name: "Singizwa J Sauveur",
     img: "./plofilesM/SINGIZWA JEAN SAUVEUR.png",
-    performance: 50,
-    triesScored: 1,
+    performance: 65,
+    triesScored: 2,
     competition: "League",
     year: "2025",
   },
