@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Rugby News">
+    <meta property="og:description" content="Latest rugby news and updates.">
+    <meta property="og:image" content="">
+    <meta property="og:url" content="">
+    <meta property="og:type" content="article">
     <title>Rugby News</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
@@ -109,7 +115,8 @@ $dbname = "hillsrug_db";
         const articles = <?php echo json_encode($articles); ?>;
 
         function updateURLAndShowArticle(articleId) {
-            window.location.hash = articleId;
+            // Update the URL hash without reloading the page
+            history.pushState(null, null, `#${articleId}`);
             showFullArticle(articleId);
         }
 
@@ -119,6 +126,12 @@ $dbname = "hillsrug_db";
             const articleUrl = `${window.location.origin}${window.location.pathname}#${articleId}`;
             const articleTitle = articles[articleId].title;
             const articleImage = articles[articleId].main_image_path;
+
+            // Update Open Graph meta tags dynamically
+            document.querySelector('meta[property="og:title"]').setAttribute("content", articleTitle);
+            document.querySelector('meta[property="og:description"]').setAttribute("content", articles[articleId].details[0]?.subtitle || "Latest rugby news and updates.");
+            document.querySelector('meta[property="og:image"]').setAttribute("content", articleImage);
+            document.querySelector('meta[property="og:url"]').setAttribute("content", articleUrl);
 
             const fullArticleContent = `
                 <h1 class="text-2xl font-bold mb-2">${articles[articleId].title}</h1>
@@ -146,7 +159,7 @@ $dbname = "hillsrug_db";
                         <p class="text-sm font-bold">SHARE:</p>
                         <ul class="flex gap-3 text-xl text-[#1b75bc]">
                             <li>
-                                <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(articleUrl)}" target="_blank" class="hover:text-2xl">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(articleUrl)}&text=${encodeURIComponent(articleTitle)}" target="_blank" class="hover:text-2xl">
                                     <i class="fa-brands fa-facebook"></i>
                                 </a>
                             </li>
