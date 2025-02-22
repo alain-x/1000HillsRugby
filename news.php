@@ -27,7 +27,6 @@ $servername = "localhost:3306";
 $username = "hillsrug_gasore";
 $password = "M00dle??";
 $dbname = "hillsrug_db";
-
             $conn = new mysqli($servername, $username, $password, $dbname);
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
@@ -116,6 +115,9 @@ $dbname = "hillsrug_db";
         function showFullArticle(articleId) {
             if (!articles[articleId]) return;
 
+            const articleUrl = `${window.location.origin}${window.location.pathname}#${articleId}`;
+            const articleTitle = articles[articleId].title;
+
             const fullArticleContent = `
                 <h1 class="text-2xl font-bold mb-2">${articles[articleId].title}</h1>
                  
@@ -127,14 +129,47 @@ $dbname = "hillsrug_db";
                         ${detail.image_path ? `<img class="w-full h-auto object-cover mt-4" src="${detail.image_path}" alt="${detail.subtitle}" />` : ''}
                     `).join('')}
                 </div>
-                 <div>
-                    <p class="text-sm mt-[20px] font-bold">FOLLOW US:</p>
-                    <ul class="flex gap-3 text-xl text-[#1b75bc]">
-                        <li><a class="hover:text-2xl" href="https://www.facebook.com/1000hillsrugby/"><i class="fa-brands fa-facebook-f"></i></a></li>
-                        <li><a class="hover:text-2xl" href="https://www.instagram.com/1000hillsrugby/"><i class="fa-brands fa-instagram"></i></a></li>
-                        <li><a class="hover:text-2xl" href="https://x.com/1000HillsRugby?t=S0PTUa88AFrp6SJs5meJ6A&s=08"><i class="fa-brands fa-x-twitter"></i></a></li>
-                        <li><a class="hover:text-2xl" href="https://www.youtube.com/@1000HillsRugby"><i class="fa-brands fa-youtube"></i></a></li>
-                    </ul>
+                <div class="flex justify-between items-center mt-6">
+                    <div>
+                        <p class="text-sm font-bold">FOLLOW US:</p>
+                        <ul class="flex gap-3 text-xl text-[#1b75bc]">
+                            <li><a class="hover:text-2xl" href="https://www.facebook.com/1000hillsrugby/"><i class="fa-brands fa-facebook-f"></i></a></li>
+                            <li><a class="hover:text-2xl" href="https://www.instagram.com/1000hillsrugby/"><i class="fa-brands fa-instagram"></i></a></li>
+                            <li><a class="hover:text-2xl" href="https://x.com/1000HillsRugby?t=S0PTUa88AFrp6SJs5meJ6A&s=08"><i class="fa-brands fa-x-twitter"></i></a></li>
+                            <li><a class="hover:text-2xl" href="https://www.youtube.com/@1000HillsRugby"><i class="fa-brands fa-youtube"></i></a></li>
+                        </ul>
+                    </div>
+                    <!-- Share News Icons -->
+                    <div>
+                        <p class="text-sm font-bold">SHARE:</p>
+                        <ul class="flex gap-3 text-xl text-[#1b75bc]">
+                            <li>
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(articleUrl)}" target="_blank" class="hover:text-2xl">
+                                    <i class="fa-brands fa-facebook"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/intent/tweet?url=${encodeURIComponent(articleUrl)}&text=${encodeURIComponent(articleTitle)}" target="_blank" class="hover:text-2xl">
+                                    <i class="fa-brands fa-x-twitter"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://wa.me/?text=${encodeURIComponent(articleTitle + ' - ' + articleUrl)}" target="_blank" class="hover:text-2xl">
+                                    <i class="fa-brands fa-whatsapp"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(articleUrl)}&title=${encodeURIComponent(articleTitle)}" target="_blank" class="hover:text-2xl">
+                                    <i class="fa-brands fa-linkedin"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <button onclick="shareOnInstagram('${articleTitle}', '${articleUrl}')" class="hover:text-2xl">
+                                    <i class="fa-brands fa-instagram"></i>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             `;
 
@@ -145,6 +180,16 @@ $dbname = "hillsrug_db";
         function hideFullArticle() {
             document.getElementById('full-article-view').classList.add('hidden');
             history.replaceState(null, null, window.location.pathname);
+        }
+
+        function shareOnInstagram(title, url) {
+            // Instagram does not support direct URL sharing, so we guide the user to copy the link
+            const text = `${title} - ${url}`;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Link copied to clipboard! Open Instagram and paste it to share.");
+            }).catch(() => {
+                alert("Failed to copy link. Please copy it manually.");
+            });
         }
 
         window.onload = function () {
