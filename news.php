@@ -632,7 +632,7 @@ $dbname = "hillsrug_db";
         <div id="full-article-view" class="hidden fixed inset-0 bg-white p-8 overflow-y-auto">
             <div class="max-w-6xl mx-auto relative">
                 <button onclick="hideFullArticle()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times text-2xl"></i>
+                     
                 </button>
                 <div id="full-article-content"></div>
             </div>
