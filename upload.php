@@ -33,13 +33,16 @@
             <input type="file" name="main_image" accept="image/*" class="w-full p-2 border rounded">
         </div>
 
-        <!-- Repeatable Fields for Subtitles, Content, and Images -->
+        <!-- Repeatable Fields for Subtitles, Content, and Multiple Images -->
         <div id="repeatable-fields" class="mb-6">
             <div class="mb-6">
                 <h3 class="text-xl font-semibold mb-4">Section 1</h3>
                 <input type="text" name="subtitle[]" placeholder="Subtitle 1" class="w-full p-2 border rounded mb-2">
                 <textarea name="content[]" placeholder="Content 1" class="w-full p-2 border rounded mb-2"></textarea>
-                <input type="file" name="image[]" accept="image/*" class="w-full p-2 border rounded">
+                <div class="image-upload-section mb-4">
+                    <label class="block text-lg font-semibold mb-2">Images (Multiple)</label>
+                    <input type="file" name="image[0][]" accept="image/*" multiple class="w-full p-2 border rounded">
+                </div>
             </div>
         </div>
 
@@ -55,107 +58,136 @@
     </form>
 
     <script>
+        let sectionCount = 1; // Track the number of sections
+
         function addFields() {
+            sectionCount++; // Increment section number
             let container = document.getElementById("repeatable-fields");
-            let index = container.children.length + 1; // Increment section number
 
             let div = document.createElement("div");
             div.className = "mb-6";
             div.innerHTML = `
-                <h3 class="text-xl font-semibold mb-4">Section ${index}</h3>
-                <input type="text" name="subtitle[]" placeholder="Subtitle ${index}" class="w-full p-2 border rounded mb-2">
-                <textarea name="content[]" placeholder="Content ${index}" class="w-full p-2 border rounded mb-2"></textarea>
-                <input type="file" name="image[]" accept="image/*" class="w-full p-2 border rounded">
+                <h3 class="text-xl font-semibold mb-4">Section ${sectionCount}</h3>
+                <input type="text" name="subtitle[]" placeholder="Subtitle ${sectionCount}" class="w-full p-2 border rounded mb-2">
+                <textarea name="content[]" placeholder="Content ${sectionCount}" class="w-full p-2 border rounded mb-2"></textarea>
+                <div class="image-upload-section mb-4">
+                    <label class="block text-lg font-semibold mb-2">Images (Multiple)</label>
+                    <input type="file" name="image[${sectionCount - 1}][]" accept="image/*" multiple class="w-full p-2 border rounded">
+                </div>
             `;
             container.appendChild(div);
         }
     </script>
+
     <?php
 $servername = "localhost:3306";
 $username = "hillsrug_gasore";
 $password = "M00dle??";
 $dbname = "hillsrug_db";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get main article details
-    $title = $_POST["title"];
-    $category = $_POST["category"];
-    $date_published = $_POST["date_published"];
-
-    // Insert into `articles` table
-    $sql = "INSERT INTO articles (title, category, date_published) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sss", $title, $category, $date_published);
-
-    if ($stmt->execute()) {
-        $article_id = $stmt->insert_id; // Get the ID of the inserted article
-    } else {
-        die("Error inserting article: " . $stmt->error);
-    }
-    $stmt->close();
-
-    // Define upload directory
-    $upload_dir = "uploads/";
-    if (!is_dir($upload_dir)) {
-        mkdir($upload_dir, 0777, true);
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
     }
 
-    // Process main image (if provided)
-    if (!empty($_FILES["main_image"]["name"])) {
-        $main_image_name = time() . "_" . basename($_FILES["main_image"]["name"]);
-        $main_image_path = $upload_dir . $main_image_name;
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Get main article details
+        $title = $_POST["title"];
+        $category = $_POST["category"];
+        $date_published = $_POST["date_published"];
 
-        if (move_uploaded_file($_FILES["main_image"]["tmp_name"], $main_image_path)) {
-            // Update the article with the main image path
-            $sql = "UPDATE articles SET main_image_path = ? WHERE id = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("si", $main_image_path, $article_id);
-            $stmt->execute();
-            $stmt->close();
+        // Generate a UUID for the article ID
+        $article_id = generateUUID(); // Custom function to generate a UUID
+
+        // Insert into `articles` table
+        $sql = "INSERT INTO articles (id, title, category, date_published) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssss", $article_id, $title, $category, $date_published); // Use "ssss" for string parameters
+
+        if ($stmt->execute()) {
+            echo "Article inserted successfully!";
         } else {
-            die("Error uploading main image.");
+            die("Error inserting article: " . $stmt->error);
         }
-    }
+        $stmt->close();
 
-    // Process subtitles, contents, and images
-    if (!empty($_POST["subtitle"])) {
-        foreach ($_POST["subtitle"] as $index => $subtitle) {
-            $content = $_POST["content"][$index] ?? null;
-            $image_path = null;
+        // Define upload directory
+        $upload_dir = "uploads/";
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0777, true);
+        }
 
-            // Handle image upload only if a file is selected
-            if (!empty($_FILES["image"]["name"][$index])) {
-                $image_name = time() . "_" . basename($_FILES["image"]["name"][$index]);
-                $target_file = $upload_dir . $image_name;
+        // Process main image (if provided)
+        if (!empty($_FILES["main_image"]["name"])) {
+            $main_image_name = time() . "_" . basename($_FILES["main_image"]["name"]);
+            $main_image_path = $upload_dir . $main_image_name;
 
-                if (move_uploaded_file($_FILES["image"]["tmp_name"][$index], $target_file)) {
-                    $image_path = $target_file;
-                } else {
-                    die("Error uploading image.");
+            if (move_uploaded_file($_FILES["main_image"]["tmp_name"], $main_image_path)) {
+                // Update the article with the main image path
+                $sql = "UPDATE articles SET main_image_path = ? WHERE id = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("ss", $main_image_path, $article_id); // Use "ss" for string parameters
+                $stmt->execute();
+                $stmt->close();
+            } else {
+                die("Error uploading main image.");
+            }
+        }
+
+        // Process subtitles, contents, and multiple images
+        if (!empty($_POST["subtitle"])) {
+            foreach ($_POST["subtitle"] as $index => $subtitle) {
+                $content = $_POST["content"][$index] ?? null;
+                $image_paths = [];
+
+                // Handle multiple image uploads for this section
+                if (!empty($_FILES["image"]["name"][$index])) {
+                    foreach ($_FILES["image"]["tmp_name"][$index] as $key => $tmp_name) {
+                        if ($_FILES["image"]["error"][$index][$key] === UPLOAD_ERR_OK) {
+                            $image_name = time() . "_" . basename($_FILES["image"]["name"][$index][$key]);
+                            $target_file = $upload_dir . $image_name;
+
+                            if (move_uploaded_file($tmp_name, $target_file)) {
+                                $image_paths[] = $target_file;
+                            } else {
+                                die("Error uploading image.");
+                            }
+                        }
+                    }
                 }
-            }
 
-            // Insert into `article_details` table
-            $sql = "INSERT INTO article_details (article_id, subtitle, content, image_path) VALUES (?, ?, ?, ?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("isss", $article_id, $subtitle, $content, $image_path);
+                // Insert into `article_details` table
+                $sql = "INSERT INTO article_details (article_id, subtitle, content, image_path) VALUES (?, ?, ?, ?)";
+                $stmt = $conn->prepare($sql);
+                $image_paths_str = implode(",", $image_paths); // Store multiple image paths as a comma-separated string
+                $stmt->bind_param("ssss", $article_id, $subtitle, $content, $image_paths_str); // Use "ssss" for string parameters
 
-            if (!$stmt->execute()) {
-                die("Error inserting article details: " . $stmt->error);
+                if (!$stmt->execute()) {
+                    die("Error inserting article details: " . $stmt->error);
+                }
+                $stmt->close();
             }
-            $stmt->close();
         }
+
+        echo "Article and details uploaded successfully!";
     }
 
-    echo "Article and details uploaded successfully!";
-}
+    $conn->close();
 
-$conn->close();
-?>
+    // Function to generate a UUID
+    function generateUUID() {
+        return sprintf(
+            '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0x0fff) | 0x4000,
+            mt_rand(0, 0x3fff) | 0x8000,
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff)
+        );
+    }
+    ?>
 </body>
 </html>

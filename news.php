@@ -28,19 +28,19 @@
     
     <main class="container mx-auto px-4 py-6">
         <!-- Transparent Navbar -->
-   <nav
-   class="navbar fixed top-0 left-0 w-full px-2 z-20 h-[10vh] flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300"
- >
-   <!-- Logo -->
-   <div class="navbar-logo w-2/12">
+ <nav
+     class="navbar fixed top-0 left-0 w-full px-2 z-20 h-[10vh] flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300"
+     >
+     <!-- Logo -->
+     <div class="navbar-logo w-2/12">
      <a href="./">
        <img
          class="w-[60px] hover:w-[70px] transition-transform duration-300"
          src="./images/1000-hills-logo.png"
          alt="1000 Hills Rugby"
        />
-     </a>
-   </div>
+      </a>
+     </div>
 
    <!-- Desktop Navigation -->
    <ul
@@ -567,7 +567,7 @@
      </div>
    </div>
  </nav>
-        <div class="grid grid-cols-1 mt-[60px] sm:grid-cols-2 lg:grid-cols-3 gap-6" id="news-cards">
+ <div class="grid grid-cols-1 mt-[60px] sm:grid-cols-2 lg:grid-cols-3 gap-6" id="news-cards">
             <?php
 $servername = "localhost:3306";
 $username = "hillsrug_gasore";
@@ -632,7 +632,7 @@ $dbname = "hillsrug_db";
         <div id="full-article-view" class="hidden fixed inset-0 bg-white p-8 overflow-y-auto">
             <div class="max-w-6xl mx-auto relative">
                 <button onclick="hideFullArticle()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
-                    
+                    <i class="fas fa-times text-2xl"></i>
                 </button>
                 <div id="full-article-content"></div>
             </div>
@@ -661,7 +661,7 @@ $dbname = "hillsrug_db";
                 <div class="max-w-7xl mx-auto p-4 mt-[60px]">
                     <a href="#" onclick="goBack()" class="text-lg font-bold">&larr; BACK</a>
                     <h1 class="text-4xl font-bold mt-4">${article.title}</h1>
-                    <p class="text-gray-500 text-sm mt-2">${article["date_published"]}</p>
+                    <p class="text-gray-500 text-sm mt-2">${article.date_published}</p>
                     <div class="flex space-x-4 mt-4">
                         <button onclick="shareArticle('email')" class="bg-gray-200 p-2 rounded"><i class="fas fa-envelope"></i></button>
                         <button onclick="shareArticle('facebook')" class="bg-gray-200 p-2 rounded"><i class="fab fa-facebook-f"></i></button>
@@ -673,7 +673,13 @@ $dbname = "hillsrug_db";
                         ${article.details.map(detail => `
                             ${detail.subtitle ? `<h3 class="text-xl font-semibold">${detail.subtitle}</h3>` : ''}
                             ${detail.content ? `<p class="text-gray-700">${detail.content}</p>` : ''}
-                            ${detail.image_path ? `<img class="w-full h-auto object-cover rounded-lg mt-4" src="${detail.image_path}" alt="${detail.subtitle || 'Image'}" />` : ''}
+                            ${detail.image_path ? `
+                                <div class="${detail.image_path.split(",").length > 1 ? 'grid grid-cols-2 md:grid-cols-3 gap-4 mt-4' : 'mt-4'}">
+                                    ${detail.image_path.split(",").map(image => `
+                                        <img onclick="showImageModal('${image}')" class="${detail.image_path.split(",").length > 1 ? 'w-full h-48 object-cover rounded-lg cursor-pointer' : 'w-full h-auto object-cover rounded-lg cursor-pointer'}" src="${image}" alt="${detail.subtitle || 'Image'}" />
+                                    `).join('')}
+                                </div>
+                            ` : ''}
                         `).join('')}
                     </div>
                 </div>
@@ -704,6 +710,27 @@ $dbname = "hillsrug_db";
                     break;
             }
         }
+
+        function showImageModal(imageSrc) {
+            const modal = document.getElementById('image-modal');
+            const modalImage = document.getElementById('modal-image');
+            modalImage.src = imageSrc;
+            modal.classList.remove('hidden');
+        }
+
+        function hideImageModal() {
+            document.getElementById('image-modal').classList.add('hidden');
+        }
     </script>
+
+    <!-- Image Modal (Hidden by Default) -->
+    <div id="image-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 p-8 overflow-y-auto">
+        <div class="bg-white rounded-lg p-6 max-w-3xl mx-auto relative">
+            <button onclick="hideImageModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+            <img id="modal-image" class="w-full h-auto object-cover rounded-lg" src="" alt="Modal Image">
+        </div>
+    </div>
 </body>
 </html>
