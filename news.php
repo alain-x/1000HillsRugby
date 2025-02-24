@@ -27,20 +27,20 @@
 <body class="bg-gray-50 text-gray-800">
     
     <main class="container mx-auto px-4 py-6">
-        <!-- Transparent Navbar -->
- <nav
-     class="navbar fixed top-0 left-0 w-full px-2 z-20 h-[10vh] flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300"
-     >
-     <!-- Logo -->
-     <div class="navbar-logo w-2/12">
+         <!-- Transparent Navbar -->
+   <nav
+   class="navbar fixed top-0 left-0 w-full px-2 z-20 h-[10vh] flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300"
+ >
+   <!-- Logo -->
+   <div class="navbar-logo w-2/12">
      <a href="./">
        <img
          class="w-[60px] hover:w-[70px] transition-transform duration-300"
          src="./images/1000-hills-logo.png"
          alt="1000 Hills Rugby"
        />
-      </a>
-     </div>
+     </a>
+   </div>
 
    <!-- Desktop Navigation -->
    <ul
@@ -567,12 +567,14 @@
      </div>
    </div>
  </nav>
- <div class="grid grid-cols-1 mt-[60px] sm:grid-cols-2 lg:grid-cols-3 gap-6" id="news-cards">
+
+        <!-- News Cards -->
+        <div class="grid grid-cols-1 mt-[60px] sm:grid-cols-2 lg:grid-cols-3 gap-6" id="news-cards">
             <?php
-$servername = "localhost:3306";
-$username = "hillsrug_gasore";
-$password = "M00dle??";
-$dbname = "hillsrug_db";
+            $servername = "localhost:3306";
+            $username = "hillsrug_gasore";
+            $password = "M00dle??";
+            $dbname = "hillsrug_db";
 
             $conn = new mysqli($servername, $username, $password, $dbname);
             if ($conn->connect_error) {
@@ -632,7 +634,7 @@ $dbname = "hillsrug_db";
         <div id="full-article-view" class="hidden fixed inset-0 bg-white p-8 overflow-y-auto">
             <div class="max-w-6xl mx-auto relative">
                 <button onclick="hideFullArticle()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
-                     
+                    
                 </button>
                 <div id="full-article-content"></div>
             </div>
