@@ -707,7 +707,7 @@
         </div>
 
         <!-- Full Article View -->
-        <div id="full-article-view" class="hidden fixed inset-0 bg-white mt-[60px] p-8 overflow-y-auto">
+        <div id="full-article-view" class="hidden fixed inset-0 bg-white p-8 overflow-y-auto">
             <div class="max-w-6xl mx-auto relative">
                 <div id="full-article-content"></div>
             </div>
