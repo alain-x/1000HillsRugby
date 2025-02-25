@@ -20,95 +20,6 @@
         .image-collage img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; cursor: pointer; }
     </style>
     
-    <script>
-        const articles = <?php echo json_encode($articles); ?>;
-
-        // Update URL and show full article
-        function updateURLAndShowArticle(articleId) {
-            history.pushState(null, null, `#${articleId}`);
-            showFullArticle(articleId);
-        }
-
-        // Show full article content
-        function showFullArticle(articleId) {
-            if (!articles[articleId]) return;
-            const article = articles[articleId];
-            const content = `
-                <div class="max-w-7xl mt-[60px] mx-auto p-4"> 
-                <a href="#" onclick="goBack()" class="text-lg font-bold">&larr; BACK</a>
-                    <h1 class="text-4xl font-bold mt-4">${article.title}</h1>
-                    <p class="text-gray-500 text-sm mt-2">${article.date_published}</p>
-                    <div class="flex space-x-4 mt-4">
-                        <button onclick="shareArticle('email')" class="bg-gray-200 p-2 rounded"><i class="fas fa-envelope"></i></button>
-                        <button onclick="shareArticle('facebook')" class="bg-gray-200 p-2 rounded"><i class="fab fa-facebook-f"></i></button>
-                        <button onclick="shareArticle('twitter')" class="bg-gray-200 p-2 rounded"><i class="fab fa-x-twitter"></i></button>
-                        <button onclick="shareArticle('linkedin')" class="bg-gray-200 p-2 rounded"><i class="fab fa-linkedin-in"></i></button>
-                    </div>
-                    <img class="w-full h-auto object-cover my-6" src="${article.main_image_path}" alt="${article.title}" />
-                    <div class="space-y-4">
-                        ${article.details.map(detail => `
-                            ${detail.subtitle ? `<h3 class="text-xl font-semibold">${detail.subtitle}</h3>` : ''}
-                            ${detail.content ? `<p class="text-gray-700">${detail.content}</p>` : ''}
-                            ${detail.image_path ? `
-                                <div class="${detail.image_path.split(",").length > 1 ? 'image-collage' : ''}">
-                                    ${detail.image_path.split(",").map(image => `
-                                        <img onclick="${detail.image_path.split(",").length > 1 ? `showImageModal('${image}')` : ''}" class="${detail.image_path.split(",").length > 1 ? 'w-full h-48 object-cover rounded-lg cursor-pointer' : 'w-full h-auto object-cover rounded-lg'}" src="${image}" alt="${detail.subtitle || 'Image'}" />
-                                    `).join('')}
-                                </div>
-                            ` : ''}
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-            document.getElementById('full-article-content').innerHTML = content;
-            document.getElementById('full-article-view').classList.remove('hidden');
-        }
-
-        // Go back to the article list
-        function goBack() {
-            document.getElementById('full-article-view').classList.add('hidden');
-            document.getElementById('image-modal').classList.add('hidden');
-            history.pushState(null, null, window.location.pathname);
-        }
-
-        // Share article on social media
-        function shareArticle(platform) {
-            const url = window.location.href;
-            switch (platform) {
-                case 'email':
-                    window.location.href = `mailto:?subject=Check out this article&body=${url}`;
-                    break;
-                case 'facebook':
-                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
-                    break;
-                case 'twitter':
-                    window.open(`https://twitter.com/intent/tweet?url=${url}`, '_blank');
-                    break;
-                case 'linkedin':
-                    window.open(`https://www.linkedin.com/shareArticle?mini=true&url=${url}`, '_blank');
-                    break;
-            }
-        }
-
-        // Show image modal
-        function showImageModal(imageSrc) {
-            const modal = document.getElementById('image-modal');
-            const modalImage = document.getElementById('modal-image');
-            modalImage.src = imageSrc;
-            modal.classList.remove('hidden');
-        }
-
-        // Hide image modal
-        function hideImageModal() {
-            document.getElementById('image-modal').classList.add('hidden');
-        }
-
-        // Load full article if URL has a hash
-        window.onload = function () {
-            const hash = window.location.hash.substring(1);
-            if (hash && articles[hash]) showFullArticle(hash);
-        };
-    </script>
 </head>
 <body class="bg-gray-50 text-gray-800">
     <main class="container mx-auto px-4 py-6">
@@ -721,6 +632,96 @@
             <img id="modal-image" class="w-full h-auto object-cover rounded-lg" src="" alt="Modal Image">
         </div>
     </div>
+    
+    <script>
+        const articles = <?php echo json_encode($articles); ?>;
+
+        // Update URL and show full article
+        function updateURLAndShowArticle(articleId) {
+            history.pushState(null, null, `#${articleId}`);
+            showFullArticle(articleId);
+        }
+
+        // Show full article content
+        function showFullArticle(articleId) {
+            if (!articles[articleId]) return;
+            const article = articles[articleId];
+            const content = `
+                <div class="max-w-7xl mt-[60px] mx-auto p-4"> 
+                <a href="#" onclick="goBack()" class="text-lg font-bold">&larr; BACK</a>
+                    <h1 class="text-4xl font-bold mt-4">${article.title}</h1>
+                    <p class="text-gray-500 text-sm mt-2">${article.date_published}</p>
+                    <div class="flex space-x-4 mt-4">
+                        <button onclick="shareArticle('email')" class="bg-gray-200 p-2 rounded"><i class="fas fa-envelope"></i></button>
+                        <button onclick="shareArticle('facebook')" class="bg-gray-200 p-2 rounded"><i class="fab fa-facebook-f"></i></button>
+                        <button onclick="shareArticle('twitter')" class="bg-gray-200 p-2 rounded"><i class="fab fa-x-twitter"></i></button>
+                        <button onclick="shareArticle('linkedin')" class="bg-gray-200 p-2 rounded"><i class="fab fa-linkedin-in"></i></button>
+                    </div>
+                    <img class="w-full h-auto object-cover my-6" src="${article.main_image_path}" alt="${article.title}" />
+                    <div class="space-y-4">
+                        ${article.details.map(detail => `
+                            ${detail.subtitle ? `<h3 class="text-xl font-semibold">${detail.subtitle}</h3>` : ''}
+                            ${detail.content ? `<p class="text-gray-700">${detail.content}</p>` : ''}
+                            ${detail.image_path ? `
+                                <div class="${detail.image_path.split(",").length > 1 ? 'image-collage' : ''}">
+                                    ${detail.image_path.split(",").map(image => `
+                                        <img onclick="${detail.image_path.split(",").length > 1 ? `showImageModal('${image}')` : ''}" class="${detail.image_path.split(",").length > 1 ? 'w-full h-48 object-cover rounded-lg cursor-pointer' : 'w-full h-auto object-cover rounded-lg'}" src="${image}" alt="${detail.subtitle || 'Image'}" />
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            document.getElementById('full-article-content').innerHTML = content;
+            document.getElementById('full-article-view').classList.remove('hidden');
+        }
+
+        // Go back to the article list
+        function goBack() {
+            document.getElementById('full-article-view').classList.add('hidden');
+            document.getElementById('image-modal').classList.add('hidden');
+            history.pushState(null, null, window.location.pathname);
+        }
+
+        // Share article on social media
+        function shareArticle(platform) {
+            const url = window.location.href;
+            switch (platform) {
+                case 'email':
+                    window.location.href = `mailto:?subject=Check out this article&body=${url}`;
+                    break;
+                case 'facebook':
+                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+                    break;
+                case 'twitter':
+                    window.open(`https://twitter.com/intent/tweet?url=${url}`, '_blank');
+                    break;
+                case 'linkedin':
+                    window.open(`https://www.linkedin.com/shareArticle?mini=true&url=${url}`, '_blank');
+                    break;
+            }
+        }
+
+        // Show image modal
+        function showImageModal(imageSrc) {
+            const modal = document.getElementById('image-modal');
+            const modalImage = document.getElementById('modal-image');
+            modalImage.src = imageSrc;
+            modal.classList.remove('hidden');
+        }
+
+        // Hide image modal
+        function hideImageModal() {
+            document.getElementById('image-modal').classList.add('hidden');
+        }
+
+        // Load full article if URL has a hash
+        window.onload = function () {
+            const hash = window.location.hash.substring(1);
+            if (hash && articles[hash]) showFullArticle(hash);
+        };
+    </script>
 
     
     <script src="index.js"></script>
