@@ -2,32 +2,117 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <meta property="og:title" content="<?php echo $article['title']; ?>">
     <meta property="og:description" content="<?php echo $article['content']; ?>">
     <meta property="og:image" content="<?php echo $article['main_image_path']; ?>">
     <meta property="og:url" content="">
     <meta property="og:type" content="article">
-    <title>Rugby News</title>
+
+    <title>1000 Hills Rugby | News</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
     <style>
-        .article-card {
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .article-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .hidden {
-            display: none;
-        }
+        .article-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .article-card:hover { transform: translateY(-5px); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+        .hidden { display: none; }
+        .image-collage { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+        .image-collage img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; cursor: pointer; }
     </style>
+    
+    <script>
+        const articles = <?php echo json_encode($articles); ?>;
+
+        // Update URL and show full article
+        function updateURLAndShowArticle(articleId) {
+            history.pushState(null, null, `#${articleId}`);
+            showFullArticle(articleId);
+        }
+
+        // Show full article content
+        function showFullArticle(articleId) {
+            if (!articles[articleId]) return;
+            const article = articles[articleId];
+            const content = `
+                <div class="max-w-7xl mt-[60px] mx-auto p-4"> 
+                <a href="#" onclick="goBack()" class="text-lg font-bold">&larr; BACK</a>
+                    <h1 class="text-4xl font-bold mt-4">${article.title}</h1>
+                    <p class="text-gray-500 text-sm mt-2">${article.date_published}</p>
+                    <div class="flex space-x-4 mt-4">
+                        <button onclick="shareArticle('email')" class="bg-gray-200 p-2 rounded"><i class="fas fa-envelope"></i></button>
+                        <button onclick="shareArticle('facebook')" class="bg-gray-200 p-2 rounded"><i class="fab fa-facebook-f"></i></button>
+                        <button onclick="shareArticle('twitter')" class="bg-gray-200 p-2 rounded"><i class="fab fa-x-twitter"></i></button>
+                        <button onclick="shareArticle('linkedin')" class="bg-gray-200 p-2 rounded"><i class="fab fa-linkedin-in"></i></button>
+                    </div>
+                    <img class="w-full h-auto object-cover my-6" src="${article.main_image_path}" alt="${article.title}" />
+                    <div class="space-y-4">
+                        ${article.details.map(detail => `
+                            ${detail.subtitle ? `<h3 class="text-xl font-semibold">${detail.subtitle}</h3>` : ''}
+                            ${detail.content ? `<p class="text-gray-700">${detail.content}</p>` : ''}
+                            ${detail.image_path ? `
+                                <div class="${detail.image_path.split(",").length > 1 ? 'image-collage' : ''}">
+                                    ${detail.image_path.split(",").map(image => `
+                                        <img onclick="${detail.image_path.split(",").length > 1 ? `showImageModal('${image}')` : ''}" class="${detail.image_path.split(",").length > 1 ? 'w-full h-48 object-cover rounded-lg cursor-pointer' : 'w-full h-auto object-cover rounded-lg'}" src="${image}" alt="${detail.subtitle || 'Image'}" />
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            document.getElementById('full-article-content').innerHTML = content;
+            document.getElementById('full-article-view').classList.remove('hidden');
+        }
+
+        // Go back to the article list
+        function goBack() {
+            document.getElementById('full-article-view').classList.add('hidden');
+            document.getElementById('image-modal').classList.add('hidden');
+            history.pushState(null, null, window.location.pathname);
+        }
+
+        // Share article on social media
+        function shareArticle(platform) {
+            const url = window.location.href;
+            switch (platform) {
+                case 'email':
+                    window.location.href = `mailto:?subject=Check out this article&body=${url}`;
+                    break;
+                case 'facebook':
+                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+                    break;
+                case 'twitter':
+                    window.open(`https://twitter.com/intent/tweet?url=${url}`, '_blank');
+                    break;
+                case 'linkedin':
+                    window.open(`https://www.linkedin.com/shareArticle?mini=true&url=${url}`, '_blank');
+                    break;
+            }
+        }
+
+        // Show image modal
+        function showImageModal(imageSrc) {
+            const modal = document.getElementById('image-modal');
+            const modalImage = document.getElementById('modal-image');
+            modalImage.src = imageSrc;
+            modal.classList.remove('hidden');
+        }
+
+        // Hide image modal
+        function hideImageModal() {
+            document.getElementById('image-modal').classList.add('hidden');
+        }
+
+        // Load full article if URL has a hash
+        window.onload = function () {
+            const hash = window.location.hash.substring(1);
+            if (hash && articles[hash]) showFullArticle(hash);
+        };
+    </script>
 </head>
 <body class="bg-gray-50 text-gray-800">
-    
     <main class="container mx-auto px-4 py-6">
-         <!-- Transparent Navbar -->
+          <!-- Transparent Navbar -->
    <nav
    class="navbar fixed top-0 left-0 w-full px-2 z-20 h-[10vh] flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300"
  >
@@ -567,63 +652,54 @@
      </div>
    </div>
  </nav>
-
         <!-- News Cards -->
-        <div class="grid grid-cols-1 mt-[60px] sm:grid-cols-2 lg:grid-cols-3 gap-6" id="news-cards">
+        <div class="grid grid-cols-1 mt-10 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="news-cards">
             <?php
-            $servername = "localhost:3306";
-            $username = "hillsrug_gasore";
-            $password = "M00dle??";
-            $dbname = "hillsrug_db";
+            // Database connection
+              
+            $conn = new mysqli("localhost", "hillsrug_gasore", "M00dle??", "hillsrug_db", 3306);
+            if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
 
-            $conn = new mysqli($servername, $username, $password, $dbname);
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
-
+            // Fetch articles and their details
             $sql = "SELECT a.id, a.title, a.category, a.date_published, a.main_image_path, a.author, 
-                           ad.subtitle, ad.content, ad.image_path
-                    FROM articles a
-                    LEFT JOIN article_details ad ON a.id = ad.article_id
+                           ad.subtitle, ad.content, ad.image_path 
+                    FROM articles a 
+                    LEFT JOIN article_details ad ON a.id = ad.article_id 
                     ORDER BY a.date_published DESC";
             $result = $conn->query($sql);
+            $articles = [];
 
-            if ($result->num_rows > 0) {
-                $articles = [];
-
-                while ($row = $result->fetch_assoc()) {
-                    $article_id = $row["id"];
-                    if (!isset($articles[$article_id])) {
-                        $articles[$article_id] = [
-                            "title" => $row["title"],
-                            "category" => $row["category"],
-                            "date_published" => date("F j, Y", strtotime($row["date_published"])),
-                            "main_image_path" => $row["main_image_path"],
-                            "author" => $row["author"],
-                            "details" => []
-                        ];
-                    }
-                    if (!empty($row["subtitle"]) || !empty($row["content"]) || !empty($row["image_path"])) {
-                        $articles[$article_id]["details"][] = [
-                            "subtitle" => $row["subtitle"],
-                            "content" => $row["content"],
-                            "image_path" => $row["image_path"]
-                        ];
-                    }
+            // Organize articles and their details
+            while ($row = $result->fetch_assoc()) {
+                $id = $row["id"];
+                if (!isset($articles[$id])) {
+                    $articles[$id] = [
+                        "title" => $row["title"],
+                        "category" => $row["category"],
+                        "date_published" => date("F j, Y", strtotime($row["date_published"])),
+                        "main_image_path" => $row["main_image_path"],
+                        "author" => $row["author"],
+                        "details" => []
+                    ];
                 }
-
-                foreach ($articles as $id => $article) {
-                    echo '<div class="article-card bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer" onclick="updateURLAndShowArticle(\'' . $id . '\')">';
-                    echo '<img class="w-full h-49 object-cover" src="' . $article["main_image_path"] . '" alt="' . htmlspecialchars($article["title"]) . '" />';
-                    echo '<div class="p-4">';
-                    echo '<h2 class="text-xl font-bold mb-2">' . $article["title"] . '</h2>';
-                    echo '<p class="text-sm text-gray-600 mb-2 font-bold">' . $article["category"] . '</p>';
-                    echo '<p class="text-gray-500 text-sm">' . $article["date_published"] . '</p>';
-                    echo '</div>';
-                    echo '</div>';
+                if ($row["subtitle"] || $row["content"] || $row["image_path"]) {
+                    $articles[$id]["details"][] = [
+                        "subtitle" => $row["subtitle"],
+                        "content" => $row["content"],
+                        "image_path" => $row["image_path"]
+                    ];
                 }
-            } else {
-                echo "<p class='text-center text-xl font-semibold mt-10'>No articles found.</p>";
+            }
+
+            // Display articles
+            foreach ($articles as $id => $article) {
+                echo '<div class="article-card bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer" onclick="updateURLAndShowArticle(\'' . $id . '\')">';
+                echo '<img class="w-full h-49 object-cover" src="' . $article["main_image_path"] . '" alt="' . htmlspecialchars($article["title"]) . '" />';
+                echo '<div class="p-4">';
+                echo '<h2 class="text-xl font-bold mb-2">' . $article["title"] . '</h2>';
+                echo '<p class="text-sm text-gray-600 mb-2 font-bold">' . $article["category"] . '</p>';
+                echo '<p class="text-gray-500 text-sm">' . $article["date_published"] . '</p>';
+                echo '</div></div>';
             }
 
             $conn->close();
@@ -631,108 +707,22 @@
         </div>
 
         <!-- Full Article View -->
-        <div id="full-article-view" class="hidden fixed inset-0 bg-white p-8 overflow-y-auto">
+        <div id="full-article-view" class="hidden fixed inset-0 bg-white mt-[60px] p-8 overflow-y-auto">
             <div class="max-w-6xl mx-auto relative">
-                <button onclick="hideFullArticle()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
-                    
-                </button>
                 <div id="full-article-content"></div>
             </div>
         </div>
     </main>
 
-    <footer class="bg-[#1b75bc] text-white py-6 mt-8">
-        <div class="container mx-auto text-center">
-            <p>&copy; 2023 Rugby News. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script>
-        const articles = <?php echo json_encode($articles); ?>;
-
-        function updateURLAndShowArticle(articleId) {
-            history.pushState(null, null, `#${articleId}`);
-            showFullArticle(articleId);
-        }
-
-        function showFullArticle(articleId) {
-            if (!articles[articleId]) return;
-
-            const article = articles[articleId];
-            const fullArticleContent = `
-                <div class="max-w-7xl mx-auto p-4 mt-[60px]">
-                    <a href="#" onclick="goBack()" class="text-lg font-bold">&larr; BACK</a>
-                    <h1 class="text-4xl font-bold mt-4">${article.title}</h1>
-                    <p class="text-gray-500 text-sm mt-2">${article.date_published}</p>
-                    <div class="flex space-x-4 mt-4">
-                        <button onclick="shareArticle('email')" class="bg-gray-200 p-2 rounded"><i class="fas fa-envelope"></i></button>
-                        <button onclick="shareArticle('facebook')" class="bg-gray-200 p-2 rounded"><i class="fab fa-facebook-f"></i></button>
-                        <button onclick="shareArticle('twitter')" class="bg-gray-200 p-2 rounded"><i class="fab fa-x-twitter"></i></button>
-                        <button onclick="shareArticle('linkedin')" class="bg-gray-200 p-2 rounded"><i class="fab fa-linkedin-in"></i></button>
-                    </div>
-                    <img class="w-full h-auto object-cover my-6" src="${article.main_image_path}" alt="${article.title}" />
-                    <div class="space-y-4">
-                        ${article.details.map(detail => `
-                            ${detail.subtitle ? `<h3 class="text-xl font-semibold">${detail.subtitle}</h3>` : ''}
-                            ${detail.content ? `<p class="text-gray-700">${detail.content}</p>` : ''}
-                            ${detail.image_path ? `
-                                <div class="${detail.image_path.split(",").length > 1 ? 'grid grid-cols-2 md:grid-cols-3 gap-4 mt-4' : 'mt-4'}">
-                                    ${detail.image_path.split(",").map(image => `
-                                        <img onclick="showImageModal('${image}')" class="${detail.image_path.split(",").length > 1 ? 'w-full h-48 object-cover rounded-lg cursor-pointer' : 'w-full h-auto object-cover rounded-lg cursor-pointer'}" src="${image}" alt="${detail.subtitle || 'Image'}" />
-                                    `).join('')}
-                                </div>
-                            ` : ''}
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('full-article-content').innerHTML = fullArticleContent;
-            document.getElementById('full-article-view').classList.remove('hidden');
-        }
-
-        function goBack() {
-            document.getElementById('full-article-view').classList.add('hidden');
-        }
-
-        function shareArticle(platform) {
-            const url = window.location.href;
-            switch (platform) {
-                case 'email':
-                    window.location.href = `mailto:?subject=Check out this article&body=${url}`;
-                    break;
-                case 'facebook':
-                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
-                    break;
-                case 'twitter':
-                    window.open(`https://twitter.com/intent/tweet?url=${url}`, '_blank');
-                    break;
-                case 'linkedin':
-                    window.open(`https://www.linkedin.com/shareArticle?mini=true&url=${url}`, '_blank');
-                    break;
-            }
-        }
-
-        function showImageModal(imageSrc) {
-            const modal = document.getElementById('image-modal');
-            const modalImage = document.getElementById('modal-image');
-            modalImage.src = imageSrc;
-            modal.classList.remove('hidden');
-        }
-
-        function hideImageModal() {
-            document.getElementById('image-modal').classList.add('hidden');
-        }
-    </script>
-
-    <!-- Image Modal (Hidden by Default) -->
+    <!-- Image Modal -->
     <div id="image-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 p-8 overflow-y-auto">
         <div class="bg-white rounded-lg p-6 max-w-3xl mx-auto relative">
-            <button onclick="hideImageModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
-                <i class="fas fa-times text-2xl"></i>
-            </button>
+            <a href="#" onclick="hideImageModal()" class="text-lg font-bold">&larr; BACK</a>
             <img id="modal-image" class="w-full h-auto object-cover rounded-lg" src="" alt="Modal Image">
         </div>
     </div>
+
+    
+    <script src="index.js"></script>
 </body>
 </html>

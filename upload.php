@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 text-gray-900 p-6">
-    <form action="upload.php" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-lg">
+    <form action="" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-lg">
         <!-- Main Article Fields -->
         <div class="mb-6">
             <label class="block text-lg font-semibold mb-2">Title</label>
@@ -20,11 +20,6 @@
         <div class="mb-6">
             <label class="block text-lg font-semibold mb-2">Date Published</label>
             <input type="datetime-local" name="date_published" required class="w-full p-2 border rounded">
-        </div>
-
-        <div class="mb-6">
-            <label class="block text-lg font-semibold mb-2">Content</label>
-            <textarea name="content[]" placeholder="Content " class="w-full p-2 border rounded mb-2"></textarea>
         </div>
 
         <!-- Main Image -->
@@ -52,7 +47,7 @@
         </button>
 
         <!-- Submit Button -->
-        <button type="submit" class="mt-6 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+        <button type="submit" name="submit" class="mt-6 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
             Upload Article
         </button>
     </form>
@@ -80,35 +75,32 @@
     </script>
 
     <?php
+    // Database connection
+    
 $servername = "localhost:3306";
 $username = "hillsrug_gasore";
 $password = "M00dle??";
 $dbname = "hillsrug_db";
 
-    $conn = new mysqli($servername, $username, $password, $dbname);
+    $conn = new mysqli($servername, $username, $password, $dbname, $port);
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
         // Get main article details
         $title = $_POST["title"];
         $category = $_POST["category"];
         $date_published = $_POST["date_published"];
 
         // Generate a UUID for the article ID
-        $article_id = generateUUID(); // Custom function to generate a UUID
+        $article_id = uniqid();
 
         // Insert into `articles` table
         $sql = "INSERT INTO articles (id, title, category, date_published) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssss", $article_id, $title, $category, $date_published); // Use "ssss" for string parameters
-
-        if ($stmt->execute()) {
-            echo "Article inserted successfully!";
-        } else {
-            die("Error inserting article: " . $stmt->error);
-        }
+        $stmt->bind_param("ssss", $article_id, $title, $category, $date_published);
+        $stmt->execute();
         $stmt->close();
 
         // Define upload directory
@@ -126,68 +118,44 @@ $dbname = "hillsrug_db";
                 // Update the article with the main image path
                 $sql = "UPDATE articles SET main_image_path = ? WHERE id = ?";
                 $stmt = $conn->prepare($sql);
-                $stmt->bind_param("ss", $main_image_path, $article_id); // Use "ss" for string parameters
+                $stmt->bind_param("ss", $main_image_path, $article_id);
                 $stmt->execute();
                 $stmt->close();
-            } else {
-                die("Error uploading main image.");
             }
         }
 
         // Process subtitles, contents, and multiple images
-        if (!empty($_POST["subtitle"])) {
-            foreach ($_POST["subtitle"] as $index => $subtitle) {
-                $content = $_POST["content"][$index] ?? null;
-                $image_paths = [];
+        foreach ($_POST["subtitle"] as $index => $subtitle) {
+            $content = $_POST["content"][$index];
+            $image_paths = [];
 
-                // Handle multiple image uploads for this section
-                if (!empty($_FILES["image"]["name"][$index])) {
-                    foreach ($_FILES["image"]["tmp_name"][$index] as $key => $tmp_name) {
-                        if ($_FILES["image"]["error"][$index][$key] === UPLOAD_ERR_OK) {
-                            $image_name = time() . "_" . basename($_FILES["image"]["name"][$index][$key]);
-                            $target_file = $upload_dir . $image_name;
+            // Handle multiple image uploads for this section
+            if (!empty($_FILES["image"]["name"][$index])) {
+                foreach ($_FILES["image"]["tmp_name"][$index] as $key => $tmp_name) {
+                    if ($_FILES["image"]["error"][$index][$key] === UPLOAD_ERR_OK) {
+                        $image_name = time() . "_" . basename($_FILES["image"]["name"][$index][$key]);
+                        $target_file = $upload_dir . $image_name;
 
-                            if (move_uploaded_file($tmp_name, $target_file)) {
-                                $image_paths[] = $target_file;
-                            } else {
-                                die("Error uploading image.");
-                            }
+                        if (move_uploaded_file($tmp_name, $target_file)) {
+                            $image_paths[] = $target_file;
                         }
                     }
                 }
-
-                // Insert into `article_details` table
-                $sql = "INSERT INTO article_details (article_id, subtitle, content, image_path) VALUES (?, ?, ?, ?)";
-                $stmt = $conn->prepare($sql);
-                $image_paths_str = implode(",", $image_paths); // Store multiple image paths as a comma-separated string
-                $stmt->bind_param("ssss", $article_id, $subtitle, $content, $image_paths_str); // Use "ssss" for string parameters
-
-                if (!$stmt->execute()) {
-                    die("Error inserting article details: " . $stmt->error);
-                }
-                $stmt->close();
             }
+
+            // Insert into `article_details` table
+            $sql = "INSERT INTO article_details (article_id, subtitle, content, image_path) VALUES (?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $image_paths_str = implode(",", $image_paths); // Store multiple image paths as a comma-separated string
+            $stmt->bind_param("ssss", $article_id, $subtitle, $content, $image_paths_str);
+            $stmt->execute();
+            $stmt->close();
         }
 
         echo "Article and details uploaded successfully!";
     }
 
     $conn->close();
-
-    // Function to generate a UUID
-    function generateUUID() {
-        return sprintf(
-            '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-            mt_rand(0, 0xffff),
-            mt_rand(0, 0xffff),
-            mt_rand(0, 0xffff),
-            mt_rand(0, 0x0fff) | 0x4000,
-            mt_rand(0, 0x3fff) | 0x8000,
-            mt_rand(0, 0xffff),
-            mt_rand(0, 0xffff),
-            mt_rand(0, 0xffff)
-        );
-    }
     ?>
 </body>
 </html>
