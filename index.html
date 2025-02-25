@@ -130,60 +130,31 @@
     </script>
 
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
-
-
-
-      .container {
-        padding-top: 100px;
-        height: 200px;
-      }
-      
-      h2 {
-        text-align: center;
-        padding: 20px;
-        font-size: 2rem;
-        color: #333;
-      }
-      
-      .slick-slide {
-        margin: 0 10px;
-      }
-      
-      .slick-slide img {
-        width: 100%;
-        max-height: 450px;
-        object-fit: contain;
-      }
-      
-      .slick-slider {
-        position: relative;
-        display: block;
-        box-sizing: border-box;
-      }
-      
-      .slick-list {
-        position: relative;
-        display: block;
+      .slider-container {
         overflow: hidden;
-        margin: 0 auto;
-        padding: 0;
-        max-width: 95%;
-      }
-      
-      .slick-track {
+        white-space: nowrap;
         position: relative;
+      }
+      .slider-track {
         display: flex;
+        gap: 20px;
+        width: max-content;
+        animation: scroll 30s linear infinite;
       }
-      
-      .slick-initialized .slick-slide {
-        display: block;
+
+      .partner-logo {
+        height: 120px;
+        width: auto;
+        flex-shrink: 0;
       }
-      
-      .copy {
-        padding-top: 50px;
-        font-size: 1rem;
-        color: #555;
+
+      @keyframes scroll {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
       }
     </style>
 </head>
@@ -1380,36 +1351,28 @@
             
             
             
-            <div class=" container"> 
-              <section class="customer-logos slider">
-                 
-                <div class="slide">
-                  <img src="./images/LSFG+PartnerLogos-Colour-horizontal.jpg" alt="logo" class="w-full max-h-60 object-contain" />
-                </div>
-                <div class="slide">
-                  <img src="images/rqt.jpg" alt="logo" class="w-full max-h-40 object-contain" />
-                </div>
-                <div class="slide">
-                  <img src="./images/anymore.jpg" alt="logo" class="w-full max-h-40 object-contain" />
-                </div>
-                <div class="slide">
-                  <img src="./images/pwr.png" alt="logo" class="w-full max-h-40 object-contain" />
-                </div> 
-                <div class="slide">
-                  <img src="./images/LSFG+PartnerLogos-Colour-horizontal.jpg" alt="logo" class="w-full max-h-60 object-contain" />
-                </div>
-                <div class="slide">
-                  <img src="images/rqt.jpg" alt="logo" class="w-full max-h-40 object-contain" />
-                </div>
-                <div class="slide">
-                  <img src="images/anymore.jpg" alt="logo" class="w-full max-h-40 object-contain" />
-                </div>
-                <div class="slide">
-                  <img src="images/pwr.png" alt="logo" class="w-full max-h-40 object-contain" />
-                </div>  
-                 
-              </section>
+            <div class="slider-container">
+              <div class="slider-track">
+
+                <img src="images/rqt.jpg" alt="logo" class="partner-logo h-48 object-cover" />
+                
+                <img src="./images/LSFG+PartnerLogos-Colour-horizontal.jpg" alt="logo" class="partner-logo h-40 object-cover" />
+                <img src="images/anymore.jpg" alt="logo" class="partner-logo h-40 object-cover" /> 
+                <img src="images/pwr.png" alt="logo" class="partner-logo h-40 object-cover" />  
+                <img src="images/rqt.jpg" alt="logo" class="partner-logo h-40 object-cover" />
+                <img src="./images/LSFG+PartnerLogos-Colour-horizontal.jpg" alt="logo" class="partner-logo h-40 object-cover" />
+                <img src="images/anymore.jpg" alt="logo" class="partner-logo h-40 object-cover" /> 
+                <img src="images/pwr.png" alt="logo" class="partner-logo h-40 object-cover" /> 
+                 <!-- Duplicate slides for smooth loop -->
+                
+                <img src="images/rqt.jpg" alt="logo" class="partner-logo h-40 object-cover" />
+                <img src="./images/LSFG+PartnerLogos-Colour-horizontal.jpg" alt="logo" class="partner-logo h-40 object-cover" />
+                <img src="images/anymore.jpg" alt="logo" class="partner-logo h-40 object-cover" /> 
+                <img src="images/pwr.png" alt="logo" class="partner-logo h-40 object-cover" /> 
+                  
+              </div>
             </div>
+           
             
         </section>
 

@@ -3,47 +3,52 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Events</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Our - Events</title>
     <link rel="icon" href="./images/t_icon.png" type="image/png" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="./style.css" />
-    <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-    />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Load Slick Carousel JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+    <!-- Load Slick Carousel CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css"
+    />
+    <style>
+       .slider-container {
+        overflow: hidden;
+        white-space: nowrap;
+        position: relative;
+      }.slider-track {
+        display: flex;
+        gap: 20px;
+        width: max-content;
+        animation: scroll 20s linear infinite;
+      }
 
-    
+      .partner-logo {
+        height: 120px;
+        width: auto;
+        flex-shrink: 0;
+      }
+
+      @keyframes scroll {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+    </style>
   </head>
 
   <style>
-    @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
-
-
-
-    .slick-prev,
-    .slick-next {
-      width: 40px;
-      height: 40px;
-      z-index: 10;
-    }
-    .slick-prev {
-      left: -50px;
-    }
-    .slick-next {
-      right: -50px;
-    }
-    .slick-prev::before,
-    .slick-next::before {
-      font-size: 30px;
-      color: #333;
-    }
+     
     #menu-toggle:checked ~ #menu {
       display: block;
     }
@@ -1139,55 +1144,33 @@
             contributions, dedication, and partnership play a crucial role in
             bringing all we do to life, ensuring 1000 Hills Rugby success, 
             and helping us achieve our shared goals.
-          </p>
-          
-          <div class="max-w-screen-xl mx-auto py-6">
-             
-            <div class="relative">
-              <!-- Slick slider with arrows -->
-              <div class="customer-log flex items-center justify-center overflow-hidden">
-                <!-- Ensure the image paths are correct -->
-                <img src="./images/LSFG+PartnerLogos-Colour-horizontal.jpg" class="w-[300px] h-[90px] mx-2" alt="Sponsor 1" onerror="this.src='./images/placeholder.jpg';" />
-                <img src="./images/rqt.jpg" class="w-32 h-auto mx-2" alt="Sponsor 2" onerror="this.src='./images/placeholder.jpg';" />
-                <img src="./images/anymore.jpg" class="w-32 h-auto mx-2" alt="Sponsor 3" onerror="this.src='./images/placeholder.jpg';" />
-                <img src="./images/pwr.png" class="w-32 h-auto mx-2" alt="Sponsor 4" onerror="this.src='./images/placeholder.jpg';" />
-                <img src="./images/LSFG+PartnerLogos-Colour-horizontal.jpg" class="w-[300px] h-[90px] mx-2" alt="Sponsor 1" onerror="this.src='./images/placeholder.jpg';" />
-                <img src="./images/rqt.jpg" class="w-32 h-auto mx-2" alt="Sponsor 2" onerror="this.src='./images/placeholder.jpg';" />
-                <img src="./images/anymore.jpg" class="w-32 h-auto mx-2" alt="Sponsor 3" onerror="this.src='./images/placeholder.jpg';" />
-                <img src="./images/pwr.png" class="w-32 h-auto mx-2" alt="Sponsor 4" onerror="this.src='./images/placeholder.jpg';" />
-                <img src="./images/LSFG+PartnerLogos-Colour-horizontal.jpg" class="w-[300px] h-[90px] mx-2" alt="Sponsor 1" onerror="this.src='./images/placeholder.jpg';" />
-                <img src="./images/rqt.jpg" class="w-32 h-auto mx-2" alt="Sponsor 2" onerror="this.src='./images/placeholder.jpg';" />
-                <img src="./images/anymore.jpg" class="w-32 h-auto mx-2" alt="Sponsor 3" onerror="this.src='./images/placeholder.jpg';" />
-                <img src="./images/pwr.png" class="w-32 h-auto mx-2" alt="Sponsor 4" onerror="this.src='./images/placeholder.jpg';" />
-                 
+          </p> 
+            <div class="slider-container">
+              <div class="slider-track">
+
+                <img src="images/rqt.jpg" alt="logo" class="partner-logo h-48 object-cover" />
+                
+                <img src="./images/LSFG+PartnerLogos-Colour-horizontal.jpg" alt="logo" class="partner-logo h-40 object-cover" />
+                <img src="images/anymore.jpg" alt="logo" class="partner-logo h-40 object-cover" /> 
+                <img src="images/pwr.png" alt="logo" class="partner-logo h-40 object-cover" />
+                <!-- Duplicate slides for smooth loop -->
+                
+                <img src="images/rqt.jpg" alt="logo" class="partner-logo h-40 object-cover" />
+                <img src="./images/LSFG+PartnerLogos-Colour-horizontal.jpg" alt="logo" class="partner-logo h-40 object-cover" />
+                <img src="images/anymore.jpg" alt="logo" class="partner-logo h-40 object-cover" /> 
+                <img src="images/pwr.png" alt="logo" class="partner-logo h-40 object-cover" /> 
+                  
               </div>
             </div>
-          </div>
+           
+         
+      
+
         </div>
         
       </section>
 
-      <script>
-        $(document).ready(function () {
-            console.log("Slick is loading..."); // Debugging
-            $(".customer-log").slick({
-                slidesToShow: 4,
-                slidesToScroll: 1,
-                autoplay: true,
-                autoplaySpeed: 2000,
-                infinite: true,
-                arrows: true,
-                dots: false,
-                pauseOnHover: true,
-                responsive: [
-                    { breakpoint: 900, settings: { slidesToShow: 3 } },
-                    { breakpoint: 600, settings: { slidesToShow: 2 } },
-                    { breakpoint: 480, settings: { slidesToShow: 1 } }
-                ],
-            });
-        });
-      </script>
-      
+ 
 
       <section class="py-20 relative overflow-hidden">
         <!-- Enhanced Background with Particles and Gradient -->
