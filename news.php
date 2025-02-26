@@ -3,12 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <meta property="og:title" content="<?php echo $article['title']; ?>">
-    <meta property="og:description" content="<?php echo $article['content']; ?>">
-    <meta property="og:image" content="<?php echo $article['main_image_path']; ?>">
-    <meta property="og:url" content="">
-    <meta property="og:type" content="article">
-
     <title>1000 Hills Rugby | News</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
@@ -562,8 +556,6 @@
       </div>
     </div>
   </nav>
-         
-
         <!-- News Cards -->
         <div class="grid grid-cols-1 mt-10 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="news-cards">
             <?php
@@ -625,27 +617,25 @@
         </div>
     </main>
 
-    <!-- Image Modal -->
-    <div id="image-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 p-8 overflow-y-auto">
-        <div class="bg-white rounded-lg p-6 max-w-3xl mx-auto relative">
-            <a href="#" onclick="hideImageModal()" class="text-lg font-bold">&larr; BACK</a>
-            <img id="modal-image" class="w-full h-auto object-cover rounded-lg" src="" alt="Modal Image">
-        </div>
-    </div>
-    
     <script>
         const articles = <?php echo json_encode($articles); ?>;
+        console.log("Articles Data:", articles); // Debugging: Check if articles are loaded
 
         // Update URL and show full article
         function updateURLAndShowArticle(articleId) {
+            console.log("Clicked Article ID:", articleId); // Debugging: Check if function is called
             history.pushState(null, null, `#${articleId}`);
             showFullArticle(articleId);
         }
 
         // Show full article content
         function showFullArticle(articleId) {
-            if (!articles[articleId]) return;
+            if (!articles[articleId]) {
+                console.error("Article not found:", articleId); // Debugging: Check if article exists
+                return;
+            }
             const article = articles[articleId];
+            console.log("Article Data:", article); // Debugging: Check article data
             const content = `
                 <div class="max-w-7xl mt-[60px] mx-auto p-4"> 
                 <a href="#" onclick="goBack()" class="text-lg font-bold">&larr; BACK</a>
@@ -675,6 +665,7 @@
             `;
             document.getElementById('full-article-content').innerHTML = content;
             document.getElementById('full-article-view').classList.remove('hidden');
+            console.log("Full article view should now be visible"); // Debugging: Check if hidden class is removed
         }
 
         // Go back to the article list
@@ -684,45 +675,11 @@
             history.pushState(null, null, window.location.pathname);
         }
 
-        // Share article on social media
-        function shareArticle(platform) {
-            const url = window.location.href;
-            switch (platform) {
-                case 'email':
-                    window.location.href = `mailto:?subject=Check out this article&body=${url}`;
-                    break;
-                case 'facebook':
-                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
-                    break;
-                case 'twitter':
-                    window.open(`https://twitter.com/intent/tweet?url=${url}`, '_blank');
-                    break;
-                case 'linkedin':
-                    window.open(`https://www.linkedin.com/shareArticle?mini=true&url=${url}`, '_blank');
-                    break;
-            }
-        }
-
-        // Show image modal
-        function showImageModal(imageSrc) {
-            const modal = document.getElementById('image-modal');
-            const modalImage = document.getElementById('modal-image');
-            modalImage.src = imageSrc;
-            modal.classList.remove('hidden');
-        }
-
-        // Hide image modal
-        function hideImageModal() {
-            document.getElementById('image-modal').classList.add('hidden');
-        }
-
         // Load full article if URL has a hash
         window.onload = function () {
             const hash = window.location.hash.substring(1);
             if (hash && articles[hash]) showFullArticle(hash);
         };
     </script>
-
-    <script src="index.js"></script>
 </body>
 </html>
