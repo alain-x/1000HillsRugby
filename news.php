@@ -19,555 +19,555 @@
         .image-collage { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
         .image-collage img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; cursor: pointer; }
     </style>
-    
 </head>
 <body class="bg-gray-50 text-gray-800">
     <main class="container mx-auto px-4 py-6">
-          <!-- Transparent Navbar -->
-   <nav
-   class="navbar fixed top-0 left-0 w-full px-2 z-20 h-[10vh] flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300"
- >
-   <!-- Logo -->
-   <div class="navbar-logo w-2/12">
-     <a href="./">
-       <img
-         class="w-[60px] hover:w-[70px] transition-transform duration-300"
-         src="./images/1000-hills-logo.png"
-         alt="1000 Hills Rugby"
-       />
-     </a>
-   </div>
-
-   <!-- Desktop Navigation -->
-   <ul
-     class="hidden lg:flex lg:space-x-8 font-600 text-gray-800 text-sm tracking-wider"
-   >
-     <li>
-       <a
-         class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-         href="./"
-         >Home</a
-       >
-     </li>
-     <li>
-       <a
-         class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-         href="./about"
-         >About</a
-       >
-     </li>
-     <li>
-      <a
-        class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-        href="./program"
-        >Programs</a
-      >
-    </li>
-    <li>
-      <a
-        class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-        href="./community"
-        >Community</a
-      >
-    </li>
-     <li>
-       <a
-         class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-         href="./shop"
-         >Shop</a
-       >
-     </li>
-     <li class="relative group">
-       <a
-         class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
-         >Education<i class="fas fa-chevron-down text-sm"></i
-       ></a>
-       <ul
-         class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
-       >
-         <li>
-           <a
-             class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-             href="./education"
-             >Education</a
-           >
-         </li>
-         <li>
-           <a
-             class="block px-4 py-2 w-[180px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-             href="./Foundation"
-             >Career Foundation</a
-           >
-         </li>
-       </ul>
-     </li>
-     <li class="relative group">
-       <a
-         class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
-         >Events<i class="fas fa-chevron-down text-sm"></i
-       ></a>
-       <ul
-         class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
-       >
-         <li>
-           <a
-             class="block px-4 py-2  hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-             href="./events"
-             >Events</a
-           >
-         </li>
-         <li>
-           <a
-             class="block px-4 py-2 w-[150px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-             href="./news"
-             >News & Media</a
-           >
-         </li>
-       </ul>
-     </li>
-     <li class="relative group">
-       <a
-         class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
-         >Result<i class="fas fa-chevron-down text-sm"></i
-       ></a>
-       <ul
-         class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
-       >
-         <li>
-           <a
-             class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-             href="./fixtures"
-             >Fixtures</a
-           >
-         </li>
-         <li>
-           <a
-             class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-             href="./results"
-             >Results</a
-           >
-         </li>
-       </ul>
-     </li>
-     <li class="relative group">
-       <a
-         class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
-         >Teams<i class="fas fa-chevron-down text-sm"></i
-       ></a>
-       <ul
-         class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
-       >
-         <li>
-           <a
-             class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-             href="./menprofiles"
-             >Men's Senior</a
-           >
-         </li>
-         <li>
-           <a
-             class="block px-4 py-2 w-[150px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-             href="./womenprofiles"
-             >Women's Senior</a
-           >
-         </li>
-         
-
-         <li class="relative">
-           <!-- Parent Dropdown -->
-           <button
-             class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-             onclick="toggleDropdown('academy-menu')"
-           >
-             Academy  </i>
-           </button>
-           <ul
-             id="academy-menu"
-             class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-           >
-             <!-- Under 18 Dropdown -->
-             <li class="relative">
-               <button
-                 class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                 onclick="toggleDropdown('under18-menu')"
-               >
-                 Under 18 <i class="fas fa-chevron-down text-sm"></i>
-               </button>
-               <ul
-                 id="under18-menu"
-                 class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-               >
-                 <li>
-                   <a
-                     class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                     href="./under18Boys"
-                     >Boys</a
-                   >
-                 </li>
-                 <li>
-                   <a
-                     class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                     href="./under18Girls"
-                     >Girls</a
-                   >
-                 </li>
-               </ul>
-             </li>
-         
-             <!-- Under 16 Dropdown -->
-             <li class="relative">
-               <button
-                 class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                 onclick="toggleDropdown('under16-menu')"
-               >
-                 Under 16 <i class="fas fa-chevron-down text-sm"></i>
-               </button>
-               <ul
-                 id="under16-menu"
-                 class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-               >
-                 <li>
-                   <a
-                     class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                     href="./under16Boys"
-                     >Boys</a
-                   >
-                 </li>
-                 <li>
-                   <a
-                     class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                     href="./under16Girls"
-                     >Girls</a
-                   >
-                 </li>
-               </ul>
-             </li>
-           </ul>
-         </li>
-         
-        
-       </ul>
-     </li>
-     <li class="relative group">
-       <a
-         class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none mr-10"
-         >Contact<i class="fas fa-chevron-down text-sm"></i
-       ></a>
-       <ul
-         class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
-       >
-         <li>
-           <a
-             class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-             href="./staff"
-             >Staff</a
-           >
-         </li>
-         <li>
-           <a
-             class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-             href="./contact"
-             >Contact us</a
-           >
-         </li>
-         <li>
-           <a
-             class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-             href="./register#reForm"
-             >Register</a
-           >
-         </li>
-       </ul>
-     </li>
-   </ul>
-
-   <!-- Mobile Menu & Social Media -->
-   <div class="relative lg:hidden flex flex-wrap items-center">
-     <!-- Mobile Menu Toggle -->
-     <input type="checkbox" id="menu-toggle" class="hidden" />
-     <label for="menu-toggle" class="cursor-pointer text-2xl text-black">
-       <i class="fa-solid fa-bars" id="menu-open-icon"></i>
-       <i class="fa-solid fa-times hidden" id="menu-close-icon"></i>
-     </label>
-
-     <!-- Mobile Menu -->
-     <div
-       id="menu"
-       class="absolute top-full right-0 bg-white text-gray-800 w-48 mt-2 rounded-md shadow-lg hidden transition-all duration-300"
-     >
-       <ul class="flex flex-col text-left space-y-1">
-         <!-- Main Menu Items -->
-         <li>
-           <a
-             class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-             href="./"
-             >Home</a
-           >
-         </li>
-         <li>
-           <a
-             class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-             href="./about"
-             >About</a
-           >
-         </li>
-         <li>
-          <a
-            class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-            href="./program"
-            >Programs</a
-          >
-        </li>
-        <li>
-          <a
-            class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-            href="./community"
-            >Community</a
-          >
-        </li>
-         <li>
-           <a
-             class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-             href="./shop"
-             >Shop</a
-           >
-         </li>
-
-         <!-- Dropdown for Education -->
-         <li class="relative">
-           <button
-             class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-             onclick="toggleDropdown('education-menu-mobile')"
-           >
-             Education <i class="fas fa-chevron-down text-sm"></i>
-           </button>
-           <ul
-             id="education-menu-mobile"
-             class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-           >
-             <li>
-               <a
-                 class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                 href="./education"
-                 >Education</a
-               >
-             </li>
-             <li>
-               <a
-                 class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                 href="./Foundation"
-                 >Career Foundation</a
-               >
-             </li>
-           </ul>
-         </li>
-
-         <!-- Dropdown for Events -->
-         <li class="relative">
-           <button
-             class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-             onclick="toggleDropdown('events-menu-mobile')"
-           >
-             Events <i class="fas fa-chevron-down text-sm"></i>
-           </button>
-           <ul
-             id="events-menu-mobile"
-             class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-           >
-             <li>
-               <a
-                 class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                 href="./events"
-                 >Events</a
-               >
-             </li>
-             <li>
-               <a
-                 class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                 href="./news"
-                 >News & Media</a
-               >
-             </li>
-           </ul>
-         </li>
-
-         <!-- Dropdown for Results -->
-         <li class="relative">
-           <button
-             class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-             onclick="toggleDropdown('results-menu-mobile')"
-           >
-             Results <i class="fas fa-chevron-down text-sm"></i>
-           </button>
-           <ul
-             id="results-menu-mobile"
-             class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-           >
-             <li>
-               <a
-                 class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                 href="./fixtures"
-                 >Fixtures</a
-               >
-             </li>
-             <li>
-               <a
-                 class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                 href="./results"
-                 >Results</a
-               >
-             </li>
-           </ul>
-         </li>
-
-          
-         <!-- Dropdown for Teams -->
-
-       <li class="relative">
-        <button
-         class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-         onclick="toggleDropdown('teams-menu-mobile')"
+      <!-- Transparent Navbar -->
+    <nav
+    class="navbar fixed top-0 left-0 w-full px-2 z-20 h-[10vh] flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300"
+  >
+    <!-- Logo -->
+    <div class="navbar-logo w-2/12">
+      <a href="./">
+        <img
+          class="w-[60px] hover:w-[70px] transition-transform duration-300"
+          src="./images/1000-hills-logo.png"
+          alt="1000 Hills Rugby"
+        />
+      </a>
+    </div>
+ 
+    <!-- Desktop Navigation -->
+    <ul
+      class="hidden lg:flex lg:space-x-8 font-600 text-gray-800 text-sm tracking-wider"
+    >
+      <li>
+        <a
+          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+          href="./"
+          >Home</a
         >
-         Teams <i class="fas fa-chevron-down text-sm"></i>
-        </button>
+      </li>
+      <li>
+        <a
+          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+          href="./about"
+          >About</a
+        >
+      </li>
+      <li>
+       <a
+         class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+         href="./program"
+         >Programs</a
+       >
+     </li>
+     <li>
+       <a
+         class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+         href="./community"
+         >Community</a
+       >
+     </li>
+      <li>
+        <a
+          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+          href="./shop"
+          >Shop</a
+        >
+      </li>
+      <li class="relative group">
+        <a
+          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
+          >Education<i class="fas fa-chevron-down text-sm"></i
+        ></a>
         <ul
-         id="teams-menu-mobile"
-         class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
         >
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./education"
+              >Education</a
+            >
+          </li>
+          <li>
+            <a
+              class="block px-4 py-2 w-[180px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./Foundation"
+              >Career Foundation</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li class="relative group">
+        <a
+          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
+          >Events<i class="fas fa-chevron-down text-sm"></i
+        ></a>
+        <ul
+          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
+        >
+          <li>
+            <a
+              class="block px-4 py-2  hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./events"
+              >Events</a
+            >
+          </li>
+          <li>
+            <a
+              class="block px-4 py-2 w-[150px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./news"
+              >News & Media</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li class="relative group">
+        <a
+          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
+          >Result<i class="fas fa-chevron-down text-sm"></i
+        ></a>
+        <ul
+          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
+        >
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./fixtures"
+              >Fixtures</a
+            >
+          </li>
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./results"
+              >Results</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li class="relative group">
+        <a
+          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
+          >Teams<i class="fas fa-chevron-down text-sm"></i
+        ></a>
+        <ul
+          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
+        >
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./menprofiles"
+              >Men's Senior</a
+            >
+          </li>
+          <li>
+            <a
+              class="block px-4 py-2 w-[150px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./womenprofiles"
+              >Women's Senior</a
+            >
+          </li>
+          
+
+          <li class="relative">
+            <!-- Parent Dropdown -->
+            <button
+              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+              onclick="toggleDropdown('academy-menu')"
+            >
+              Academy  </i>
+            </button>
+            <ul
+              id="academy-menu"
+              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+            >
+              <!-- Under 18 Dropdown -->
+              <li class="relative">
+                <button
+                  class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                  onclick="toggleDropdown('under18-menu')"
+                >
+                  Under 18 <i class="fas fa-chevron-down text-sm"></i>
+                </button>
+                <ul
+                  id="under18-menu"
+                  class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+                >
+                  <li>
+                    <a
+                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                      href="./under18Boys"
+                      >Boys</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                      href="./under18Girls"
+                      >Girls</a
+                    >
+                  </li>
+                </ul>
+              </li>
+          
+              <!-- Under 16 Dropdown -->
+              <li class="relative">
+                <button
+                  class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                  onclick="toggleDropdown('under16-menu')"
+                >
+                  Under 16 <i class="fas fa-chevron-down text-sm"></i>
+                </button>
+                <ul
+                  id="under16-menu"
+                  class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+                >
+                  <li>
+                    <a
+                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                      href="./under16Boys"
+                      >Boys</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                      href="./under16Girls"
+                      >Girls</a
+                    >
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          
+         
+        </ul>
+      </li>
+      <li class="relative group">
+        <a
+          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none mr-10"
+          >Contact<i class="fas fa-chevron-down text-sm"></i
+        ></a>
+        <ul
+          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
+        >
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./staff"
+              >Staff</a
+            >
+          </li>
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./contact"
+              >Contact us</a
+            >
+          </li>
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./register#reForm"
+              >Register</a
+            >
+          </li>
+        </ul>
+      </li>
+    </ul>
+ 
+    <!-- Mobile Menu & Social Media -->
+    <div class="relative lg:hidden flex flex-wrap items-center">
+      <!-- Mobile Menu Toggle -->
+      <input type="checkbox" id="menu-toggle" class="hidden" />
+      <label for="menu-toggle" class="cursor-pointer text-2xl text-black">
+        <i class="fa-solid fa-bars" id="menu-open-icon"></i>
+        <i class="fa-solid fa-times hidden" id="menu-close-icon"></i>
+      </label>
+ 
+      <!-- Mobile Menu -->
+      <div
+        id="menu"
+        class="absolute top-full right-0 bg-white text-gray-800 w-48 mt-2 rounded-md shadow-lg hidden transition-all duration-300"
+      >
+        <ul class="flex flex-col text-left space-y-1">
+          <!-- Main Menu Items -->
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./"
+              >Home</a
+            >
+          </li>
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./about"
+              >About</a
+            >
+          </li>
+          <li>
+           <a
+             class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+             href="./program"
+             >Programs</a
+           >
+         </li>
          <li>
            <a
              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-             href="./menprofiles"
-             >Men's Senior</a
+             href="./community"
+             >Community</a
            >
          </li>
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./shop"
+              >Shop</a
+            >
+          </li>
+ 
+          <!-- Dropdown for Education -->
+          <li class="relative">
+            <button
+              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+              onclick="toggleDropdown('education-menu-mobile')"
+            >
+              Education <i class="fas fa-chevron-down text-sm"></i>
+            </button>
+            <ul
+              id="education-menu-mobile"
+              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+            >
+              <li>
+                <a
+                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                  href="./education"
+                  >Education</a
+                >
+              </li>
+              <li>
+                <a
+                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                  href="./Foundation"
+                  >Career Foundation</a
+                >
+              </li>
+            </ul>
+          </li>
+ 
+          <!-- Dropdown for Events -->
+          <li class="relative">
+            <button
+              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+              onclick="toggleDropdown('events-menu-mobile')"
+            >
+              Events <i class="fas fa-chevron-down text-sm"></i>
+            </button>
+            <ul
+              id="events-menu-mobile"
+              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+            >
+              <li>
+                <a
+                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                  href="./events"
+                  >Events</a
+                >
+              </li>
+              <li>
+                <a
+                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                  href="./news"
+                  >News & Media</a
+                >
+              </li>
+            </ul>
+          </li>
+ 
+          <!-- Dropdown for Results -->
+          <li class="relative">
+            <button
+              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+              onclick="toggleDropdown('results-menu-mobile')"
+            >
+              Results <i class="fas fa-chevron-down text-sm"></i>
+            </button>
+            <ul
+              id="results-menu-mobile"
+              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+            >
+              <li>
+                <a
+                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                  href="./fixtures"
+                  >Fixtures</a
+                >
+              </li>
+              <li>
+                <a
+                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                  href="./results"
+                  >Results</a
+                >
+              </li>
+            </ul>
+          </li>
+ 
+           
+          <!-- Dropdown for Teams -->
 
-         <li>
-           <a
-             class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-             href="./womenprofiles"
-             >Women's Senior</a
-           >
-         </li>
-         <li class="relative">
-           <!-- Parent Dropdown -->
-           <button
-             class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-             onclick="toggleDropdown('academy-menu-mobile')"
-           >
-             Academy </i>
-           </button>
-           <ul
-             id="academy-menu-mobile"
-             class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-           >
-             <!-- Under 18 Dropdown -->
-             <li class="relative">
-               <button
-                 class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                 onclick="toggleDropdown('under18-menu-mobile')"
-               >
-                 Under 18 <i class="fas fa-chevron-down text-sm"></i>
-               </button>
-               <ul
-                 id="under18-menu-mobile"
-                 class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-               >
-                 <li>
-                   <a
-                     class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                     href="./under18Boys"
-                     >Boys</a
-                   >
-                 </li>
-                 <li>
-                   <a
-                     class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                     href="./under18Girls"
-                     >Girls</a
-                   >
-                 </li>
-               </ul>
-             </li>
-         
-             <!-- Under 16 Dropdown -->
-             <li class="relative">
-               <button
-                 class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                 onclick="toggleDropdown('under16-menu-mobile')"
-               >
-                 Under 16 <i class="fas fa-chevron-down text-sm"></i>
-               </button>
-               <ul
-                 id="under16-menu-mobile"
-                 class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-               >
-                 <li>
-                   <a
-                     class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                     href="./under16Boys"
-                     >Boys</a
-                   >
-                 </li>
-                 <li>
-                   <a
-                     class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                     href="./under16Girls"
-                     >Girls</a
-                   >
-                 </li>
-               </ul>
-             </li>
-           </ul>
-         </li>
-         
-         </ul>
-     </li>
+        <li class="relative">
+         <button
+          class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+          onclick="toggleDropdown('teams-menu-mobile')"
+         >
+          Teams <i class="fas fa-chevron-down text-sm"></i>
+         </button>
+         <ul
+          id="teams-menu-mobile"
+          class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+         >
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./menprofiles"
+              >Men's Senior</a
+            >
+          </li>
 
-         <!-- Contact -->
-         <li class="relative">
-           <button
-             class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-             onclick="toggleDropdown('contact-menu-mobile')"
-           >
-             Contact <i class="fas fa-chevron-down text-sm"></i>
-           </button>
-           <ul
-             id="contact-menu-mobile"
-             class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-           >
-             <li>
-               <a
-                 class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                 href="./staff"
-                 >Staff</a
-               >
-             </li>
-             <li>
-               <a
-                 class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                 href="./contact"
-                 >Contact Us</a
-               >
-             </li>
-             <li>
-               <a
-                 class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                 href="./register#reForm"
-                 >Register</a
-               >
-             </li>
-           </ul>
-         </li>
-       </ul>
-     </div>
-   </div>
- </nav>
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./womenprofiles"
+              >Women's Senior</a
+            >
+          </li>
+          <li class="relative">
+            <!-- Parent Dropdown -->
+            <button
+              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+              onclick="toggleDropdown('academy-menu-mobile')"
+            >
+              Academy </i>
+            </button>
+            <ul
+              id="academy-menu-mobile"
+              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+            >
+              <!-- Under 18 Dropdown -->
+              <li class="relative">
+                <button
+                  class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                  onclick="toggleDropdown('under18-menu-mobile')"
+                >
+                  Under 18 <i class="fas fa-chevron-down text-sm"></i>
+                </button>
+                <ul
+                  id="under18-menu-mobile"
+                  class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+                >
+                  <li>
+                    <a
+                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                      href="./under18Boys"
+                      >Boys</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                      href="./under18Girls"
+                      >Girls</a
+                    >
+                  </li>
+                </ul>
+              </li>
+          
+              <!-- Under 16 Dropdown -->
+              <li class="relative">
+                <button
+                  class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                  onclick="toggleDropdown('under16-menu-mobile')"
+                >
+                  Under 16 <i class="fas fa-chevron-down text-sm"></i>
+                </button>
+                <ul
+                  id="under16-menu-mobile"
+                  class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+                >
+                  <li>
+                    <a
+                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                      href="./under16Boys"
+                      >Boys</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                      href="./under16Girls"
+                      >Girls</a
+                    >
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          
+          </ul>
+      </li>
+ 
+          <!-- Contact -->
+          <li class="relative">
+            <button
+              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+              onclick="toggleDropdown('contact-menu-mobile')"
+            >
+              Contact <i class="fas fa-chevron-down text-sm"></i>
+            </button>
+            <ul
+              id="contact-menu-mobile"
+              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+            >
+              <li>
+                <a
+                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                  href="./staff"
+                  >Staff</a
+                >
+              </li>
+              <li>
+                <a
+                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                  href="./contact"
+                  >Contact Us</a
+                >
+              </li>
+              <li>
+                <a
+                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                  href="./register#reForm"
+                  >Register</a
+                >
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+         
+
         <!-- News Cards -->
         <div class="grid grid-cols-1 mt-10 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="news-cards">
             <?php
             // Database connection
-              
             $conn = new mysqli("localhost", "hillsrug_gasore", "M00dle??", "hillsrug_db", 3306);
             if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
 
@@ -723,7 +723,6 @@
         };
     </script>
 
-    
     <script src="index.js"></script>
 </body>
 </html>
