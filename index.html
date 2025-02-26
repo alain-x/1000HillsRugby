@@ -47,7 +47,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="./style.css" />
 
-
     <script>
       async function fetchLatestNews() {
         try {
@@ -69,7 +68,7 @@
           <div class="w-full lg:w-[50%]">
             <div class="relative flex flex-col gap-4 p-2 lg:p-6 rounded-xl transition-all duration-300">
               <div class="relative group w-full">
-                <a href="news#${news[0].id}">
+                <a href="news1.php#${news[0].id}">
                   <img
                     class="rounded-xl h-[250px] md:h-[350px] lg:h-[400px] w-full object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-110"
                     src="${news[0].main_image_path}"
@@ -101,7 +100,7 @@
         let mediumCards = `<div class="w-full lg:w-[50%] grid grid-cols-1 md:grid-cols-2 gap-4">`;
         for (let i = 1; i < Math.min(news.length, 5); i++) {
           mediumCards += `
-            <a href="news#${news[i].id}">
+            <a href="news1.php#${news[i].id}">
               <div class="bg-white p-4 w-full rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:-translate-y-2 flex flex-col gap-2">
                 <div class="relative">
                   <img
@@ -1012,6 +1011,48 @@
         
     <!-- News Container -->
     <div class="news-container"></div>
+
+    <!-- Full Article View -->
+    <div
+      id="full-article-view"
+      class="hidden fixed inset-0 bg-white p-8 overflow-y-auto"
+    >
+      <div class="max-w-6xl mx-auto relative">
+        <button
+          onclick="hideFullArticle()"
+          class="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+        >
+          <i class="fas fa-times text-2xl"></i>
+        </button>
+        <div id="full-article-content"></div>
+      </div>
+    </div>
+
+    <!-- Image Modal (Hidden by Default) -->
+    <div
+      id="image-modal"
+      class="hidden fixed inset-0 bg-black bg-opacity-75 p-8 overflow-y-auto"
+    >
+      <div class="bg-white rounded-lg p-6 max-w-3xl mx-auto relative">
+        <button
+          onclick="hideImageModal()"
+          class="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+        >
+          <i class="fas fa-times text-2xl"></i>
+        </button>
+        <img
+          id="modal-image"
+          class="w-full h-auto object-cover rounded-lg"
+          src=""
+          alt="Modal Image"
+        />
+      </div>
+    </div>
+
+
+
+
+
       </section>
 
       <!-- events section -->
