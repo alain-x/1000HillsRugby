@@ -46,7 +46,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="./style.css" />
-
     <script>
       async function fetchLatestNews() {
         try {
@@ -1021,44 +1020,44 @@
 
         
     <!-- News Container -->
-    <div class="news-container"></div>
+     <div class="news-container"></div>
 
     <!-- Full Article View -->
     <div
-      id="full-article-view"
-      class="hidden fixed inset-0 bg-white p-8 overflow-y-auto"
-    >
-      <div class="max-w-6xl mx-auto relative">
-        <button
-          onclick="hideFullArticle()"
-          class="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
-        >
-          <i class="fas fa-times text-2xl"></i>
-        </button>
-        <div id="full-article-content"></div>
-      </div>
+    id="full-article-view"
+    class="hidden fixed inset-0 bg-white p-8 overflow-y-auto"
+  >
+    <div class="max-w-6xl mx-auto relative">
+      <button
+        onclick="hideFullArticle()"
+        class="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+      >
+        <i class="fas fa-times text-2xl"></i>
+      </button>
+      <div id="full-article-content"></div>
     </div>
+  </div>
 
-    <!-- Image Modal (Hidden by Default) -->
-    <div
-      id="image-modal"
-      class="hidden fixed inset-0 bg-black bg-opacity-75 p-8 overflow-y-auto"
-    >
-      <div class="bg-white rounded-lg p-6 max-w-3xl mx-auto relative">
-        <button
-          onclick="hideImageModal()"
-          class="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
-        >
-          <i class="fas fa-times text-2xl"></i>
-        </button>
-        <img
-          id="modal-image"
-          class="w-full h-auto object-cover rounded-lg"
-          src=""
-          alt="Modal Image"
-        />
-      </div>
+  <!-- Image Modal (Hidden by Default) -->
+  <div
+    id="image-modal"
+    class="hidden fixed inset-0 bg-black bg-opacity-75 p-8 overflow-y-auto"
+  >
+    <div class="bg-white rounded-lg p-6 max-w-3xl mx-auto relative">
+      <button
+        onclick="hideImageModal()"
+        class="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+      >
+        <i class="fas fa-times text-2xl"></i>
+      </button>
+      <img
+        id="modal-image"
+        class="w-full h-auto object-cover rounded-lg"
+        src=""
+        alt="Modal Image"
+      />
     </div>
+  </div>
 
 
 
