@@ -2,10 +2,11 @@
 header('Content-Type: application/json');
 
 // Database connection
-$servername = "localhost:3306";
+$servername = "localhost";
 $username = "hillsrug_gasore";
 $password = "M00dle??";
 $dbname = "hillsrug_db";
+$port = 3306;
 
 $conn = new mysqli($servername, $username, $password, $dbname, $port);
 if ($conn->connect_error) {
