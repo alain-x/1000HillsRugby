@@ -46,7 +46,87 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="./style.css" />
-    
+
+    <script>
+      async function fetchLatestNews() {
+        try {
+          const response = await fetch("get_latest_news.php");
+          const news = await response.json();
+          displayLatestNews(news);
+        } catch (error) {
+          console.error("Error fetching latest news:", error);
+        }
+      }
+
+      function displayLatestNews(news) {
+        const newsContainer = document.querySelector(".news-container");
+        if (!newsContainer || news.length === 0) return;
+
+        newsContainer.innerHTML = "";
+
+        const largeCard = `
+          <div class="w-full lg:w-[50%]">
+            <div class="relative flex flex-col gap-4 p-2 lg:p-6 rounded-xl transition-all duration-300">
+              <div class="relative group w-full">
+                <a href="news#${news[0].id}">
+                  <img
+                    class="rounded-xl h-[250px] md:h-[350px] lg:h-[400px] w-full object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-110"
+                    src="${news[0].main_image_path}"
+                    alt="${news[0].title}"
+                  />
+                </a>
+                <div class="absolute bottom-4 left-4 bg-black/70 text-white p-2 md:p-4 rounded-lg">
+                  <span class="font-medium text-sm md:text-lg">Now</span>
+                  <h3 class="font-semibold text-xl md:text-2xl mt-2">${news[0].title}</h3>
+                </div>
+              </div>
+              <div class="bg-white text-black rounded-lg text-center shadow-lg p-2 md:p-4 font-medium text-sm md:text-base lg:text-lg"> 
+              </div>
+              <div class="flex justify-between items-center bg-white p-4 mt-4 rounded-lg shadow-md">
+                <div class="flex gap-2">
+                  <a href="#" class="text-gray-600 hover:text-[#dcbb26]"><i class="fab fa-facebook-square"></i></a>
+                  <a href="#" class="text-gray-600 hover:text-[#dcbb26]"><i class="fab fa-twitter-square"></i></a>
+                  <a href="#" class="text-gray-600 hover:text-[#dcbb26]"><i class="fab fa-linkedin"></i></a>
+                </div>
+                <a href="news" class="text-[#dcbb26] font-semibold hover:text-black transition-all duration-300">
+                  Read More <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+
+        let mediumCards = `<div class="w-full lg:w-[50%] grid grid-cols-1 md:grid-cols-2 gap-4">`;
+        for (let i = 1; i < Math.min(news.length, 5); i++) {
+          mediumCards += `
+            <a href="news#${news[i].id}">
+              <div class="bg-white p-4 w-full rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:-translate-y-2 flex flex-col gap-2">
+                <div class="relative">
+                  <img
+                    class="rounded-xl h-[220px] md:h-[230px] lg:h-[240px] w-full object-cover transition-transform duration-500 ease-in-out transform hover:scale-110"
+                    src="${news[i].main_image_path}"
+                    alt="${news[i].title}"
+                  />
+                </div>
+                <div class="text-center">
+                  <span class="text-sm md:text-md text-gray-600">${new Date(
+                    news[i].date_published
+                  ).toLocaleDateString()}</span>
+                  <h3 class="font-bold text-base md:text-lg mt-1">${
+                    news[i].title
+                  }</h3>
+                </div>
+              </div>
+            </a>
+          `;
+        }
+        mediumCards += `</div>`;
+
+        newsContainer.innerHTML = `<div class="flex flex-col lg:flex-row gap-6">${largeCard}${mediumCards}</div>`;
+      }
+      document.addEventListener("DOMContentLoaded", fetchLatestNews);
+    </script>
+
     <style>
       .slider-container {
         overflow: hidden;
@@ -927,141 +1007,46 @@
           </p>
         </div>
 
-
-
-
-        <script>
-          async function fetchLatestNews() {
-            try {
-              const response = await fetch("get_latest_news.php");
-              const news = await response.json();
-              displayLatestNews(news);
-            } catch (error) {
-              console.error("Error fetching latest news:", error);
-            }
-          }
-    
-          function truncateText(text, maxLength = 50) {
-            return text.length > maxLength
-              ? text.substring(0, maxLength) + "..."
-              : text;
-          }
-    
-          function displayLatestNews(news) {
-            const newsContainer = document.querySelector(".news-container");
-            if (!newsContainer || news.length === 0) return;
-    
-            newsContainer.innerHTML = "";
-    
-            const largeCard = `
-              <div class="w-full lg:w-[50%]">
-                <div class="relative flex flex-col gap-4 p-2 lg:p-6 rounded-xl transition-all duration-300">
-                  <div class="relative group w-full">
-                    <a href="news-detail.php?id=${news[0].id}">
-                      <img
-                        class="rounded-xl h-[250px] md:h-[350px] lg:h-[400px] w-full object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-110"
-                        src="${news[0].img}"
-                        alt="${news[0].title}"
-                      />
-                    </a>
-                    <div class="absolute bottom-4 left-4 bg-black/70 text-white p-2 md:p-4 rounded-lg">
-                      <span class="font-medium text-sm md:text-lg">Now</span>
-                      <h3 class="font-semibold text-xl md:text-2xl mt-2">
-                        ${truncateText(news[0].title, 50)}
-                      </h3>
-                    </div>
-                  </div>
-                  <div class="bg-white text-black rounded-lg text-center shadow-lg p-2 md:p-4 font-medium text-sm md:text-base lg:text-lg">
-                    ${news[0].category}
-                  </div>
-                  <div class="flex justify-between items-center bg-white p-4 mt-4 rounded-lg shadow-md">
-                    <div class="flex gap-2">
-                      <a href="#" class="text-gray-600 hover:text-[#dcbb26]"><i class="fab fa-facebook-square"></i></a>
-                      <a href="#" class="text-gray-600 hover:text-[#dcbb26]"><i class="fab fa-twitter-square"></i></a>
-                      <a href="#" class="text-gray-600 hover:text-[#dcbb26]"><i class="fab fa-linkedin"></i></a>
-                    </div>
-                    <a href="news-detail.php?id=${
-                      news[0].id
-                    }" class="text-[#dcbb26] font-semibold hover:text-black transition-all duration-300">
-                      Read More <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            `;
-    
-            let mediumCards = `<div class="w-full lg:w-[50%] grid grid-cols-1 md:grid-cols-2 gap-4">`;
-            for (let i = 1; i < Math.min(news.length, 5); i++) {
-              mediumCards += `
-                <a href="news-detail.php?id=${news[i].id}">
-                  <div class="bg-white p-4 w-full rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:-translate-y-2 flex flex-col gap-2">
-                    <div class="relative">
-                      <img
-                        class="rounded-xl h-[220px] md:h-[230px] lg:h-[240px] w-full object-cover transition-transform duration-500 ease-in-out transform hover:scale-110"
-                        src="${news[i].img}"
-                        alt="${news[i].title}"
-                      />
-                    </div>
-                    <div class="text-center">
-                      <span class="text-sm md:text-md text-gray-600">${new Date(
-                        news[i].created_at
-                      ).toLocaleDateString()}</span>
-                      <h3 class="font-bold text-base md:text-lg mt-1">
-                        ${truncateText(news[i].title, 40)}
-                      </h3>
-                    </div>
-                  </div>
-                </a>
-              `;
-            }
-            mediumCards += `</div>`;
-    
-            newsContainer.innerHTML = `<div class="flex flex-col lg:flex-row gap-6">${largeCard}${mediumCards}</div>`;
-          }
-    
-          document.addEventListener("DOMContentLoaded", fetchLatestNews);
-        </script>
-    
         
     <!-- News Container -->
-     <div class="news-container"></div>
+    <div class="news-container"></div>
 
     <!-- Full Article View -->
     <div
-    id="full-article-view"
-    class="hidden fixed inset-0 bg-white p-8 overflow-y-auto"
-  >
-    <div class="max-w-6xl mx-auto relative">
-      <button
-        onclick="hideFullArticle()"
-        class="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
-      >
-        <i class="fas fa-times text-2xl"></i>
-      </button>
-      <div id="full-article-content"></div>
+      id="full-article-view"
+      class="hidden fixed inset-0 bg-white p-8 overflow-y-auto"
+    >
+      <div class="max-w-6xl mx-auto relative">
+        <button
+          onclick="hideFullArticle()"
+          class="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+        >
+          <i class="fas fa-times text-2xl"></i>
+        </button>
+        <div id="full-article-content"></div>
+      </div>
     </div>
-  </div>
 
-  <!-- Image Modal (Hidden by Default) -->
-  <div
-    id="image-modal"
-    class="hidden fixed inset-0 bg-black bg-opacity-75 p-8 overflow-y-auto"
-  >
-    <div class="bg-white rounded-lg p-6 max-w-3xl mx-auto relative">
-      <button
-        onclick="hideImageModal()"
-        class="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
-      >
-        <i class="fas fa-times text-2xl"></i>
-      </button>
-      <img
-        id="modal-image"
-        class="w-full h-auto object-cover rounded-lg"
-        src=""
-        alt="Modal Image"
-      />
+    <!-- Image Modal (Hidden by Default) -->
+    <div
+      id="image-modal"
+      class="hidden fixed inset-0 bg-black bg-opacity-75 p-8 overflow-y-auto"
+    >
+      <div class="bg-white rounded-lg p-6 max-w-3xl mx-auto relative">
+        <button
+          onclick="hideImageModal()"
+          class="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+        >
+          <i class="fas fa-times text-2xl"></i>
+        </button>
+        <img
+          id="modal-image"
+          class="w-full h-auto object-cover rounded-lg"
+          src=""
+          alt="Modal Image"
+        />
+      </div>
     </div>
-  </div>
 
 
 
