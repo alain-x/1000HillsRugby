@@ -585,7 +585,7 @@ $result = $conn->query($sql);
                             </h3>
                             <p class="text-sm text-gray-600 mb-2 font-bold"><?php echo htmlspecialchars($row['category']); ?></p>
                             <p class="text-gray-500 text-sm"><?php echo date("F j, Y", strtotime($row['date_published'])); ?></p>
-                            <a href="news-detail.php?id=<?php echo $row['id']; ?>" class="text-blue-500 hover:text-blue-700 mt-2 inline-block">Read more →</a>
+                            <a href="news-detail?id=<?php echo $row['id']; ?>" class="text-blue-500 hover:text-blue-700 mt-2 inline-block">Read more →</a>
                         </div>
                     </div>
                 <?php endwhile; ?>
