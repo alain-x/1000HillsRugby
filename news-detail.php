@@ -600,7 +600,7 @@ $page_url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
     <div class="max-w-5xl mt-[80px] mx-auto p-4">
         <!-- Back Button -->
-        <a href="news.php" class="flex items-center text-blue-500 hover:text-blue-700 mb-4">
+        <a href="news" class="flex items-center text-blue-500 hover:text-blue-700 mb-4">
             <i class="fas fa-arrow-left mr-2"></i> Back
         </a>
 
