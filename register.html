@@ -885,7 +885,7 @@
             usdToEur: 0.9,
             eurToUsd: 1.1,
           };
-
+        
           const paymentDetails = {
             coach: {
               usd: 100,
@@ -918,20 +918,20 @@
               link: "",
             },
           };
-
+        
           // Payment method instructions
           const paymentMethodInstructions = {
             paypal: "Complete your payment through PayPal using your account.",
             momo: "Use Mobile Money (MOMO) and send to the number provided after registration.",
             bank: "Please transfer the amount to our bank account as shown in the confirmation email.",
           };
-
+        
           function updateDetails() {
             const category = document.getElementById("category").value;
             const currency = document.getElementById("currencySwitch").value;
             const paymentInfo = document.getElementById("paymentInfo");
             const price = document.getElementById("price");
-
+        
             if (paymentDetails[category]) {
               let amount;
               if (currency === "usd") amount = paymentDetails[category].usd;
@@ -939,52 +939,50 @@
                 amount = paymentDetails[category].usd * exchangeRates.usdToRwf;
               else if (currency === "eur")
                 amount = paymentDetails[category].usd * exchangeRates.usdToEur;
-
-              price.textContent = `Price: ${currency.toUpperCase()} ${amount.toFixed(
-                2
-              )}`;
+        
+              price.textContent = `Price: ${currency.toUpperCase()} ${amount.toFixed(2)}`;
               paymentInfo.classList.remove("hidden");
             } else {
               paymentInfo.classList.add("hidden");
             }
           }
-
+        
           function updatePaymentMethodDetails() {
-            const paymentMethod =
-              document.getElementById("paymentMethod").value;
-            const paymentMethodDetails = document.getElementById(
-              "paymentMethodDetails"
-            );
-            const paymentInstructions = document.getElementById(
-              "paymentInstructions"
-            );
-
+            const paymentMethod = document.getElementById("paymentMethod").value;
+            const paymentMethodDetails = document.getElementById("paymentMethodDetails");
+            const paymentInstructions = document.getElementById("paymentInstructions");
+        
             if (paymentMethodInstructions[paymentMethod]) {
-              paymentInstructions.textContent =
-                paymentMethodInstructions[paymentMethod];
+              paymentInstructions.textContent = paymentMethodInstructions[paymentMethod];
               paymentMethodDetails.classList.remove("hidden");
             } else {
               paymentMethodDetails.classList.add("hidden");
             }
           }
-
+        
           function navigateToLink(event) {
             event.preventDefault(); // Prevent the default form submission
-          
+        
             // Collect form data
             const category = document.getElementById("category").value;
             const currency = document.getElementById("currencySwitch").value;
             const paymentMethod = document.getElementById("paymentMethod").value;
-          
-            // Validate if a category is selected
-            if (!category) {
-              alert("Please select a category before proceeding.");
+            const memberId = document.getElementById("memberId").value; // Add this field to your HTML
+            const email = document.getElementById("email").value; // Add this field to your HTML
+            const contactNumber = document.getElementById("contactNumber").value; // Add this field to your HTML
+            const membershipType = document.getElementById("membershipType").value; // Add this field to your HTML
+            const amountPaid = document.getElementById("amountPaid").value; // Add this field to your HTML
+            const transactionId = document.getElementById("transactionId").value; // Add this field to your HTML
+        
+            // Validate if all required fields are filled
+            if (!category || !memberId || !email || !contactNumber || !membershipType || !amountPaid || !paymentMethod) {
+              alert("Please fill all required fields before proceeding.");
               return;
             }
-          
+        
             // Construct the Smartsheet form URL with query parameters
-            const smartsheetUrl = `https://app.smartsheet.com/b/form/f40c43bb3ca94c5e908665870ced50dd?category=${encodeURIComponent(category)}&currency=${encodeURIComponent(currency)}&paymentMethod=${encodeURIComponent(paymentMethod)}`;
-          
+            const smartsheetUrl = `https://app.smartsheet.com/b/form/f40c43bb3ca94c5e908665870ced50dd?memberId=${encodeURIComponent(memberId)}&email=${encodeURIComponent(email)}&contactNumber=${encodeURIComponent(contactNumber)}&membershipType=${encodeURIComponent(membershipType)}&amountPaid=${encodeURIComponent(amountPaid)}&paymentMethod=${encodeURIComponent(paymentMethod)}&transactionId=${encodeURIComponent(transactionId)}`;
+        
             // Redirect the user to the Smartsheet form
             window.location.href = smartsheetUrl;
           }
