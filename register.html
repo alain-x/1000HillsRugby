@@ -800,70 +800,7 @@
 
             <!-- Registration Form -->
             <form id="registrationForm" onsubmit="navigateToLink(event)">
-              <label for="category" class="block font-medium text-gray-700 mb-2"
-                >Select a Category</label
-              >
-              <select
-                id="category"
-                class="w-full p-2 mb-4 border border-gray-300 rounded-md"
-                onchange="updateDetails()"
-              >
-                <option value="" disabled selected>Select category</option>
-                <option value="coach">Coach</option>
-                <option value="player">Player</option>
-                <option value="volunteer">Volunteer</option>
-                <option value="member">Member</option>
-                <option value="donor">Donor</option>
-              </select>
-
-              <!-- Currency Switch -->
-              <label
-                for="currencySwitch"
-                class="block font-medium text-gray-700 mb-2"
-                >Choose Currency:</label
-              >
-              <select
-                id="currencySwitch"
-                class="w-full p-2 mb-4 border border-gray-300 rounded-md"
-                onchange="updateDetails()"
-              >
-                <option value="rwf">RWF</option>
-                <option value="usd">USD</option>
-
-                <option value="eur">EUR</option>
-              </select>
-
-              <!-- Payment Method Selection -->
-              <label
-                for="paymentMethod"
-                class="block font-medium text-gray-700 mb-2"
-                >Select Payment Method</label
-              >
-              <select
-                id="paymentMethod"
-                class="w-full p-2 mb-4 border border-gray-300 rounded-md"
-                onchange="updatePaymentMethodDetails()"
-              >
-                <option value="" disabled selected>
-                  Select payment method
-                </option>
-                <option value="paypal">PayPal</option>
-                <option value="momo">Mobile Money (MOMO)</option>
-                <option value="bank">Bank Transfer</option>
-              </select>
-
-              <!-- Payment Information -->
-              <div id="paymentInfo" class="hidden mb-4">
-                <p class="font-semibold text-gray-700">Payment Details:</p>
-                <p id="price" class="text-gray-600"></p>
-                <p id="method" class="text-gray-600"></p>
-              </div>
-
-              <!-- Payment Method Details -->
-              <div id="paymentMethodDetails" class="hidden mb-4">
-                <p class="font-semibold text-gray-700">Instructions:</p>
-                <p id="paymentInstructions" class="text-gray-600"></p>
-              </div>
+               
 
               <button
                 type="submit"
@@ -874,119 +811,18 @@
             </form>
           </div>
         </div>
+         
 
         <script>
-          // Define static exchange rates
-          const exchangeRates = {
-            rwfToUsd: 0.001,
-            usdToRwf: 1000,
-            rwfToEur: 0.0009,
-            eurToRwf: 1111,
-            usdToEur: 0.9,
-            eurToUsd: 1.1,
-          };
-        
-          const paymentDetails = {
-            coach: {
-              usd: 100,
-              rwf: 100000,
-              eur: 90,
-              link: "",
-            },
-            player: {
-              usd: 20,
-              rwf: 20000,
-              eur: 18,
-              link: "",
-            },
-            volunteer: {
-              usd: 0,
-              rwf: 0,
-              eur: 0,
-              link: "",
-            },
-            member: {
-              usd: 50,
-              rwf: 50000,
-              eur: 45,
-              link: "",
-            },
-            donor: {
-              usd: "Custom",
-              rwf: "Custom",
-              eur: "Custom",
-              link: "",
-            },
-          };
-        
-          // Payment method instructions
-          const paymentMethodInstructions = {
-            paypal: "Complete your payment through PayPal using your account.",
-            momo: "Use Mobile Money (MOMO) and send to the number provided after registration.",
-            bank: "Please transfer the amount to our bank account as shown in the confirmation email.",
-          };
-        
-          function updateDetails() {
-            const category = document.getElementById("category").value;
-            const currency = document.getElementById("currencySwitch").value;
-            const paymentInfo = document.getElementById("paymentInfo");
-            const price = document.getElementById("price");
-        
-            if (paymentDetails[category]) {
-              let amount;
-              if (currency === "usd") amount = paymentDetails[category].usd;
-              else if (currency === "rwf")
-                amount = paymentDetails[category].usd * exchangeRates.usdToRwf;
-              else if (currency === "eur")
-                amount = paymentDetails[category].usd * exchangeRates.usdToEur;
-        
-              price.textContent = `Price: ${currency.toUpperCase()} ${amount.toFixed(2)}`;
-              paymentInfo.classList.remove("hidden");
-            } else {
-              paymentInfo.classList.add("hidden");
-            }
-          }
-        
-          function updatePaymentMethodDetails() {
-            const paymentMethod = document.getElementById("paymentMethod").value;
-            const paymentMethodDetails = document.getElementById("paymentMethodDetails");
-            const paymentInstructions = document.getElementById("paymentInstructions");
-        
-            if (paymentMethodInstructions[paymentMethod]) {
-              paymentInstructions.textContent = paymentMethodInstructions[paymentMethod];
-              paymentMethodDetails.classList.remove("hidden");
-            } else {
-              paymentMethodDetails.classList.add("hidden");
-            }
-          }
-        
           function navigateToLink(event) {
             event.preventDefault(); // Prevent the default form submission
         
-            // Collect form data
-            const category = document.getElementById("category").value;
-            const currency = document.getElementById("currencySwitch").value;
-            const paymentMethod = document.getElementById("paymentMethod").value;
-            const memberId = document.getElementById("memberId").value; // Add this field to your HTML
-            const email = document.getElementById("email").value; // Add this field to your HTML
-            const contactNumber = document.getElementById("contactNumber").value; // Add this field to your HTML
-            const membershipType = document.getElementById("membershipType").value; // Add this field to your HTML
-            const amountPaid = document.getElementById("amountPaid").value; // Add this field to your HTML
-            const transactionId = document.getElementById("transactionId").value; // Add this field to your HTML
-        
-            // Validate if all required fields are filled
-            if (!category || !memberId || !email || !contactNumber || !membershipType || !amountPaid || !paymentMethod) {
-              alert("Please fill all required fields before proceeding.");
-              return;
-            }
-        
-            // Construct the Smartsheet form URL with query parameters
-            const smartsheetUrl = `https://app.smartsheet.com/b/form/f40c43bb3ca94c5e908665870ced50dd?memberId=${encodeURIComponent(memberId)}&email=${encodeURIComponent(email)}&contactNumber=${encodeURIComponent(contactNumber)}&membershipType=${encodeURIComponent(membershipType)}&amountPaid=${encodeURIComponent(amountPaid)}&paymentMethod=${encodeURIComponent(paymentMethod)}&transactionId=${encodeURIComponent(transactionId)}`;
-        
             // Redirect the user to the Smartsheet form
-            window.location.href = smartsheetUrl;
+            window.location.href = "https://app.smartsheet.com/b/form/f40c43bb3ca94c5e908665870ced50dd";
           }
         </script>
+
+         
       </section>
 
       <!-- Map Section -->
