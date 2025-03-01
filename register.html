@@ -969,14 +969,24 @@
           }
 
           function navigateToLink(event) {
-            event.preventDefault();
+            event.preventDefault(); // Prevent the default form submission
+          
+            // Collect form data
             const category = document.getElementById("category").value;
-
-            if (paymentDetails[category]) {
-              window.location.href = paymentDetails[category].link;
-            } else {
+            const currency = document.getElementById("currencySwitch").value;
+            const paymentMethod = document.getElementById("paymentMethod").value;
+          
+            // Validate if a category is selected
+            if (!category) {
               alert("Please select a category before proceeding.");
+              return;
             }
+          
+            // Construct the Smartsheet form URL with query parameters
+            const smartsheetUrl = `https://app.smartsheet.com/b/form/f40c43bb3ca94c5e908665870ced50dd?category=${encodeURIComponent(category)}&currency=${encodeURIComponent(currency)}&paymentMethod=${encodeURIComponent(paymentMethod)}`;
+          
+            // Redirect the user to the Smartsheet form
+            window.location.href = smartsheetUrl;
           }
         </script>
       </section>
