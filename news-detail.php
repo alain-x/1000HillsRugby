@@ -654,7 +654,7 @@ $page_url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
                         <!-- Multiple Images: Display as Collage -->
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
                          <?php foreach ($images as $image): ?>
-                         <div class="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+                         <div class="overflow-hidden rounded-lg w-[400px] shadow-lg hover:shadow-xl transition-shadow duration-300">
                          <img class="w-[340px] h-72 object-cover rounded-lg" src="<?php echo htmlspecialchars(trim($image), ENT_QUOTES, 'UTF-8'); ?>" alt="Section Image">
                        </div>
                    <?php endforeach; ?>
