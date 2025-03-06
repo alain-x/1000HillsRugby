@@ -58,6 +58,7 @@ startCountdown(new Date("Mar 08, 2025 02:00:00").getTime());
 const slideshowImages = [
   "./uploads/1740072895_fans.JPG",
   "./images/bg001.jpg",
+  "./images/2OP.png",
   "./images/bg003.jpg",
 ];
 let currentSlideshowIndex = 0; // Keep track of the current image index

@@ -1,6 +1,6 @@
+
+
 <?php
-
-
 // Database connection
 $conn = new mysqli("localhost", "hillsrug_gasore", "M00dle??", "hillsrug_db", 3306);
 if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
@@ -562,8 +562,6 @@ $result = $conn->query($sql);
     </div>
   </nav>
  
-     
-
     <!-- News Cards -->
     <div class="container mx-auto p-6 mt-[80px]">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -571,17 +569,19 @@ $result = $conn->query($sql);
                 <?php while ($row = $result->fetch_assoc()): ?>
                     <div class="article-card bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
                         <?php if (!empty($row['main_image_path'])): ?>
+                            <!-- Display the main image if available -->
                             <img src="<?php echo htmlspecialchars($row['main_image_path']); ?>" class="w-full h-48 object-cover" alt="<?php echo htmlspecialchars($row['title']); ?>">
                         <?php else: ?>
-                            <!-- Placeholder image if no image is available -->
-                            <img src="./images/placeholder.jpg" class="w-full h-48 object-cover" alt="Placeholder Image">
+                            <!-- Display placeholder image and start the title if no image is available -->
+                            <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+                                <span class="text-xl font-semibold text-gray-700">
+                                    <?php echo htmlspecialchars($row['title']); ?>
+                                </span>
+                            </div>
                         <?php endif; ?>
                         <div class="p-4">
                             <h3 class="text-xl font-semibold">
-                                <?php 
-                                    $shortTitle = (strlen($row['title']) > 50) ? substr($row['title'], 0, 50) . '...' : $row['title']; 
-                                    echo htmlspecialchars($shortTitle); 
-                                ?>
+                                <?php echo htmlspecialchars($row['title']); ?>
                             </h3>
                             <p class="text-sm text-gray-600 mb-2 font-bold"><?php echo htmlspecialchars($row['category']); ?></p>
                             <p class="text-gray-500 text-sm"><?php echo date("F j, Y", strtotime($row['date_published'])); ?></p>
