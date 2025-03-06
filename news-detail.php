@@ -653,11 +653,12 @@ $page_url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
                     <?php else: ?>
                         <!-- Multiple Images: Display as Collage -->
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-                         <?php foreach ($images as $image): ?> 
-                         <img class="w-[400px] h-80 object-fit rounded-lg" src="<?php echo htmlspecialchars(trim($image), ENT_QUOTES, 'UTF-8'); ?>" alt="Section Image">
-                       
+                         <?php foreach ($images as $image): ?>
+                         <div class="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+                         <img class="w-full h-64  rounded-lg" src="<?php echo htmlspecialchars(trim($image), ENT_QUOTES, 'UTF-8'); ?>" alt="Section Image">
+                       </div>
                    <?php endforeach; ?>
-              </div>
+                  </div>
                     <?php endif; ?>
                 <?php endif; ?>
             </section>
