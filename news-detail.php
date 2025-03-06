@@ -652,9 +652,9 @@ $page_url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
                         <img class="w-full h-auto object-cover rounded-lg mt-4" src="<?php echo htmlspecialchars(trim($images[0]), ENT_QUOTES, 'UTF-8'); ?>" alt="Section Image">
                     <?php else: ?>
                         <!-- Multiple Images: Display as Collage -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
     <?php foreach ($images as $image): ?>
-        <div class="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 w-[500px] h-96">
+        <div class="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 w-[400px] h-96 mx-auto">
             <img class="w-full h-full object-cover rounded-lg" src="<?php echo htmlspecialchars(trim($image), ENT_QUOTES, 'UTF-8'); ?>" alt="Section Image">
         </div>
     <?php endforeach; ?>
