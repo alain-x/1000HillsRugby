@@ -1,5 +1,3 @@
-
-
 <?php
 // Database connection
 $conn = new mysqli("localhost", "hillsrug_gasore", "M00dle??", "hillsrug_db", 3306);
@@ -561,7 +559,6 @@ $result = $conn->query($sql);
       </div>
     </div>
   </nav>
- 
     <!-- News Cards -->
     <div class="container mx-auto p-6 mt-[80px]">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -571,13 +568,6 @@ $result = $conn->query($sql);
                         <?php if (!empty($row['main_image_path'])): ?>
                             <!-- Display the main image if available -->
                             <img src="<?php echo htmlspecialchars($row['main_image_path']); ?>" class="w-full h-48 object-cover" alt="<?php echo htmlspecialchars($row['title']); ?>">
-                        <?php else: ?>
-                            <!-- Display placeholder image and start the title if no image is available -->
-                            <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
-                                <span class="text-xl font-semibold text-gray-700">
-                                    <?php echo htmlspecialchars($row['title']); ?>
-                                </span>
-                            </div>
                         <?php endif; ?>
                         <div class="p-4">
                             <h3 class="text-xl font-semibold">
