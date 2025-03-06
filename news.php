@@ -571,7 +571,15 @@ $result = $conn->query($sql);
                         <?php endif; ?>
                         <div class="p-4">
                             <h3 class="text-xl font-semibold">
-                                <?php echo htmlspecialchars($row['title']); ?>
+                                <?php
+                                    // Truncate the title if it exceeds 50 characters
+                                    $title = $row['title'];
+                                    $maxLength = 50;
+                                    if (strlen($title) > $maxLength) {
+                                        $title = substr($title, 0, $maxLength) . '...';
+                                    }
+                                    echo htmlspecialchars($title);
+                                ?>
                             </h3>
                             <p class="text-sm text-gray-600 mb-2 font-bold"><?php echo htmlspecialchars($row['category']); ?></p>
                             <p class="text-gray-500 text-sm"><?php echo date("F j, Y", strtotime($row['date_published'])); ?></p>
