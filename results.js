@@ -1,11 +1,26 @@
 const matches = [
   {
+    date: "SAT FEB 15 - 05:00",
+    stadium: "IPRC Kigali Ground",
+    homeTeam: { name: "1HR", logo: "./logos_/logoT.jpg" },
+    awayTeam: {
+      name: "LIONS DE FER",
+      logo: "./logos_/lions.jpg",
+    },
+    score: "14 - 21",
+    goalScorers: [],
+    gender: "MEN",
+    competition: "league",
+    location: "Away",
+    season: "2025",
+  },
+  {
     date: "SAT FEB 15 - 04:30",
     stadium: "IPRC Kigali Ground",
     homeTeam: { name: "1HR", logo: "./logos_/logoT.jpg" },
     awayTeam: {
-      name: "GITISI TSS A RFC",
-      logo: "./logos_/.jpeg",
+      name: "GITISI TSS A",
+      logo: "",
     },
     score: "21 - 19",
     goalScorers: [],
@@ -20,7 +35,7 @@ const matches = [
     homeTeam: { name: "1HR", logo: "./logos_/logoT.jpg" },
     awayTeam: {
       name: "PUMA RFC",
-      logo: "./logos_/.jpeg",
+      logo: "",
     },
     score: "63 - 07",
     goalScorers: [],
@@ -34,8 +49,8 @@ const matches = [
     stadium: "IPRC Kigali Ground",
     homeTeam: { name: "1HR", logo: "./logos_/logoT.jpg" },
     awayTeam: {
-      name: "GITISI B",
-      logo: "./logos_/.jpeg",
+      name: "GITISI TSS B",
+      logo: "",
     },
     score: "40 - 00",
     goalScorers: [],
@@ -102,36 +117,40 @@ function filterMatches() {
 // Display the matches in the results section
 function displayMatches(filteredMatches) {
   const matchResults = document.getElementById("matchResults");
-  matchResults.innerHTML = ""; // Clear previous results
+  matchResults.innerHTML = `<h2>December 2024</h2>`; // Reset the heading
 
   filteredMatches.forEach((match) => {
     const matchDiv = document.createElement("div");
     matchDiv.classList.add("match");
 
     matchDiv.innerHTML = `
-            <div class="match-info">
-              <p>${match.date}</p>
-              <p>${match.stadium}</p>
-            </div>
-            <div class="teams">
-              <div class="team">
-                <img src="${match.homeTeam.logo}" alt="${
-      match.homeTeam.name
-    }" />
-                <span>${match.homeTeam.name}</span>
-              </div>
-              <span class="score">${match.score}</span>
-              <div class="team">
-                <img src="${match.awayTeam.logo}" alt="${
-      match.awayTeam.name
-    }" />
-                <span>${match.awayTeam.name}</span>
-              </div>
-            </div>
-            <div class="goal-scorers">
-              ${match.goalScorers.map((goal) => `<p>${goal}</p>`).join("")}
-            </div>
-          `;
+      <div class="match-info">
+        <p>${match.date}</p>
+        <p>${match.stadium}</p>
+      </div>
+      <div class="teams">
+        <div class="team">
+          ${
+            match.homeTeam.logo
+              ? `<img src="${match.homeTeam.logo}" alt="${match.homeTeam.name}" />`
+              : `<div class="gray-icon">${match.homeTeam.name.charAt(0)}</div>`
+          }
+          <span>${match.homeTeam.name}</span>
+        </div>
+        <span class="score">${match.score}</span>
+        <div class="team">
+          ${
+            match.awayTeam.logo
+              ? `<img src="${match.awayTeam.logo}" alt="${match.awayTeam.name}" />`
+              : `<div class="gray-icon">${match.awayTeam.name.charAt(0)}</div>`
+          }
+          <span>${match.awayTeam.name}</span>
+        </div>
+      </div>
+      <div class="goal-scorers">
+        ${match.goalScorers.map((goal) => `<p>${goal}</p>`).join("")}
+      </div>
+    `;
 
     matchResults.appendChild(matchDiv);
   });

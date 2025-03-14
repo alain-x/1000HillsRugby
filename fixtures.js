@@ -1,28 +1,10 @@
 const matches = [
   {
-    date: "WED DEC 4 - 20:15",
-    stadium: "Red Cross Kacyiru",
-    homeTeam: { name: "1HR", logo: "./logos_/logoT.jpg" },
+    date: "SUN MAR 23 - 02:00 PM",
+    stadium: "",
+    homeTeam: { name: "GITISI TSS", logo: "" },
     awayTeam: {
-      name: "A. Kagugu",
-      logo: "./logos_/alpa_logo.jpeg",
-    },
-    score: "VS",
-    goalScorers: [],
-    gender: "MEN",
-    competition: "league",
-    location: "Home",
-    season: "2024-2025",
-  },
-  {
-    date: "THU DEC 5 - 22:00",
-    stadium: "Camp Kigali STADIUM",
-    homeTeam: {
-      name: "Muhanga RFC",
-      logo: "./logos_/muhanga.jpg",
-    },
-    awayTeam: {
-      name: "1HR ",
+      name: "1000 Hills Rugby",
       logo: "./logos_/logoT.jpg",
     },
     score: "VS",
@@ -30,7 +12,198 @@ const matches = [
     gender: "MEN",
     competition: "league",
     location: "Away",
-    season: "2024-2025",
+    season: "2025",
+  },
+  {
+    date: "SUN MAR 30 - 03:00 PM",
+    stadium: "",
+    homeTeam: {
+      name: "1000 Hills Rugby",
+      logo: "./logos_/logoT.jpg",
+    },
+    awayTeam: {
+      name: "UR Grizzlies  ",
+      logo: "",
+    },
+    score: "VS",
+    goalScorers: [],
+    gender: "MEN",
+    competition: "league",
+    location: "Home",
+    season: "2025",
+  },
+  {
+    date: "SAT APL 26 - 02:00 PM",
+    stadium: "",
+    homeTeam: { name: "Puma RFC ", logo: "" },
+    awayTeam: {
+      name: "1000 Hills Rugby",
+      logo: "./logos_/logoT.jpg",
+    },
+    score: "VS",
+    goalScorers: [],
+    gender: "MEN",
+    competition: "league",
+    location: "Away",
+    season: "2025",
+  },
+  {
+    date: "SAT MAY 03 - 01:00 PM",
+    stadium: "",
+    homeTeam: {
+      name: "1000 Hills Rugby",
+      logo: "./logos_/logoT.jpg",
+    },
+    awayTeam: {
+      name: "Resilience RFC",
+      logo: "",
+    },
+    score: "VS",
+    goalScorers: [],
+    gender: "MEN",
+    competition: "league",
+    location: "Home",
+    season: "2025",
+  },
+  {
+    date: "SUN JUN 29 - 02:00 PM",
+    stadium: "",
+    homeTeam: {
+      name: "1000 Hills Rugby",
+      logo: "./logos_/logoT.jpg",
+    },
+    awayTeam: {
+      name: "Gitisi TSS",
+      logo: "",
+    },
+    score: "VS",
+    goalScorers: [],
+    gender: "MEN",
+    competition: "league",
+    location: "Home",
+    season: "2025",
+  },
+  {
+    date: "SAT JUL 12 - 03:00 PM",
+    stadium: "",
+    homeTeam: { name: "UR Grizzlies", logo: "" },
+    awayTeam: {
+      name: "1000 Hills Rugby",
+      logo: "./logos_/logoT.jpg",
+    },
+    score: "VS",
+    goalScorers: [],
+    gender: "MEN",
+    competition: "league",
+    location: "Away",
+    season: "2025",
+  },
+  {
+    date: "SAT SEP 06 - 01:00 PM",
+    stadium: "",
+    awayTeam: {
+      name: "1000 Hills Rugby",
+      logo: "./logos_/logoT.jpg",
+    },
+    homeTeam: {
+      name: "Resilience RFC",
+      logo: "",
+    },
+    score: "VS",
+    goalScorers: [],
+    gender: "MEN",
+    competition: "league",
+    location: "Away",
+    season: "2025",
+  },
+  {
+    date: "SAT AUG 30 - 02:00 PM",
+    stadium: "",
+    awayTeam: { name: "Puma RFC ", logo: "" },
+    homeTeam: {
+      name: "1000 Hills Rugby",
+      logo: "./logos_/logoT.jpg",
+    },
+    score: "VS",
+    goalScorers: [],
+    gender: "MEN",
+    competition: "league",
+    location: "Home",
+    season: "2025",
+  },
+  // women's
+
+  {
+    date: "SAT MAY 17 - 01:00 PM",
+    stadium: "",
+    awayTeam: {
+      name: "1000 Hills Rugby",
+      logo: "./logos_/logoT.jpg",
+    },
+    homeTeam: {
+      name: "Resilience RFC",
+      logo: "",
+    },
+    score: "VS",
+    goalScorers: [],
+    gender: "WOMEN",
+    competition: "league",
+    location: "Away",
+    season: "2025",
+  },
+  {
+    date: "SAT MAY 31 - 02:00 PM",
+    stadium: "",
+    awayTeam: {
+      name: "Ruhango Zebras Women RFC",
+      logo: "",
+    },
+    homeTeam: {
+      name: "1000 Hills Rugby",
+      logo: "./logos_/logoT.jpg",
+    },
+    score: "VS",
+    goalScorers: [],
+    gender: "WOMEN",
+    competition: "league",
+    location: "Home",
+    season: "2025",
+  },
+  {
+    date: "SAT AUG 09 - 01:00 PM",
+    stadium: "",
+    awayTeam: {
+      name: "Resilience RFC",
+      logo: "",
+    },
+    homeTeam: {
+      name: "1000 Hills Rugby",
+      logo: "./logos_/logoT.jpg",
+    },
+    score: "VS",
+    goalScorers: [],
+    gender: "WOMEN",
+    competition: "league",
+    location: "Home",
+    season: "2025",
+  },
+  {
+    date: "SAT AUG 23 - 01:00 PM",
+    stadium: "",
+    awayTeam: {
+      name: "1000 Hills Rugby",
+      logo: "./logos_/logoT.jpg",
+    },
+    homeTeam: {
+      name: "Ruhango Zebras Women RFC",
+      logo: "",
+    },
+    score: "VS",
+    goalScorers: [],
+    gender: "WOMEN",
+    competition: "league",
+    location: "Away",
+    season: "2025",
   },
 ];
 
@@ -64,29 +237,37 @@ function displayMatches(filteredMatches) {
     matchDiv.classList.add("match");
 
     matchDiv.innerHTML = `
-            <div class="match-info">
-              <p>${match.date}</p>
-              <p>${match.stadium}</p>
+          <div class="match-info">
+            <p>${match.date}</p>
+            <p>${match.stadium}</p>
+          </div>
+          <div class="teams">
+            <div class="team">
+              ${
+                match.homeTeam.logo
+                  ? `<img src="${match.homeTeam.logo}" alt="${match.homeTeam.name}" />`
+                  : `<div class="gray-icon">${match.homeTeam.name.charAt(
+                      0
+                    )}</div>`
+              }
+              <span>${match.homeTeam.name}</span>
             </div>
-            <div class="teams">
-              <div class="team">
-                <img src="${match.homeTeam.logo}" alt="${
-      match.homeTeam.name
-    }" />
-                <span>${match.homeTeam.name}</span>
-              </div>
-              <span class="score">${match.score}</span>
-              <div class="team">
-                <img src="${match.awayTeam.logo}" alt="${
-      match.awayTeam.name
-    }" />
-                <span>${match.awayTeam.name}</span>
-              </div>
+            <span class="score">${match.score}</span>
+            <div class="team">
+              ${
+                match.awayTeam.logo
+                  ? `<img src="${match.awayTeam.logo}" alt="${match.awayTeam.name}" />`
+                  : `<div class="gray-icon">${match.awayTeam.name.charAt(
+                      0
+                    )}</div>`
+              }
+              <span>${match.awayTeam.name}</span>
             </div>
-            <div class="goal-scorers">
-              ${match.goalScorers.map((goal) => `<p>${goal}</p>`).join("")}
-            </div>
-          `;
+          </div>
+          <div class="goal-scorers">
+            ${match.goalScorers.map((goal) => `<p>${goal}</p>`).join("")}
+          </div>
+        `;
 
     matchResults.appendChild(matchDiv);
   });
