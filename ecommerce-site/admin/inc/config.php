@@ -16,11 +16,12 @@ $dbpass = 'M00dle??'; // database password
 // $dbuser = 'root'; // database username
 // $dbpass = '1234'; // database password
 // Defining base url
-define("BASE_URL", "");
+define("BASE_URL", "http://1000hillsrugby.rw/");
 
 // Getting Admin url
 define("ADMIN_URL", BASE_URL . "admin/");
 
+define("SITE", BASE_URL."/");
 try {
     $pdo = new PDO("mysql:host={$dbhost};dbname={$dbname}", $dbuser, $dbpass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
