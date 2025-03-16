@@ -19,7 +19,7 @@ $dbhost = 'localhost'; // server
 
 // Defining base url
 if (!defined('BASE_URL')) {
-    define("BASE_URL", "");
+    define("BASE_URL", "http://1000hillsrugby.rw/ecommerce-site/");
 }
 
 // Getting Admin url
