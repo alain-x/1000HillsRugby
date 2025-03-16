@@ -16,7 +16,7 @@ $dbpass = 'M00dle??'; // database password
 // $dbuser = 'root'; // database username
 // $dbpass = '1234'; // database password
 // Defining base url
-define("BASE_URL", "https://www.1000hillsrugby.rw/");
+define("BASE_URL", "");
 
 // Getting Admin url
 define("ADMIN_URL", BASE_URL . "admin/");
