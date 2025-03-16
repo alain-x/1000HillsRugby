@@ -25,7 +25,7 @@ $dbpass = 'M00dle??';
 //$dbpass = '1234';
 
 // Defining base url
-define("BASE_URL", "https://www.1000hillsrugby.rw/ecommerce-site/");
+define("BASE_URL", "");
 
 // Getting Admin url
 define("ADMIN_URL", BASE_URL . "admin" . "/");
