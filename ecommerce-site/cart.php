@@ -173,7 +173,7 @@ if(isset($_POST['form1'])) {
                             <td><?php echo $arr_cart_p_name[$i]; ?></td>
                             <td><?php echo $arr_cart_size_name[$i]; ?></td>
                             <td><?php echo $arr_cart_color_name[$i]; ?></td>
-                            <td><?php echo LANG_VALUE_1; ?><?php echo $arr_cart_p_current_price[$i]; ?></td>
+                            <td>RWF <?php echo $arr_cart_p_current_price[$i]; ?></td>
                             <td>
                                 <input type="hidden" name="product_id[]" value="<?php echo $arr_cart_p_id[$i]; ?>">
                                 <input type="hidden" name="product_name[]" value="<?php echo $arr_cart_p_name[$i]; ?>">
@@ -184,7 +184,7 @@ if(isset($_POST['form1'])) {
                                 $row_total_price = $arr_cart_p_current_price[$i]*$arr_cart_p_qty[$i];
                                 $table_total_price = $table_total_price + $row_total_price;
                                 ?>
-                                <?php echo LANG_VALUE_1; ?><?php echo $row_total_price; ?>
+                                RWF <?php echo $row_total_price; ?>
                             </td>
                             <td class="text-center">
                                 <a onclick="return confirmDelete();" href="cart-item-delete.php?id=<?php echo $arr_cart_p_id[$i]; ?>&size=<?php echo $arr_cart_size_id[$i]; ?>&color=<?php echo $arr_cart_color_id[$i]; ?>" class="trash"><i class="fa fa-trash" style="color:red;"></i></a>
@@ -193,7 +193,7 @@ if(isset($_POST['form1'])) {
                         <?php endfor; ?>
                         <tr>
                             <th colspan="7" class="total-text">Total</th>
-                            <th class="total-amount"><?php echo LANG_VALUE_1; ?><?php echo $table_total_price; ?></th>
+                            <th class="total-amount">RWF <?php echo $table_total_price; ?></th>
                             <th></th>
                         </tr>
                     </table> 
