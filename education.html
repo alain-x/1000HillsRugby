@@ -12,6 +12,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
     />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -98,6 +99,47 @@
         font-size: 1.5em;
         margin: 15px 0 10px;
         color: #d32f2f;
+      }
+      canvas {
+        max-width: 100%;
+        height: auto;
+      } 
+
+      hr h3 {
+        font-size: 1.25rem;
+        color: #333;
+        margin-bottom: 1rem;
+      }
+      hr ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+      hr li {
+        margin: 8px 0;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 1rem;
+        color: #555;
+        background-color: #f5f5f5;
+      }
+      hr li strong {
+        color: #333;
+        font-weight: 600;
+      }
+      hr ul ul {
+        margin-left: 20px;
+      }
+      hr ul ul li {
+        background-color: #e9e9e9;
+        padding: 10px;
+        border-radius: 6px;
+      }
+      hr {
+        border: 0;
+        height: 1px;
+        background: #ddd;
+        margin: 20px 0;
       }
 
       .card1 p {
@@ -776,8 +818,7 @@
     <div class="text-container">
       <h1>
         <span>Welcome to</span><br />
-        <span>The Girls Education Program </span><br>
-         <span>by 1000 Hills Rugby</span> 
+        <span>1000 Hills Rugby Education Program</span> 
       </h1>
     </div>
   </section>
@@ -795,15 +836,9 @@
           <img src="./images/allmember (9).jpeg" alt="Introduction image" />
           <h2> Introduction</h2>
           <p>
-            We are dedicated to empowering girls and providing them with
-            educational opportunities that can transform their lives. Our
-            program was born from the inspiring encounters we had with
-            talented rugby players under the age of 17, who come from humble
-            backgrounds. We understand the financial difficulties they face,
-            which may lead to them being unable to continue their education.
-            Through this program, we aim to address these challenges and
-            ensure that no girl is denied an education due to financial
-            constraints.
+            The 1000 Hills Rugby Education Program is dedicated to empowering young girls and boys by providing them with educational opportunities that can transform their lives. This initiative emerged from our engagement with young rugby players, many of whom come from underserved backgrounds. <br><br>
+We recognize the financial hardships they face, which can hinder their ability to continue their education. Through this program, we seek to eliminate these barriers and ensure that every child has the opportunity to pursue an education and a brighter future.
+
           </p>
         </div>
         <div class="card1">
@@ -811,11 +846,8 @@
           <h2> Vision</h2>
           <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
             <p>
-                Our vision is to create a society where every girl has equal
-              access to education, regardless of their background or financial
-              situation. We believe that education is a fundamental right and a
-              powerful catalyst for personal growth, empowerment, and societal
-              development.
+              Our vision is to create a society where every child, irrespective of gender or financial circumstances, has equal access to quality education. We believe education is not just a fundamental right but also a transformative force that drives personal growth, empowerment, and sustainable societal progress.
+              
             </p>
         </div>
         <div class="card1">
@@ -824,11 +856,8 @@
   
           <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
             <p>
-                Our mission is to mobilize support from friends, families, and
-                individuals who are willing to contribute to the education of
-                girls in need. By raising awareness about the barriers these girls
-                face, we strive to inspire action and create opportunities for
-                them to receive the education they deserve.
+              Our mission is to mobilize support from friends, families, and organizations committed to investing in the education of young rugby players. By highlighting the challenges these children face, we aim to inspire collective action and create sustainable opportunities for them to access quality education.
+              
               </p>
           </ul>
         </div>
@@ -839,13 +868,7 @@
     
             <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
               <p>
-                The purpose of the Girls Education Program is to break down the
-              financial barriers that prevent girls from accessing education. We
-              understand that many families face difficulties in providing for
-              their basic needs, let alone affording school fees. Our program
-              aims to provide financial assistance and support to these girls,
-              ensuring that they can continue their education and have a chance
-              at a brighter future.
+                The purpose of the 1000 Hills Rugby Education Program is to eliminate financial obstacles that hinder children's access to education. Many families face significant economic hardships, making it difficult to afford school fees and essential learning materials. Our program seeks to provide financial aid, educational resources, and mentorship to ensure these children not only stay in school but also thrive academically and personally.
                 </p>
             </ul>
           </div>
@@ -858,15 +881,8 @@
     
             <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
               <p>
-                  
-                We take a comprehensive approach to education, recognizing that it
-                encompasses more than just financial support. While we aim to
-                cover school fees, we also emphasize the importance of personal
-                connections and mentorship. We encourage sponsors to build
-                relationships with the girls they support, becoming mentors and
-                role models in their lives. We also provide the opportunity for
-                sponsors to engage in video calls with the girls, fostering a
-                supportive community and creating meaningful connections.
+                We take a holistic approach to education, recognizing that it involves more than just financial assistance. While we aim to cover school fees, we also prioritize mentorship, life skills development, and emotional support. We encourage sponsors to form meaningful connections with the children they support, serving as mentors and role models. Additionally, we offer opportunities for sponsors to engage in video calls and interactive sessions, fostering a nurturing and empowering community.
+                
                 </p>
             </ul>
           </div>
@@ -877,15 +893,8 @@
     
             <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
               <p>
-                If you are willing to make a difference in the lives of these
-                girls, we invite you to join our cause. Your contributions, no
-                matter how small, can have a profound impact. For example, a
-                donation of just $20 can cover a girl's school fees for one term,
-                this means a yearly contribution of $60 can ensure her continued
-                education. We will provide you with the girl's details, her
-                family's contact information, and the school's bank account
-                details for direct transfers. Together, we can give these girls
-                the educational opportunities they deserve.
+                If you are willing to make a difference in the lives of these children, we invite you to join our cause. Your contributions, no matter how small, can have a profound impact. For example, a donation of $50 can help one player receive a school bag and essential stationery for a year, ensuring they have the necessary materials to support their education. We provide sponsors with the child’s details, family contact information, and the school's bank account details for direct transfers. Together, we can give these children the educational opportunities they deserve.
+                
 
                 <a href="./register#reForm ">
                   <button class="cycle-button">Support Here</button>
@@ -900,14 +909,41 @@
     
             <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
               <p>
-                As part of our program, the girls who receive support will have
-                the opportunity to engage in rugby if they choose to do so. While
-                participation in rugby is not mandatory, we recognize the numerous
-                benefits that sports can bring. Rugby promotes physical fitness,
-                teamwork, leadership development, and personal growth. By
-                providing access to rugby, we aim to empower these girls, boost
-                their confidence, and cultivate valuable life skills that extend
-                beyond the rugby field.
+                As part of our program, supported children will have the opportunity to engage in rugby, which is at the core of 1000 Hills Rugby’s mission. While participation is encouraged but not mandatory, we recognize the transformative power of rugby. The sport fosters discipline, teamwork, resilience, and leadership—skills that benefit young players both on and off the field. By integrating rugby into our education program, we not only enhance their physical well-being but also instill confidence and a sense of belonging in a structured, supportive environment.
+                
+                </p>
+            </ul>
+          </div>
+
+          <div class="card1">
+            <h2>Our Achievements</h2>
+            <p>
+              Over the years, the 1000 Hills Rugby Education Program has grown significantly. We began by supporting just 10 players, and through continued effort and community support, we have expanded our impact to 65 beneficiaries under the SESLA program. This achievement demonstrates our dedication to providing educational opportunities for young athletes.
+            </p>
+            <hr>
+    <h3>Education Support Breakdown</h3>
+    <ul>
+      <li><strong>Total Registered Members:</strong> 123</li>
+      <li><strong>Total Beneficiaries under SESLA:</strong> 65</li>
+      <ul>
+        <li><strong>Girls Supported:</strong> 35</li>
+        <li><strong>Boys Supported:</strong> 30</li>
+      </ul>
+    </ul>
+    <hr>
+            <canvas id="supportChart"></canvas>
+          </div>
+        
+          
+
+          <div class="card1"> 
+            <h2>Testimony from a Beneficiary</h2>
+    
+            <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
+              <p>
+                <i>“Before joining the 1000 Hills Rugby Education Program, I struggled to continue my Advanced Level studies due to financial constraints. Joining 1000 Hills Rugby gave me an opportunity to be part of this program, which helped me continue my education. <br> <br>
+Thanks to this initiative, I have been able to go back to school, receive school supplies, and develop my rugby skills. The support I have received has given me hope for a better future, both academically and in sports.” — <strong>IRADUKUNDA IGIHOZO KEVINE, 18 Years, G.S. GATENGA</strong></i>
+
                 </p>
             </ul>
           </div>
@@ -920,15 +956,9 @@
     
             <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
               <p>
-                The Girls Education Program by 1000 Hills Rugby is committed to
-                breaking the cycle of limited opportunities for girls from humble
-                backgrounds. We believe that education is a powerful tool that can
-                unlock their potential, uplift communities, and create positive
-                change. By providing financial assistance, fostering personal
-                connections, and promoting rugby participation, we aim to empower
-                these girls to become future leaders and role models. Together,
-                let's support their education, transform lives, and build a more
-                equitable society.
+                The 1000 Hills Rugby Education Program is committed to breaking the cycle of limited opportunities for children from underserved communities. We believe that education is a powerful tool that can unlock potential, uplift communities, and create lasting change. By providing financial assistance, fostering personal connections, and promoting rugby participation, we aim to empower these children to become future leaders and role models.
+                Together, let's support their education, transform lives, and build a more equitable society.
+                
                 </p>
             </ul>
           </div>
