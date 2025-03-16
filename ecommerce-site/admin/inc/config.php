@@ -26,7 +26,7 @@ $dbpass = 'M00dle??';
 //$dbpass = '1234';
 
 // Defining base url
-define("BASE_URL", "www.1000hillsrugby.rw");
+define("BASE_URL", "https://www.1000hillsrugby.rw");
 
 // Getting Admin url
 define("ADMIN_URL", BASE_URL . "admin" . "/");
