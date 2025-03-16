@@ -9,13 +9,13 @@ date_default_timezone_set('America/Los_Angeles');
 $dbhost = 'localhost';
 
 // Database Name
-$dbname = 'ecommerceweb';
+$dbname = 'hillsrug_ecommerceweb';
 
 // Database Username
-$dbuser = 'root';
+$dbuser = 'hillsrug_gasore';
 
 // Database Password
-$dbpass = '1234';
+$dbpass = 'M00dle??';
 
 // Defining base url
 define("BASE_URL", "");
