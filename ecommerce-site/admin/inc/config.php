@@ -15,7 +15,7 @@ $dbname = 'hillsrug_ecommerceweb';
 $dbuser = 'hillsrug_gasore';
 
 // Database Password
-$dbpass = 'M00dle!!';
+$dbpass = 'M00dle??';
 
 // Defining base url
 define("BASE_URL", "");
