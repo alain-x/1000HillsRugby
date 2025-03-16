@@ -1,21 +1,25 @@
-<?php require_once('header.php'); ?>
-<!-- fetching row banner login -->
 <?php
+require_once('header.php');
+require_once('admin/inc/config.php');
+require_once('admin/inc/functions.php');
+require_once('admin/inc/CSRF_Protect.php');
+
+$csrf = new CSRF_Protect();
+$error_message = '';
+
+// Fetching row banner login
 $statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
 $statement->execute();
-$result = $statement->fetchAll(PDO::FETCH_ASSOC);                            
+$result = $statement->fetchAll(PDO::FETCH_ASSOC);
 foreach ($result as $row) {
     $banner_login = $row['banner_login'];
 }
-?>
-<!-- login form -->
-<?php
-if(isset($_POST['form1'])) {
-        
-    if(empty($_POST['cust_email']) || empty($_POST['cust_password'])) {
-        $error_message = LANG_VALUE_132.'<br>';
+
+// Login form
+if (isset($_POST['form1'])) {
+    if (empty($_POST['cust_email']) || empty($_POST['cust_password'])) {
+        $error_message = LANG_VALUE_132 . '<br>';
     } else {
-        
         $cust_email = strip_tags($_POST['cust_email']);
         $cust_password = strip_tags($_POST['cust_password']);
 
@@ -23,26 +27,26 @@ if(isset($_POST['form1'])) {
         $statement->execute(array($cust_email));
         $total = $statement->rowCount();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        foreach($result as $row) {
+        foreach ($result as $row) {
             $cust_status = $row['cust_status'];
             $row_password = $row['cust_password'];
         }
 
-        if($total==0) {
-            $error_message .= LANG_VALUE_133.'<br>';
+        if ($total == 0) {
+            $error_message .= LANG_VALUE_133 . '<br>';
         } else {
-            //using MD5 form
-            if( $row_password != md5($cust_password) ) {
-                $error_message .= LANG_VALUE_139.'<br>';
+            // Using MD5 for password verification (not recommended)
+            if ($row_password != md5($cust_password)) {
+                $error_message .= LANG_VALUE_139 . '<br>';
             } else {
-                if($cust_status == 0) {
-                    $error_message .= LANG_VALUE_148.'<br>';
+                if ($cust_status == 0) {
+                    $error_message .= LANG_VALUE_148 . '<br>';
                 } else {
                     $_SESSION['customer'] = $row;
-                    header("location: ".BASE_URL."dashboard.php");
+                    header("location: " . BASE_URL . "dashboard.php");
+                    exit();
                 }
             }
-            
         }
     }
 }
@@ -59,19 +63,17 @@ if(isset($_POST['form1'])) {
         <div class="row">
             <div class="col-md-12">
                 <div class="user-content">
-
-                    
                     <form action="" method="post">
-                        <?php $csrf->echoInputField(); ?>                  
+                        <?php $csrf->echoInputField(); ?>
                         <div class="row">
                             <div class="col-md-4"></div>
                             <div class="col-md-4">
                                 <?php
-                                if($error_message != '') {
-                                    echo "<div class='error' style='padding: 10px;background:#f1f1f1;margin-bottom:20px;'>".$error_message."</div>";
+                                if ($error_message != '') {
+                                    echo "<div class='error' style='padding: 10px;background:#f1f1f1;margin-bottom:20px;'>" . $error_message . "</div>";
                                 }
-                                if($success_message != '') {
-                                    echo "<div class='success' style='padding: 10px;background:#f1f1f1;margin-bottom:20px;'>".$success_message."</div>";
+                                if ($success_message != '') {
+                                    echo "<div class='success' style='padding: 10px;background:#f1f1f1;margin-bottom:20px;'>" . $success_message . "</div>";
                                 }
                                 ?>
                                 <div class="form-group">
@@ -88,9 +90,9 @@ if(isset($_POST['form1'])) {
                                 </div>
                                 <a href="forget-password.php" style="color:#e4144d;"><?php echo LANG_VALUE_97; ?>?</a>
                             </div>
-                        </div>                        
+                        </div>
                     </form>
-                </div>                
+                </div>
             </div>
         </div>
     </div>
