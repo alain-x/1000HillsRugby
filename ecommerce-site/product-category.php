@@ -11,12 +11,12 @@ foreach ($result as $row) {
 
 <?php
 if( !isset($_REQUEST['id']) || !isset($_REQUEST['type']) ) {
-    header('location: shop.php');
+    header('location: index.php');
     exit;
 } else {
 
     if( ($_REQUEST['type'] != 'top-category') && ($_REQUEST['type'] != 'mid-category') && ($_REQUEST['type'] != 'end-category') ) {
-        header('location: shop.php');
+        header('location: index.php');
         exit;
     } else {
 
@@ -48,7 +48,7 @@ if( !isset($_REQUEST['id']) || !isset($_REQUEST['type']) ) {
 
         if($_REQUEST['type'] == 'top-category') {
             if(!in_array($_REQUEST['id'],$top)) {
-                header('location: shop.php');
+                header('location: index.php');
                 exit;
             } else {
 
@@ -80,7 +80,7 @@ if( !isset($_REQUEST['id']) || !isset($_REQUEST['type']) ) {
 
         if($_REQUEST['type'] == 'mid-category') {
             if(!in_array($_REQUEST['id'],$mid)) {
-                header('location: shop.php');
+                header('location: index.php');
                 exit;
             } else {
                 // Getting Title
@@ -103,7 +103,7 @@ if( !isset($_REQUEST['id']) || !isset($_REQUEST['type']) ) {
 
         if($_REQUEST['type'] == 'end-category') {
             if(!in_array($_REQUEST['id'],$end)) {
-                header('location: shop.php');
+                header('location: index.php');
                 exit;
             } else {
                 // Getting Title

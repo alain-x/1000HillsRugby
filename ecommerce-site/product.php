@@ -2,7 +2,7 @@
 
 <?php
 if(!isset($_REQUEST['id'])) {
-    header('location: shop.php');
+    header('location: index.php');
     exit;
 } else {
     // Check the id is valid or not
@@ -11,7 +11,7 @@ if(!isset($_REQUEST['id'])) {
     $total = $statement->rowCount();
     $result = $statement->fetchAll(PDO::FETCH_ASSOC);
     if( $total == 0 ) {
-        header('location: shop.php');
+        header('location: index.php');
         exit;
     }
 }
