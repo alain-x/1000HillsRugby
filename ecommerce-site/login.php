@@ -44,7 +44,7 @@ if (isset($_POST['form1'])) {
                 } else {
                     $_SESSION['customer'] = $row;
                     header("location: " . BASE_URL . "dashboard.php");
-                    exit();
+                    
                 }
             }
         }
