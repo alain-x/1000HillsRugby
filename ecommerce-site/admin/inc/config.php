@@ -7,15 +7,15 @@ date_default_timezone_set('America/Los_Angeles');
 
 // Database Configuration
 $dbhost = 'localhost'; // server
-// $dbname = 'hillsrug_ecommerceweb'; // database name
-// $dbuser = 'hillsrug_gasore'; // database username
-// $dbpass = 'M00dle??'; // database password
+ $dbname = 'hillsrug_ecommerceweb'; // database name
+ $dbuser = 'hillsrug_gasore'; // database username
+ $dbpass = 'M00dle??'; // database password
 
 // Database Configuration
-$dbhost = 'localhost'; // server
-$dbname = 'ecommerceweb'; // database name
-$dbuser = 'root'; // database username
-$dbpass = '1234'; // database password
+//$dbhost = 'localhost'; // server
+//$dbname = 'ecommerceweb'; // database name
+//$dbuser = 'root'; // database username
+//$dbpass = '1234'; // database password
 
 // Defining base url
 if (!defined('BASE_URL')) {
