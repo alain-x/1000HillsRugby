@@ -187,8 +187,8 @@ foreach ($result as $row) {
 <?php echo $after_body; ?>
 
 <!-- Top Bar -->
-<div class="top">
-    <div class="container">
+<div class="top"style="background-color: #ff6600;">
+    <div class="container" >
         <div class="row">
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="left">
@@ -253,7 +253,7 @@ foreach ($result as $row) {
                             }
                             echo $table_total_price;
                         } else {
-                            echo '0.00';
+                            echo ' 0.00';
                         }
                         ?>)</a></li>
                 </ul>

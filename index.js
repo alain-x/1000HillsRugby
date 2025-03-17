@@ -58,8 +58,9 @@ startCountdown(new Date("Mar 23, 2025 02:00:00").getTime());
 const slideshowImages = [
   "./uploads/1740072895_fans.JPG",
   "./images/bg001.jpg",
-  "./images/2OP.png",
+  "./images/allmember1.jpg",
   "./images/bg003.jpg",
+  "./images/IMG_8658.JPG",
 ];
 let currentSlideshowIndex = 0; // Keep track of the current image index
 let slideshowInterval; // Store the interval reference
