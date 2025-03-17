@@ -85,7 +85,7 @@ $result = $conn->query($sql);
             <a
               class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
               href="./education"
-              >1HR EDUCATION PROGRAM</a
+              >1HR Education Program</a
             >
           </li>
           <li>
@@ -345,7 +345,7 @@ $result = $conn->query($sql);
                 <a
                   class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
                   href="./education"
-                  >1HR EDUCATION PROGRAM</a
+                  >1HR Education Program</a
                 >
               </li>
               <li>
