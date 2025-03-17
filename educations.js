@@ -28,9 +28,9 @@ const supportChart = new Chart(ctx, {
   data: {
     labels: [
       "Total Beneficiaries",
-      "Supported by BG-3",
-      "Girls (GG-4)",
-      "Boys (GG-4)",
+      "Supported by SESLA",
+      "Girls (SESLA)",
+      "Boys (SESLA)",
     ],
     datasets: [
       {
