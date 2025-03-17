@@ -267,6 +267,23 @@ if($success_message1 != '') {
 }
 ?>
 
+<!-- Add Custom CSS for Add to Cart Button -->
+<style>
+    .btn-cart input[type="submit"] {
+        background-color: #ff6600; /* Orange background */
+        border-radius: 20px; /* Rounded corners */
+        border-color: #ff6600; /* Border color */
+        color: white; /* White text */
+        padding: 10px 20px; /* Padding */
+        cursor: pointer; /* Pointer cursor on hover */
+        transition: background-color 0.3s ease; /* Smooth transition */
+    }
+
+    .btn-cart input[type="submit"]:hover {
+        background-color: #e65c00; /* Darker orange on hover */
+    }
+</style>
+
 <div class="page">
     <div class="container">
         <div class="row">
@@ -446,7 +463,7 @@ if($success_message1 != '') {
                                 <?php echo LANG_VALUE_55; ?> <br>
                                 <input type="number" class="input-text qty" step="1" min="1" max="" name="p_qty" value="1" title="Qty" size="4" pattern="[0-9]*" inputmode="numeric">
                             </div>
-                            <div class="btn-cart btn-cart1">
+                            <div class="btn-cart">
                                 <input type="submit" value="<?php echo LANG_VALUE_154; ?>" name="form_add_to_cart">
                             </div>
                             </form>
@@ -639,9 +656,7 @@ if($success_message1 != '') {
         </div>
         <div class="row">
             <div class="col-md-12">
-
                 <div class="product-carousel">
-
                     <?php
                     $statement = $pdo->prepare("SELECT * FROM tbl_product WHERE ecat_id=? AND p_id!=?");
                     $statement->execute(array($ecat_id,$_REQUEST['id']));
@@ -651,7 +666,7 @@ if($success_message1 != '') {
                         <div class="item">
                             <div class="thumb">
                                 <div class="photo" style="background-image:url(assets/uploads/<?php echo $row['p_featured_photo']; ?>);"></div>
-                                <div class="overlay"></div>
+                                <!-- Removed the overlay div to remove hover effect -->
                             </div>
                             <div class="text">
                                 <h3><a href="product.php?id=<?php echo $row['p_id']; ?>"><?php echo $row['p_name']; ?></a></h3>
@@ -659,7 +674,7 @@ if($success_message1 != '') {
                                     RWF <?php echo $row['p_current_price']; ?> 
                                     <?php if($row['p_old_price'] != ''): ?>
                                     <del>
-                                        RWF <?php echo $row['p_old_price']; ?>
+                                        <?php echo $row['p_old_price']; ?>
                                     </del>
                                     <?php endif; ?>
                                 </h4>
@@ -732,18 +747,20 @@ if($success_message1 != '') {
                                     }
                                     ?>
                                 </div>
-                                <p><a href="product.php?id=<?php echo $row['p_id']; ?>"><?php echo LANG_VALUE_154; ?></a></p>
+                                <!-- Updated "Add to Cart" button -->
+                                <p>
+                                    <a href="product.php?id=<?php echo $row['p_id']; ?>" class="add-to-cart-button" style="background-color: #ff6600; border-radius:20px; border-color: #ff6600;">
+                                        <?php echo LANG_VALUE_154; ?>
+                                    </a>
+                                </p>
                             </div>
                         </div>
                         <?php
                     }
                     ?>
-
                 </div>
-
             </div>
         </div>
     </div>
 </div>
-
 <?php require_once('footer.php'); ?>

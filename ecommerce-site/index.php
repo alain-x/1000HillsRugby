@@ -120,13 +120,12 @@ $home_popular_product_on_off = $settings['home_popular_product_on_off'];
                             echo '<div class="item">';
                             echo '<div class="thumb">';
                             echo '<div class="photo" style="background-image:url(assets/uploads/' . $product['p_featured_photo'] . ');"></div>';
-                            echo '<div class="overlay"></div>';
                             echo '</div>';
                             echo '<div class="text">';
                             echo '<h3><a href="product.php?id=' . $product['p_id'] . '">' . $product['p_name'] . '</a></h3>';
                             echo '<h4>RWF' . $product['p_current_price'];
                             if (!empty($product['p_old_price'])) {
-                                echo '<del>RWF' . $product['p_old_price'] . '</del>';
+                                echo '<del> ' . $product['p_old_price'] . '</del>';
                             }
                             echo '</h4>';
                             echo '<div class="rating">';
@@ -152,7 +151,7 @@ $home_popular_product_on_off = $settings['home_popular_product_on_off'];
                             if ($product['p_qty'] == 0) {
                                 echo '<div class="out-of-stock"><div class="inner">Out Of Stock</div></div>';
                             } else {
-                                echo '<p><a href="product.php?id=' . $product['p_id'] . '"><i class="fa fa-shopping-cart"></i> Add to Cart</a></p>';
+                                echo '<p><a href="product.php?id=' . $product['p_id'] . '" class="add-to-cart-button" style="background-color: #ff6600; border-radius:20px; border-color: #ff6600;"><i class="fa fa-shopping-cart"></i> Add to Cart</a></p>';
                             }
                             echo '</div></div>';
                         }
@@ -187,13 +186,12 @@ $home_popular_product_on_off = $settings['home_popular_product_on_off'];
                             echo '<div class="item">';
                             echo '<div class="thumb">';
                             echo '<div class="photo" style="background-image:url(assets/uploads/' . $product['p_featured_photo'] . ');"></div>';
-                            echo '<div class="overlay"></div>';
                             echo '</div>';
                             echo '<div class="text">';
                             echo '<h3><a href="product.php?id=' . $product['p_id'] . '">' . $product['p_name'] . '</a></h3>';
                             echo '<h4>RWF' . $product['p_current_price'];
                             if (!empty($product['p_old_price'])) {
-                                echo '<del>RWF' . $product['p_old_price'] . '</del>';
+                                echo '<del> ' . $product['p_old_price'] . '</del>';
                             }
                             echo '</h4>';
                             echo '<div class="rating">';
@@ -219,7 +217,7 @@ $home_popular_product_on_off = $settings['home_popular_product_on_off'];
                             if ($product['p_qty'] == 0) {
                                 echo '<div class="out-of-stock"><div class="inner">Out Of Stock</div></div>';
                             } else {
-                                echo '<p><a href="product.php?id=' . $product['p_id'] . '"><i class="fa fa-shopping-cart"></i> Add to Cart</a></p>';
+                                echo '<p><a href="product.php?id=' . $product['p_id'] . '" class="add-to-cart-button" style="background-color: #ff6600; border-radius:20px; border-color: #ff6600;"><i class="fa fa-shopping-cart"></i> Add to Cart</a></p>';
                             }
                             echo '</div></div>';
                         }
@@ -254,13 +252,12 @@ $home_popular_product_on_off = $settings['home_popular_product_on_off'];
                             echo '<div class="item">';
                             echo '<div class="thumb">';
                             echo '<div class="photo" style="background-image:url(assets/uploads/' . $product['p_featured_photo'] . ');"></div>';
-                            echo '<div class="overlay"></div>';
                             echo '</div>';
                             echo '<div class="text">';
                             echo '<h3><a href="product.php?id=' . $product['p_id'] . '">' . $product['p_name'] . '</a></h3>';
                             echo '<h4>RWF' . $product['p_current_price'];
                             if (!empty($product['p_old_price'])) {
-                                echo '<del>RWF' . $product['p_old_price'] . '</del>';
+                                echo '<del> ' . $product['p_old_price'] . '</del>';
                             }
                             echo '</h4>';
                             echo '<div class="rating">';
@@ -286,7 +283,7 @@ $home_popular_product_on_off = $settings['home_popular_product_on_off'];
                             if ($product['p_qty'] == 0) {
                                 echo '<div class="out-of-stock"><div class="inner">Out Of Stock</div></div>';
                             } else {
-                                echo '<p><a href="product.php?id=' . $product['p_id'] . '"><i class="fa fa-shopping-cart"></i> Add to Cart</a></p>';
+                                echo '<p><a href="product.php?id=' . $product['p_id'] . '" class="add-to-cart-button" style="background-color: #ff6600; border-radius:20px; border-color: #ff6600;"><i class="fa fa-shopping-cart"></i> Add to Cart</a></p>';
                             }
                             echo '</div></div>';
                         }
