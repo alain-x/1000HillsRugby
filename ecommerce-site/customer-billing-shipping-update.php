@@ -1,4 +1,6 @@
-<?php require_once('header.php'); ?>
+<?php 
+require_once('header.php');
+?>
 
 <?php
 // Check if the customer is logged in or not
@@ -19,7 +21,6 @@ if(!isset($_SESSION['customer'])) {
 
 <?php
 if (isset($_POST['form1'])) {
-
 
     // update data into the database
     $statement = $pdo->prepare("UPDATE tbl_customer SET 
@@ -80,6 +81,9 @@ if (isset($_POST['form1'])) {
     $_SESSION['customer']['cust_s_state'] = strip_tags($_POST['cust_s_state']);
     $_SESSION['customer']['cust_s_zip'] = strip_tags($_POST['cust_s_zip']);
 
+    // Redirect to checkout page after successful update
+    header("Location: checkout.php");
+    exit();
 }
 ?>
 
@@ -202,6 +206,5 @@ if (isset($_POST['form1'])) {
         </div>
     </div>
 </div>
-
 
 <?php require_once('footer.php'); ?>
