@@ -177,7 +177,7 @@ foreach ($result as $row) {
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="submit" value="Send Message" class="btn btn-primary pull-right" name="form_contact">
+                                    <input type="submit" value="Send Message" class="btn btn-primary pull-right" name="form_contact" style="background-color: #ff6600; border-radius: 20px; border-color: #ff6600; width: 290px;">
                                 </div>
                             </div>
                             </form>
