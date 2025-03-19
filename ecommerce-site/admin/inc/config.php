@@ -1,12 +1,12 @@
 <?php
 // Database Configuration
 define('DB_HOST', 'localhost'); // Database host
-define('DB_NAME', 'hillsrug_ecommerceweb'); // Database name
-define('DB_USER', 'hillsrug_gasore'); // Database username
-define('DB_PASS', 'M00dle??'); // Database password
+define('DB_NAME', 'ecommerceweb'); // Database name
+define('DB_USER', 'root'); // Database username
+define('DB_PASS', '1234'); // Database password
 
 // Base URL Configuration
-define('BASE_URL', 'https://www.1000hillsrugby.rw/ecommerce-site/'); // Base URL of the site
+define('BASE_URL', ''); // Base URL of the site
 define('ADMIN_URL', BASE_URL . 'admin/'); // Admin URL
 
 // Error Reporting

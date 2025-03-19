@@ -302,13 +302,25 @@ if($success_message1 != '') {
                     </ul>
                 </div>
 
-                <div class="product">
+                <div class="product" style="margin-top: 60px;">
                     <div class="row">
                         <div class="col-md-5">
                             <ul class="prod-slider">
-                                <li style="background-image: url(assets/uploads/<?php echo $p_featured_photo; ?>);">
-                                    <a class="popup" href="assets/uploads/<?php echo $p_featured_photo; ?>"></a>
-                                </li>
+                            <li style="
+    background-image: url(assets/uploads/<?php echo $p_featured_photo; ?>);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 430px; /* Default height for desktop */
+    width: 100%;
+    @media (max-width: 767px) {
+        height: 250px; /* Adjust height for mobile */
+        padding: 10px; /* Add padding for mobile */
+        margin-bottom: 20px; /* Add margin for mobile */
+    }
+">
+    <a class="popup" href="assets/uploads/<?php echo $p_featured_photo; ?>"></a>
+</li>
                                 <?php
                                 $statement = $pdo->prepare("SELECT * FROM tbl_product_photo WHERE p_id=?");
                                 $statement->execute(array($_REQUEST['id']));
