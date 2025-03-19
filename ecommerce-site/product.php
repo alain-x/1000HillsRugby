@@ -451,7 +451,7 @@ if($success_message1 != '') {
                                 <span style="font-size:14px;"><?php echo LANG_VALUE_54; ?></span><br>
                                 <span>
                                     <?php if($p_old_price!=''): ?>
-                                        <del>RWF <?php echo $p_old_price; ?></del>
+                                        <del>RWF  <?php echo $p_old_price; ?></del>
                                     <?php endif; ?> 
                                         RWF <?php echo $p_current_price; ?>
                                 </span>
@@ -671,7 +671,7 @@ if($success_message1 != '') {
                             <div class="text">
                                 <h3><a href="product.php?id=<?php echo $row['p_id']; ?>"><?php echo $row['p_name']; ?></a></h3>
                                 <h4>
-                                    RWF <?php echo $row['p_current_price']; ?> 
+                                    RWF  <?php echo $row['p_current_price']; ?> 
                                     <?php if($row['p_old_price'] != ''): ?>
                                     <del>
                                         <?php echo $row['p_old_price']; ?>

@@ -121,6 +121,20 @@ if( !isset($_REQUEST['id']) || !isset($_REQUEST['type']) ) {
 }
 ?>
 
+<!-- Add this style block to remove hover effects on the product image -->
+<style>
+    .photo {
+        transition: none !important; /* Remove any transitions */
+    }
+    .photo:hover {
+        opacity: 1 !important; /* Ensure no opacity change on hover */
+        transform: none !important; /* Ensure no scaling or transformations on hover */
+    }
+    .overlay {
+        display: none !important; /* Hide the overlay if it exists */
+    }
+</style>
+
 <div class="page-banner" style="background-image: url(assets/uploads/<?php echo $banner_product_category; ?>)">
     <div class="inner">
         <h1><?php echo LANG_VALUE_50; ?> <?php echo $title; ?></h1>
@@ -173,10 +187,10 @@ if( !isset($_REQUEST['id']) || !isset($_REQUEST['type']) ) {
                                             <div class="text">
                                                 <h3><a href="product.php?id=<?php echo $row['p_id']; ?>"><?php echo $row['p_name']; ?></a></h3>
                                                 <h4>
-                                                    <?php echo 'RWF'; ?><?php echo $row['p_current_price']; ?> 
+                                                    <?php echo 'RWF '; ?> <?php echo $row['p_current_price']; ?> 
                                                     <?php if($row['p_old_price'] != ''): ?>
                                                     <del>
-                                                        <?php echo 'RWF'; ?><?php echo $row['p_old_price']; ?>
+                                                        <?php echo ' '; ?><?php echo $row['p_old_price']; ?>
                                                     </del>
                                                     <?php endif; ?>
                                                 </h4>
@@ -256,7 +270,7 @@ if( !isset($_REQUEST['id']) || !isset($_REQUEST['type']) ) {
                                                         </div>
                                                     </div>
                                                 <?php else: ?>
-                                                    <p><a href="product.php?id=<?php echo $row['p_id']; ?>"><i class="fa fa-shopping-cart"></i> <?php echo LANG_VALUE_154; ?></a></p>
+                                                    <p><a href="product.php?id=<?php echo $row['p_id']; ?>" style="background-color: #ff6600; border-radius: 20px; border-color: #ff6600;"><i class="fa fa-shopping-cart"></i> <?php echo LANG_VALUE_154; ?></a></p>
                                                 <?php endif; ?>
                                             </div>
                                         </div>

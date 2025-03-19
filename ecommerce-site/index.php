@@ -123,7 +123,7 @@ $home_popular_product_on_off = $settings['home_popular_product_on_off'];
                             echo '</div>';
                             echo '<div class="text">';
                             echo '<h3><a href="product.php?id=' . $product['p_id'] . '">' . $product['p_name'] . '</a></h3>';
-                            echo '<h4>RWF' . $product['p_current_price'];
+                            echo '<h4>RWF ' . $product['p_current_price'];
                             if (!empty($product['p_old_price'])) {
                                 echo '<del> ' . $product['p_old_price'] . '</del>';
                             }
@@ -189,7 +189,7 @@ $home_popular_product_on_off = $settings['home_popular_product_on_off'];
                             echo '</div>';
                             echo '<div class="text">';
                             echo '<h3><a href="product.php?id=' . $product['p_id'] . '">' . $product['p_name'] . '</a></h3>';
-                            echo '<h4>RWF' . $product['p_current_price'];
+                            echo '<h4>RWF ' . $product['p_current_price'];
                             if (!empty($product['p_old_price'])) {
                                 echo '<del> ' . $product['p_old_price'] . '</del>';
                             }
@@ -255,7 +255,7 @@ $home_popular_product_on_off = $settings['home_popular_product_on_off'];
                             echo '</div>';
                             echo '<div class="text">';
                             echo '<h3><a href="product.php?id=' . $product['p_id'] . '">' . $product['p_name'] . '</a></h3>';
-                            echo '<h4>RWF' . $product['p_current_price'];
+                            echo '<h4>RWF ' . $product['p_current_price'];
                             if (!empty($product['p_old_price'])) {
                                 echo '<del> ' . $product['p_old_price'] . '</del>';
                             }
