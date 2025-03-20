@@ -167,7 +167,7 @@ if(!isset($_SESSION['customer'])) {
                                         </td>
                                         <td><?php echo $row['payment_date']; ?></td>
                                         <td><?php echo $row['txnid']; ?></td>
-                                        <td><?php echo '$'.$row['paid_amount']; ?></td>
+                                        <td><?php echo 'Rwf '.$row['paid_amount']; ?></td>
                                         <td><?php echo $row['payment_status']; ?></td>
                                         <td><?php echo $row['payment_method']; ?></td>
                                         <td><?php echo $row['payment_id']; ?></td>
