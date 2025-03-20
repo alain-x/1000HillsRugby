@@ -50,7 +50,7 @@ function startCountdown(eventDate) {
     }
   }, 1000);
 }
-startCountdown(new Date("Mar 23, 2025 02:00:00").getTime());
+startCountdown(new Date("Mar 29, 2025 02:00:00").getTime());
 //********************* *
 //***************** *
 
