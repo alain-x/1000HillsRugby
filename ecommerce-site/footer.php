@@ -102,11 +102,11 @@ This link will be active only for 24 hours.
 			?>
 				<form action="" method="post">
 					<?php $csrf->echoInputField(); ?>
-					<h2><?php echo LANG_VALUE_93; ?></h2>
+					<h2 style="font-size:18px;"><?php echo LANG_VALUE_93; ?></h2>
 					<div class="input-group">
-			        	<input type="email" class="form-control" placeholder="<?php echo LANG_VALUE_95; ?>" name="email_subscribe">
+			        	<input type="email" class="form-control" style=" border-radius:20px; " placeholder="<?php echo LANG_VALUE_95; ?>" name="email_subscribe">
 			         	<span class="input-group-btn">
-			         	<button class="btn btn-theme" type="submit" name="form_subscribe"><?php echo LANG_VALUE_92; ?></button>
+			         	<button class="btn btn-theme" style="background-color: #ff6600; border-radius:20px; border-color: #ff6600;"type="submit" name="form_subscribe"><?php echo LANG_VALUE_92; ?></button>
 			         	</span>
 			        </div>
 				</div>

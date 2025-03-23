@@ -135,11 +135,12 @@ if( !isset($_REQUEST['id']) || !isset($_REQUEST['type']) ) {
     }
 </style>
 
-<div class="page-banner" style="background-image: url(assets/uploads/<?php echo $banner_product_category; ?>)">
-    <div class="inner">
-        <h1><?php echo LANG_VALUE_50; ?> <?php echo $title; ?></h1>
-    </div>
-</div>
+<div class="page-banner" style="background-image: url('assets/uploads/<?php echo htmlspecialchars($banner_product_category, ENT_QUOTES, 'UTF-8'); ?>');">     
+    <div class="inner" style="height: 20px;">         
+        <h1 style="font-size: 20px; margin-top: 1px;"><?php echo LANG_VALUE_50; ?> <?php echo htmlspecialchars($title, ENT_QUOTES, 'UTF-8'); ?></h1>     
+    </div> 
+</div>  
+
 
 <div class="page">
     <div class="container">

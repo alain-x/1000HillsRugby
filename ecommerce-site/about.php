@@ -12,10 +12,10 @@ foreach ($result as $row) {
 ?>
 
 <div class="page-banner" style="background-image: url(assets/uploads/<?php echo $about_banner; ?>);">
-    <div class="inner">
-        <h1><?php echo $about_title; ?></h1>
+    <div class="inner" style="height: 20px;">
+        <h1 style="font-size: 20px; margin-top: 1px;"><?php echo $about_title; ?></h1>
     </div>
-</div>
+</div>  
 
 <div class="page">
     <div class="container">
