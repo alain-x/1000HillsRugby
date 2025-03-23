@@ -272,45 +272,233 @@ foreach ($result as $row) {
 </div>
 
 <!-- Navigation -->
-<div class="nav" style="background-color: #ff6600;">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 pl_0 pr_0">
-                <div class="menu-container" style="background-color: #ff6600;">
-                    <div class="menu">
-                        <ul>
-                            <li><a href="index.php">Home</a></li>
-                            <?php
-                            $statement = $pdo->prepare("SELECT * FROM tbl_top_category WHERE show_on_menu=1");
-                            $statement->execute();
-                            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-                            foreach ($result as $row) {
-                                echo "<li><a href='product-category.php?id={$row['tcat_id']}&type=top-category'>{$row['tcat_name']}</a>";
-                                echo "<ul>";
-                                $statement1 = $pdo->prepare("SELECT * FROM tbl_mid_category WHERE tcat_id=?");
-                                $statement1->execute([$row['tcat_id']]);
-                                $result1 = $statement1->fetchAll(PDO::FETCH_ASSOC);
-                                foreach ($result1 as $row1) {
-                                    echo "<li><a href='product-category.php?id={$row1['mcat_id']}&type=mid-category'>{$row1['mcat_name']}</a>";
-                                    echo "<ul>";
-                                    $statement2 = $pdo->prepare("SELECT * FROM tbl_end_category WHERE mcat_id=?");
-                                    $statement2->execute([$row1['mcat_id']]);
-                                    $result2 = $statement2->fetchAll(PDO::FETCH_ASSOC);
-                                    foreach ($result2 as $row2) {
-                                        echo "<li><a href='product-category.php?id={$row2['ecat_id']}&type=end-category'>{$row2['ecat_name']}</a></li>";
-                                    }
-                                    echo "</ul></li>";
-                                }
-                                echo "</ul></li>";
-                            }
-                            ?>
-                            <li><a href="about.php"><?php echo $about_title; ?></a></li>
-                            <li><a href="faq.php"><?php echo $faq_title; ?></a></li>
-                            <li><a href="contact.php"><?php echo $contact_title; ?></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+<nav class="navigation">
+    <div class="nav-container">
+        <!-- Mobile Menu Toggle -->
+        <button class="menu-toggle" id="mobile-menu" aria-label="Toggle Menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+
+        <!-- Menu Wrapper -->
+        <div class="menu-wrapper" id="menu-wrapper">
+            <ul class="main-menu">
+                <li><a href="index.php">Home</a></li>
+                <?php
+                $statement = $pdo->prepare("SELECT * FROM tbl_top_category WHERE show_on_menu=1");
+                $statement->execute();
+                $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($result as $row) {
+                    echo "<li class='dropdown'><a href='product-category.php?id={$row['tcat_id']}&type=top-category'>{$row['tcat_name']}</a>";
+                    echo "<ul class='sub-menu'>";
+                    $statement1 = $pdo->prepare("SELECT * FROM tbl_mid_category WHERE tcat_id=?");
+                    $statement1->execute([$row['tcat_id']]);
+                    $result1 = $statement1->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($result1 as $row1) {
+                        echo "<li class='dropdown'><a href='product-category.php?id={$row1['mcat_id']}&type=mid-category'>{$row1['mcat_name']}</a>";
+                        echo "<ul class='sub-menu'>";
+                        $statement2 = $pdo->prepare("SELECT * FROM tbl_end_category WHERE mcat_id=?");
+                        $statement2->execute([$row1['mcat_id']]);
+                        $result2 = $statement2->fetchAll(PDO::FETCH_ASSOC);
+                        foreach ($result2 as $row2) {
+                            echo "<li><a href='product-category.php?id={$row2['ecat_id']}&type=end-category'>{$row2['ecat_name']}</a></li>";
+                        }
+                        echo "</ul></li>";
+                    }
+                    echo "</ul></li>";
+                }
+                ?>
+                <li><a href="about.php"><?php echo $about_title; ?></a></li>
+                <li><a href="faq.php"><?php echo $faq_title; ?></a></li>
+                <li><a href="contact.php"><?php echo $contact_title; ?></a></li>
+            </ul>
         </div>
     </div>
-</div>
+</nav>
+
+<style>
+    /* Navigation Styles */
+    .navigation {
+        background-color: #ff6600;
+        padding: 10px 0;
+        position: relative;
+    }
+
+    .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* Mobile Menu Toggle */
+    .menu-toggle {
+        display: none;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 30px;
+        height: 24px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        z-index: 1001;
+    }
+
+    .menu-toggle .bar {
+        width: 100%;
+        height: 3px;
+        background-color: #fff;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    /* Close Icon (X) */
+    .menu-toggle.active .bar:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .menu-toggle.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle.active .bar:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* Menu Wrapper */
+    .menu-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .main-menu {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .main-menu li {
+        position: relative;
+    }
+
+    .main-menu li a {
+        color: #fff;
+        text-decoration: none;
+        padding: 10px 15px;
+        display: block;
+        transition: background-color 0.3s ease;
+    }
+
+    .main-menu li a:hover {
+        background-color: #e65c00;
+    }
+
+    /* Dropdown Arrows */
+    .main-menu .dropdown > a::after {
+        content: "▼";
+        font-size: 10px;
+        margin-left: 5px;
+    }
+
+    /* Sub-Menu */
+    .sub-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #ff6600;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        min-width: 200px;
+        z-index: 1000;
+    }
+
+    .sub-menu li a {
+        padding: 10px;
+        white-space: nowrap;
+    }
+
+    .main-menu li:hover > .sub-menu {
+        display: block;
+    }
+
+    .sub-menu .sub-menu {
+        left: 100%;
+        top: 0;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        .menu-toggle {
+            display: flex;
+        }
+
+        .menu-wrapper {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #ff6600;
+            width: 100%;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .menu-wrapper.active {
+            display: flex;
+        }
+
+        .main-menu {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .main-menu li {
+            width: 100%;
+        }
+
+        .main-menu .dropdown > a::after {
+            content: "►";
+        }
+
+        .sub-menu {
+            position: static;
+            display: none;
+        }
+
+        .main-menu li.active > .sub-menu {
+            display: block;
+        }
+    }
+</style>
+
+<script>
+    // Toggle Mobile Menu and Change Icon
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuWrapper = document.getElementById('menu-wrapper');
+
+    mobileMenu.addEventListener('click', () => {
+        // Toggle menu visibility
+        menuWrapper.classList.toggle('active');
+        // Toggle menu icon (hamburger to close)
+        mobileMenu.classList.toggle('active');
+    });
+
+    // Handle Dropdowns on Mobile
+    document.querySelectorAll('.main-menu .dropdown > a').forEach((dropdown) => {
+        dropdown.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                const parentLi = e.target.parentElement;
+                parentLi.classList.toggle('active');
+            }
+        });
+    });
+</script>
