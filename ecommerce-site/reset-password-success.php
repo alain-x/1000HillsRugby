@@ -10,8 +10,8 @@ foreach ($result as $row) {
 ?>
 
 <div class="page-banner" style="background-color:#444;background-image: url(assets/uploads/<?php echo $banner_forget_password; ?>);">
-    <div class="inner">
-        <h1><?php echo LANG_VALUE_149; ?></h1>
+    <div class="inner" style="height: 20px;">
+        <h1 style="font-size: 20px; margin-top: 1px;"><?php echo LANG_VALUE_149; ?></h1>
     </div>
 </div>
 
