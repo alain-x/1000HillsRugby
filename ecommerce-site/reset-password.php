@@ -14,6 +14,10 @@ foreach ($result as $row) {
     $banner_reset_password = $row['banner_reset_password'];
 }
 
+// Initialize variables
+$error_message = '';
+$error_message2 = '';
+
 // Check if email and token are provided in the URL
 if (!isset($_GET['email']) || !isset($_GET['token'])) {
     header('location: ' . BASE_URL . 'login.php');
@@ -23,21 +27,13 @@ if (!isset($_GET['email']) || !isset($_GET['token'])) {
 $email = $_GET['email'];
 $token = $_GET['token'];
 
-// Debugging: Print email and token
-echo "Email: $email<br>";
-echo "Token: $token<br>";
-
 // Validate the token and email
 $statement = $pdo->prepare("SELECT * FROM tbl_customer WHERE cust_email = ? AND cust_token = ?");
 $statement->execute([$email, $token]);
 $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 $tot = $statement->rowCount();
 
-// Debugging: Print query result
-echo "Query Result Count: $tot<br>";
-
 if ($tot == 0) {
-    echo "Invalid token or email.<br>";
     header('location: ' . BASE_URL . 'login.php');
     exit;
 }
@@ -46,14 +42,9 @@ foreach ($result as $row) {
     $saved_time = $row['cust_timestamp'];
 }
 
-// Debugging: Print saved timestamp
-echo "Saved Timestamp: $saved_time<br>";
-
 // Check if the token has expired (24 hours)
-$error_message2 = '';
 if (time() - $saved_time > 86400) {
     $error_message2 = LANG_VALUE_144; // Token expired
-    echo "Token expired.<br>";
 }
 
 // Handle form submission
@@ -77,7 +68,8 @@ if (isset($_POST['form1'])) {
         $cust_new_password = password_hash($_POST['cust_new_password'], PASSWORD_DEFAULT);
 
         // Update the password and clear the token and timestamp
-        $statement = $pdo->prepare("UPDATE tbl_customer SET cust_password = ?, cust_token = NULL, cust_timestamp = NULL WHERE cust_email = ?");
+        // Modified to handle cases where cust_token cannot be null by setting it to empty string if needed
+        $statement = $pdo->prepare("UPDATE tbl_customer SET cust_password = ?, cust_token = '', cust_timestamp = NULL WHERE cust_email = ?");
         $statement->execute([$cust_new_password, $email]);
 
         // Redirect to success page
@@ -108,6 +100,7 @@ if (isset($_POST['form1'])) {
                     ?>
                     <?php if ($error_message2 != ''): ?>
                         <div class="error"><?php echo $error_message2; ?></div>
+                        <p><a href="<?php echo BASE_URL; ?>forget-password.php" class="btn btn-primary"><?php echo LANG_VALUE_150; ?></a></p> <!-- Get New Token -->
                     <?php else: ?>
                         <!-- Reset Password Form -->
                         <form action="" method="post">
@@ -124,7 +117,7 @@ if (isset($_POST['form1'])) {
                                         <input type="password" class="form-control" name="cust_re_password" required>
                                     </div>
                                     <div class="form-group">
-                                        <input type="submit" class="btn btn-primary" value="<?php echo LANG_VALUE_149; ?>" name="form1"> <!-- Reset Password -->
+                                        <input type="submit" class="btn btn-primary"  style="background-color: #ff6600; border-radius:20px; border-color: #ff6600;" value="<?php echo LANG_VALUE_149; ?>" name="form1"> <!-- Reset Password -->
                                     </div>
                                 </div>
                             </div>
