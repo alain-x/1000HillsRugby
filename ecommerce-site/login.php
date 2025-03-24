@@ -18,7 +18,23 @@ if (isset($_POST['form1'])) {
         if ($total == 0) {
             $error_message .= LANG_VALUE_133 . '<br>';
         } else {
-            if ($result['cust_password'] != md5($cust_password)) {
+            // Check both password formats (md5 for old passwords and password_verify for new ones)
+            $password_valid = false;
+            
+            // First try modern password_verify
+            if (password_verify($cust_password, $result['cust_password'])) {
+                $password_valid = true;
+            } 
+            // Then fall back to md5 for legacy passwords
+            elseif ($result['cust_password'] == md5($cust_password)) {
+                $password_valid = true;
+                // Upgrade to modern hashing
+                $new_hash = password_hash($cust_password, PASSWORD_DEFAULT);
+                $pdo->prepare("UPDATE tbl_customer SET cust_password = ? WHERE cust_id = ?")
+                   ->execute([$new_hash, $result['cust_id']]);
+            }
+
+            if (!$password_valid) {
                 $error_message .= LANG_VALUE_139 . '<br>';
             } else {
                 if ($result['cust_status'] == 0) {
@@ -64,7 +80,7 @@ if (isset($_POST['form1'])) {
                                     <input type="password" class="form-control" name="cust_password" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="submit" class="btn btn-success" value="<?php echo LANG_VALUE_4; ?>" name="form1">
+                                    <input type="submit" class="btn btn-success"  style="background-color: #ff6600; border-radius:20px; border-color: #ff6600;" value="<?php echo LANG_VALUE_4; ?>" name="form1">
                                 </div>
                                 <a href="forget-password.php" style="color:#e4144d;"><?php echo LANG_VALUE_97; ?>?</a>
                             </div>
