@@ -67,9 +67,13 @@ if (isset($_POST['form1'])) {
         // Hash the new password
         $cust_new_password = password_hash($_POST['cust_new_password'], PASSWORD_DEFAULT);
 
-        // Update the password and clear the token and timestamp
-        // Modified to handle cases where cust_token cannot be null by setting it to empty string if needed
-        $statement = $pdo->prepare("UPDATE tbl_customer SET cust_password = ?, cust_token = '', cust_timestamp = NULL WHERE cust_email = ?");
+        // Update the password and reset token fields
+        // Using 0 for timestamp instead of NULL since column doesn't allow NULL
+        $statement = $pdo->prepare("UPDATE tbl_customer SET 
+                                    cust_password = ?, 
+                                    cust_token = '', 
+                                    cust_timestamp = 0 
+                                    WHERE cust_email = ?");
         $statement->execute([$cust_new_password, $email]);
 
         // Redirect to success page
@@ -81,8 +85,8 @@ if (isset($_POST['form1'])) {
 
 <!-- Page Banner -->
 <div class="page-banner" style="background-color:#444;background-image: url(assets/uploads/<?php echo $banner_reset_password; ?>);">
-    <div class="inner">
-        <h1><?php echo LANG_VALUE_149; ?></h1> <!-- Reset Password -->
+    <div class="inner" style="height: 20px;">
+        <h1 style="font-size: 20px; margin-top: 1px;"><?php echo LANG_VALUE_149; ?></h1> <!-- Reset Password -->
     </div>
 </div>
 
@@ -117,7 +121,7 @@ if (isset($_POST['form1'])) {
                                         <input type="password" class="form-control" name="cust_re_password" required>
                                     </div>
                                     <div class="form-group">
-                                        <input type="submit" class="btn btn-primary"  style="background-color: #ff6600; border-radius:20px; border-color: #ff6600;" value="<?php echo LANG_VALUE_149; ?>" name="form1"> <!-- Reset Password -->
+                                        <input type="submit" class="btn btn-primary" style="background-color: #ff6600; border-radius:20px; border-color: #ff6600;"value="<?php echo LANG_VALUE_149; ?>" name="form1"> <!-- Reset Password -->
                                     </div>
                                 </div>
                             </div>

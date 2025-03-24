@@ -99,7 +99,7 @@ if(isset($_POST['form1'])) {
 
 <!-- Page Banner -->
 <div class="page-banner" style="background-color:#444;background-image: url(assets/uploads/<?php echo $banner_forget_password; ?>);">
-    <div class="inner" style="height: 2px;">
+    <div class="inner" style="height: 20px;">
         <h1 style="font-size: 20px; margin-top: 1px;"><?php echo LANG_VALUE_97; ?></h1> <!-- Forgot Password -->
     </div>
 </div>
@@ -132,7 +132,7 @@ if(isset($_POST['form1'])) {
                                 </div>
                                 <div class="form-group">
                                     <label for=""></label>
-                                    <input type="submit" class="btn btn-primary" value="<?php echo LANG_VALUE_4; ?>" name="form1"> <!-- Submit -->
+                                    <input type="submit" class="btn btn-primary" style="background-color: #ff6600; border-radius:20px; border-color: #ff6600;" value="<?php echo LANG_VALUE_4; ?>" name="form1"> <!-- Submit -->
                                 </div>
                                 <a href="login.php" style="color:#e4144d;"><?php echo LANG_VALUE_12; ?></a> <!-- Back to Login -->
                             </div>
