@@ -18,8 +18,8 @@ if(!isset($_SESSION['cart_p_id'])) {
 
 <div class="page-banner" style="background-image: url(assets/uploads/<?php echo $banner_checkout; ?>)">
     <div class="overlay"></div>
-    <div class="page-banner-inner">
-        <h1><?php echo LANG_VALUE_22; ?></h1>
+    <div class="page-banner-inner" style="height: 20px;">
+        <h1 style="font-size: 20px; margin-top: 1px;"><?php echo LANG_VALUE_22; ?></h1>
     </div>
 </div>
 

@@ -267,22 +267,98 @@ if($success_message1 != '') {
 }
 ?>
 
-<!-- Add Custom CSS for Add to Cart Button -->
+<!-- Add Custom CSS for Mobile Popup and Add to Cart Button -->
 <style>
+    /* Mobile Popup Fix */
+    .popup {
+        display: block;
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+    
+    @media (max-width: 767px) {
+        .popup {
+            position: static;
+            height: auto;
+        }
+        
+        .prod-slider li {
+            height: 300px; /* Adjust height for mobile */
+            background-size: contain !important;
+            background-repeat: no-repeat !important;
+            background-position: center !important;
+        }
+    }
+    
+    /* Add to Cart Button Styling */
     .btn-cart input[type="submit"] {
-        background-color: #ff6600; /* Orange background */
-        border-radius: 20px; /* Rounded corners */
-        border-color: #ff6600; /* Border color */
-        color: white; /* White text */
-        padding: 10px 20px; /* Padding */
-        cursor: pointer; /* Pointer cursor on hover */
-        transition: background-color 0.3s ease; /* Smooth transition */
+        background-color: #ff6600;
+        border-radius: 20px;
+        border-color: #ff6600;
+        color: white;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
     }
 
     .btn-cart input[type="submit"]:hover {
-        background-color: #e65c00; /* Darker orange on hover */
+        background-color: #e65c00;
+    }
+    
+    /* Product Image Zoom for Mobile */
+    @media (max-width: 767px) {
+        .prod-slider {
+            margin-bottom: 15px;
+        }
+        
+        #prod-pager {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        #prod-pager a {
+            margin: 5px;
+        }
+        
+        .prod-pager-thumb {
+            width: 60px;
+            height: 60px;
+        }
     }
 </style>
+
+<!-- Initialize Magnific Popup for image zoom -->
+<script>
+$(document).ready(function() {
+    $('.popup').magnificPopup({
+        type: 'image',
+        closeOnContentClick: true,
+        closeBtnInside: false,
+        fixedContentPos: true,
+        mainClass: 'mfp-no-margins mfp-with-zoom', // class to remove default margin from left and right side
+        image: {
+            verticalFit: true
+        },
+        zoom: {
+            enabled: true,
+            duration: 300 // don't forget to change the duration also in CSS
+        }
+    });
+    
+    // Make sure popup works on mobile touch devices
+    $('.popup').on('click touchstart', function(e) {
+        e.preventDefault();
+        $.magnificPopup.open({
+            items: {
+                src: $(this).attr('href')
+            },
+            type: 'image'
+        }, 0);
+    });
+});
+</script>
 
 <div class="page">
     <div class="container">
@@ -306,21 +382,9 @@ if($success_message1 != '') {
                     <div class="row">
                         <div class="col-md-5">
                             <ul class="prod-slider">
-                            <li style="
-    background-image: url(assets/uploads/<?php echo $p_featured_photo; ?>);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 430px; /* Default height for desktop */
-    width: 100%;
-    @media (max-width: 767px) {
-        height: 250px; /* Adjust height for mobile */
-        padding: 10px; /* Add padding for mobile */
-        margin-bottom: 20px; /* Add margin for mobile */
-    }
-">
-    <a class="popup" href="assets/uploads/<?php echo $p_featured_photo; ?>"></a>
-</li>
+                                <li style="background-image: url(assets/uploads/<?php echo $p_featured_photo; ?>);">
+                                    <a class="popup" href="assets/uploads/<?php echo $p_featured_photo; ?>"></a>
+                                </li>
                                 <?php
                                 $statement = $pdo->prepare("SELECT * FROM tbl_product_photo WHERE p_id=?");
                                 $statement->execute(array($_REQUEST['id']));
@@ -463,9 +527,9 @@ if($success_message1 != '') {
                                 <span style="font-size:14px;"><?php echo LANG_VALUE_54; ?></span><br>
                                 <span>
                                     <?php if($p_old_price!=''): ?>
-                                        <del>RWF  <?php echo $p_old_price; ?></del>
+                                        <del>RWF <?php echo $p_old_price; ?></del>
                                     <?php endif; ?> 
-                                        RWF <?php echo $p_current_price; ?>
+                                    RWF <?php echo $p_current_price; ?>
                                 </span>
                             </div>
                             <input type="hidden" name="p_current_price" value="<?php echo $p_current_price; ?>">
@@ -494,7 +558,6 @@ if($success_message1 != '') {
                                 <li role="presentation"><a href="#feature" aria-controls="feature" role="tab" data-toggle="tab"><?php echo LANG_VALUE_60; ?></a></li>
                                 <li role="presentation"><a href="#condition" aria-controls="condition" role="tab" data-toggle="tab"><?php echo LANG_VALUE_61; ?></a></li>
                                 <li role="presentation"><a href="#return_policy" aria-controls="return_policy" role="tab" data-toggle="tab"><?php echo LANG_VALUE_62; ?></a></li>
-                               <!-- <li role="presentation"><a href="#review" aria-controls="review" role="tab" data-toggle="tab"><?php echo LANG_VALUE_63; ?></a></li> -->
                             </ul>
 
                             <!-- Tab panes -->
@@ -543,114 +606,10 @@ if($success_message1 != '') {
                                         ?>
                                     </p>
                                 </div>
-                                <div role="tabpanel" class="tab-pane" id="review" style="margin-top: -30px;">
-
-                                    <div class="review-form">
-                                        <?php
-                                        $statement = $pdo->prepare("SELECT * 
-                                                            FROM tbl_rating t1 
-                                                            JOIN tbl_customer t2 
-                                                            ON t1.cust_id = t2.cust_id 
-                                                            WHERE t1.p_id=?");
-                                        $statement->execute(array($_REQUEST['id']));
-                                        $total = $statement->rowCount();
-                                        ?>
-                                        <h2><?php echo LANG_VALUE_63; ?> (<?php echo $total; ?>)</h2>
-                                        <?php
-                                        if($total) {
-                                            $j=0;
-                                            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-                                            foreach ($result as $row) {
-                                                $j++;
-                                                ?>
-                                                <div class="mb_10"><b><u><?php echo LANG_VALUE_64; ?> <?php echo $j; ?></u></b></div>
-                                                <table class="table table-bordered">
-                                                    <tr>
-                                                        <th style="width:170px;"><?php echo LANG_VALUE_75; ?></th>
-                                                        <td><?php echo $row['cust_name']; ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th><?php echo LANG_VALUE_76; ?></th>
-                                                        <td><?php echo $row['comment']; ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th><?php echo LANG_VALUE_78; ?></th>
-                                                        <td>
-                                                            <div class="rating">
-                                                                <?php
-                                                                for($i=1;$i<=5;$i++) {
-                                                                    ?>
-                                                                    <?php if($i>$row['rating']): ?>
-                                                                        <i class="fa fa-star-o"></i>
-                                                                    <?php else: ?>
-                                                                        <i class="fa fa-star"></i>
-                                                                    <?php endif; ?>
-                                                                    <?php
-                                                                }
-                                                                ?>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                <?php
-                                            }
-                                        } else {
-                                            echo LANG_VALUE_74;
-                                        }
-                                        ?>
-                                        
-                                        <h2><?php echo LANG_VALUE_65; ?></h2>
-                                        <?php
-                                        if($error_message != '') {
-                                            echo "<script>alert('".$error_message."')</script>";
-                                        }
-                                        if($success_message != '') {
-                                            echo "<script>alert('".$success_message."')</script>";
-                                        }
-                                        ?>
-                                        <?php if(isset($_SESSION['customer'])): ?>
-
-                                            <?php
-                                            $statement = $pdo->prepare("SELECT * 
-                                                                FROM tbl_rating
-                                                                WHERE p_id=? AND cust_id=?");
-                                            $statement->execute(array($_REQUEST['id'],$_SESSION['customer']['cust_id']));
-                                            $total = $statement->rowCount();
-                                            ?>
-                                            <?php if($total==0): ?>
-                                            <form action="" method="post">
-                                            <div class="rating-section">
-                                                <input type="radio" name="rating" class="rating" value="1" checked>
-                                                <input type="radio" name="rating" class="rating" value="2" checked>
-                                                <input type="radio" name="rating" class="rating" value="3" checked>
-                                                <input type="radio" name="rating" class="rating" value="4" checked>
-                                                <input type="radio" name="rating" class="rating" value="5" checked>
-                                            </div>                                            
-                                            <div class="form-group">
-                                                <textarea name="comment" class="form-control" cols="30" rows="10" placeholder="Write your comment (optional)" style="height:100px;"></textarea>
-                                            </div>
-                                            <input type="submit" class="btn btn-default" name="form_review" value="<?php echo LANG_VALUE_67; ?>">
-                                            </form>
-                                            <?php else: ?>
-                                                <span style="color:red;"><?php echo LANG_VALUE_68; ?></span>
-                                            <?php endif; ?>
-
-
-                                        <?php else: ?>
-                                            <p class="error">
-                                                <?php echo LANG_VALUE_69; ?> <br>
-                                                <a href="login.php" style="color:red;text-decoration: underline;"><?php echo LANG_VALUE_9; ?></a>
-                                            </p>
-                                        <?php endif; ?>                         
-                                    </div>
-
-                                </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>
@@ -678,12 +637,11 @@ if($success_message1 != '') {
                         <div class="item">
                             <div class="thumb">
                                 <div class="photo" style="background-image:url(assets/uploads/<?php echo $row['p_featured_photo']; ?>);"></div>
-                                <!-- Removed the overlay div to remove hover effect -->
                             </div>
                             <div class="text">
                                 <h3><a href="product.php?id=<?php echo $row['p_id']; ?>"><?php echo $row['p_name']; ?></a></h3>
                                 <h4>
-                                    RWF  <?php echo $row['p_current_price']; ?> 
+                                    RWF <?php echo $row['p_current_price']; ?> 
                                     <?php if($row['p_old_price'] != ''): ?>
                                     <del>
                                         <?php echo $row['p_old_price']; ?>
@@ -759,7 +717,6 @@ if($success_message1 != '') {
                                     }
                                     ?>
                                 </div>
-                                <!-- Updated "Add to Cart" button -->
                                 <p>
                                     <a href="product.php?id=<?php echo $row['p_id']; ?>" class="add-to-cart-button" style="background-color: #ff6600; border-radius:20px; border-color: #ff6600;">
                                         <?php echo LANG_VALUE_154; ?>
@@ -775,4 +732,5 @@ if($success_message1 != '') {
         </div>
     </div>
 </div>
+
 <?php require_once('footer.php'); ?>
