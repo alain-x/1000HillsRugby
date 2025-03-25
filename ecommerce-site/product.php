@@ -120,7 +120,6 @@ if(isset($_POST['form_review'])) {
         
         if(empty($error_message)) {
             // Insert new review with current timestamp and optional image
-            // FIXED: Corrected the parameter count mismatch here
             $statement = $pdo->prepare("INSERT INTO tbl_rating (p_id, cust_id, comment, rating, review_image, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
             $statement->execute(array(
                 $_REQUEST['id'],
@@ -280,6 +279,7 @@ if(isset($_POST['form_add_to_cart'])) {
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
+        cursor: pointer;
     }
     
     .prod-pager-thumb {
@@ -290,6 +290,40 @@ if(isset($_POST['form_add_to_cart'])) {
         display: inline-block;
         margin: 5px;
         cursor: pointer;
+    }
+    
+    /* Mobile-specific styles */
+    @media (max-width: 767px) {
+        .prod-slider li {
+            height: 300px;
+        }
+        
+        .prod-pager-thumb {
+            width: 40px;
+            height: 40px;
+        }
+        
+        /* Make sure popup is full screen on mobile */
+        .mfp-img {
+            max-height: 100% !important;
+            width: auto !important;
+        }
+        
+        .mfp-container {
+            padding: 0 !important;
+        }
+        
+        .mfp-figure {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .mfp-close {
+            top: 15px !important;
+            right: 15px !important;
+        }
     }
     
     /* Rating Styles */
@@ -412,7 +446,7 @@ if(isset($_POST['form_add_to_cart'])) {
 <!-- JavaScript -->
 <script>
 $(document).ready(function() {
-    // Initialize image zoom
+    // Initialize image zoom with mobile-friendly settings
     $('.popup').magnificPopup({
         type: 'image',
         closeOnContentClick: true,
@@ -425,6 +459,15 @@ $(document).ready(function() {
         zoom: {
             enabled: true,
             duration: 300
+        },
+        callbacks: {
+            open: function() {
+                // Adjust for mobile devices
+                if(window.innerWidth <= 767) {
+                    $.magnificPopup.instance.st.closeOnBgClick = true;
+                    $.magnificPopup.instance.st.closeBtnInside = false;
+                }
+            }
         }
     });
     
@@ -450,6 +493,14 @@ $(document).ready(function() {
             reader.readAsDataURL(this.files[0]);
         }
     });
+    
+    // Mobile touch events for product images
+    if ('ontouchstart' in window) {
+        $('.prod-slider li').on('click touchstart', function(e) {
+            e.preventDefault();
+            $(this).find('.popup').trigger('click');
+        });
+    }
 });
 </script>
 
@@ -795,7 +846,9 @@ $(document).ready(function() {
                                                             <p><?php echo nl2br(htmlspecialchars($review['comment'])); ?></p>
                                                             <?php if(!empty($review['review_image'])): ?>
                                                             <div class="review-image">
-                                                                <img src="assets/uploads/review_images/<?php echo $review['review_image']; ?>" alt="Review Image" class="img-thumbnail">
+                                                                <a class="popup" href="assets/uploads/review_images/<?php echo $review['review_image']; ?>">
+                                                                    <img src="assets/uploads/review_images/<?php echo $review['review_image']; ?>" alt="Review Image" class="img-thumbnail">
+                                                                </a>
                                                             </div>
                                                             <?php endif; ?>
                                                         </div>
@@ -836,6 +889,7 @@ $(document).ready(function() {
                         <div class="item">
                             <div class="thumb">
                                 <div class="photo" style="background-image:url(assets/uploads/<?php echo $row['p_featured_photo']; ?>);"></div>
+                                <div class="overlay"><a href="product.php?id=<?php echo $row['p_id']; ?>" class="popup"><i class="fa fa-search-plus"></i></a></div>
                             </div>
                             <div class="text">
                                 <h3><a href="product.php?id=<?php echo $row['p_id']; ?>"><?php echo $row['p_name']; ?></a></h3>
