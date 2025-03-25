@@ -559,7 +559,7 @@ $(document).ready(function() {
                             </div>
                         </div>
                         <div class="col-md-7">
-                            <div class="p-title"><h2><?php echo $p_name; ?></h2></div>
+                            <div  style="margin-top:80px;" class="p-title"><h2><?php echo $p_name; ?></h2></div>
                             
                             <!-- Rating Display -->
                             <div class="p-review">
