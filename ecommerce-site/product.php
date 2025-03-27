@@ -408,7 +408,7 @@ if(isset($_POST['form_add_to_cart'])) {
         color: white;
         border: none;
         padding: 10px 20px;
-        border-radius: 4px;
+        border-radius: 20px;
         cursor: pointer;
     }
     
@@ -440,6 +440,159 @@ if(isset($_POST['form_add_to_cart'])) {
         width: 100%;
         height: 100%;
         object-fit: cover;
+    }
+    
+    /* Redesigned Related Products Section */
+    .related-products {
+        background: #f5f5f5;
+        padding: 50px 0;
+    }
+    
+    .related-products .headline {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .related-products .headline h2 {
+        font-size: 28px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 10px;
+    }
+    
+    .related-products .headline h3 {
+        font-size: 16px;
+        color: #777;
+        font-weight: 400;
+    }
+    
+    .product-card {
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        margin-bottom: 20px;
+    }
+    
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+    
+    .product-thumb {
+        position: relative;
+        padding-top: 100%;
+        background: #f8f9fa;
+    }
+    
+    .product-thumb img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 15px;
+    }
+    
+    .product-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #ff6600;
+        color: white;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: bold;
+        z-index: 1;
+    }
+    
+    .product-details {
+        padding: 15px;
+    }
+    
+    .product-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #0066cc;
+        height: 40px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+    
+    .product-price {
+        margin-bottom: 10px;
+    }
+    
+    .current-price {
+        font-size: 18px;
+        font-weight: 700;
+        color: #ff6600;
+    }
+    
+    .old-price {
+        font-size: 14px;
+        color: #999;
+        text-decoration: line-through;
+        margin-left: 5px;
+    }
+    
+    .product-rating {
+        color: #ffc107;
+        margin-bottom: 12px;
+        font-size: 14px;
+    }
+    
+    .product-actions {
+        margin-top: 15px;
+    }
+    
+    .add-to-cart-button {
+        display: block;
+        text-align: center;
+        background: #ff6600;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .add-to-cart-button:hover {
+        background: #e65c00;
+        color: white;
+        text-decoration: none;
+    }
+    
+    /* Carousel Navigation */
+    .product-carousel {
+        position: relative;
+    }
+    
+    .product-carousel .owl-nav {
+        position: absolute;
+        top: -60px;
+        right: 0;
+    }
+    
+    .product-carousel .owl-nav button {
+        width: 30px;
+        height: 30px;
+        background: #ddd !important;
+        color: #333 !important;
+        border-radius: 20px !important;
+        margin-left: 5px;
+    }
+    
+    .product-carousel .owl-nav button:hover {
+        background: #ff6600 !important;
+        color: white !important;
     }
 </style>
 
@@ -501,6 +654,25 @@ $(document).ready(function() {
             $(this).find('.popup').trigger('click');
         });
     }
+    
+    // Initialize product carousel
+    $('.product-carousel').owlCarousel({
+        loop: true,
+        margin: 20,
+        nav: true,
+        dots: false,
+        responsive: {
+            0: {
+                items: 1
+            },
+            600: {
+                items: 2
+            },
+            1000: {
+                items: 4
+            }
+        }
+    });
 });
 </script>
 
@@ -867,7 +1039,8 @@ $(document).ready(function() {
     </div>
 </div>
 
-<div class="product bg-gray pt_70 pb_70">
+<!-- Redesigned Related Products Section -->
+<div class="related-products">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -879,29 +1052,33 @@ $(document).ready(function() {
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="product-carousel">
+                <div class="product-carousel owl-carousel">
                     <?php
                     $statement = $pdo->prepare("SELECT * FROM tbl_product WHERE ecat_id=? AND p_id!=?");
                     $statement->execute(array($ecat_id,$_REQUEST['id']));
                     $result = $statement->fetchAll(PDO::FETCH_ASSOC);
                     foreach ($result as $row) {
                         ?>
-                        <div class="item">
-                            <div class="thumb">
-                                <div class="photo" style="background-image:url(assets/uploads/<?php echo $row['p_featured_photo']; ?>);"></div>
-                                <div class="overlay"><a href="product.php?id=<?php echo $row['p_id']; ?>" class="popup"><i class="fa fa-search-plus"></i></a></div>
+                        <div class="product-card">
+                            <div class="product-thumb">
+                                <a href="product.php?id=<?php echo $row['p_id']; ?>">
+                                    <img src="assets/uploads/<?php echo $row['p_featured_photo']; ?>" alt="<?php echo $row['p_name']; ?>">
+                                </a>
+                                <?php if($row['p_is_featured'] == 1): ?>
+                                    <div class="product-badge">Featured</div>
+                                <?php endif; ?>
                             </div>
-                            <div class="text">
-                                <h3><a href="product.php?id=<?php echo $row['p_id']; ?>"><?php echo $row['p_name']; ?></a></h3>
-                                <h4>
-                                    RWF <?php echo $row['p_current_price']; ?> 
+                            <div class="product-details">
+                                <h3 class="product-title">
+                                    <a href="product.php?id=<?php echo $row['p_id']; ?>"><?php echo $row['p_name']; ?></a>
+                                </h3>
+                                <div class="product-price">
+                                    <span class="current-price">RWF <?php echo $row['p_current_price']; ?></span>
                                     <?php if($row['p_old_price'] != ''): ?>
-                                    <del>
-                                        <?php echo $row['p_old_price']; ?>
-                                    </del>
+                                        <span class="old-price">RWF <?php echo $row['p_old_price']; ?></span>
                                     <?php endif; ?>
-                                </h4>
-                                <div class="rating">
+                                </div>
+                                <div class="product-rating">
                                     <?php
                                     $t_rating = 0;
                                     $statement1 = $pdo->prepare("SELECT * FROM tbl_rating WHERE p_id=?");
@@ -942,11 +1119,11 @@ $(document).ready(function() {
                                     }
                                     ?>
                                 </div>
-                                <p>
-                                    <a href="product.php?id=<?php echo $row['p_id']; ?>" class="add-to-cart-button" style="background-color: #ff6600; border-radius:20px; border-color: #ff6600;">
+                                <div class="product-actions">
+                                    <a href="product.php?id=<?php echo $row['p_id']; ?>" class="add-to-cart-button">
                                         <?php echo LANG_VALUE_154; ?>
                                     </a>
-                                </p>
+                                </div>
                             </div>
                         </div>
                         <?php

@@ -136,7 +136,7 @@ if( !isset($_REQUEST['id']) || !isset($_REQUEST['type']) ) {
     .page-banner {
         background-size: cover;
         background-position: center;
-        padding: 60px 0;
+        padding: 1px 0;
         position: relative;
         margin-bottom: 30px;
     }
@@ -149,7 +149,8 @@ if( !isset($_REQUEST['id']) || !isset($_REQUEST['type']) ) {
     }
     
     .page-banner h1 {
-        font-size: 28px;
+        margin: 15px;
+        font-size: 20px;
         font-weight: 700;
         text-shadow: 0 2px 4px rgba(0,0,0,0.3);
     }
