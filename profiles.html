@@ -3,230 +3,417 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Player Profile | 1000 Hills Rugby Club</title>
     <meta
-      id="meta-description"
       name="description"
-      content="Player Profile - 1000 Hills Rugby Club"
+      content="Professional profile of [Player Name], [Position] for 1000 Hills Rugby Club"
     />
-    <meta
-      id="meta-keywords"
-      name="keywords"
-      content="Rugby, Player, Profile, 1000 Hills Rugby"
-    />
-    <meta name="author" content="1000 Hills Rugby Club" />
-    <meta property="og:title" content="Player Profile - 1000 Hills Rugby" />
-    <meta
-      property="og:description"
-      content="View the profile of a player from the 1000 Hills Rugby Club, including stats, biography, and more."
-    />
-    <meta property="og:image" content="./images/t_icon.png" />
-    <meta
-      property="og:url"
-      content="https://www.1000hillsrugby.rw/profiles.html"
-    />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:creator" content="@1000HillsRugby" />
-    <title id="page-title">Player Profile</title>
-    <link rel="icon" href="./images/t_icon.png" type="image/png" />
 
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "SportsTeam",
-        "name": "1000 Hills Rugby Club",
-        "member": []
-      }
-    </script>
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
 
     <style>
-      body {
+      :root {
+        --primary: #0a9113;
+        --secondary: #1a1a1a;
+        --light: #f8f9fa;
+        --dark: #212529;
+        --gray: #6c757d;
+        --white: #ffffff;
+      }
+
+      * {
         margin: 0;
-        font-family: Arial, sans-serif;
-        background: #000;
-        color: #fff;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Open Sans", sans-serif;
+        color: var(--dark);
+        background-color: var(--light);
+        line-height: 1.6;
       }
 
       .header {
-        text-align: center;
-        padding: 20px;
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+        color: white;
+        padding: 1rem 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-family: "Montserrat", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+
+      .logo span {
+        color: var(--primary);
+      }
+
+      .back-btn {
+        display: inline-flex;
+        align-items: center;
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .back-btn:hover {
+        transform: translateX(-3px);
+      }
+
+      .back-btn i {
+        margin-right: 0.5rem;
       }
 
       .profile-container {
         display: flex;
-        flex-direction: row;
-        align-items: center;
-        margin: 20px;
-        gap: 20px;
+        margin: 2rem 0;
+        gap: 3rem;
+      }
+
+      .player-image-container {
+        flex: 1;
+        position: relative;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        height: fit-content;
       }
 
       .player-image {
-        height: 600px;
-        flex: 1;
-        display: flex;
-        justify-content: center;
+        width: 100%;
+        height: auto;
+        display: block;
       }
 
-      .player-image img {
-        object-fit: cover;
-        border-radius: 10px;
-        width: 500px;
-        height: 500px;
+      .player-badge {
+        position: absolute;
+        bottom: 1.5rem;
+        left: 1.5rem;
+        background-color: var(--primary);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+        font-weight: 600;
+        font-size: 0.9rem;
       }
 
       .player-details {
-        margin: 0 90px 0 90px;
         flex: 2;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 10px;
+        background: var(--white);
+        border-radius: 0.5rem;
+        padding: 2rem;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
       }
 
-      .player-details h1 {
-        font-size: 2em;
-        margin-bottom: 10px;
+      .player-header {
+        margin-bottom: 2rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        padding-bottom: 1.5rem;
       }
 
-      .player-details h2 {
-        font-size: 1.5em;
-        margin: 5px 0 20px 0;
-        color: #ccc;
-        font-weight: normal;
+      .player-name {
+        font-family: "Montserrat", sans-serif;
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--secondary);
+        margin-bottom: 0.5rem;
       }
 
-      .player-details div {
-        display: flex;
-        justify-content: space-between;
-        padding: 5px 0;
-        border-bottom: 1px solid #444;
+      .player-position {
+        font-size: 1.2rem;
+        color: var(--primary);
+        font-weight: 600;
+        margin-bottom: 1rem;
       }
 
-      .player-details div:last-child {
-        border-bottom: none;
+      .player-bio {
+        color: var(--gray);
+        line-height: 1.7;
       }
 
-      .player-details h3 {
-        font-size: 1.2em;
-        margin: 0;
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 2rem;
       }
 
-      .player-details p {
-        margin: 0;
+      .stat-item {
+        background: var(--light);
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        text-align: center;
       }
 
-      @media (max-width: 900px) {
+      .stat-value {
+        font-family: "Montserrat", sans-serif;
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-label {
+        font-size: 0.9rem;
+        color: var(--gray);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .details-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+      }
+
+      .detail-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .detail-label {
+        font-size: 0.9rem;
+        color: var(--gray);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.5rem;
+      }
+
+      .detail-value {
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+
+      .sponsor-section {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      .sponsor-label {
+        font-size: 0.9rem;
+        color: var(--gray);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.5rem;
+      }
+
+      .sponsor-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+      }
+
+      .sponsor-desc {
+        color: var(--gray);
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 992px) {
         .profile-container {
           flex-direction: column;
-          text-align: center;
         }
 
-        .player-details {
-          display: flex; /* Align items horizontally */
-          flex-wrap: nowrap; /* Prevent wrapping */
-          gap: 20px; /* Add spacing between items */
-          overflow-x: auto; /* Enable horizontal scrolling */
-          white-space: nowrap; /* Ensure content doesn't wrap */
-          padding: 10px;
-          width: 100%; /* Stretch to full width of the parent */
+        .player-image-container {
+          max-width: 500px;
+          margin: 0 auto;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .stats-grid,
+        .details-grid {
+          grid-template-columns: 1fr;
         }
 
-        .player-details div {
-          flex: 0 0 auto; /* Prevent shrinking and enforce fixed size for horizontal scroll */
-          min-width: 150px; /* Set a minimum width for child elements */
-          text-align: center;
+        .player-name {
+          font-size: 1.8rem;
         }
 
-        .player-details h1 {
-          font-size: 25px;
-          margin-bottom: 10px;
+        .player-position {
+          font-size: 1.1rem;
         }
+      }
 
-        .player-image img {
-          padding: 5px;
-          object-fit: cover;
-          border-radius: 10px;
-          width: 360px;
-          height: 360px;
+      /* Animation */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
         }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-fade {
+        animation: fadeIn 0.6s ease-out forwards;
       }
     </style>
   </head>
-
   <body>
-    <div class="header">
-      <h1>Player Profile</h1>
-    </div>
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <a href="menprofiles.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Squad
+          </a>
+          <div class="logo"><span>1000 Hills</span> Rugby Club</div>
+        </div>
+      </div>
+    </header>
 
-    <div class="profile-container" id="profileContainer">
-      <div class="player-image">
-        <img id="playerImage" src="" alt="Player Image" />
+    <main class="container">
+      <div class="profile-container animate-fade">
+        <div class="player-image-container">
+          <img
+            id="playerImage"
+            src=""
+            alt="Player Photo"
+            class="player-image"
+          />
+          <div class="player-badge" id="playerPositionBadge">Position</div>
+        </div>
+
+        <div class="player-details">
+          <div class="player-header">
+            <h1 class="player-name" id="playerName">Player Name</h1>
+            <h2 class="player-position" id="playerPosition">Position</h2>
+            <p class="player-bio">
+              Talented rugby player with exceptional skills and dedication to
+              the sport. Key contributor to 1000 Hills Rugby Club's success.
+            </p>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-value" id="statAge">--</div>
+              <div class="stat-label">Age</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value" id="statHeight">--</div>
+              <div class="stat-label">Height (cm)</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value" id="statWeight">--</div>
+              <div class="stat-label">Weight (kg)</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value" id="statAppearances">--</div>
+              <div class="stat-label">Appearances</div>
+            </div>
+          </div>
+
+          <div class="details-grid">
+            <div>
+              <div class="detail-group">
+                <div class="detail-label">Position</div>
+                <div class="detail-value" id="detailPosition">--</div>
+              </div>
+              <div class="detail-group">
+                <div class="detail-label">Place of Birth</div>
+                <div class="detail-value" id="detailBirthplace">--</div>
+              </div>
+            </div>
+            <div>
+              <div class="detail-group">
+                <div class="detail-label">Honours</div>
+                <div class="detail-value" id="detailHonours">--</div>
+              </div>
+              <div class="detail-group">
+                <div class="detail-label">Joined Club</div>
+                <div class="detail-value" id="detailJoined">--</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sponsor-section">
+            <div class="sponsor-label">Sponsored By</div>
+            <div class="sponsor-name" id="sponsorName">--</div>
+            <div class="sponsor-desc" id="sponsorDesc">--</div>
+          </div>
+        </div>
       </div>
-      <div class="player-details">
-        <h1 id="playerName"></h1>
-        <h2 id="playerRole"></h2>
-        <!-- Player Role -->
-        <div>
-          <h3>Age:</h3>
-          <p id="playerAge"></p>
-        </div>
-        <div>
-          <h3>Weight:</h3>
-          <p id="playerWeight"></p>
-        </div>
-        <div>
-          <h3>Height:</h3>
-          <p id="playerHeight"></p>
-        </div>
-        <div>
-          <h3>Games:</h3>
-          <p id="playerGames"></p>
-        </div>
-        <div>
-          <h3>Points:</h3>
-          <p id="playerPoints"></p>
-        </div>
-        <div>
-          <h3>Tries:</h3>
-          <p id="playerTries"></p>
-        </div>
-      </div>
-    </div>
+    </main>
 
     <script>
-      // Fetch player data from localStorage
-      let player;
-      try {
-        player = JSON.parse(localStorage.getItem("selectedPlayer"));
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get player data from localStorage
+        const player = JSON.parse(localStorage.getItem("selectedPlayer"));
 
-        // Check if player data exists
         if (!player) {
-          alert("No player data found. Redirecting to main page.");
-          window.location.href = "menprofiles.html"; // Redirect to the main page or list
+          alert("No player data found. Redirecting to squad page.");
+          window.location.href = "menprofiles.html";
+          return;
         }
 
         // Populate the profile with player data
-        document.getElementById("playerImage").src = player.img || "";
-        document.getElementById("playerName").innerText =
-          player.name || "Name not available";
-        document.getElementById("playerRole").innerText =
-          player.role || "Role not specified";
-        document.getElementById("playerAge").innerText =
-          player.age || "Not specified";
-        document.getElementById("playerWeight").innerText =
-          player.weight || "Not specified";
-        document.getElementById("playerHeight").innerText =
-          player.height || "Not specified";
-        document.getElementById("playerGames").innerText =
-          player.games || "Not specified";
-        document.getElementById("playerPoints").innerText =
-          player.points || "Not specified";
-        document.getElementById("playerTries").innerText =
-          player.tries || "Not specified";
-      } catch (error) {
-        console.error("Error parsing player data:", error);
-        alert("Error retrieving player data. Redirecting to main page.");
-        window.location.href = "./menprofiles.html"; // Redirect to the main page or list
-      }
+        document.getElementById("playerImage").src =
+          player.img || "https://via.placeholder.com/500x600";
+        document.getElementById("playerName").textContent =
+          player.name || "Player Name";
+        document.getElementById("playerPosition").textContent =
+          player.role || "Position";
+        document.getElementById("playerPositionBadge").textContent =
+          player.role || "Position";
+        document.getElementById("statAge").textContent = player.age || "--";
+        document.getElementById("statHeight").textContent = player.height
+          ? player.height.replace(" cm", "")
+          : "--";
+        document.getElementById("statWeight").textContent = player.weight
+          ? player.weight.replace(" kg", "")
+          : "--";
+        document.getElementById("statAppearances").textContent =
+          player.games || "--";
+        document.getElementById("detailPosition").textContent =
+          player.role || "--";
+        document.getElementById("detailBirthplace").textContent = "--"; // Add birthplace to your player data
+        document.getElementById("detailHonours").textContent = "--"; // Add honours to your player data
+        document.getElementById("detailJoined").textContent = "--"; // Add joined date to your player data
+        document.getElementById("sponsorName").textContent = "--"; // Add sponsor to your player data
+        document.getElementById("sponsorDesc").textContent = "--"; // Add sponsor description to your player data
+
+        // Update meta tags
+        document.querySelector(
+          "title"
+        ).textContent = `${player.name} | 1000 Hills Rugby Club`;
+        document.querySelector(
+          'meta[name="description"]'
+        ).content = `Profile of ${player.name}, ${player.role} for 1000 Hills Rugby Club`;
+      });
     </script>
   </body>
 </html>
