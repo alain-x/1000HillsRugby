@@ -1254,54 +1254,7 @@ $conn->close();
         <?php endif; ?>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-about">
-                    <div class="footer-logo">
-                        <img src="./logos_/logoT.jpg" alt="Club Logo" />
-                        <div class="footer-logo-text">
-                            <h3><span>1000 Hills</span> Rugby Club</h3>
-                            <p class="footer-motto">Strength in Unity</p>
-                        </div>
-                    </div>
-                    <p>
-                        Founded in 2010, 1000 Hills Rugby Club is one of Rwanda's premier
-                        rugby clubs, dedicated to developing talent and promoting the
-                        sport nationwide.
-                    </p>
-                </div>
-
-                <div class="footer-links">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="?team=men">Men's Squad</a></li>
-                        <li><a href="?team=women">Women's Squad</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-contact">
-                    <h4>Contact Us</h4>
-                    <p><i class="fas fa-map-marker-alt"></i> Kigali, Rwanda</p>
-                    <p><i class="fas fa-phone"></i> +250 788 123 456</p>
-                    <p><i class="fas fa-envelope"></i> info@1000hillsrugby.com</p>
-
-                    <div class="footer-social">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <p>&copy; <?php echo date('Y'); ?> 1000 Hills Rugby Club. All Rights Reserved.</p>
-            </div>
-        </div>
-    </footer>
-
+     
     <script>
         // Mobile menu toggle
         document.getElementById('mobileMenuBtn').addEventListener('click', function() {
