@@ -20,13 +20,15 @@ if ($compResult->num_rows > 0) {
     }
 }
 
-// Build SQL query based on selected tab
+// Build SQL query to prevent duplicates
 if ($tab === 'results') {
-    // Query for completed games only
-    $sql = "SELECT * FROM fixtures WHERE status = 'COMPLETED' AND season = ?";
+    $sql = "SELECT DISTINCT match_date, home_team, away_team, home_score, away_score, 
+            status, gender, competition, stadium, home_logo, away_logo 
+            FROM fixtures WHERE status = 'COMPLETED' AND season = ?";
 } else {
-    // Query for upcoming fixtures only (not completed)
-    $sql = "SELECT * FROM fixtures WHERE status != 'COMPLETED' AND season = ?";
+    $sql = "SELECT DISTINCT match_date, home_team, away_team, home_score, away_score, 
+            status, gender, competition, stadium, home_logo, away_logo 
+            FROM fixtures WHERE status != 'COMPLETED' AND season = ?";
 }
 
 $params = [$season];
@@ -62,6 +64,7 @@ if ($stmt) {
     $stmt->close();
 } else {
     $fixtures = [];
+    error_log("Database query failed: " . $conn->error);
 }
 
 $conn->close();
@@ -131,7 +134,6 @@ function formatMatchDate($dateString) {
                 min-width: 80px;
             }
         }
-        /* New navigation styles */
         .nav-container {
             background: linear-gradient(to right, rgb(10, 145, 19) 0%, rgb(1, 20, 2) 100%);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -172,7 +174,6 @@ function formatMatchDate($dateString) {
             background-color: rgba(52, 211, 153, 0.2);
             color: white;
         }
-        /* Adjusted score size for mobile */
         @media (max-width: 639px) {
             .score {
                 font-size: 1.1rem;
@@ -190,7 +191,6 @@ function formatMatchDate($dateString) {
     </style>
 </head>
 <body class="bg-gray-50">
-    <!-- New Professional Header -->
     <header class="nav-container">
         <div class="container mx-auto px-4 py-3">
             <div class="flex justify-between items-center">
@@ -219,7 +219,6 @@ function formatMatchDate($dateString) {
             </div>
         </div>
         
-        <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden mobile-nav py-2 px-4 shadow-lg">
             <a href="fixtures.php?tab=fixtures" class="block py-3 px-4 mobile-nav-item <?php echo $tab === 'fixtures' ? 'active' : ''; ?> rounded-md">
                 <i class="fas fa-calendar-alt mr-3"></i>Fixtures
@@ -233,9 +232,7 @@ function formatMatchDate($dateString) {
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="container mx-auto px-4 py-8">
-        <!-- Filters -->
         <div class="bg-white rounded-lg shadow-md p-6 mb-8 grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
@@ -278,7 +275,6 @@ function formatMatchDate($dateString) {
             </div>
         </div>
 
-        <!-- Results/Fixtures List -->
         <div class="space-y-6">
             <?php if (empty($fixtures)): ?>
                 <div class="bg-white rounded-lg shadow-md p-8 text-center">
@@ -291,7 +287,16 @@ function formatMatchDate($dateString) {
             <?php else: ?>
                 <?php 
                 $currentMonth = '';
+                $displayedGames = [];
+                
                 foreach ($fixtures as $fixture): 
+                    $gameKey = $fixture['match_date'] . $fixture['home_team'] . $fixture['away_team'];
+                    
+                    if (isset($displayedGames[$gameKey])) {
+                        continue;
+                    }
+                    
+                    $displayedGames[$gameKey] = true;
                     $matchDate = new DateTime($fixture['match_date']);
                     $month = $matchDate->format('F Y');
                     
@@ -327,7 +332,6 @@ function formatMatchDate($dateString) {
                         
                         <div class="p-6">
                             <div class="flex items-center justify-between">
-                                <!-- Home Team -->
                                 <div class="flex items-center w-2/5">
                                     <?php if (!empty($fixture['home_logo'])): ?>
                                         <img src="<?php echo displayText($fixture['home_logo']); ?>" alt="<?php echo displayText($fixture['home_team']); ?>" class="h-12 w-12 object-contain">
@@ -339,7 +343,6 @@ function formatMatchDate($dateString) {
                                     </span>
                                 </div>
                                 
-                                <!-- Score -->
                                 <div class="text-center score">
                                     <?php if ($isCompleted): ?>
                                         <div class="text-xl md:text-2xl font-bold">
@@ -354,7 +357,6 @@ function formatMatchDate($dateString) {
                                     <?php endif; ?>
                                 </div>
                                 
-                                <!-- Away Team -->
                                 <div class="flex items-center justify-end w-2/5">
                                     <span class="mr-3 font-medium team-name" title="<?php echo displayText($fixture['away_team']); ?>">
                                         <?php echo displayText($fixture['away_team']); ?>
@@ -374,13 +376,11 @@ function formatMatchDate($dateString) {
     </main>
 
     <script>
-        // Mobile menu toggle
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
         });
 
-        // Filter functionality
         document.getElementById('applyFilters').addEventListener('click', function() {
             const gender = document.getElementById('genderFilter').value;
             const competition = document.getElementById('competitionFilter').value;
