@@ -254,7 +254,7 @@ try {
                 <div class="flex items-center space-x-4">
                     <a href="./" class="flex items-center">
                         <img src="./logos_/logoT.jpg" alt="Club Logo" class="h-12 rounded-full border-2 border-white shadow-md">
-                        <span class="ml-3 text-xl font-bold text-white">1000 Hills Rugby</span>
+                        <span class="ml-3 text-xl font-bold text-white"></span>
                     </a>
                 </div>
                 
