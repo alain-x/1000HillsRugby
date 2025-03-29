@@ -11,6 +11,9 @@ $competition = isset($_GET['competition']) ? $_GET['competition'] : 'ALL';
 $season = isset($_GET['season']) ? $_GET['season'] : date('Y');
 $tab = isset($_GET['tab']) ? $_GET['tab'] : 'fixtures';
 
+// Debugging: Log the received parameters
+error_log("Params - Gender: $gender, Competition: $competition, Season: $season, Tab: $tab");
+
 // Get all competitions for dropdown
 $competitions = [];
 $compResult = $conn->query("SELECT DISTINCT competition FROM fixtures ORDER BY competition");
@@ -20,26 +23,26 @@ if ($compResult->num_rows > 0) {
     }
 }
 
-// Build SQL query to prevent duplicates
-if ($tab === 'results') {
-    $sql = "SELECT DISTINCT match_date, home_team, away_team, home_score, away_score, 
-            status, gender, competition, stadium, home_logo, away_logo 
-            FROM fixtures WHERE status = 'COMPLETED' AND season = ?";
-} else {
-    $sql = "SELECT DISTINCT match_date, home_team, away_team, home_score, away_score, 
-            status, gender, competition, stadium, home_logo, away_logo 
-            FROM fixtures WHERE status != 'COMPLETED' AND season = ?";
-}
-
+// Build SQL query - modified to ensure proper filtering
+$sql = "SELECT * FROM fixtures WHERE season = ?";
 $params = [$season];
 $types = "s";
 
+// Add status condition based on tab
+if ($tab === 'results') {
+    $sql .= " AND status = 'COMPLETED'";
+} else {
+    $sql .= " AND status != 'COMPLETED'";
+}
+
+// Add gender filter if not ALL
 if ($gender != 'ALL') {
     $sql .= " AND gender = ?";
     $params[] = $gender;
     $types .= "s";
 }
 
+// Add competition filter if not ALL
 if ($competition != 'ALL') {
     $sql .= " AND competition = ?";
     $params[] = $competition;
@@ -49,9 +52,14 @@ if ($competition != 'ALL') {
 // Order by date (newest first for results, upcoming first for fixtures)
 $sql .= ($tab === 'results') ? " ORDER BY match_date DESC" : " ORDER BY match_date ASC";
 
+// Debugging: Log the final SQL query
+error_log("Final SQL: $sql");
+
 $stmt = $conn->prepare($sql);
 if ($stmt) {
-    $stmt->bind_param($types, ...$params);
+    if (!empty($params)) {
+        $stmt->bind_param($types, ...$params);
+    }
     $stmt->execute();
     $result = $stmt->get_result();
     $fixtures = $result->fetch_all(MYSQLI_ASSOC);
@@ -68,6 +76,9 @@ if ($stmt) {
 }
 
 $conn->close();
+
+// Debugging: Log the number of fixtures found
+error_log("Number of fixtures found: " . count($fixtures));
 
 // Helper function to safely display text
 function displayText($text) {
