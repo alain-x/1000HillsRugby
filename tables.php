@@ -359,7 +359,6 @@ try {
                             <th scope="col" class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">PA</th>
                             <th scope="col" class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">PD</th>
                             <th scope="col" class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">Pts</th> 
-                            <th scope="col" class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">Form</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
