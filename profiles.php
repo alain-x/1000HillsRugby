@@ -1021,15 +1021,12 @@ $conn->close();
                 <a href="./">
                 <div class="logo">
                     <img src="./logos_/logoT.jpg" alt="Club Logo" />
-                    <div class="logo-text">
-                        <h1><span>1000 Hills</span> Rugby Club</h1>
-                        <span class="club-motto">Strength in Unity</span>
-                    </div>
                 </div>
                 </a>
                 
 
                 <nav class="nav-links">
+                <a href="./">Home</a>
                     <a href="?team=men" class="<?php echo $currentTeam == 'men' ? 'active' : ''; ?>">Men's Squad</a>
                     <a href="?team=women" class="<?php echo $currentTeam == 'women' ? 'active' : ''; ?>">Women's Squad</a>
                     <a href="./fixtures.php">Fixtures</a>
