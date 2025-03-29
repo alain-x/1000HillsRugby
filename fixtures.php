@@ -21,7 +21,7 @@ if ($compResult->num_rows > 0) {
 }
 
 // Build SQL query with proper filtering
-$sql = "SELECT * FROM fixtures WHERE season = ?";
+$sql = "SELECT DISTINCT * FROM fixtures WHERE season = ?";
 $params = [$season];
 $types = "s";
 
@@ -290,8 +290,16 @@ function formatMatchDate($dateString) {
                 <?php 
                 $currentMonth = '';
                 $currentCompetition = '';
+                $processedFixtures = [];
                 
                 foreach ($fixtures as $fixture): 
+                    // Skip duplicate fixtures
+                    $fixtureKey = $fixture['match_date'].$fixture['home_team'].$fixture['away_team'];
+                    if (in_array($fixtureKey, $processedFixtures)) {
+                        continue;
+                    }
+                    $processedFixtures[] = $fixtureKey;
+                    
                     $matchDate = new DateTime($fixture['match_date']);
                     $month = $matchDate->format('F Y');
                     $competition = $fixture['competition'];
@@ -349,9 +357,9 @@ function formatMatchDate($dateString) {
                                 <div class="text-center score">
                                     <?php if ($isCompleted): ?>
                                         <div class="text-xl md:text-2xl font-bold">
-                                            <span><?php echo $fixture['home_score'] !== null ? $fixture['home_score'] : '0'; ?></span>
+                                            <span><?php echo isset($fixture['home_score']) ? (int)$fixture['home_score'] : '0'; ?></span>
                                             <span class="mx-1 md:mx-2">-</span>
-                                            <span><?php echo $fixture['away_score'] !== null ? $fixture['away_score'] : '0'; ?></span>
+                                            <span><?php echo isset($fixture['away_score']) ? (int)$fixture['away_score'] : '0'; ?></span>
                                         </div>
                                         <div class="text-xs text-gray-500 mt-1">FINAL</div>
                                     <?php else: ?>
