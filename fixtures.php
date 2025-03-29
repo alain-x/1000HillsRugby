@@ -11,9 +11,6 @@ $competition = isset($_GET['competition']) ? $_GET['competition'] : 'ALL';
 $season = isset($_GET['season']) ? $_GET['season'] : date('Y');
 $tab = isset($_GET['tab']) ? $_GET['tab'] : 'fixtures';
 
-// Debugging: Log the received parameters
-error_log("Params - Gender: $gender, Competition: $competition, Season: $season, Tab: $tab");
-
 // Get all competitions for dropdown
 $competitions = [];
 $compResult = $conn->query("SELECT DISTINCT competition FROM fixtures ORDER BY competition");
@@ -23,7 +20,7 @@ if ($compResult->num_rows > 0) {
     }
 }
 
-// Build SQL query - modified to ensure proper filtering
+// Build SQL query with proper filtering
 $sql = "SELECT * FROM fixtures WHERE season = ?";
 $params = [$season];
 $types = "s";
@@ -52,9 +49,6 @@ if ($competition != 'ALL') {
 // Order by date (newest first for results, upcoming first for fixtures)
 $sql .= ($tab === 'results') ? " ORDER BY match_date DESC" : " ORDER BY match_date ASC";
 
-// Debugging: Log the final SQL query
-error_log("Final SQL: $sql");
-
 $stmt = $conn->prepare($sql);
 if ($stmt) {
     if (!empty($params)) {
@@ -76,9 +70,6 @@ if ($stmt) {
 }
 
 $conn->close();
-
-// Debugging: Log the number of fixtures found
-error_log("Number of fixtures found: " . count($fixtures));
 
 // Helper function to safely display text
 function displayText($text) {
@@ -298,22 +289,23 @@ function formatMatchDate($dateString) {
             <?php else: ?>
                 <?php 
                 $currentMonth = '';
-                $displayedGames = [];
+                $currentCompetition = '';
                 
                 foreach ($fixtures as $fixture): 
-                    $gameKey = $fixture['match_date'] . $fixture['home_team'] . $fixture['away_team'];
-                    
-                    if (isset($displayedGames[$gameKey])) {
-                        continue;
-                    }
-                    
-                    $displayedGames[$gameKey] = true;
                     $matchDate = new DateTime($fixture['match_date']);
                     $month = $matchDate->format('F Y');
+                    $competition = $fixture['competition'];
                     
+                    // Display month header if changed
                     if ($month != $currentMonth) {
                         $currentMonth = $month;
                         echo "<h2 class='text-2xl font-bold text-gray-800 mb-4'>$currentMonth</h2>";
+                    }
+                    
+                    // Display competition header if changed (only when showing all competitions)
+                    if ($competition != $currentCompetition && $competition == 'ALL') {
+                        $currentCompetition = $competition;
+                        echo "<h3 class='text-lg font-semibold text-gray-700 mb-2'>$currentCompetition</h3>";
                     }
                     
                     $isCompleted = $fixture['status'] == 'COMPLETED';
