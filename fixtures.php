@@ -121,11 +121,14 @@ function formatMatchDate($dateString) {
             font-weight: bold;
         }
         .score {
-            min-width: 80px;
+            min-width: 60px;
         }
         @media (min-width: 640px) {
             .team-name {
                 max-width: 180px;
+            }
+            .score {
+                min-width: 80px;
             }
         }
         /* New navigation styles */
@@ -168,6 +171,21 @@ function formatMatchDate($dateString) {
         .mobile-nav-item.active {
             background-color: rgba(52, 211, 153, 0.2);
             color: white;
+        }
+        /* Adjusted score size for mobile */
+        @media (max-width: 639px) {
+            .score {
+                font-size: 1.1rem;
+            }
+            .gray-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 16px;
+            }
+            .fixture-card img {
+                width: 32px;
+                height: 32px;
+            }
         }
     </style>
 </head>
@@ -324,14 +342,14 @@ function formatMatchDate($dateString) {
                                 <!-- Score -->
                                 <div class="text-center score">
                                     <?php if ($isCompleted): ?>
-                                        <div class="text-2xl font-bold">
+                                        <div class="text-xl md:text-2xl font-bold">
                                             <span><?php echo $fixture['home_score'] !== null ? $fixture['home_score'] : '0'; ?></span>
-                                            <span class="mx-2">-</span>
+                                            <span class="mx-1 md:mx-2">-</span>
                                             <span><?php echo $fixture['away_score'] !== null ? $fixture['away_score'] : '0'; ?></span>
                                         </div>
                                         <div class="text-xs text-gray-500 mt-1">FINAL</div>
                                     <?php else: ?>
-                                        <div class="text-xl font-bold text-gray-500">VS</div>
+                                        <div class="text-lg md:text-xl font-bold text-gray-500">VS</div>
                                         <div class="text-xs text-gray-500 mt-1">UPCOMING</div>
                                     <?php endif; ?>
                                 </div>
