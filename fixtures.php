@@ -1,12 +1,12 @@
 <?php
-// Database connection
+// Database connection with error handling
 $conn = new mysqli('localhost', 'hillsrug_hillsrug', 'M00dle??', 'hillsrug_1000hills_rugby_db');
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Get filter parameters
-$gender = isset($_GET['gender']) ? $_GET['gender'] : 'MEN';
+// Get filter parameters with default values
+$gender = isset($_GET['gender']) ? $_GET['gender'] : 'ALL';
 $competition = isset($_GET['competition']) ? $_GET['competition'] : 'ALL';
 $season = isset($_GET['season']) ? $_GET['season'] : date('Y');
 $tab = isset($_GET['tab']) ? $_GET['tab'] : 'fixtures';
@@ -21,7 +21,7 @@ if ($compResult->num_rows > 0) {
 }
 
 // Build SQL query with proper filtering
-$sql = "SELECT DISTINCT * FROM fixtures WHERE season = ?";
+$sql = "SELECT * FROM fixtures WHERE season = ?";
 $params = [$season];
 $types = "s";
 
@@ -49,6 +49,7 @@ if ($competition != 'ALL') {
 // Order by date (newest first for results, upcoming first for fixtures)
 $sql .= ($tab === 'results') ? " ORDER BY match_date DESC" : " ORDER BY match_date ASC";
 
+// Prepare and execute the query
 $stmt = $conn->prepare($sql);
 if ($stmt) {
     if (!empty($params)) {
@@ -128,14 +129,6 @@ function formatMatchDate($dateString) {
         .score {
             min-width: 60px;
         }
-        @media (min-width: 640px) {
-            .team-name {
-                max-width: 180px;
-            }
-            .score {
-                min-width: 80px;
-            }
-        }
         .nav-container {
             background: linear-gradient(to right, rgb(10, 145, 19) 0%, rgb(1, 20, 2) 100%);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -176,6 +169,14 @@ function formatMatchDate($dateString) {
             background-color: rgba(52, 211, 153, 0.2);
             color: white;
         }
+        @media (min-width: 640px) {
+            .team-name {
+                max-width: 180px;
+            }
+            .score {
+                min-width: 80px;
+            }
+        }
         @media (max-width: 639px) {
             .score {
                 font-size: 1.1rem;
@@ -213,6 +214,9 @@ function formatMatchDate($dateString) {
                     <a href="tables.php" class="nav-item font-medium text-sm uppercase tracking-wider py-4">
                         <i class="fas fa-table mr-2"></i>League Tables
                     </a>
+                    <a href="upload_fixtures.php" class="nav-item font-medium text-sm uppercase tracking-wider py-4">
+                        <i class="fas fa-edit mr-2"></i>Manage
+                    </a>
                 </nav>
                 
                 <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
@@ -231,10 +235,14 @@ function formatMatchDate($dateString) {
             <a href="tables.php" class="block py-3 px-4 mobile-nav-item rounded-md">
                 <i class="fas fa-table mr-3"></i>League Tables
             </a>
+            <a href="upload_fixtures.php" class="block py-3 px-4 mobile-nav-item rounded-md">
+                <i class="fas fa-edit mr-3"></i>Manage
+            </a>
         </div>
     </header>
 
     <main class="container mx-auto px-4 py-8">
+        <!-- Filter Section -->
         <div class="bg-white rounded-lg shadow-md p-6 mb-8 grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
@@ -277,6 +285,7 @@ function formatMatchDate($dateString) {
             </div>
         </div>
 
+        <!-- Fixtures Display Section -->
         <div class="space-y-6">
             <?php if (empty($fixtures)): ?>
                 <div class="bg-white rounded-lg shadow-md p-8 text-center">
@@ -387,11 +396,13 @@ function formatMatchDate($dateString) {
     </main>
 
     <script>
+        // Mobile menu toggle
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
         });
 
+        // Apply filters button
         document.getElementById('applyFilters').addEventListener('click', function() {
             const gender = document.getElementById('genderFilter').value;
             const competition = document.getElementById('competitionFilter').value;
@@ -399,6 +410,13 @@ function formatMatchDate($dateString) {
             const tab = '<?php echo $tab; ?>';
             
             window.location.href = `fixtures.php?tab=${tab}&gender=${gender}&competition=${encodeURIComponent(competition)}&season=${season}`;
+        });
+
+        // Auto-submit filters when they change (optional)
+        document.querySelectorAll('#genderFilter, #competitionFilter, #seasonFilter').forEach(select => {
+            select.addEventListener('change', function() {
+                document.getElementById('applyFilters').click();
+            });
         });
     </script>
 </body>
