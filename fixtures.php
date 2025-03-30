@@ -20,7 +20,7 @@ if ($compResult->num_rows > 0) {
     }
 }
 
-// Build SQL query with proper filtering
+// Build SQL query to get both fixtures and results
 $sql = "SELECT * FROM fixtures WHERE season = ?";
 $params = [$season];
 $types = "s";
@@ -29,7 +29,7 @@ $types = "s";
 if ($tab === 'results') {
     $sql .= " AND status = 'COMPLETED'";
 } else {
-    $sql .= " AND status != 'COMPLETED'";
+    $sql .= " AND (status != 'COMPLETED' OR status IS NULL)";
 }
 
 // Add gender filter if not ALL
@@ -213,10 +213,7 @@ function formatMatchDate($dateString) {
                     </a>
                     <a href="tables.php" class="nav-item font-medium text-sm uppercase tracking-wider py-4">
                         <i class="fas fa-table mr-2"></i>League Tables
-                    </a>
-                    <a href="upload_fixtures.php" class="nav-item font-medium text-sm uppercase tracking-wider py-4">
-                        <i class="fas fa-edit mr-2"></i>Manage
-                    </a>
+                    </a> 
                 </nav>
                 
                 <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
@@ -283,6 +280,18 @@ function formatMatchDate($dateString) {
                     Apply Filters
                 </button>
             </div>
+        </div>
+
+        <!-- Tabs for Fixtures/Results -->
+        <div class="flex border-b border-gray-200 mb-6">
+            <a href="?tab=fixtures&gender=<?php echo $gender; ?>&competition=<?php echo urlencode($competition); ?>&season=<?php echo $season; ?>"
+               class="py-2 px-4 font-medium text-sm <?php echo $tab === 'fixtures' ? 'tab-active' : 'text-gray-500 hover:text-gray-700'; ?>">
+                <i class="fas fa-calendar-alt mr-2"></i>Upcoming Fixtures
+            </a>
+            <a href="?tab=results&gender=<?php echo $gender; ?>&competition=<?php echo urlencode($competition); ?>&season=<?php echo $season; ?>"
+               class="py-2 px-4 font-medium text-sm <?php echo $tab === 'results' ? 'tab-active' : 'text-gray-500 hover:text-gray-700'; ?>">
+                <i class="fas fa-list-ol mr-2"></i>Match Results
+            </a>
         </div>
 
         <!-- Fixtures Display Section -->
