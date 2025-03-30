@@ -248,9 +248,6 @@ function formatMatchDate($dateString) {
         <a href="tables.php" class="block py-3 px-4 border-b border-rugby-green">
             <i class="fas fa-table mr-3"></i>League Tables
         </a>
-        <a href="upload_fixtures.php" class="block py-3 px-4">
-            <i class="fas fa-cog mr-3"></i>Admin
-        </a>
     </div>
 
     <!-- Main Content -->
@@ -477,34 +474,7 @@ function formatMatchDate($dateString) {
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-rugby-dark text-white py-8 mt-12">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-4 md:mb-0">
-                    <div class="flex items-center">
-                        <img src="./logos_/logoT.jpg" alt="Club Logo" class="h-10 rounded-full border-2 border-white mr-3">
-                        <span class="text-lg font-bold">1000 Hills Rugby Club</span>
-                    </div>
-                    <p class="text-sm text-gray-300 mt-1">Established 1995</p>
-                </div>
-                <div class="flex space-x-4">
-                    <a href="#" class="text-gray-300 hover:text-white transition duration-200">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="text-gray-300 hover:text-white transition duration-200">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="text-gray-300 hover:text-white transition duration-200">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="border-t border-rugby-green mt-6 pt-6 text-sm text-gray-300 text-center">
-                &copy; <?php echo date('Y'); ?> 1000 Hills Rugby Club. All rights reserved.
-            </div>
-        </div>
-    </footer>
+    
 
     <script>
         // Mobile menu toggle
