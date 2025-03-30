@@ -1,12 +1,12 @@
 <?php
-// Database connection with error handling
+// Database connection
 $conn = new mysqli('localhost', 'hillsrug_hillsrug', 'M00dle??', 'hillsrug_1000hills_rugby_db');
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Get filter parameters with default values
-$gender = isset($_GET['gender']) ? $_GET['gender'] : 'ALL';
+// Get filter parameters
+$gender = isset($_GET['gender']) ? $_GET['gender'] : 'MEN';
 $competition = isset($_GET['competition']) ? $_GET['competition'] : 'ALL';
 $season = isset($_GET['season']) ? $_GET['season'] : date('Y');
 $tab = isset($_GET['tab']) ? $_GET['tab'] : 'fixtures';
@@ -20,26 +20,23 @@ if ($compResult->num_rows > 0) {
     }
 }
 
-// Build SQL query to get both fixtures and results
+// Build SQL query based on selected tab
 $sql = "SELECT * FROM fixtures WHERE season = ?";
 $params = [$season];
 $types = "s";
 
-// Add status condition based on tab
 if ($tab === 'results') {
     $sql .= " AND status = 'COMPLETED'";
 } else {
     $sql .= " AND (status != 'COMPLETED' OR status IS NULL)";
 }
 
-// Add gender filter if not ALL
 if ($gender != 'ALL') {
     $sql .= " AND gender = ?";
     $params[] = $gender;
     $types .= "s";
 }
 
-// Add competition filter if not ALL
 if ($competition != 'ALL') {
     $sql .= " AND competition = ?";
     $params[] = $competition;
@@ -49,7 +46,6 @@ if ($competition != 'ALL') {
 // Order by date (newest first for results, upcoming first for fixtures)
 $sql .= ($tab === 'results') ? " ORDER BY match_date DESC" : " ORDER BY match_date ASC";
 
-// Prepare and execute the query
 $stmt = $conn->prepare($sql);
 if ($stmt) {
     if (!empty($params)) {
@@ -59,7 +55,6 @@ if ($stmt) {
     $result = $stmt->get_result();
     $fixtures = $result->fetch_all(MYSQLI_ASSOC);
     
-    // Remove slashes from competition names in fixtures
     foreach ($fixtures as &$fixture) {
         $fixture['competition'] = stripslashes($fixture['competition']);
     }
@@ -67,17 +62,14 @@ if ($stmt) {
     $stmt->close();
 } else {
     $fixtures = [];
-    error_log("Database query failed: " . $conn->error);
 }
 
 $conn->close();
 
-// Helper function to safely display text
 function displayText($text) {
     return htmlspecialchars(stripslashes($text));
 }
 
-// Function to format match date
 function formatMatchDate($dateString) {
     $date = new DateTime($dateString);
     return $date->format('D, M j - g:i A');
@@ -88,171 +80,205 @@ function formatMatchDate($dateString) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $tab === 'results' ? 'Match Results' : 'Match Fixtures'; ?> - 1000 Hills Rugby Club</title>
+    <title><?php echo $tab === 'results' ? 'Match Results' : 'Match Fixtures'; ?> - 1000 Hills Rugby</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        rugby: {
+                            green: '#1a5632',
+                            dark: '#0d2e1a',
+                            light: '#e8f5e9',
+                            gold: '#d4af37'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        .gray-icon {
-            width: 40px;
-            height: 40px;
-            background-color: #ccc;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #888;
-            font-size: 18px;
-            font-weight: bold;
-            margin-right: 10px;
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
         }
         .fixture-card {
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            border-left: 4px solid transparent;
         }
         .fixture-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-left-color: #1a5632;
         }
-        .completed {
-            background-color: #f8f8f8;
+        .result-card {
+            background: linear-gradient(to right, #f8f8f8 0%, white 20%);
         }
-        .team-name {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 120px;
+        .team-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
         }
-        .tab-active {
-            border-bottom: 2px solid #059669;
-            color: #059669;
-            font-weight: bold;
+        .score-pill {
+            min-width: 80px;
         }
-        .score {
-            min-width: 60px;
-        }
-        .nav-container {
-            background: linear-gradient(to right, rgb(10, 145, 19) 0%, rgb(1, 20, 2) 100%);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .nav-item {
-            position: relative;
-            color: white;
+        .tab-indicator {
+            height: 3px;
+            background: #1a5632;
+            bottom: -1px;
             transition: all 0.3s ease;
         }
-        .nav-item:hover {
-            color: #d1fae5;
+        .filter-select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
         }
-        .nav-item.active {
-            color: white;
-        }
-        .nav-item.active::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 24px;
-            height: 3px;
-            background-color: #34d399;
-            border-radius: 3px;
-        }
-        .mobile-nav {
-            background: linear-gradient(to right, rgb(10, 145, 19) 0%, rgb(1, 20, 2) 100%);
-        }
-        .mobile-nav-item {
-            color: white;
-            transition: all 0.2s ease;
-        }
-        .mobile-nav-item:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        .mobile-nav-item.active {
-            background-color: rgba(52, 211, 153, 0.2);
-            color: white;
-        }
-        @media (min-width: 640px) {
-            .team-name {
-                max-width: 180px;
+        /* Mobile-specific styles */
+        @media (max-width: 767px) {
+            .match-row {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                padding: 12px;
+                border-bottom: 1px solid #e5e7eb;
             }
-            .score {
-                min-width: 80px;
+            .team-col {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
             }
-        }
-        @media (max-width: 639px) {
-            .score {
-                font-size: 1.1rem;
+            .score-col {
+                flex: 0 0 80px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
             }
-            .gray-icon {
+            .mobile-team-name {
+                font-size: 14px;
+                font-weight: 500;
+                margin-top: 4px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 100px;
+            }
+            .mobile-logo {
                 width: 32px;
                 height: 32px;
+            }
+            .mobile-score {
+                font-size: 18px;
+                font-weight: bold;
+            }
+            .mobile-vs {
                 font-size: 16px;
+                color: #6b7280;
             }
-            .fixture-card img {
-                width: 32px;
-                height: 32px;
+            .mobile-date {
+                font-size: 12px;
+                color: #6b7280;
+                margin-top: 4px;
+            }
+            .mobile-competition {
+                font-size: 11px;
+                color: #6b7280;
+                margin-top: 4px;
+            }
+            .mobile-card {
+                border-radius: 8px;
+                margin-bottom: 8px;
+                background: white;
             }
         }
     </style>
 </head>
 <body class="bg-gray-50">
-    <header class="nav-container">
-        <div class="container mx-auto px-4 py-3">
+    <!-- Header -->
+    <header class="bg-rugby-green text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
             <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-4">
-                    <a href="./" class="flex items-center">
-                        <img src="./logos_/logoT.jpg" alt="Club Logo" class="h-12 rounded-full border-2 border-white shadow-md">
-                        <span class="ml-3 text-xl font-bold text-white">1000 Hills Rugby</span>
-                    </a>
+                <div class="flex items-center space-x-3">
+                    <img src="./logos_/logoT.jpg" alt="Club Logo" class="h-12 rounded-full border-2 border-white shadow-md">
+                     
                 </div>
                 
-                <nav class="hidden md:flex items-center space-x-8">
-                    <a href="fixtures.php?tab=fixtures" class="nav-item <?php echo $tab === 'fixtures' ? 'active' : ''; ?> font-medium text-sm uppercase tracking-wider py-4">
-                        <i class="fas fa-calendar-alt mr-2"></i>Fixtures
+                <nav class="hidden md:flex space-x-8">
+                    <a href="fixtures.php?tab=fixtures" class="relative py-2 px-1 font-medium text-sm uppercase tracking-wider hover:text-rugby-gold transition duration-200">
+                        Fixtures
+                        <?php if ($tab === 'fixtures'): ?>
+                        <span class="tab-indicator absolute left-0 right-0"></span>
+                        <?php endif; ?>
                     </a>
-                    <a href="fixtures.php?tab=results" class="nav-item <?php echo $tab === 'results' ? 'active' : ''; ?> font-medium text-sm uppercase tracking-wider py-4">
-                        <i class="fas fa-list-ol mr-2"></i>Results
+                    <a href="fixtures.php?tab=results" class="relative py-2 px-1 font-medium text-sm uppercase tracking-wider hover:text-rugby-gold transition duration-200">
+                        Results
+                        <?php if ($tab === 'results'): ?>
+                        <span class="tab-indicator absolute left-0 right-0"></span>
+                        <?php endif; ?>
                     </a>
-                    <a href="tables.php" class="nav-item font-medium text-sm uppercase tracking-wider py-4">
-                        <i class="fas fa-table mr-2"></i>League Tables
-                    </a> 
+                    <a href="tables.php" class="relative py-2 px-1 font-medium text-sm uppercase tracking-wider hover:text-rugby-gold transition duration-200">
+                        League Tables
+                    </a>
+                    <a href="upload_fixtures.php" class="relative py-2 px-1 font-medium text-sm uppercase tracking-wider hover:text-rugby-gold transition duration-200">
+                        Admin
+                    </a>
                 </nav>
                 
                 <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
-                    <i class="fas fa-bars text-2xl"></i>
+                    <i class="fas fa-bars text-xl"></i>
                 </button>
             </div>
         </div>
-        
-        <div id="mobile-menu" class="hidden md:hidden mobile-nav py-2 px-4 shadow-lg">
-            <a href="fixtures.php?tab=fixtures" class="block py-3 px-4 mobile-nav-item <?php echo $tab === 'fixtures' ? 'active' : ''; ?> rounded-md">
-                <i class="fas fa-calendar-alt mr-3"></i>Fixtures
-            </a>
-            <a href="fixtures.php?tab=results" class="block py-3 px-4 mobile-nav-item <?php echo $tab === 'results' ? 'active' : ''; ?> rounded-md">
-                <i class="fas fa-list-ol mr-3"></i>Results
-            </a>
-            <a href="tables.php" class="block py-3 px-4 mobile-nav-item rounded-md">
-                <i class="fas fa-table mr-3"></i>League Tables
-            </a>
-            <a href="upload_fixtures.php" class="block py-3 px-4 mobile-nav-item rounded-md">
-                <i class="fas fa-edit mr-3"></i>Manage
-            </a>
-        </div>
     </header>
 
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-rugby-dark text-white py-2 px-4 shadow-lg">
+        <a href="fixtures.php?tab=fixtures" class="block py-3 px-4 border-b border-rugby-green <?php echo $tab === 'fixtures' ? 'bg-rugby-green bg-opacity-30' : ''; ?>">
+            <i class="fas fa-calendar-alt mr-3"></i>Fixtures
+        </a>
+        <a href="fixtures.php?tab=results" class="block py-3 px-4 border-b border-rugby-green <?php echo $tab === 'results' ? 'bg-rugby-green bg-opacity-30' : ''; ?>">
+            <i class="fas fa-list-ol mr-3"></i>Results
+        </a>
+        <a href="tables.php" class="block py-3 px-4 border-b border-rugby-green">
+            <i class="fas fa-table mr-3"></i>League Tables
+        </a>
+        <a href="upload_fixtures.php" class="block py-3 px-4">
+            <i class="fas fa-cog mr-3"></i>Admin
+        </a>
+    </div>
+
+    <!-- Main Content -->
     <main class="container mx-auto px-4 py-8">
-        <!-- Filter Section -->
-        <div class="bg-white rounded-lg shadow-md p-6 mb-8 grid grid-cols-1 md:grid-cols-4 gap-4">
+        <!-- Page Title -->
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl md:text-3xl font-bold text-rugby-dark">
+                <?php echo $tab === 'results' ? 'Match Results' : 'Upcoming Fixtures'; ?>
+            </h2>
+            <div class="text-sm text-gray-500">
+                <?php echo date('F j, Y'); ?>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="bg-white rounded-xl shadow-sm p-6 mb-8 grid grid-cols-1 md:grid-cols-5 gap-4 border border-gray-100">
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
-                <select id="genderFilter" class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
-                    <option value="ALL" <?php echo ($gender == 'ALL') ? 'selected' : ''; ?>>All Genders</option>
-                    <option value="MEN" <?php echo ($gender == 'MEN') ? 'selected' : ''; ?>>Men</option>
-                    <option value="WOMEN" <?php echo ($gender == 'WOMEN') ? 'selected' : ''; ?>>Women</option>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Gender</label>
+                <select id="genderFilter" class="filter-select w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rugby-green focus:border-rugby-green text-sm appearance-none">
+                    <option value="ALL" <?php echo ($gender == 'ALL') ? 'selected' : ''; ?>>All Teams</option>
+                    <option value="MEN" <?php echo ($gender == 'MEN') ? 'selected' : ''; ?>>Men's Teams</option>
+                    <option value="WOMEN" <?php echo ($gender == 'WOMEN') ? 'selected' : ''; ?>>Women's Teams</option>
                 </select>
             </div>
             
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Competition</label>
-                <select id="competitionFilter" class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
+            <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Competition</label>
+                <select id="competitionFilter" class="filter-select w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rugby-green focus:border-rugby-green text-sm appearance-none">
                     <option value="ALL" <?php echo ($competition == 'ALL') ? 'selected' : ''; ?>>All Competitions</option>
                     <?php foreach ($competitions as $comp): ?>
                         <option value="<?php echo displayText($comp); ?>" <?php echo ($competition == $comp) ? 'selected' : ''; ?>>
@@ -263,139 +289,186 @@ function formatMatchDate($dateString) {
             </div>
             
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Season</label>
-                <select id="seasonFilter" class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Season</label>
+                <select id="seasonFilter" class="filter-select w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rugby-green focus:border-rugby-green text-sm appearance-none">
                     <?php 
                     $currentYear = date('Y');
                     for ($year = $currentYear; $year >= 2020; $year--) {
                         $selected = ($season == $year) ? 'selected' : '';
-                        echo "<option value='$year' $selected>$year</option>";
+                        echo "<option value='$year' $selected>$year Season</option>";
                     }
                     ?>
                 </select>
             </div>
             
             <div class="flex items-end">
-                <button id="applyFilters" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">
+                <button id="applyFilters" class="w-full bg-rugby-green hover:bg-rugby-dark text-white font-medium py-2.5 px-4 rounded-lg transition duration-200 shadow-sm">
                     Apply Filters
                 </button>
             </div>
         </div>
 
-        <!-- Tabs for Fixtures/Results -->
-        <div class="flex border-b border-gray-200 mb-6">
-            <a href="?tab=fixtures&gender=<?php echo $gender; ?>&competition=<?php echo urlencode($competition); ?>&season=<?php echo $season; ?>"
-               class="py-2 px-4 font-medium text-sm <?php echo $tab === 'fixtures' ? 'tab-active' : 'text-gray-500 hover:text-gray-700'; ?>">
-                <i class="fas fa-calendar-alt mr-2"></i>Upcoming Fixtures
-            </a>
-            <a href="?tab=results&gender=<?php echo $gender; ?>&competition=<?php echo urlencode($competition); ?>&season=<?php echo $season; ?>"
-               class="py-2 px-4 font-medium text-sm <?php echo $tab === 'results' ? 'tab-active' : 'text-gray-500 hover:text-gray-700'; ?>">
-                <i class="fas fa-list-ol mr-2"></i>Match Results
-            </a>
-        </div>
-
-        <!-- Fixtures Display Section -->
-        <div class="space-y-6">
+        <!-- Matches List -->
+        <div class="space-y-4">
             <?php if (empty($fixtures)): ?>
-                <div class="bg-white rounded-lg shadow-md p-8 text-center">
-                    <i class="fas fa-calendar-times text-4xl text-gray-400 mb-4"></i>
-                    <h3 class="text-xl font-bold text-gray-700 mb-2">
-                        <?php echo $tab === 'results' ? 'No Results Found' : 'No Fixtures Found'; ?>
+                <div class="bg-white rounded-xl shadow-sm p-8 text-center border border-gray-100">
+                    <div class="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-calendar-times text-2xl text-gray-400"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-700 mb-2">
+                        <?php echo $tab === 'results' ? 'No match results found' : 'No upcoming fixtures scheduled'; ?>
                     </h3>
-                    <p class="text-gray-500">Try adjusting your filters or check back later.</p>
+                    <p class="text-gray-500 max-w-md mx-auto">
+                        Try adjusting your filters or check back later for updates.
+                    </p>
                 </div>
             <?php else: ?>
                 <?php 
                 $currentMonth = '';
-                $currentCompetition = '';
                 $processedFixtures = [];
                 
                 foreach ($fixtures as $fixture): 
-                    // Skip duplicate fixtures
                     $fixtureKey = $fixture['match_date'].$fixture['home_team'].$fixture['away_team'];
-                    if (in_array($fixtureKey, $processedFixtures)) {
-                        continue;
-                    }
+                    if (in_array($fixtureKey, $processedFixtures)) continue;
                     $processedFixtures[] = $fixtureKey;
                     
                     $matchDate = new DateTime($fixture['match_date']);
                     $month = $matchDate->format('F Y');
-                    $competition = $fixture['competition'];
+                    $isCompleted = $fixture['status'] == 'COMPLETED';
                     
-                    // Display month header if changed
                     if ($month != $currentMonth) {
                         $currentMonth = $month;
-                        echo "<h2 class='text-2xl font-bold text-gray-800 mb-4'>$currentMonth</h2>";
+                        echo "<h3 class='text-lg font-semibold text-gray-700 mb-3 mt-6 pl-2 border-l-4 border-rugby-green'>$currentMonth</h3>";
                     }
-                    
-                    // Display competition header if changed (only when showing all competitions)
-                    if ($competition != $currentCompetition && $competition == 'ALL') {
-                        $currentCompetition = $competition;
-                        echo "<h3 class='text-lg font-semibold text-gray-700 mb-2'>$currentCompetition</h3>";
-                    }
-                    
-                    $isCompleted = $fixture['status'] == 'COMPLETED';
                 ?>
-                    <div class="fixture-card bg-white rounded-lg shadow-md overflow-hidden <?php echo $isCompleted ? 'completed' : ''; ?>">
-                        <div class="p-4 border-b border-gray-200">
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <span class="text-sm font-medium text-gray-600">
+                    <!-- Desktop View -->
+                    <div class="hidden md:block fixture-card bg-white rounded-lg shadow-sm overflow-hidden <?php echo $isCompleted ? 'result-card' : ''; ?>">
+                        <div class="p-4 border-b border-gray-100">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+                                <div class="flex items-center mb-2 sm:mb-0">
+                                    <i class="far fa-calendar-alt text-gray-400 mr-2"></i>
+                                    <span class="text-sm font-medium text-gray-700">
                                         <?php echo formatMatchDate($fixture['match_date']); ?>
                                     </span>
                                     <?php if (!empty($fixture['stadium'])): ?>
-                                        <span class="text-sm text-gray-500 ml-2">• <?php echo displayText($fixture['stadium']); ?></span>
+                                        <span class="hidden sm:inline-block text-sm text-gray-500 ml-3">
+                                            <i class="fas fa-map-marker-alt text-gray-400 mr-1"></i>
+                                            <?php echo displayText($fixture['stadium']); ?>
+                                        </span>
                                     <?php endif; ?>
                                 </div>
-                                <div class="flex items-center">
-                                    <span class="text-xs font-medium px-2 py-1 rounded-full 
+                                <div class="flex space-x-2">
+                                    <span class="text-xs font-medium px-2.5 py-1 rounded-full 
                                         <?php echo $fixture['gender'] == 'MEN' ? 'bg-blue-100 text-blue-800' : 'bg-pink-100 text-pink-800'; ?>">
                                         <?php echo $fixture['gender']; ?>
                                     </span>
-                                    <span class="text-xs font-medium px-2 py-1 rounded-full bg-gray-100 text-gray-800 ml-2">
+                                    <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 text-gray-800">
                                         <?php echo displayText($fixture['competition']); ?>
                                     </span>
                                 </div>
                             </div>
+                            <?php if (!empty($fixture['stadium']) && !$isCompleted): ?>
+                                <div class="sm:hidden text-xs text-gray-500 mt-1">
+                                    <i class="fas fa-map-marker-alt text-gray-400 mr-1"></i>
+                                    <?php echo displayText($fixture['stadium']); ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
                         
-                        <div class="p-6">
+                        <div class="p-5">
                             <div class="flex items-center justify-between">
+                                <!-- Home Team -->
                                 <div class="flex items-center w-2/5">
                                     <?php if (!empty($fixture['home_logo'])): ?>
-                                        <img src="<?php echo displayText($fixture['home_logo']); ?>" alt="<?php echo displayText($fixture['home_team']); ?>" class="h-12 w-12 object-contain">
+                                        <img src="<?php echo displayText($fixture['home_logo']); ?>" alt="<?php echo displayText($fixture['home_team']); ?>" class="team-logo mr-3">
                                     <?php else: ?>
-                                        <div class="gray-icon"><?php echo substr($fixture['home_team'], 0, 1); ?></div>
+                                        <div class="team-logo bg-gray-100 rounded-full flex items-center justify-center text-gray-400 font-bold mr-3">
+                                            <?php echo substr($fixture['home_team'], 0, 1); ?>
+                                        </div>
                                     <?php endif; ?>
-                                    <span class="ml-3 font-medium team-name" title="<?php echo displayText($fixture['home_team']); ?>">
+                                    <span class="font-medium text-gray-800 team-name" title="<?php echo displayText($fixture['home_team']); ?>">
                                         <?php echo displayText($fixture['home_team']); ?>
                                     </span>
                                 </div>
                                 
-                                <div class="text-center score">
+                                <!-- Score -->
+                                <div class="text-center mx-2">
                                     <?php if ($isCompleted): ?>
-                                        <div class="text-xl md:text-2xl font-bold">
-                                            <span><?php echo isset($fixture['home_score']) ? (int)$fixture['home_score'] : '0'; ?></span>
-                                            <span class="mx-1 md:mx-2">-</span>
-                                            <span><?php echo isset($fixture['away_score']) ? (int)$fixture['away_score'] : '0'; ?></span>
+                                        <div class="score-pill bg-rugby-green text-white py-1 px-3 rounded-full inline-block">
+                                            <span class="font-bold"><?php echo isset($fixture['home_score']) ? (int)$fixture['home_score'] : '0'; ?></span>
+                                            <span class="mx-1">-</span>
+                                            <span class="font-bold"><?php echo isset($fixture['away_score']) ? (int)$fixture['away_score'] : '0'; ?></span>
                                         </div>
                                         <div class="text-xs text-gray-500 mt-1">FINAL</div>
                                     <?php else: ?>
-                                        <div class="text-lg md:text-xl font-bold text-gray-500">VS</div>
-                                        <div class="text-xs text-gray-500 mt-1">UPCOMING</div>
+                                        <div class="score-pill bg-gray-100 text-gray-700 py-1 px-3 rounded-full inline-block font-medium">
+                                            VS
+                                        </div>
+                                        <div class="text-xs text-gray-500 mt-1"><?php echo $matchDate->format('g:i A'); ?></div>
                                     <?php endif; ?>
                                 </div>
                                 
+                                <!-- Away Team -->
                                 <div class="flex items-center justify-end w-2/5">
-                                    <span class="mr-3 font-medium team-name" title="<?php echo displayText($fixture['away_team']); ?>">
+                                    <span class="font-medium text-gray-800 team-name text-right mr-3" title="<?php echo displayText($fixture['away_team']); ?>">
                                         <?php echo displayText($fixture['away_team']); ?>
                                     </span>
                                     <?php if (!empty($fixture['away_logo'])): ?>
-                                        <img src="<?php echo displayText($fixture['away_logo']); ?>" alt="<?php echo displayText($fixture['away_team']); ?>" class="h-12 w-12 object-contain">
+                                        <img src="<?php echo displayText($fixture['away_logo']); ?>" alt="<?php echo displayText($fixture['away_team']); ?>" class="team-logo">
                                     <?php else: ?>
-                                        <div class="gray-icon"><?php echo substr($fixture['away_team'], 0, 1); ?></div>
+                                        <div class="team-logo bg-gray-100 rounded-full flex items-center justify-center text-gray-400 font-bold">
+                                            <?php echo substr($fixture['away_team'], 0, 1); ?>
+                                        </div>
                                     <?php endif; ?>
                                 </div>
+                            </div>
+                        </div>
+                        
+                        <?php if ($isCompleted): ?>
+                        <div class="px-5 pb-4">
+                            <div class="text-xs text-gray-500">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                Match completed on <?php echo (new DateTime($fixture['match_date']))->format('M j, Y'); ?>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+
+                    <!-- Mobile View - Horizontal Layout -->
+                    <div class="md:hidden mobile-card">
+                        <div class="match-row">
+                            <div class="team-col">
+                                <?php if (!empty($fixture['home_logo'])): ?>
+                                    <img src="<?php echo displayText($fixture['home_logo']); ?>" alt="<?php echo displayText($fixture['home_team']); ?>" class="mobile-logo">
+                                <?php else: ?>
+                                    <div class="mobile-logo bg-gray-100 rounded-full flex items-center justify-center text-gray-400 font-bold">
+                                        <?php echo substr($fixture['home_team'], 0, 1); ?>
+                                    </div>
+                                <?php endif; ?>
+                                <span class="mobile-team-name"><?php echo displayText($fixture['home_team']); ?></span>
+                            </div>
+                            
+                            <div class="score-col">
+                                <?php if ($isCompleted): ?>
+                                    <span class="mobile-score text-rugby-green">
+                                        <?php echo isset($fixture['home_score']) ? (int)$fixture['home_score'] : '0'; ?>-<?php echo isset($fixture['away_score']) ? (int)$fixture['away_score'] : '0'; ?>
+                                    </span>
+                                <?php else: ?>
+                                    <span class="mobile-vs">vs</span>
+                                <?php endif; ?>
+                                <span class="mobile-date"><?php echo $matchDate->format('g:i A'); ?></span>
+                                <span class="mobile-competition"><?php echo displayText($fixture['competition']); ?></span>
+                            </div>
+                            
+                            <div class="team-col">
+                                <?php if (!empty($fixture['away_logo'])): ?>
+                                    <img src="<?php echo displayText($fixture['away_logo']); ?>" alt="<?php echo displayText($fixture['away_team']); ?>" class="mobile-logo">
+                                <?php else: ?>
+                                    <div class="mobile-logo bg-gray-100 rounded-full flex items-center justify-center text-gray-400 font-bold">
+                                        <?php echo substr($fixture['away_team'], 0, 1); ?>
+                                    </div>
+                                <?php endif; ?>
+                                <span class="mobile-team-name"><?php echo displayText($fixture['away_team']); ?></span>
                             </div>
                         </div>
                     </div>
@@ -404,6 +477,35 @@ function formatMatchDate($dateString) {
         </div>
     </main>
 
+    <!-- Footer -->
+    <footer class="bg-rugby-dark text-white py-8 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center">
+                        <img src="./logos_/logoT.jpg" alt="Club Logo" class="h-10 rounded-full border-2 border-white mr-3">
+                        <span class="text-lg font-bold">1000 Hills Rugby Club</span>
+                    </div>
+                    <p class="text-sm text-gray-300 mt-1">Established 1995</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-300 hover:text-white transition duration-200">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-gray-300 hover:text-white transition duration-200">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-300 hover:text-white transition duration-200">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="border-t border-rugby-green mt-6 pt-6 text-sm text-gray-300 text-center">
+                &copy; <?php echo date('Y'); ?> 1000 Hills Rugby Club. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
     <script>
         // Mobile menu toggle
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
@@ -411,7 +513,7 @@ function formatMatchDate($dateString) {
             menu.classList.toggle('hidden');
         });
 
-        // Apply filters button
+        // Filter functionality
         document.getElementById('applyFilters').addEventListener('click', function() {
             const gender = document.getElementById('genderFilter').value;
             const competition = document.getElementById('competitionFilter').value;
@@ -421,7 +523,7 @@ function formatMatchDate($dateString) {
             window.location.href = `fixtures.php?tab=${tab}&gender=${gender}&competition=${encodeURIComponent(competition)}&season=${season}`;
         });
 
-        // Auto-submit filters when they change (optional)
+        // Auto-apply filters when they change
         document.querySelectorAll('#genderFilter, #competitionFilter, #seasonFilter').forEach(select => {
             select.addEventListener('change', function() {
                 document.getElementById('applyFilters').click();
