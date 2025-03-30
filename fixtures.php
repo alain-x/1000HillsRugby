@@ -11,7 +11,7 @@ $competition = isset($_GET['competition']) ? $conn->real_escape_string($_GET['co
 $season = isset($_GET['season']) ? intval($_GET['season']) : date('Y');
 $tab = isset($_GET['tab']) ? $conn->real_escape_string($_GET['tab']) : 'fixtures';
 
-// Get all competitions for dropdown
+// Get all competitions for dropdown - using DISTINCT to avoid duplicates
 $competitions = [];
 $compResult = $conn->query("SELECT DISTINCT competition FROM fixtures ORDER BY competition");
 if ($compResult->num_rows > 0) {
@@ -20,42 +20,12 @@ if ($compResult->num_rows > 0) {
     }
 }
 
-// Build SQL query with explicit column selection for GROUP BY
+// Build SQL query with GROUP BY to prevent duplicates
 if ($tab === 'results') {
-    $sql = "SELECT 
-                MIN(id) as id, 
-                match_date, 
-                home_team, 
-                away_team, 
-                home_score, 
-                away_score, 
-                status, 
-                competition, 
-                gender, 
-                stadium, 
-                home_logo, 
-                away_logo, 
-                season
-            FROM fixtures 
-            WHERE status = 'COMPLETED' AND season = ? 
+    $sql = "SELECT * FROM fixtures WHERE status = 'COMPLETED' AND season = ? 
             AND NOT (home_score = 0 AND away_score = 0)";
 } else {
-    $sql = "SELECT 
-                MIN(id) as id, 
-                match_date, 
-                home_team, 
-                away_team, 
-                home_score, 
-                away_score, 
-                status, 
-                competition, 
-                gender, 
-                stadium, 
-                home_logo, 
-                away_logo, 
-                season
-            FROM fixtures 
-            WHERE season = ? 
+    $sql = "SELECT * FROM fixtures WHERE season = ? 
             AND (status != 'COMPLETED' OR (home_score = 0 AND away_score = 0))";
 }
 
@@ -74,8 +44,8 @@ if ($competition != 'ALL') {
     $types .= "s";
 }
 
-// Group by all non-aggregated columns
-$sql .= " GROUP BY match_date, home_team, away_team, home_score, away_score, status, competition, gender, stadium, home_logo, away_logo, season";
+// Add GROUP BY to ensure unique matches
+$sql .= " GROUP BY match_date, home_team, away_team";
 
 $sql .= ($tab === 'results') ? " ORDER BY match_date DESC" : " ORDER BY match_date ASC";
 
