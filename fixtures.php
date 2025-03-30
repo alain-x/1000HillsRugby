@@ -225,9 +225,6 @@ function formatMatchDate($dateString) {
                     <a href="tables.php" class="relative py-2 px-1 font-medium text-sm uppercase tracking-wider hover:text-rugby-gold transition duration-200">
                         League Tables
                     </a>
-                    <a href="upload_fixtures.php" class="relative py-2 px-1 font-medium text-sm uppercase tracking-wider hover:text-rugby-gold transition duration-200">
-                        Admin
-                    </a>
                 </nav>
                 
                 <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
