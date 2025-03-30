@@ -5,11 +5,11 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Get filter parameters
-$gender = isset($_GET['gender']) ? $_GET['gender'] : 'MEN';
-$competition = isset($_GET['competition']) ? $_GET['competition'] : 'ALL';
-$season = isset($_GET['season']) ? $_GET['season'] : date('Y');
-$tab = isset($_GET['tab']) ? $_GET['tab'] : 'fixtures';
+// Get filter parameters with sanitization
+$gender = isset($_GET['gender']) ? $conn->real_escape_string($_GET['gender']) : 'MEN';
+$competition = isset($_GET['competition']) ? $conn->real_escape_string($_GET['competition']) : 'ALL';
+$season = isset($_GET['season']) ? intval($_GET['season']) : date('Y');
+$tab = isset($_GET['tab']) ? $conn->real_escape_string($_GET['tab']) : 'fixtures';
 
 // Get all competitions for dropdown
 $competitions = [];
@@ -20,14 +20,42 @@ if ($compResult->num_rows > 0) {
     }
 }
 
-// Build SQL query based on selected tab
+// Build SQL query with explicit column selection for GROUP BY
 if ($tab === 'results') {
-    // For results tab, show only completed matches that don't have 00-00 score
-    $sql = "SELECT * FROM fixtures WHERE status = 'COMPLETED' AND season = ? 
+    $sql = "SELECT 
+                MIN(id) as id, 
+                match_date, 
+                home_team, 
+                away_team, 
+                home_score, 
+                away_score, 
+                status, 
+                competition, 
+                gender, 
+                stadium, 
+                home_logo, 
+                away_logo, 
+                season
+            FROM fixtures 
+            WHERE status = 'COMPLETED' AND season = ? 
             AND NOT (home_score = 0 AND away_score = 0)";
 } else {
-    // For fixtures tab, show upcoming matches AND completed matches with 00-00 score
-    $sql = "SELECT * FROM fixtures WHERE season = ? 
+    $sql = "SELECT 
+                MIN(id) as id, 
+                match_date, 
+                home_team, 
+                away_team, 
+                home_score, 
+                away_score, 
+                status, 
+                competition, 
+                gender, 
+                stadium, 
+                home_logo, 
+                away_logo, 
+                season
+            FROM fixtures 
+            WHERE season = ? 
             AND (status != 'COMPLETED' OR (home_score = 0 AND away_score = 0))";
 }
 
@@ -46,6 +74,9 @@ if ($competition != 'ALL') {
     $types .= "s";
 }
 
+// Group by all non-aggregated columns
+$sql .= " GROUP BY match_date, home_team, away_team, home_score, away_score, status, competition, gender, stadium, home_logo, away_logo, season";
+
 $sql .= ($tab === 'results') ? " ORDER BY match_date DESC" : " ORDER BY match_date ASC";
 
 $stmt = $conn->prepare($sql);
@@ -62,6 +93,7 @@ if ($stmt) {
     $stmt->close();
 } else {
     $fixtures = [];
+    error_log("SQL Error: " . $conn->error);
 }
 
 $conn->close();
