@@ -210,6 +210,10 @@ function formatMatchDate($dateString) {
                 </div>
                 
                 <nav class="hidden md:flex space-x-8">
+                    
+                <a href="/" class="relative py-2 px-1 font-medium text-sm uppercase tracking-wider hover:text-rugby-gold transition duration-200">
+                        Home
+                    </a>
                     <a href="fixtures.php?tab=fixtures" class="relative py-2 px-1 font-medium text-sm uppercase tracking-wider hover:text-rugby-gold transition duration-200">
                         Fixtures
                         <?php if ($tab === 'fixtures'): ?>
@@ -236,6 +240,10 @@ function formatMatchDate($dateString) {
 
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="hidden md:hidden bg-rugby-dark text-white py-2 px-4 shadow-lg">
+        
+    <a href="/" class="block py-3 px-4">
+            <i class="fas fa-cog mr-3"></i>Home
+        </a>
         <a href="fixtures.php?tab=fixtures" class="block py-3 px-4 border-b border-rugby-green <?php echo $tab === 'fixtures' ? 'bg-rugby-green bg-opacity-30' : ''; ?>">
             <i class="fas fa-calendar-alt mr-3"></i>Fixtures
         </a>
@@ -471,7 +479,7 @@ function formatMatchDate($dateString) {
         </div>
     </main>
 
-    
+   
 
     <script>
         // Mobile menu toggle
