@@ -20,43 +20,64 @@ if ($compResult->num_rows > 0) {
     }
 }
 
-// New improved query to prevent duplicates
+// Build SQL query with explicit column selection for GROUP BY
 if ($tab === 'results') {
-    $sql = "SELECT f.* FROM fixtures f
-            INNER JOIN (
-                SELECT MIN(id) as min_id 
-                FROM fixtures 
-                WHERE status = 'COMPLETED' AND season = ? 
-                AND NOT (home_score = 0 AND away_score = 0)
-                GROUP BY DATE(match_date), home_team, away_team, competition
-            ) as grouped ON f.id = grouped.min_id";
+    $sql = "SELECT 
+                MIN(id) as id, 
+                match_date, 
+                home_team, 
+                away_team, 
+                home_score, 
+                away_score, 
+                status, 
+                competition, 
+                gender, 
+                stadium, 
+                home_logo, 
+                away_logo, 
+                season
+            FROM fixtures 
+            WHERE status = 'COMPLETED' AND season = ? 
+            AND NOT (home_score = 0 AND away_score = 0)";
 } else {
-    $sql = "SELECT f.* FROM fixtures f
-            INNER JOIN (
-                SELECT MIN(id) as min_id 
-                FROM fixtures 
-                WHERE season = ? 
-                AND (status != 'COMPLETED' OR (home_score = 0 AND away_score = 0))
-                GROUP BY DATE(match_date), home_team, away_team, competition
-            ) as grouped ON f.id = grouped.min_id";
+    $sql = "SELECT 
+                MIN(id) as id, 
+                match_date, 
+                home_team, 
+                away_team, 
+                home_score, 
+                away_score, 
+                status, 
+                competition, 
+                gender, 
+                stadium, 
+                home_logo, 
+                away_logo, 
+                season
+            FROM fixtures 
+            WHERE season = ? 
+            AND (status != 'COMPLETED' OR (home_score = 0 AND away_score = 0))";
 }
 
 $params = [$season];
 $types = "s";
 
 if ($gender != 'ALL') {
-    $sql .= " AND f.gender = ?";
+    $sql .= " AND gender = ?";
     $params[] = $gender;
     $types .= "s";
 }
 
 if ($competition != 'ALL') {
-    $sql .= " AND f.competition = ?";
+    $sql .= " AND competition = ?";
     $params[] = $competition;
     $types .= "s";
 }
 
-$sql .= ($tab === 'results') ? " ORDER BY f.match_date DESC" : " ORDER BY f.match_date ASC";
+// Group by all non-aggregated columns
+$sql .= " GROUP BY match_date, home_team, away_team, home_score, away_score, status, competition, gender, stadium, home_logo, away_logo, season";
+
+$sql .= ($tab === 'results') ? " ORDER BY match_date DESC" : " ORDER BY match_date ASC";
 
 $stmt = $conn->prepare($sql);
 if ($stmt) {
@@ -86,7 +107,6 @@ function formatMatchDate($dateString) {
     return $date->format('D, M j - g:i A');
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -95,6 +115,22 @@ function formatMatchDate($dateString) {
     <title><?php echo $tab === 'results' ? 'Match Results' : 'Match Fixtures'; ?> - 1000 Hills Rugby</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        rugby: {
+                            green: '#1a5632',
+                            dark: '#0d2e1a',
+                            light: '#e8f5e9',
+                            gold: '#d4af37'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         body {
             font-family: 'Segoe UI', Roboto, sans-serif;
@@ -267,6 +303,7 @@ function formatMatchDate($dateString) {
                 <div class="flex items-center space-x-4">
                     <a href="./" class="flex items-center">
                         <img src="./logos_/logoT.jpg" alt="Club Logo" class="h-12 rounded-full border-2 border-white shadow-md">
+                        <span class="ml-3 text-xl font-bold text-white"></span>
                     </a>
                 </div>
                 
