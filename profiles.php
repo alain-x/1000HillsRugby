@@ -180,6 +180,7 @@ $conn->close();
         img {
             max-width: 100%;
             height: auto;
+            display: block;
         }
 
         .container {
@@ -257,7 +258,6 @@ $conn->close();
             color: var(--white);
             padding: 1rem 0;
             box-shadow: var(--shadow);
-            /* Removed sticky positioning */
             z-index: 1000;
         }
 
@@ -273,6 +273,7 @@ $conn->close();
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .logo {
@@ -413,7 +414,6 @@ $conn->close();
         .filter-bar {
             background-color: var(--secondary-color);
             padding: 1rem 0;
-            /* Removed sticky positioning */
             z-index: 50;
             box-shadow: var(--shadow);
         }
@@ -471,7 +471,7 @@ $conn->close();
             position: relative;
             display: flex;
             flex-direction: column;
-            height: 430px;
+            height: 100%;
         }
 
         .player-card:hover {
@@ -968,11 +968,13 @@ $conn->close();
 
             .mobile-menu-btn {
                 display: block;
+                order: 1;
             }
 
             .search-bar {
                 width: 100%;
                 margin-top: 1rem;
+                order: 3;
             }
 
             .detail-header {
@@ -996,6 +998,11 @@ $conn->close();
             .footer-content {
                 grid-template-columns: 1fr;
             }
+
+            /* Team stats grid for mobile */
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (max-width: 576px) {
@@ -1004,17 +1011,51 @@ $conn->close();
             }
 
             .player-image-container {
-                height: 200px;
+                height: 250px;
             }
 
+            .player-card {
+                height: auto;
+            }
+
+            /* Adjust player card layout for small screens */
+            .player-info {
+                padding: 1rem;
+            }
+
+            .player-name {
+                font-size: 1.1rem;
+            }
+
+            .player-position {
+                font-size: 0.85rem;
+            }
+
+            .player-stats {
+                font-size: 0.75rem;
+            }
+
+            /* Make sure last card fits */
+            .player-grid::after {
+                content: "";
+                flex: auto;
+            }
+        }
+
+        /* Very small screens */
+        @media (max-width: 400px) {
             .stats-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .player-image-container {
+                height: 200px;
             }
         }
     </style>
 </head>
 <body class="<?php echo $currentTeam; ?>">
-    <!-- Header (no longer sticky) -->
+    <!-- Header -->
     <header class="header <?php echo $currentTeam; ?>">
         <div class="container">
             <div class="header-content">
@@ -1024,7 +1065,6 @@ $conn->close();
                 </div>
                 </a>
                 
-
                 <nav class="nav-links">
                 <a href="./">Home</a>
                     <a href="?team=men" class="<?php echo $currentTeam == 'men' ? 'active' : ''; ?>">Men's Squad</a>
@@ -1055,7 +1095,7 @@ $conn->close();
         </div>
     </header>
 
-    <!-- Filter Bar (also no longer sticky) -->
+    <!-- Filter Bar -->
     <div class="filter-bar">
         <div class="container">
             <div class="filter-tabs">
@@ -1251,7 +1291,6 @@ $conn->close();
         <?php endif; ?>
     </main>
 
-     
     <script>
         // Mobile menu toggle
         document.getElementById('mobileMenuBtn').addEventListener('click', function() {
