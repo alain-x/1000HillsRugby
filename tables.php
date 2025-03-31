@@ -259,6 +259,9 @@ try {
                 </div>
                 
                 <nav class="hidden md:flex items-center space-x-8">
+                    <a href="/" class="nav-item active font-medium text-sm uppercase tracking-wider py-4">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </a>
                     <a href="fixtures.php?tab=fixtures" class="nav-item font-medium text-sm uppercase tracking-wider py-4">
                         <i class="fas fa-calendar-alt mr-2"></i>Fixtures
                     </a>
@@ -278,6 +281,9 @@ try {
         
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden mobile-nav py-2 px-4 shadow-lg">
+            <a href="/" class="block py-3 px-4 mobile-nav-item active rounded-md">
+                <i class="fas fa-home mr-3"></i>Home
+            </a>
             <a href="fixtures.php?tab=fixtures" class="block py-3 px-4 mobile-nav-item rounded-md">
                 <i class="fas fa-calendar-alt mr-3"></i>Fixtures
             </a>

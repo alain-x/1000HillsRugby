@@ -22,7 +22,7 @@ try {
     }
 
     // Get filter parameters with validation
-    $selected_season = isset($_GET['season']) ? max(2000, min(intval($_GET['season']), $current_season)) : $current_season;
+    $selected_season = isset($_GET['season']) ? max(2014, min(intval($_GET['season']), $current_season)) : $current_season;
     $selected_competition = isset($_GET['competition']) ? $conn->real_escape_string($_GET['competition']) : '';
     $selected_gender = isset($_GET['gender']) ? (in_array($_GET['gender'], ['MEN', 'WOMEN']) ? $_GET['gender'] : '') : '';
     $active_tab = isset($_GET['tab']) ? (in_array($_GET['tab'], ['fixtures', 'results']) ? $_GET['tab'] : 'fixtures') : 'fixtures';
@@ -202,6 +202,47 @@ try {
             font-weight: 600;
             font-size: 0.9rem;
         }
+        /* Navigation styles */
+        .nav-container {
+            background: linear-gradient(to right, rgb(10, 145, 19) 0%, rgb(1, 20, 2) 100%);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .nav-item {
+            position: relative;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .nav-item:hover {
+            color: #d1fae5;
+        }
+        .nav-item.active {
+            color: white;
+        }
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 3px;
+            background-color: #34d399;
+            border-radius: 3px;
+        }
+        .mobile-nav {
+            background: linear-gradient(to right, rgb(10, 145, 19) 0%, rgb(1, 20, 2) 100%);
+        }
+        .mobile-nav-item {
+            color: white;
+            transition: all 0.2s ease;
+        }
+        .mobile-nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .mobile-nav-item.active {
+            background-color: rgba(52, 211, 153, 0.2);
+            color: white;
+        }
         @media (max-width: 640px) {
             .teams-horizontal {
                 flex-direction: row;
@@ -217,23 +258,54 @@ try {
     </style>
 </head>
 <body class="bg-gray-50 font-sans text-gray-800">
-    <!-- Header -->
-    <header class="bg-white shadow-sm sticky top-0 z-10">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <img src="/assets/logo.svg" alt="1000 Hills Rugby Club Logo" class="h-10 w-auto">
-                <h1 class="text-xl font-bold text-gray-900">1000 Hills Rugby</h1>
+    <!-- Professional Header -->
+    <header class="nav-container">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <a href="./" class="flex items-center">
+                        <img src="./logos_/logoT.jpg" alt="Club Logo" class="h-12 rounded-full border-2 border-white shadow-md">
+                        <span class="ml-3 text-xl font-bold text-white"></span>
+                    </a>
+                </div>
+                
+                <nav class="hidden md:flex items-center space-x-8">
+                    
+                <a href="/" class="nav-item font-medium text-sm uppercase tracking-wider py-4">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </a>
+                    <a href="fixtures.php?tab=fixtures" class="nav-item <?php echo $active_tab === 'fixtures' ? 'active' : ''; ?> font-medium text-sm uppercase tracking-wider py-4">
+                        <i class="fas fa-calendar-alt mr-2"></i>Fixtures
+                    </a>
+                    <a href="fixtures.php?tab=results" class="nav-item <?php echo $active_tab === 'results' ? 'active' : ''; ?> font-medium text-sm uppercase tracking-wider py-4">
+                        <i class="fas fa-list-ol mr-2"></i>Results
+                    </a>
+                    <a href="tables.php" class="nav-item font-medium text-sm uppercase tracking-wider py-4">
+                        <i class="fas fa-table mr-2"></i>League Tables
+                    </a>
+                </nav>
+                
+                <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
             </div>
-            <nav class="hidden md:flex items-center space-x-6">
-                <a href="#" class="text-blue-700 font-medium">Fixtures</a>
-                <a href="#" class="text-gray-500 hover:text-blue-600 transition-colors">Teams</a>
-                <a href="#" class="text-gray-500 hover:text-blue-600 transition-colors">News</a>
-                <a href="#" class="text-gray-500 hover:text-blue-600 transition-colors">Gallery</a>
-                <a href="#" class="text-gray-500 hover:text-blue-600 transition-colors">About</a>
-            </nav>
-            <button class="md:hidden text-gray-500">
-                <i class="fas fa-bars text-2xl"></i>
-            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mobile-nav py-2 px-4 shadow-lg">
+            
+        <a href="/" class="block py-3 px-4 mobile-nav-item rounded-md">
+                <i class="fas fa-home mr-3"></i>Home
+            </a>
+            <a href="fixtures.php?tab=fixtures" class="block py-3 px-4 mobile-nav-item <?php echo $active_tab === 'fixtures' ? 'active' : ''; ?> rounded-md">
+                <i class="fas fa-calendar-alt mr-3"></i>Fixtures
+            </a>
+            <a href="fixtures.php?tab=results" class="block py-3 px-4 mobile-nav-item <?php echo $active_tab === 'results' ? 'active' : ''; ?> rounded-md">
+                <i class="fas fa-list-ol mr-3"></i>Results
+            </a>
+            <a href="tables.php" class="block py-3 px-4 mobile-nav-item rounded-md">
+                <i class="fas fa-table mr-3"></i>League Tables
+            </a>
         </div>
     </header>
 
@@ -242,10 +314,6 @@ try {
         <div class="container mx-auto px-4 py-8 max-w-7xl">
             <!-- Page Header -->
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
-                <div>
-                    <h1 class="text-3xl font-bold text-gray-900 mb-2">Fixtures & Results</h1>
-                    <p class="text-gray-500">Stay updated with all upcoming matches and recent results</p>
-                </div>
                 
                 <!-- Season Selector -->
                 <div class="mt-4 md:mt-0">
@@ -254,8 +322,8 @@ try {
                         <input type="hidden" name="competition" value="<?php echo htmlspecialchars($selected_competition); ?>">
                         <input type="hidden" name="gender" value="<?php echo htmlspecialchars($selected_gender); ?>">
                         <span class="text-sm font-medium text-gray-600">Season:</span>
-                        <select name="season" onchange="this.form.submit()" class="bg-transparent border-none focus:ring-0 text-sm font-medium text-blue-700">
-                            <?php for ($year = $current_season; $year >= 2000; $year--): ?>
+                        <select name="season" onchange="this.form.submit()" class="bg-transparent border-none focus:ring-0 text-sm font-medium text-green-700">
+                            <?php for ($year = $current_season; $year >= 2014; $year--): ?>
                                 <option value="<?php echo $year; ?>" <?php echo $year == $selected_season ? 'selected' : ''; ?>>
                                     <?php echo $year; ?>
                                 </option>
@@ -291,7 +359,7 @@ try {
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Competition</label>
                             <div class="relative">
-                                <select name="competition" class="w-full pl-3 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none bg-white bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiAjdHJpbWJsZS1kYXJrLTYwMCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWNoZXZyb24tZG93biI+PHBhdGggZD0ibTYgOSA2IDYgNi02Ii8+PC9zdmc+')] bg-no-repeat bg-[center_right_1rem]">
+                                <select name="competition" class="w-full pl-3 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 appearance-none bg-white bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiAjdHJpbWJsZS1kYXJrLTYwMCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWNoZXZyb24tZG93biI+PHBhdGggZD0ibTYgOSA2IDYgNi02Ii8+PC9zdmc+')] bg-no-repeat bg-[center_right_1rem]">
                                     <option value="">All Competitions</option>
                                     <?php foreach ($competitions as $comp): ?>
                                         <option value="<?php echo htmlspecialchars($comp); ?>" <?php echo $comp == $selected_competition ? 'selected' : ''; ?>>
@@ -305,7 +373,7 @@ try {
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Gender</label>
                             <div class="relative">
-                                <select name="gender" class="w-full pl-3 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none bg-white bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiAjdHJpbWJsZS1kYXJrLTYwMCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWNoZXZyb24tZG93biI+PHBhdGggZD0ibTYgOSA2IDYgNi02Ii8+PC9zdmc+')] bg-no-repeat bg-[center_right_1rem]">
+                                <select name="gender" class="w-full pl-3 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 appearance-none bg-white bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiAjdHJpbWJsZS1kYXJrLTYwMCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWNoZXZyb24tZG93biI+PHBhdGggZD0ibTYgOSA2IDYgNi02Ii8+PC9zdmc+')] bg-no-repeat bg-[center_right_1rem]">
                                     <option value="">All Genders</option>
                                     <option value="MEN" <?php echo $selected_gender == 'MEN' ? 'selected' : ''; ?>>Men's</option>
                                     <option value="WOMEN" <?php echo $selected_gender == 'WOMEN' ? 'selected' : ''; ?>>Women's</option>
@@ -313,23 +381,12 @@ try {
                             </div>
                         </div>
                         
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
-                            <div class="relative">
-                                <select class="w-full pl-3 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none bg-white bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiAjdHJpbWJsZS1kYXJrLTYwMCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWNoZXZyb24tZG93biI+PHBhdGggZD0ibTYgOSA2IDYgNi02Ii8+PC9zdmc+')] bg-no-repeat bg-[center_right_1rem]">
-                                    <option>All Statuses</option>
-                                    <option>Upcoming</option>
-                                    <option>Completed</option>
-                                </select>
-                            </div>
-                        </div>
-                        
                         <div class="flex items-end space-x-2">
-                            <button type="submit" class="w-full px-4 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex items-center justify-center">
+                            <button type="submit" class="w-full px-4 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 flex items-center justify-center">
                                 <i class="fas fa-filter mr-2"></i>
                                 Apply Filters
                             </button>
-                            <button type="reset" class="px-4 py-3 border border-gray-300 text-gray-600 font-medium rounded-lg hover:bg-gray-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            <button type="reset" class="px-4 py-3 border border-gray-300 text-gray-600 font-medium rounded-lg hover:bg-gray-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
                                 <i class="fas fa-undo"></i>
                             </button>
                         </div>
@@ -339,12 +396,12 @@ try {
             
             <!-- Tabs Navigation -->
             <div class="flex border-b border-gray-200 mb-6">
-                <button class="tab-button px-6 py-3 font-medium text-gray-500 hover:text-blue-600 transition-colors mr-1 <?php echo $active_tab === 'fixtures' ? 'active text-blue-700 border-b-2 border-blue-600' : ''; ?>" data-tab="fixtures">
+                <a href="?tab=fixtures&season=<?php echo $selected_season; ?>&competition=<?php echo urlencode($selected_competition); ?>&gender=<?php echo urlencode($selected_gender); ?>" class="tab-button px-6 py-3 font-medium <?php echo $active_tab === 'fixtures' ? 'text-green-700 border-b-2 border-green-600' : 'text-gray-500 hover:text-green-600'; ?> transition-colors mr-1">
                     <i class="far fa-calendar-alt mr-2"></i>Upcoming Fixtures
-                </button>
-                <button class="tab-button px-6 py-3 font-medium text-gray-500 hover:text-blue-600 transition-colors <?php echo $active_tab === 'results' ? 'active text-blue-700 border-b-2 border-blue-600' : ''; ?>" data-tab="results">
+                </a>
+                <a href="?tab=results&season=<?php echo $selected_season; ?>&competition=<?php echo urlencode($selected_competition); ?>&gender=<?php echo urlencode($selected_gender); ?>" class="tab-button px-6 py-3 font-medium <?php echo $active_tab === 'results' ? 'text-green-700 border-b-2 border-green-600' : 'text-gray-500 hover:text-green-600'; ?> transition-colors">
                     <i class="far fa-list-alt mr-2"></i>Match Results
-                </button>
+                </a>
             </div>
             
             <!-- Tab Contents -->
@@ -357,7 +414,7 @@ try {
                         </div>
                         <h3 class="text-xl font-medium text-gray-900 mb-2">No Upcoming Fixtures</h3>
                         <p class="text-gray-500 max-w-md mx-auto mb-6">There are currently no scheduled matches for the selected filters. Please check back later or try different filters.</p>
-                        <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
                             View Full Schedule
                         </button>
                     </div>
@@ -367,16 +424,16 @@ try {
                         <?php foreach ($upcoming_fixtures as $fixture): ?>
                             <div class="fixture-card bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md">
                                 <!-- Match Header -->
-                                <div class="p-5 bg-gradient-to-r from-blue-50 to-blue-100 border-b border-blue-200">
+                                <div class="p-5 bg-gradient-to-r from-green-50 to-green-100 border-b border-green-200">
                                     <div class="flex justify-between items-center">
-                                        <span class="text-sm font-medium text-blue-800">
+                                        <span class="text-sm font-medium text-green-800">
                                             <?php echo htmlspecialchars($fixture['competition']); ?>
                                         </span>
-                                        <span class="badge bg-blue-100 text-blue-800">
+                                        <span class="badge bg-green-100 text-green-800">
                                             <?php echo htmlspecialchars($fixture['gender']); ?>
                                         </span>
                                     </div>
-                                    <div class="mt-3 text-sm text-blue-700">
+                                    <div class="mt-3 text-sm text-green-700">
                                         <div class="flex items-center">
                                             <i class="far fa-calendar mr-2"></i>
                                             <?php echo date('l, F j, Y', strtotime($fixture['match_date'])); ?>
@@ -433,7 +490,7 @@ try {
                                     <span class="text-sm text-gray-500">
                                         <i class="fas fa-ticket-alt mr-1"></i> Tickets available
                                     </span>
-                                    <button class="text-sm font-medium text-blue-700 hover:text-blue-800 flex items-center">
+                                    <button class="text-sm font-medium text-green-700 hover:text-green-800 flex items-center">
                                         More info <i class="fas fa-chevron-right ml-1 text-xs"></i>
                                     </button>
                                 </div>
@@ -451,10 +508,7 @@ try {
                             <i class="far fa-frown text-7xl"></i>
                         </div>
                         <h3 class="text-xl font-medium text-gray-900 mb-2">No Results Found</h3>
-                        <p class="text-gray-500 max-w-md mx-auto mb-6">There are currently no completed matches for the selected filters. Please try different filters or check back later.</p>
-                        <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                            View Previous Seasons
-                        </button>
+                        <p class="text-gray-500 max-w-md mx-auto mb-6">There are currently no completed matches for the selected filters. Please try different filters or check back later.</p> 
                     </div>
                 <?php else: ?>
                     <!-- Results Table -->
@@ -482,7 +536,7 @@ try {
                                             <!-- Competition -->
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="flex items-center">
-                                                    <span class="badge bg-blue-100 text-blue-800 mr-2">
+                                                    <span class="badge bg-green-100 text-green-800 mr-2">
                                                         <?php echo htmlspecialchars($fixture['gender']); ?>
                                                     </span>
                                                     <span class="text-sm font-medium text-gray-900"><?php echo htmlspecialchars($fixture['competition']); ?></span>
@@ -556,40 +610,27 @@ try {
     </main>
 
     <script>
-        // Tab functionality
-        document.querySelectorAll('.tab-button').forEach(button => {
-            button.addEventListener('click', () => {
-                const tabId = button.getAttribute('data-tab');
-                
-                // Update active tab button
-                document.querySelectorAll('.tab-button').forEach(btn => {
-                    btn.classList.remove('active', 'text-blue-700', 'border-b-2', 'border-blue-600');
-                });
-                button.classList.add('active', 'text-blue-700', 'border-b-2', 'border-blue-600');
-                
-                // Update active tab content
-                document.querySelectorAll('.tab-content').forEach(content => {
-                    content.classList.remove('active');
-                });
-                document.getElementById(`${tabId}-tab`).classList.add('active');
-                
-                // Update URL parameter without reload
-                const url = new URL(window.location.href);
-                url.searchParams.set('tab', tabId);
-                window.history.pushState({}, '', url);
-            });
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
         });
-        
-        // Initialize based on URL parameter
-        document.addEventListener('DOMContentLoaded', () => {
+
+        // Tab functionality - now handled by server-side links
+        // This script is just for any additional interactivity you might want
+        document.addEventListener('DOMContentLoaded', function() {
+            // Highlight active tab based on URL
             const urlParams = new URLSearchParams(window.location.search);
             const tabParam = urlParams.get('tab');
             
             if (tabParam && ['fixtures', 'results'].includes(tabParam)) {
-                const tabButton = document.querySelector(`.tab-button[data-tab="${tabParam}"]`);
-                if (tabButton) {
-                    tabButton.click();
-                }
+                // Remove all active classes first
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Add active class to the correct tab content
+                document.getElementById(`${tabParam}-tab`).classList.add('active');
             }
         });
     </script>
