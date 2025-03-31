@@ -1,381 +1,285 @@
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>About</title>
-    <link rel="icon" href="./images/t_icon.png" type="image/png">
+    <link rel="icon" href="./images/t_icon.png" type="image/png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./style.css" />
     <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-</head>
-<style>
-  .foter { 
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    padding: 1rem;
-    background-color: #1d6c1c;
-    color: #fff;
-    z-index: 1000;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for visual enhancement */
-  }
-
-  .foter a {
-    color: #fff;
-    text-decoration: underline; /* Or none if you prefer no underline */
-    margin-left: 0.5rem;
-  }
-
-  .foter a:hover {
-    color: #c2ffc1; /* Slightly lighter shade on hover */
-    text-decoration: none;
-  }
-
-  @media (min-width: 1300px) and (max-width: 1802px) {
-    .milestones-section {
-      margin-top: -30px; /* Adjust this value as needed */
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+  </head>
+  <style>
+    .foter {
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      padding: 1rem;
+      background-color: #1d6c1c;
+      color: #fff;
+      z-index: 1000;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for visual enhancement */
     }
-  }
-  
-</style>
 
-<body class="bg-white">
+    .foter a {
+      color: #fff;
+      text-decoration: underline; /* Or none if you prefer no underline */
+      margin-left: 0.5rem;
+    }
+
+    .foter a:hover {
+      color: #c2ffc1; /* Slightly lighter shade on hover */
+      text-decoration: none;
+    }
+
+    @media (min-width: 1300px) and (max-width: 1802px) {
+      .milestones-section {
+        margin-top: -30px; /* Adjust this value as needed */
+      }
+    }
+  </style>
+
+  <body class="bg-white">
     <!-- Transparent Navbar -->
     <nav
-    class="navbar fixed top-0 left-0 w-full px-2 z-20 h-[10vh] flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300"
-  >
-    <!-- Logo -->
-    <div class="navbar-logo w-2/12">
-      <a href="./">
-        <img
-          class="w-[60px] hover:w-[70px] transition-transform duration-300"
-          src="./images/1000-hills-logo.png"
-          alt="1000 Hills Rugby"
-        />
-      </a>
-    </div>
- 
-    <!-- Desktop Navigation -->
-    <ul
-      class="hidden lg:flex lg:space-x-8 font-600 text-gray-800 text-sm tracking-wider"
+      class="navbar fixed top-0 left-0 w-full px-2 z-20 h-[10vh] flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300"
     >
-      <li>
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-          href="./"
-          >Home</a
-        >
-      </li>
-      <li>
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-          href="./about"
-          >About</a
-        >
-      </li>
-      <li>
-       <a
-         class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-         href="./program"
-         >Programs</a
-       >
-     </li>
-     <li>
-       <a
-         class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-         href="./community"
-         >Community</a
-       >
-     </li>
-      <li>
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-          href="./shop"
-          >Shop</a
-        >
-      </li>
-      <li class="relative group">
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
-          >Education<i class="fas fa-chevron-down text-sm"></i
-        ></a>
-        <ul
-          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
-        >
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./education"
-              >1HR Education Program</a
-            >
-          </li>
-          <!--<li>
+      <!-- Logo -->
+      <div class="navbar-logo w-2/12">
+        <a href="./">
+          <img
+            class="w-[60px] hover:w-[70px] transition-transform duration-300"
+            src="./images/1000-hills-logo.png"
+            alt="1000 Hills Rugby"
+          />
+        </a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <ul
+        class="hidden lg:flex lg:space-x-8 font-600 text-gray-800 text-sm tracking-wider"
+      >
+        <li>
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+            href="./"
+            >Home</a
+          >
+        </li>
+        <li>
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+            href="./about"
+            >About</a
+          >
+        </li>
+        <li>
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+            href="./program"
+            >Programs</a
+          >
+        </li>
+        <li>
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+            href="./community"
+            >Community</a
+          >
+        </li>
+        <li>
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+            href="./shop"
+            >Shop</a
+          >
+        </li>
+
+        <li>
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+            href="./teams"
+            >Teams</a
+          >
+        </li>
+        <li class="relative group">
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
+            >Education<i class="fas fa-chevron-down text-sm"></i
+          ></a>
+          <ul
+            class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
+          >
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./education"
+                >1HR Education Program</a
+              >
+            </li>
+            <!--<li>
             <a
               class="block px-4 py-2 w-[180px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
               href="./Foundation"
               >Career Foundation</a
             >
           </li>-->
-        </ul>
-      </li>
-      <li class="relative group">
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
-          >Events<i class="fas fa-chevron-down text-sm"></i
-        ></a>
-        <ul
-          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
-        >
-          <li>
-            <a
-              class="block px-4 py-2  hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./events"
-              >Events</a
-            >
-          </li>
-          <li>
-            <a
-              class="block px-4 py-2 w-[150px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./news"
-              >News & Media</a
-            >
-          </li>
-        </ul>
-      </li>
-      <li class="relative group">
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
-          >Result<i class="fas fa-chevron-down text-sm"></i
-        ></a>
-        <ul
-          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
-        >
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./fixtures"
-              >Fixtures</a
-            >
-          </li>
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./results"
-              >Results</a
-            >
-          </li>
-        </ul>
-      </li>
-      <li class="relative group">
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
-          >Teams<i class="fas fa-chevron-down text-sm"></i
-        ></a>
-        <ul
-          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
-        >
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./menprofiles"
-              >Men's Senior</a
-            >
-          </li>
-          <li>
-            <a
-              class="block px-4 py-2 w-[150px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./womenprofiles"
-              >Women's Senior</a
-            >
-          </li>
-          
+          </ul>
+        </li>
+        <li class="relative group">
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
+            >Events<i class="fas fa-chevron-down text-sm"></i
+          ></a>
+          <ul
+            class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
+          >
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./events"
+                >Events</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 w-[150px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./news"
+                >News & Media</a
+              >
+            </li>
+          </ul>
+        </li>
 
-          <li class="relative">
-            <!-- Parent Dropdown -->
-            <button
-              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-              onclick="toggleDropdown('academy-menu')"
-            >
-              Academy  </i>
-            </button>
-            <ul
-              id="academy-menu"
-              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-            >
-              <!-- Under 18 Dropdown -->
-              <li class="relative">
-                <button
-                  class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                  onclick="toggleDropdown('under18-menu')"
-                >
-                  Under 18 <i class="fas fa-chevron-down text-sm"></i>
-                </button>
-                <ul
-                  id="under18-menu"
-                  class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-                >
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under18Boys"
-                      >Boys</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under18Girls"
-                      >Girls</a
-                    >
-                  </li>
-                </ul>
-              </li>
-          
-              <!-- Under 16 Dropdown -->
-              <li class="relative">
-                <button
-                  class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                  onclick="toggleDropdown('under16-menu')"
-                >
-                  Under 16 <i class="fas fa-chevron-down text-sm"></i>
-                </button>
-                <ul
-                  id="under16-menu"
-                  class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-                >
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under16Boys"
-                      >Boys</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under16Girls"
-                      >Girls</a
-                    >
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          
-         
-        </ul>
-      </li>
-      <li class="relative group">
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none mr-10"
-          >Contact<i class="fas fa-chevron-down text-sm"></i
-        ></a>
-        <ul
-          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
+        <li class="relative group">
+          <a
+            class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none mr-10"
+            >Contact<i class="fas fa-chevron-down text-sm"></i
+          ></a>
+          <ul
+            class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
+          >
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./staff"
+                >Staff</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./contact"
+                >Contact us</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./register#reForm"
+                >Register</a
+              >
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- Mobile Menu & Social Media -->
+      <div class="relative lg:hidden flex flex-wrap items-center">
+        <!-- Mobile Menu Toggle -->
+        <input type="checkbox" id="menu-toggle" class="hidden" />
+        <label for="menu-toggle" class="cursor-pointer text-2xl text-black">
+          <i class="fa-solid fa-bars" id="menu-open-icon"></i>
+          <i class="fa-solid fa-times hidden" id="menu-close-icon"></i>
+        </label>
+
+        <!-- Mobile Menu -->
+        <div
+          id="menu"
+          class="absolute top-full right-0 bg-white text-gray-800 w-48 mt-2 rounded-md shadow-lg hidden transition-all duration-300"
         >
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./staff"
-              >Staff</a
-            >
-          </li>
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./contact"
-              >Contact us</a
-            >
-          </li>
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./register#reForm"
-              >Register</a
-            >
-          </li>
-        </ul>
-      </li>
-    </ul>
- 
-    <!-- Mobile Menu & Social Media -->
-    <div class="relative lg:hidden flex flex-wrap items-center">
-      <!-- Mobile Menu Toggle -->
-      <input type="checkbox" id="menu-toggle" class="hidden" />
-      <label for="menu-toggle" class="cursor-pointer text-2xl text-black">
-        <i class="fa-solid fa-bars" id="menu-open-icon"></i>
-        <i class="fa-solid fa-times hidden" id="menu-close-icon"></i>
-      </label>
- 
-      <!-- Mobile Menu -->
-      <div
-        id="menu"
-        class="absolute top-full right-0 bg-white text-gray-800 w-48 mt-2 rounded-md shadow-lg hidden transition-all duration-300"
-      >
-        <ul class="flex flex-col text-left space-y-1">
-          <!-- Main Menu Items -->
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./"
-              >Home</a
-            >
-          </li>
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./about"
-              >About</a
-            >
-          </li>
-          <li>
-           <a
-             class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-             href="./program"
-             >Programs</a
-           >
-         </li>
-         <li>
-           <a
-             class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-             href="./community"
-             >Community</a
-           >
-         </li>
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./shop"
-              >Shop</a
-            >
-          </li>
- 
-          <!-- Dropdown for Education -->
-          <li class="relative">
-            <button
-              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-              onclick="toggleDropdown('education-menu-mobile')"
-            >
-              Education <i class="fas fa-chevron-down text-sm"></i>
-            </button>
-            <ul
-              id="education-menu-mobile"
-              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-            >
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./education"
-                  >1HR Education Program</a
-                >
-              </li>
-              <!-- 
+          <ul class="flex flex-col text-left space-y-1">
+            <!-- Main Menu Items -->
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./"
+                >Home</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./about"
+                >About</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./program"
+                >Programs</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./community"
+                >Community</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./shop"
+                >Shop</a
+              >
+            </li>
+
+            <li>
+              <a
+                class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                href="./teams"
+                >Teams</a
+              >
+            </li>
+
+            <!-- Dropdown for Education -->
+            <li class="relative">
+              <button
+                class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                onclick="toggleDropdown('education-menu-mobile')"
+              >
+                Education <i class="fas fa-chevron-down text-sm"></i>
+              </button>
+              <ul
+                id="education-menu-mobile"
+                class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+              >
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./education"
+                    >1HR Education Program</a
+                  >
+                </li>
+                <!-- 
           <li>
             <a
               class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
@@ -383,574 +287,564 @@
               >Career Foundation</a
             >
           </li> -->
-            </ul>
-          </li>
- 
-          <!-- Dropdown for Events -->
-          <li class="relative">
-            <button
-              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-              onclick="toggleDropdown('events-menu-mobile')"
-            >
-              Events <i class="fas fa-chevron-down text-sm"></i>
-            </button>
-            <ul
-              id="events-menu-mobile"
-              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-            >
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./events"
-                  >Events</a
-                >
-              </li>
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./news"
-                  >News & Media</a
-                >
-              </li>
-            </ul>
-          </li>
- 
-          <!-- Dropdown for Results -->
-          <li class="relative">
-            <button
-              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-              onclick="toggleDropdown('results-menu-mobile')"
-            >
-              Results <i class="fas fa-chevron-down text-sm"></i>
-            </button>
-            <ul
-              id="results-menu-mobile"
-              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-            >
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./fixtures"
-                  >Fixtures</a
-                >
-              </li>
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./results"
-                  >Results</a
-                >
-              </li>
-            </ul>
-          </li>
- 
-           
-          <!-- Dropdown for Teams -->
+              </ul>
+            </li>
 
-        <li class="relative">
-         <button
-          class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-          onclick="toggleDropdown('teams-menu-mobile')"
-         >
-          Teams <i class="fas fa-chevron-down text-sm"></i>
-         </button>
-         <ul
-          id="teams-menu-mobile"
-          class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-         >
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./menprofiles"
-              >Men's Senior</a
-            >
-          </li>
+            <!-- Dropdown for Events -->
+            <li class="relative">
+              <button
+                class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                onclick="toggleDropdown('events-menu-mobile')"
+              >
+                Events <i class="fas fa-chevron-down text-sm"></i>
+              </button>
+              <ul
+                id="events-menu-mobile"
+                class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+              >
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./events"
+                    >Events</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./news"
+                    >News & Media</a
+                  >
+                </li>
+              </ul>
+            </li>
 
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./womenprofiles"
-              >Women's Senior</a
-            >
-          </li>
-          <li class="relative">
-            <!-- Parent Dropdown -->
-            <button
-              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-              onclick="toggleDropdown('academy-menu-mobile')"
-            >
-              Academy </i>
-            </button>
-            <ul
-              id="academy-menu-mobile"
-              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-            >
-              <!-- Under 18 Dropdown -->
-              <li class="relative">
-                <button
-                  class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                  onclick="toggleDropdown('under18-menu-mobile')"
-                >
-                  Under 18 <i class="fas fa-chevron-down text-sm"></i>
-                </button>
-                <ul
-                  id="under18-menu-mobile"
-                  class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-                >
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under18Boys"
-                      >Boys</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under18Girls"
-                      >Girls</a
-                    >
-                  </li>
-                </ul>
-              </li>
-          
-              <!-- Under 16 Dropdown -->
-              <li class="relative">
-                <button
-                  class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                  onclick="toggleDropdown('under16-menu-mobile')"
-                >
-                  Under 16 <i class="fas fa-chevron-down text-sm"></i>
-                </button>
-                <ul
-                  id="under16-menu-mobile"
-                  class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-                >
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under16Boys"
-                      >Boys</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under16Girls"
-                      >Girls</a
-                    >
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          
+            <!-- Contact -->
+            <li class="relative">
+              <button
+                class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+                onclick="toggleDropdown('contact-menu-mobile')"
+              >
+                Contact <i class="fas fa-chevron-down text-sm"></i>
+              </button>
+              <ul
+                id="contact-menu-mobile"
+                class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+              >
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./staff"
+                    >Staff</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./contact"
+                    >Contact Us</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                    href="./register#reForm"
+                    >Register</a
+                  >
+                </li>
+              </ul>
+            </li>
           </ul>
-      </li>
- 
-          <!-- Contact -->
-          <li class="relative">
-            <button
-              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-              onclick="toggleDropdown('contact-menu-mobile')"
-            >
-              Contact <i class="fas fa-chevron-down text-sm"></i>
-            </button>
-            <ul
-              id="contact-menu-mobile"
-              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-            >
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./staff"
-                  >Staff</a
-                >
-              </li>
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./contact"
-                  >Contact Us</a
-                >
-              </li>
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./register#reForm"
-                  >Register</a
-                >
-              </li>
-            </ul>
-          </li>
-        </ul>
+        </div>
       </div>
-    </div>
-  </nav>
- 
- 
- 
- 
- 
+    </nav>
 
     <main>
-        <section
-            class="upper-class lg:pt-[10%] md:pt-[15%] sm:pt-[20%] pt-[30%] w-full mx-auto flex flex-col items-center bg-fixed justify-center gap-6 text-center py-24 rounded-lg shadow-lg bg-cover bg-center relative"
-            style="background-image: url('./images/26.JPG');">
-            <div class="absolute inset-0 bg-black opacity-70 rounded-lg"></div>
-            <div class="relative z-10 w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] mx-auto text-white">
-              <h1 class="font-extrabold text-lg sm:text-xl md:text-2xl lg:text-4xl leading-tight">
-                The Journey of 1000 Hills Rugby: Empowering Communities Through Sport
-              </h1>
-              
-                <p class="lg:text-base text-start text-md md:text-lg lg:text-xl mt-4">
-                  Welcome to the home of 1000 Hills Rugby! Here, we share our story, our mission, and the milestones that define our journey of transforming lives through rugby.
-                </p>
-                <a href="./community.html"
-                    class="mt-8 lg:text-lg md:text-md text-sm inline-block lg:px-6 px-3 py-3 bg-[#DCBB26] hover:bg-white hover:text-[#DCBB26] text-black font-semibold rounded-lg shadow-md transition duration-300 ease-in-out">
-                    Learn More
-                </a>
-            </div>
-        </section>
+      <section
+        class="upper-class lg:pt-[10%] md:pt-[15%] sm:pt-[20%] pt-[30%] w-full mx-auto flex flex-col items-center bg-fixed justify-center gap-6 text-center py-24 rounded-lg shadow-lg bg-cover bg-center relative"
+        style="background-image: url('./images/26.JPG')"
+      >
+        <div class="absolute inset-0 bg-black opacity-70 rounded-lg"></div>
+        <div
+          class="relative z-10 w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] mx-auto text-white"
+        >
+          <h1
+            class="font-extrabold text-lg sm:text-xl md:text-2xl lg:text-4xl leading-tight"
+          >
+            The Journey of 1000 Hills Rugby: Empowering Communities Through
+            Sport
+          </h1>
 
-
-
-
-
-        <section class="second-section flex flex-col md:flex-row w-[95%] sm:w-[85%] md:w-[80%] mx-auto justify-between items-start gap-8 mt-8">
-    
-          <!-- Right Side - Image Container -->
-          <div class="w-full md:w-1/2 order-1 lg:order-2 flex flex-col items-center gap-4">
-              <img class="object-cover w-full h-auto rounded-lg shadow-lg transform hover:scale-105 transition duration-500 ease-in-out" 
-                   src="./images/IMG_8658.JPG" alt="Friends of 1000 Hills Rugby Team">
-                   <img class="object-cover w-full mt-[30px] h-auto rounded-lg shadow-lg transform hover:scale-105 transition duration-500 ease-in-out" 
-                   src="./images/DSC00100.JPG" >
-                   <img class="object-cover w-full mt-[30px] h-auto rounded-lg shadow-lg transform hover:scale-105 transition duration-500 ease-in-out" 
-                   src="./images/DSC09573.JPG" >
-          </div>
-      
-          <!-- Left Side - Text Content -->
-          <div class="flex order-2 lg:order-1 flex-col gap-6 w-full md:w-1/2 text-start">
-              <h2 class="text-[#00743F] font-extrabold text-2xl">Our Roots</h2> 
-              <p class="text-black leading-relaxed">
-                  1000 Hills Rugby was born in 2014 at Don Bosco Gatenga with a bold vision: to harness the power of rugby as a unifying force. 
-                  Our aim was to create a safe and enjoyable environment where young athletes could grow their skills, deepen their understanding of the game, 
-                  and play rugby to their fullest potential. Recognizing the challenges faced by Rwanda’s youth, we combined sports with education to tackle employability and ensure sustainable livelihoods.
-              </p>
-              <p class="text-black leading-relaxed">
-                  Starting with just three Level 1 coaches and 20 U18 boys, we quickly expanded through the World Rugby’s "Get Into Rugby" program. 
-                  By early 2016, we had grown into a thriving community of 25 senior members, 20 U18 women, and 20 U16 boys. Currently, we have over 150 beneficiaries in our programs.
-              </p>
-      
-              <h2 class="font-bold text-2xl text-[#00743F]">Our Mission</h2> 
-               
-              <p class="text-black leading-relaxed">
-                To nurture our players into becoming the best men’s, women’s, and youth teams in Rwanda. We aim to be the foundation of excellence, fostering winning teams and providing a supportive, inclusive sporting community for individuals of all ages and genders. Through rugby, we empower players with education and employability skills, preparing them for a brighter future both on and off the field.
-              </p>
-      
-              <h2 class="font-bold text-2xl text-[#00743F]">Our Vision</h2>  
-              <p class="text-black leading-relaxed">
-                To establish 1000 Hills Rugby as the heart of rugby in Rwanda. We envision preparing players to compete internationally, representing Rwanda with pride, while equipping them with the tools to thrive academically and professionally. By integrating education and employability into our programs, we aim to develop disciplined, active contributors to society and the economy.
-              </p>
-      
-              <h2 class="font-bold text-2xl text-[#00743F]">Our Core Values</h2>  
-              <ol class="list-decimal list-inside text-black leading-relaxed space-y-2">
-                  <li><span class="font-semibold">Discipline:</span> Staying committed to growth, learning, and personal accountability.</li>
-                  <li><span class="font-semibold">Sportsmanship:</span>Promoting respect, fairness, and camaraderie on and off the field.
-                  </li>
-                  <li><span class="font-semibold">Mutuality:</span>Building a community of shared goals, respect, and support for all members.
-                  </li>
-                  <li><span class="font-semibold">Integrity:</span>Upholding honesty and transparency in all our actions.</li>
-                  <li><span class="font-semibold">Strength:</span>  Cultivating both mental and physical resilience to face challenges head-on.
-                  </li>
-
-                  <li><span class="font-semibold"> Empowerment:</span>Providing opportunities for education and employability to build well-rounded, self-reliant individuals.
-                  </li>
-              </ol>
-          </div>
-      
+          <p class="lg:text-base text-start text-md md:text-lg lg:text-xl mt-4">
+            Welcome to the home of 1000 Hills Rugby! Here, we share our story,
+            our mission, and the milestones that define our journey of
+            transforming lives through rugby.
+          </p>
+          <a
+            href="./community.html"
+            class="mt-8 lg:text-lg md:text-md text-sm inline-block lg:px-6 px-3 py-3 bg-[#DCBB26] hover:bg-white hover:text-[#DCBB26] text-black font-semibold rounded-lg shadow-md transition duration-300 ease-in-out"
+          >
+            Learn More
+          </a>
+        </div>
       </section>
-      
-      
 
-        <section class="second-section flex flex-col md:flex-row w-[95%] sm:w-[85%] md:w-[80%] mx-auto justify-between items-start gap-12 mt-10">
-  
-          <!-- Left Side - Milestones Achieved -->
-<div class=" milestones-section flex flex-col gap-6 w-full md:w-1/2 text-start ">
-  <h2 class="font-bold text-2xl text-[#00743F]">Milestones Achieved</h2>  
-  <ul class="list-disc list-inside space-y-3 text-black leading-relaxed">
-    <li>In 2016, we proudly contributed five players to Rwanda Rugby’s National Team for the African Rugby Cup Division 2 South.</li>
-    <li>We won the Rwanda Rugby National League in 2016.</li>
-    <li>Champions of the Kigali 7s Tournament in 2017 and 2018.</li>
-    <li>Winners of the Genocide Memorial Tournament in 2016, 2017, and 2018.</li>
-    <li>Hosted the Rugby 7s tournament from 2016 to 2018 to strengthen regional competition.</li>
-    <li>The first two editions were won by Remera Buffaloes, while 1000 Hills Rugby claimed victory in the third edition.</li>
-  </ul>
-  <p class="mt-3 text-black">
-    While challenges delayed subsequent events, we are thrilled to announce the return of this prestigious tournament in December 2025.
-  </p>
-</div>
+      <section
+        class="second-section flex flex-col md:flex-row w-[95%] sm:w-[85%] md:w-[80%] mx-auto justify-between items-start gap-8 mt-8"
+      >
+        <!-- Right Side - Image Container -->
+        <div
+          class="w-full md:w-1/2 order-1 lg:order-2 flex flex-col items-center gap-4"
+        >
+          <img
+            class="object-cover w-full h-auto rounded-lg shadow-lg transform hover:scale-105 transition duration-500 ease-in-out"
+            src="./images/IMG_8658.JPG"
+            alt="Friends of 1000 Hills Rugby Team"
+          />
+          <img
+            class="object-cover w-full mt-[30px] h-auto rounded-lg shadow-lg transform hover:scale-105 transition duration-500 ease-in-out"
+            src="./images/DSC00100.JPG"
+          />
+          <img
+            class="object-cover w-full mt-[30px] h-auto rounded-lg shadow-lg transform hover:scale-105 transition duration-500 ease-in-out"
+            src="./images/DSC09573.JPG"
+          />
+        </div>
 
-        
-          <!-- Right Side - Community Impact -->
-          <div class="w-full md:w-1/2 flex flex-col gap-6 text-start">
-            <h2 class="font-bold text-2xl text-[#00743F]">Community Impact</h2>  
-            <p class="text-black leading-relaxed">
-              At 1000 Hills Rugby, our influence extends far beyond the pitch. Through our annual charity event, 1000 Hills Rugby Voice, we promote healthy lifestyles and community development.
-            </p>
-            <p class="text-black leading-relaxed">
-              During the COVID-19 pandemic, we mobilized our global supporters to sustain our programs, ensuring our mission endured.
-            </p>
-            <p class="text-black leading-relaxed">
-              In 2023-2024, we launched the initiative "Building Stronger Bonds: Uniting Families through Rugby for Future Leaders." This program strengthens player-family relationships, fostering deeper connections and support.
-            </p>
-            <p class="text-black leading-relaxed">
-              Visiting 26 families of U18 boys and girls in Kicukiro District, we have seen higher attendance, stronger parental involvement, and a brighter future for our young athletes.
-            </p>
-          </div>
-        
-        </section>
-        
-        
-      
+        <!-- Left Side - Text Content -->
+        <div
+          class="flex order-2 lg:order-1 flex-col gap-6 w-full md:w-1/2 text-start"
+        >
+          <h2 class="text-[#00743F] font-extrabold text-2xl">Our Roots</h2>
+          <p class="text-black leading-relaxed">
+            1000 Hills Rugby was born in 2014 at Don Bosco Gatenga with a bold
+            vision: to harness the power of rugby as a unifying force. Our aim
+            was to create a safe and enjoyable environment where young athletes
+            could grow their skills, deepen their understanding of the game, and
+            play rugby to their fullest potential. Recognizing the challenges
+            faced by Rwanda’s youth, we combined sports with education to tackle
+            employability and ensure sustainable livelihoods.
+          </p>
+          <p class="text-black leading-relaxed">
+            Starting with just three Level 1 coaches and 20 U18 boys, we quickly
+            expanded through the World Rugby’s "Get Into Rugby" program. By
+            early 2016, we had grown into a thriving community of 25 senior
+            members, 20 U18 women, and 20 U16 boys. Currently, we have over 150
+            beneficiaries in our programs.
+          </p>
 
+          <h2 class="font-bold text-2xl text-[#00743F]">Our Mission</h2>
 
-        <section class="second-section flex flex-col md:flex-row w-[95%] sm:w-[85%] md:w-[80%] mx-auto justify-between items-start gap-12 mt-10">
-  
-          <!-- Left Side - Milestones Achieved -->
-          <div class="flex flex-col gap-6 w-full md:w-1/2 text-start">
-            <h2 class="font-bold text-2xl text-[#00743F]">The Road Ahead</h2>  
-             
-            <p class="mt-3 text-black">
-              Looking ahead, our focus remains on empowering Rwanda’s youth through sports, education, and employability programs. By leveraging rugby as a tool for positive change, we aim to tackle the challenges faced by young people and create a sustainable future for our community.
-            </p>
-          </div>
-        
-          <!-- Right Side - Join Us  -->
-          <div class="w-full md:w-1/2 flex flex-col gap-6 text-start">
-            <h2 class="font-bold text-2xl text-[#00743F]">Join Us</h2>  
-            <p class="text-black leading-relaxed">
-              As we embark on this exciting chapter, we invite you to be part of the 1000 Hills Rugby journey. Together, we can continue to inspire, empower, and transform lives through the spirit of rugby</p>
-            
-          </div>
-        
-        </section>
-        
+          <p class="text-black leading-relaxed">
+            To nurture our players into becoming the best men’s, women’s, and
+            youth teams in Rwanda. We aim to be the foundation of excellence,
+            fostering winning teams and providing a supportive, inclusive
+            sporting community for individuals of all ages and genders. Through
+            rugby, we empower players with education and employability skills,
+            preparing them for a brighter future both on and off the field.
+          </p>
 
+          <h2 class="font-bold text-2xl text-[#00743F]">Our Vision</h2>
+          <p class="text-black leading-relaxed">
+            To establish 1000 Hills Rugby as the heart of rugby in Rwanda. We
+            envision preparing players to compete internationally, representing
+            Rwanda with pride, while equipping them with the tools to thrive
+            academically and professionally. By integrating education and
+            employability into our programs, we aim to develop disciplined,
+            active contributors to society and the economy.
+          </p>
 
+          <h2 class="font-bold text-2xl text-[#00743F]">Our Core Values</h2>
+          <ol
+            class="list-decimal list-inside text-black leading-relaxed space-y-2"
+          >
+            <li>
+              <span class="font-semibold">Discipline:</span> Staying committed
+              to growth, learning, and personal accountability.
+            </li>
+            <li>
+              <span class="font-semibold">Sportsmanship:</span>Promoting
+              respect, fairness, and camaraderie on and off the field.
+            </li>
+            <li>
+              <span class="font-semibold">Mutuality:</span>Building a community
+              of shared goals, respect, and support for all members.
+            </li>
+            <li>
+              <span class="font-semibold">Integrity:</span>Upholding honesty and
+              transparency in all our actions.
+            </li>
+            <li>
+              <span class="font-semibold">Strength:</span> Cultivating both
+              mental and physical resilience to face challenges head-on.
+            </li>
 
+            <li>
+              <span class="font-semibold"> Empowerment:</span>Providing
+              opportunities for education and employability to build
+              well-rounded, self-reliant individuals.
+            </li>
+          </ol>
+        </div>
+      </section>
 
+      <section
+        class="second-section flex flex-col md:flex-row w-[95%] sm:w-[85%] md:w-[80%] mx-auto justify-between items-start gap-12 mt-10"
+      >
+        <!-- Left Side - Milestones Achieved -->
+        <div
+          class="milestones-section flex flex-col gap-6 w-full md:w-1/2 text-start"
+        >
+          <h2 class="font-bold text-2xl text-[#00743F]">Milestones Achieved</h2>
+          <ul
+            class="list-disc list-inside space-y-3 text-black leading-relaxed"
+          >
+            <li>
+              In 2016, we proudly contributed five players to Rwanda Rugby’s
+              National Team for the African Rugby Cup Division 2 South.
+            </li>
+            <li>We won the Rwanda Rugby National League in 2016.</li>
+            <li>Champions of the Kigali 7s Tournament in 2017 and 2018.</li>
+            <li>
+              Winners of the Genocide Memorial Tournament in 2016, 2017, and
+              2018.
+            </li>
+            <li>
+              Hosted the Rugby 7s tournament from 2016 to 2018 to strengthen
+              regional competition.
+            </li>
+            <li>
+              The first two editions were won by Remera Buffaloes, while 1000
+              Hills Rugby claimed victory in the third edition.
+            </li>
+          </ul>
+          <p class="mt-3 text-black">
+            While challenges delayed subsequent events, we are thrilled to
+            announce the return of this prestigious tournament in December 2025.
+          </p>
+        </div>
 
+        <!-- Right Side - Community Impact -->
+        <div class="w-full md:w-1/2 flex flex-col gap-6 text-start">
+          <h2 class="font-bold text-2xl text-[#00743F]">Community Impact</h2>
+          <p class="text-black leading-relaxed">
+            At 1000 Hills Rugby, our influence extends far beyond the pitch.
+            Through our annual charity event, 1000 Hills Rugby Voice, we promote
+            healthy lifestyles and community development.
+          </p>
+          <p class="text-black leading-relaxed">
+            During the COVID-19 pandemic, we mobilized our global supporters to
+            sustain our programs, ensuring our mission endured.
+          </p>
+          <p class="text-black leading-relaxed">
+            In 2023-2024, we launched the initiative "Building Stronger Bonds:
+            Uniting Families through Rugby for Future Leaders." This program
+            strengthens player-family relationships, fostering deeper
+            connections and support.
+          </p>
+          <p class="text-black leading-relaxed">
+            Visiting 26 families of U18 boys and girls in Kicukiro District, we
+            have seen higher attendance, stronger parental involvement, and a
+            brighter future for our young athletes.
+          </p>
+        </div>
+      </section>
 
+      <section
+        class="second-section flex flex-col md:flex-row w-[95%] sm:w-[85%] md:w-[80%] mx-auto justify-between items-start gap-12 mt-10"
+      >
+        <!-- Left Side - Milestones Achieved -->
+        <div class="flex flex-col gap-6 w-full md:w-1/2 text-start">
+          <h2 class="font-bold text-2xl text-[#00743F]">The Road Ahead</h2>
 
+          <p class="mt-3 text-black">
+            Looking ahead, our focus remains on empowering Rwanda’s youth
+            through sports, education, and employability programs. By leveraging
+            rugby as a tool for positive change, we aim to tackle the challenges
+            faced by young people and create a sustainable future for our
+            community.
+          </p>
+        </div>
 
+        <!-- Right Side - Join Us  -->
+        <div class="w-full md:w-1/2 flex flex-col gap-6 text-start">
+          <h2 class="font-bold text-2xl text-[#00743F]">Join Us</h2>
+          <p class="text-black leading-relaxed">
+            As we embark on this exciting chapter, we invite you to be part of
+            the 1000 Hills Rugby journey. Together, we can continue to inspire,
+            empower, and transform lives through the spirit of rugby
+          </p>
+        </div>
+      </section>
 
+      <section
+        class="grid grid-cols-1 md:grid-cols-2 w-[90%] lg:w-[80%] mx-auto items-start gap-6 mt-12"
+      >
+        <!-- Image -->
+        <div class="md:row-span-2">
+          <img
+            src="./images/achiv.jpg"
+            alt="1000 Hills Celebrations"
+            class="w-full h-full object-cover transform hover:scale-105 transition duration-500 ease-in-out rounded-lg shadow-lg"
+          />
+        </div>
 
+        <!-- Content -->
+        <div class="space-y-4 text-center md:text-left">
+          <h2 class="text-3xl font-extrabold text-black">
+            Celebrating Achievements
+          </h2>
+          <p class="text-gray-700 text-lg font-medium">
+            <strong>Honoring Excellence on and off the Field</strong>
+          </p>
+          <p class="text-gray-700 text-lg font-medium">
+            At 1000 Hills Rugby Team, we believe that every achievement, no
+            matter how small, deserves recognition and celebration. Our
+            commitment to excellence is reflected in our passion for honoring
+            the milestones of our players, from triumphant victories in local
+            tournaments to personal accomplishments that shape their journeys.
+          </p>
 
+          <!-- Read More Button -->
+          <button
+            id="readMoreBtn3"
+            class="text-green-600 font-semibold hover:underline focus:outline-none"
+          >
+            Read More
+          </button>
+        </div>
 
+        <!-- Hidden Extra Content (Moves Below Image on Read More) -->
+        <div
+          id="moreText3"
+          class="hidden space-y-3 text-gray-700 text-base md:col-span-2"
+        >
+          <p>
+            Each success is a testament to hard work, perseverance, and
+            dedication, showcasing not only athletic abilities but also the core
+            values of resilience, sportsmanship, and camaraderie that define our
+            club. We understand that the journey of a rugby player extends
+            beyond the game, encompassing personal growth, character
+            development, and the forging of lifelong friendships. Our
+            celebrations extend beyond athletic achievements to include personal
+            milestones in academics, community service, and leadership. By
+            acknowledging these successes, we foster a culture of encouragement
+            and support that inspires our players to strive for greatness in all
+            aspects of their lives. At 1000 Hills Rugby, we invite everyone to
+            join us in honoring the spirit of excellence that permeates our
+            team. Together, we celebrate the dedication and passion of our
+            players, coaches, and supporters, creating a vibrant community that
+            motivates individuals to reach their full potential and build a
+            legacy of achievement for future generations.
+          </p>
+        </div>
+      </section>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <section class="grid grid-cols-1 md:grid-cols-2 w-[90%] lg:w-[80%] mx-auto items-start gap-6 mt-12">
-          <!-- Image -->
-          <div class="md:row-span-2">
-            <img src="./images/achiv.jpg" alt="1000 Hills Celebrations" class="w-full h-full object-cover transform hover:scale-105 transition duration-500 ease-in-out rounded-lg shadow-lg" />
-          </div>
-        
-          <!-- Content -->
-          <div class="space-y-4 text-center md:text-left">
-            <h2 class="text-3xl font-extrabold text-black">Celebrating Achievements</h2>
-            <p class="text-gray-700 text-lg font-medium">
-              <strong>Honoring Excellence on and off the Field</strong>
-            </p>
-            <p class="text-gray-700 text-lg font-medium">
-            
-              At 1000 Hills Rugby Team, we believe that every achievement, no matter how small, deserves recognition and celebration. Our commitment to excellence is reflected in our passion for honoring the milestones of our players, from triumphant victories in local tournaments to personal accomplishments that shape their journeys.
-
-            </p>
-        
-            <!-- Read More Button -->
-            <button id="readMoreBtn3" class="text-green-600 font-semibold hover:underline focus:outline-none">
-              Read More
-            </button>
-          </div>
-        
-          <!-- Hidden Extra Content (Moves Below Image on Read More) -->
-          <div id="moreText3" class="hidden space-y-3 text-gray-700 text-base md:col-span-2">
-            <p> Each success is a testament to hard work, perseverance, and dedication, showcasing not only athletic abilities but also the core values of resilience, sportsmanship, and camaraderie that define our club. We understand that the journey of a rugby player extends beyond the game, encompassing personal growth, character development, and the forging of lifelong friendships.
-              Our celebrations extend beyond athletic achievements to include personal milestones in academics, community service, and leadership. By acknowledging these successes, we foster a culture of encouragement and support that inspires our players to strive for greatness in all aspects of their lives. At 1000 Hills Rugby, we invite everyone to join us in honoring the spirit of excellence that permeates our team. Together, we celebrate the dedication and passion of our players, coaches, and supporters, creating a vibrant community that motivates individuals to reach their full potential and build a legacy of achievement for future generations.</p>
-             
-             
-          </div>
-        </section>
-
-
-
-
-
-
-
-
-        <section class="grid grid-cols-1 md:grid-cols-2 w-[90%] lg:w-[80%] mx-auto items-start gap-6 mt-12">
-  
-           
-          <!-- Content (Now on the Left) -->
-          <div class="space-y-4 text-center md:text-left">
-            <div class="w-[50px] h-[50px] bg-[#00743F] rounded-full flex justify-center items-center mx-auto md:mx-0">
-              
+      <section
+        class="grid grid-cols-1 md:grid-cols-2 w-[90%] lg:w-[80%] mx-auto items-start gap-6 mt-12"
+      >
+        <!-- Content (Now on the Left) -->
+        <div class="space-y-4 text-center md:text-left">
+          <div
+            class="w-[50px] h-[50px] bg-[#00743F] rounded-full flex justify-center items-center mx-auto md:mx-0"
+          >
             <i class="fa fa-mountain text-black text-3xl"></i>
-            </div>
-            <h2 class="text-[#00743F] font-bold text-xl md:text-2xl">Rising with 1000 Hills Rugby :</h2> 
-            <h2 class="text-2xl md:text-3xl font-extrabold text-black">Real-world Impact</h2>
-            <p class="text-gray-700 text-lg font-medium">
-              At 1000 Hills Rugby, we are fueled by a steadfast spirit of resilience and progress, dedicated to equipping individuals with the essential tools to tackle real-world challenges. Our comprehensive program empowers participants through hands-on projects and collaborative initiatives that reflect the complexities of today’s dynamic environment.
-            </p>
-        
-            <!-- Read More Button -->
-            <button id="readMoreBtn" class="text-green-600 font-semibold hover:underline focus:outline-none">
-              Read More
-            </button>
           </div>
-        
-          <!-- Image (Now on the Right) -->
-          <div class="md:row-span-2">
-            <img src="./images/red-club.jpeg" alt="Rising with 1000 Hills" class="w-full h-full object-cover transform hover:scale-105 transition duration-500 ease-in-out rounded-lg shadow-lg" />
+          <h2 class="text-[#00743F] font-bold text-xl md:text-2xl">
+            Rising with 1000 Hills Rugby :
+          </h2>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-black">
+            Real-world Impact
+          </h2>
+          <p class="text-gray-700 text-lg font-medium">
+            At 1000 Hills Rugby, we are fueled by a steadfast spirit of
+            resilience and progress, dedicated to equipping individuals with the
+            essential tools to tackle real-world challenges. Our comprehensive
+            program empowers participants through hands-on projects and
+            collaborative initiatives that reflect the complexities of today’s
+            dynamic environment.
+          </p>
+
+          <!-- Read More Button -->
+          <button
+            id="readMoreBtn"
+            class="text-green-600 font-semibold hover:underline focus:outline-none"
+          >
+            Read More
+          </button>
+        </div>
+
+        <!-- Image (Now on the Right) -->
+        <div class="md:row-span-2">
+          <img
+            src="./images/red-club.jpeg"
+            alt="Rising with 1000 Hills"
+            class="w-full h-full object-cover transform hover:scale-105 transition duration-500 ease-in-out rounded-lg shadow-lg"
+          />
+        </div>
+
+        <!-- Hidden Extra Content (Moves Below Image on Read More) -->
+        <div
+          id="moreText"
+          class="hidden space-y-3 text-gray-700 text-base md:col-span-2"
+        >
+          <p>
+            We believe that success extends beyond technical expertise; it also
+            requires a strong foundation in leadership and teamwork. By
+            emphasizing the development of a mindset that fosters collaboration,
+            adaptability, and innovation, we prepare our participants to thrive
+            in various situations. <br />
+            Through personalized mentorship, participants gain invaluable
+            insights from experienced professionals who guide them on their
+            journey. Our robust industry connections open doors to networking
+            opportunities, internships, and career pathways that significantly
+            enhance their prospects. Additionally, we provide access to the
+            latest technologies and resources, ensuring that our participants
+            are well-prepared to navigate the evolving landscape of their
+            respective fields. At 1000 Hills, we are committed to nurturing the
+            next generation of leaders who are not only skilled but also
+            socially responsible, inspiring them to rise to new heights and make
+            meaningful contributions to their communities while driving positive
+            change in the world around them.
+          </p>
+        </div>
+      </section>
+
+      <!--Font size-->
+
+      <section
+        class="grid grid-cols-1 md:grid-cols-2 w-[90%] lg:w-[80%] mx-auto items-start gap-6 mt-12"
+      >
+        <!-- Image (Left Side) -->
+        <div class="md:row-span-2">
+          <img
+            src="./images/child.jpg"
+            alt="1000 Hills Training"
+            class="w-full h-full object-cover transform hover:scale-105 transition duration-500 ease-in-out rounded-lg shadow-lg"
+          />
+        </div>
+
+        <!-- Main Content (Right Side) -->
+        <div class="space-y-4 text-center md:text-left">
+          <!-- Icon (Kept as requested) -->
+          <div
+            class="w-[50px] h-[50px] bg-[#00743F] rounded-full flex justify-center items-center mx-auto md:mx-0"
+          >
+            <i class="fa fa-line-chart text-black text-3xl"></i>
           </div>
-        
-          <!-- Hidden Extra Content (Moves Below Image on Read More) -->
-          <div id="moreText" class="hidden space-y-3 text-gray-700 text-base md:col-span-2">
-            <p>
-              We believe that success extends beyond technical expertise; it also requires a strong foundation in leadership and teamwork. By emphasizing the development of a mindset that fosters collaboration, adaptability, and innovation, we prepare our participants to thrive in various situations. <br>
-              Through personalized mentorship, participants gain invaluable insights from experienced professionals who guide them on their journey. Our robust industry connections open doors to networking opportunities, internships, and career pathways that significantly enhance their prospects. Additionally, we provide access to the latest technologies and resources, ensuring that our participants are well-prepared to navigate the evolving landscape of their respective fields. At 1000 Hills, we are committed to nurturing the next generation of leaders who are not only skilled but also socially responsible, inspiring them to rise to new heights and make meaningful contributions to their communities while driving positive change in the world around them.
-            </p>
+
+          <h2 class="text-[#00743F] font-bold text-xl">
+            From Grassroots to Greatness
+          </h2>
+          <h2 class="text-3xl font-extrabold text-black">
+            Program Structure and Pathways
+          </h2>
+
+          <p class="text-gray-700 text-lg font-medium">
+            At 1000 Hills Rugby, our program is meticulously designed to elevate
+            individuals from grassroots beginnings to the pinnacle of their
+            potential in rugby. The journey begins with foundational training
+            that focuses on essential skills, followed by strategic development
+            practices and advanced techniques tailored specifically to the
+            sport.
+          </p>
+
+          <!-- Read More Button -->
+          <button
+            id="readMoreBtn0"
+            class="text-green-600 font-semibold hover:underline focus:outline-none"
+          >
+            Read More
+          </button>
+        </div>
+
+        <!-- Hidden Extra Content (Moves Below Image on Read More) -->
+        <div
+          id="moreText0"
+          class="hidden space-y-3 text-gray-700 text-base md:col-span-2"
+        >
+          <p>
+            Participants engage in rigorous training sessions, learning from
+            experienced coaches who provide guidance and support. This
+            comprehensive approach ensures that individuals not only develop
+            their athletic abilities but also gain a deep understanding of the
+            game. .
+          </p>
+
+          <p>
+            As participants progress through the program, they have the
+            opportunity to apply their skills in real-world scenarios, preparing
+            them for competitive play and leadership roles within the sport. By
+            the end of the program, individuals emerge as well-rounded athletes,
+            equipped with the knowledge and experience necessary to excel on the
+            field and contribute positively to their teams and communities. At
+            1000 Hills, we are committed to fostering the next generation of
+            rugby leaders, guiding them on their journey from grassroots to
+            greatness.
+          </p>
+        </div>
+      </section>
+
+      <section
+        class="grid grid-cols-1 md:grid-cols-2 w-[90%] lg:w-[80%] mx-auto items-start gap-6 mt-12"
+      >
+        <!-- Content (Now on the Left) -->
+        <div class="space-y-4 text-center md:text-left">
+          <div
+            class="w-[50px] h-[50px] bg-[#00743F] rounded-full flex justify-center items-center mx-auto md:mx-0"
+          >
+            <i class="fas fa-football-ball text-black text-3xl"></i>
           </div>
-        
-        </section>
-        
-        
+          <h2 class="text-[#00743F] font-bold text-xl md:text-2xl">
+            Join the Team
+          </h2>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-black">
+            Application Process
+          </h2>
+          <p class="text-gray-700 text-lg font-medium">
+            Are you ready to take the next step and become a part of the 1000
+            Hills Rugby family? We invite you to apply through our website by
+            completing the application form with your personal details and rugby
+            experience.
+          </p>
 
-      
+          <!-- Read More Button -->
+          <button
+            id="readMoreBtn1"
+            class="text-green-600 font-semibold hover:underline focus:outline-none"
+          >
+            Read More
+          </button>
+        </div>
 
-<!--Font size-->
+        <!-- Image (Now on the Right) -->
+        <div class="md:row-span-2">
+          <img
+            src="./images/futureKids.jpg"
+            alt="Application Process"
+            class="w-full h-full object-cover transform hover:scale-105 transition duration-500 ease-in-out rounded-lg shadow-lg"
+          />
+        </div>
 
-         
-
-
-        <section class="grid grid-cols-1 md:grid-cols-2 w-[90%] lg:w-[80%] mx-auto items-start gap-6 mt-12">
-  
-          <!-- Image (Left Side) -->
-          <div class="md:row-span-2">
-            <img src="./images/child.jpg" alt="1000 Hills Training" 
-                 class="w-full h-full object-cover transform hover:scale-105 transition duration-500 ease-in-out rounded-lg shadow-lg" />
-          </div>
-        
-          <!-- Main Content (Right Side) -->
-          <div class="space-y-4 text-center md:text-left">
-            
-            <!-- Icon (Kept as requested) -->
-            <div class="w-[50px] h-[50px] bg-[#00743F] rounded-full flex justify-center items-center mx-auto md:mx-0">
-              <i class="fa fa-line-chart text-black text-3xl"></i>
-            </div>
-        
-            <h2 class="text-[#00743F] font-bold text-xl">From Grassroots to Greatness</h2>
-            <h2 class="text-3xl font-extrabold text-black">Program Structure and Pathways</h2>
-            
-            <p class="text-gray-700 text-lg font-medium">
-              At 1000 Hills Rugby, our program is meticulously designed to elevate individuals from grassroots beginnings to the pinnacle of their potential in rugby. The journey begins with foundational training that focuses on essential skills, followed by strategic development practices and advanced techniques tailored specifically to the sport.
-            </p>
-        
-            <!-- Read More Button -->
-            <button id="readMoreBtn0" class="text-green-600 font-semibold hover:underline focus:outline-none">
-              Read More
-            </button>
-          </div>
-        
-          <!-- Hidden Extra Content (Moves Below Image on Read More) -->
-          <div id="moreText0" class="hidden space-y-3 text-gray-700 text-base md:col-span-2">
-            <p>
-              Participants engage in rigorous training sessions, learning from experienced coaches who provide guidance and support. This comprehensive approach ensures that individuals not only develop their athletic abilities but also gain a deep understanding of the game.
-.
-            </p>
-            
-            <p>
-              As participants progress through the program, they have the opportunity to apply their skills in real-world scenarios, preparing them for competitive play and leadership roles within the sport. By the end of the program, individuals emerge as well-rounded athletes, equipped with the knowledge and experience necessary to excel on the field and contribute positively to their teams and communities. At 1000 Hills, we are committed to fostering the next generation of rugby leaders, guiding them on their journey from grassroots to greatness.
-            </p>
-          </div>
-        
-        </section>
-        
-        
-        
-        
-
-
-
-
-
-
-
-
-
-
-
-
-        <section class="grid grid-cols-1 md:grid-cols-2 w-[90%] lg:w-[80%] mx-auto items-start gap-6 mt-12">
-  
-           
-          <!-- Content (Now on the Left) -->
-          <div class="space-y-4 text-center md:text-left">
-            <div class="w-[50px] h-[50px] bg-[#00743F] rounded-full flex justify-center items-center mx-auto md:mx-0">
-              <i class="fas fa-football-ball text-black text-3xl"></i>
-            </div>
-            <h2 class="text-[#00743F] font-bold text-xl md:text-2xl">Join the Team</h2> 
-            <h2 class="text-2xl md:text-3xl font-extrabold text-black">Application Process</h2>
-            <p class="text-gray-700 text-lg font-medium">
-              Are you ready to take the next step and become a part of the 1000 Hills Rugby family? We invite you to apply through our website by completing the application form with your personal details and rugby experience.
-            </p>
-        
-            <!-- Read More Button -->
-            <button id="readMoreBtn1" class="text-green-600 font-semibold hover:underline focus:outline-none">
-              Read More
-            </button>
-          </div>
-        
-          <!-- Image (Now on the Right) -->
-          <div class="md:row-span-2">
-            <img src="./images/futureKids.jpg" alt="Application Process" class="w-full h-full object-cover transform hover:scale-105 transition duration-500 ease-in-out rounded-lg shadow-lg" />
-          </div>
-        
-          <!-- Hidden Extra Content (Moves Below Image on Read More) -->
-          <div id="moreText1" class="hidden space-y-3 text-gray-700 text-base md:col-span-2">
-            <p>
-              This is your opportunity to join a community that values teamwork, dedication, and growth in the sport. Once you submit your application, our team will carefully review it and reach out to you to discuss the exciting next steps in your journey with us. <br>
-              Don’t miss your chance to join a premier rugby team that is committed to developing talent and fostering a supportive environment. Complete the application form today and prepare to make your mark on the field! We look forward to welcoming you to 1000 Hills Rugby, where your passion for the game can flourish and your skills can reach new heights.
-            </p>
-          </div>
-        
-        </section>
-
-
-
-
+        <!-- Hidden Extra Content (Moves Below Image on Read More) -->
+        <div
+          id="moreText1"
+          class="hidden space-y-3 text-gray-700 text-base md:col-span-2"
+        >
+          <p>
+            This is your opportunity to join a community that values teamwork,
+            dedication, and growth in the sport. Once you submit your
+            application, our team will carefully review it and reach out to you
+            to discuss the exciting next steps in your journey with us. <br />
+            Don’t miss your chance to join a premier rugby team that is
+            committed to developing talent and fostering a supportive
+            environment. Complete the application form today and prepare to make
+            your mark on the field! We look forward to welcoming you to 1000
+            Hills Rugby, where your passion for the game can flourish and your
+            skills can reach new heights.
+          </p>
+        </div>
+      </section>
     </main>
 
     <script>
@@ -958,7 +852,7 @@
         // Toggle for "Rugby & Life Skills Program"
         const readMoreBtn3 = document.getElementById("readMoreBtn3");
         const moreText3 = document.getElementById("moreText3");
-      
+
         if (readMoreBtn3) {
           readMoreBtn3.addEventListener("click", function () {
             if (moreText3.classList.contains("hidden")) {
@@ -970,11 +864,11 @@
             }
           });
         }
-      
+
         // Toggle for "Rising with 1000 Hills"
         const readMoreBtn = document.getElementById("readMoreBtn");
         const moreText = document.getElementById("moreText");
-      
+
         if (readMoreBtn) {
           readMoreBtn.addEventListener("click", function () {
             if (moreText.classList.contains("hidden")) {
@@ -986,12 +880,12 @@
             }
           });
         }
-      
+
         // Toggle for "Program Structure and Pathways"
         const readMoreBtn0 = document.getElementById("readMoreBtn0");
         const moreText0 = document.getElementById("moreText0");
         const shortText0 = document.getElementById("shortText0");
-      
+
         if (readMoreBtn0) {
           readMoreBtn0.addEventListener("click", function () {
             if (moreText0.classList.contains("hidden")) {
@@ -1005,10 +899,10 @@
             }
           });
         }
-      
+
         const readMoreBtn1 = document.getElementById("readMoreBtn1");
         const moreText1 = document.getElementById("moreText1");
-      
+
         if (readMoreBtn1) {
           readMoreBtn1.addEventListener("click", function () {
             if (moreText1.classList.contains("hidden")) {
@@ -1021,150 +915,148 @@
           });
         }
       });
-      
     </script>
 
     <footer
-    class="w-full mb-[1px] px-6 py-12 grid grid-cols-12 gap-y-12 lg:gap-8 text-white bg-gradient-to-b from-black to-gray-900 lg:h-auto"
-  >
-    <!-- Logo Section -->
-    <div
-      class="lg:col-span-3 col-span-6 flex items-center justify-center lg:justify-start lg:mx-0 mb-8 lg:mb-0"
+      class="w-full mb-[1px] px-6 py-12 grid grid-cols-12 gap-y-12 lg:gap-8 text-white bg-gradient-to-b from-black to-gray-900 lg:h-auto"
     >
-      <img
-        class="lg:w-[150px] h-[150px] w-[120px] lg:h-[120px] object-contain transition-transform duration-300 hover:scale-105"
-        src="./images/1000-hills-logo.png"
-        alt="Logo"
-      />
-    </div>
+      <!-- Logo Section -->
+      <div
+        class="lg:col-span-3 col-span-6 flex items-center justify-center lg:justify-start lg:mx-0 mb-8 lg:mb-0"
+      >
+        <img
+          class="lg:w-[150px] h-[150px] w-[120px] lg:h-[120px] object-contain transition-transform duration-300 hover:scale-105"
+          src="./images/1000-hills-logo.png"
+          alt="Logo"
+        />
+      </div>
 
-    <!-- Team Info Section -->
-    <div
-      class="lg:col-span-3 col-span-6 flex flex-col items-center lg:items-start mb-8 lg:mb-0"
-    >
-      <p class="text-lg font-bold tracking-wide text-[#dcbb26] uppercase">
-        Teams
-      </p>
-      <ul class="mt-4 text-[#a5a6a8] text-sm font-light flex flex-col gap-2">
-        <li class="hover:text-[#dcbb26] transition-colors duration-300">
-          <a href="./program#p1">Player Development Program</a>
-        </li>
-        <li class="hover:text-[#dcbb26] transition-colors duration-300">
-          <a href="./program#p2">Women’s Rugby Program</a>
-        </li>
-        <li class="hover:text-[#dcbb26] transition-colors duration-300">
-          <a href="./program#p3">Rugby & Life Skills Program</a>
-        </li>
-        <li class="hover:text-[#dcbb26] transition-colors duration-300">
-          <a href="./program#p4">Grassroots Rugby Initiative</a>
-        </li>
-        <li class="hover:text-[#dcbb26] transition-colors duration-300">
-          <a href="./staff">Coaching Staff</a>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Club Info Section -->
-    <div
-      class="lg:col-span-3 col-span-6 flex flex-col items-center lg:items-start mb-8 lg:mb-0"
-    >
-      <p class="text-lg font-bold tracking-wide text-[#dcbb26] uppercase">
-        Community
-      </p>
-      <ul class="mt-4 text-[#a5a6a8] text-sm font-light flex flex-col gap-2">
-        <li class="hover:text-[#dcbb26] transition-colors duration-300">
-          <a href="./about">About Us</a>
-        </li> 
-        <li class="hover:text-[#dcbb26] transition-colors duration-300">
-          <a href="./program">Programs</a>
-        </li>
-        <li class="hover:text-[#dcbb26] transition-colors duration-300">
-          <a href="./news">News & Media</a>
-        </li>
-        <li class="hover:text-[#dcbb26] transition-colors duration-300">
-          <a href="./contact">Contact</a>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Contact & Social Media Section -->
-    <div
-      class="lg:col-span-3 col-span-6 flex flex-col items-center lg:items-start"
-    >
-      <div class="mb-6">
+      <!-- Team Info Section -->
+      <div
+        class="lg:col-span-3 col-span-6 flex flex-col items-center lg:items-start mb-8 lg:mb-0"
+      >
         <p class="text-lg font-bold tracking-wide text-[#dcbb26] uppercase">
-          Contact
+          Teams
         </p>
-        <ul
-          class="mt-4 text-[#a5a6a8] text-sm font-light flex flex-col gap-2"
-        >
-          <li
-            class="flex items-center hover:text-[#dcbb26] transition-colors duration-300"
-          >
-            <i class="text-[#006838] mr-2 fa-solid fa-phone"></i>+250 788 261
-            386
+        <ul class="mt-4 text-[#a5a6a8] text-sm font-light flex flex-col gap-2">
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./program#p1">Player Development Program</a>
           </li>
-          <li
-            class="flex items-center hover:text-[#dcbb26] transition-colors duration-300"
-          >
-            <i class="text-[#006838] mr-2 fa-solid fa-envelope"></i
-            >thillsrugby@gmail.com
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./program#p2">Women’s Rugby Program</a>
           </li>
-          <li
-            class="flex items-center hover:text-[#dcbb26] transition-colors duration-300"
-          >
-            <i class="text-[#006838] mr-2 fa-solid fa-location-dot"></i>KK 591
-            St, Kigali
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./program#p3">Rugby & Life Skills Program</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./program#p4">Grassroots Rugby Initiative</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./staff">Coaching Staff</a>
           </li>
         </ul>
       </div>
 
-      <div>
+      <!-- Club Info Section -->
+      <div
+        class="lg:col-span-3 col-span-6 flex flex-col items-center lg:items-start mb-8 lg:mb-0"
+      >
         <p class="text-lg font-bold tracking-wide text-[#dcbb26] uppercase">
-          Connect
+          Community
         </p>
-        <ul class="mt-4 flex gap-4 text-2xl">
-          <li class="hover:text-[#1877F2] transition-colors duration-300">
-            <a
-              href="https://www.facebook.com/1000hillsrugby/"
-              aria-label="Facebook"
-            >
-              <i class="fa-brands fa-facebook-f"></i>
-            </a>
+        <ul class="mt-4 text-[#a5a6a8] text-sm font-light flex flex-col gap-2">
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./about">About Us</a>
           </li>
-          <li class="hover:text-[#E4405F] transition-colors duration-300">
-            <a
-              href="https://www.instagram.com/1000hillsrugby/"
-              aria-label="Instagram"
-            >
-              <i class="fa-brands fa-instagram"></i>
-            </a>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./program">Programs</a>
           </li>
-          <li class="hover:text-[#1DA1F2] transition-colors duration-300">
-            <a href="https://x.com/1000HillsRugby" aria-label="Twitter">
-              <i class="fa-brands fa-x-twitter"></i>
-            </a>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./news">News & Media</a>
           </li>
-          <li class="hover:text-[#FF0000] transition-colors duration-300">
-            <a
-              href="https://www.youtube.com/@1000HillsRugby"
-              aria-label="YouTube"
-            >
-              <i class="fa-brands fa-youtube"></i>
-            </a>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./contact">Contact</a>
           </li>
         </ul>
       </div>
-    </div>
-  </footer>
-<section class="foter">
-  <p>
-    &copy; 2024 1000HillsRugby. All Rights Reserved|
-    <a href="privacy">Privacy Policy</a>
-  </p>
-</section>
+
+      <!-- Contact & Social Media Section -->
+      <div
+        class="lg:col-span-3 col-span-6 flex flex-col items-center lg:items-start"
+      >
+        <div class="mb-6">
+          <p class="text-lg font-bold tracking-wide text-[#dcbb26] uppercase">
+            Contact
+          </p>
+          <ul
+            class="mt-4 text-[#a5a6a8] text-sm font-light flex flex-col gap-2"
+          >
+            <li
+              class="flex items-center hover:text-[#dcbb26] transition-colors duration-300"
+            >
+              <i class="text-[#006838] mr-2 fa-solid fa-phone"></i>+250 788 261
+              386
+            </li>
+            <li
+              class="flex items-center hover:text-[#dcbb26] transition-colors duration-300"
+            >
+              <i class="text-[#006838] mr-2 fa-solid fa-envelope"></i
+              >thillsrugby@gmail.com
+            </li>
+            <li
+              class="flex items-center hover:text-[#dcbb26] transition-colors duration-300"
+            >
+              <i class="text-[#006838] mr-2 fa-solid fa-location-dot"></i>KK 591
+              St, Kigali
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="text-lg font-bold tracking-wide text-[#dcbb26] uppercase">
+            Connect
+          </p>
+          <ul class="mt-4 flex gap-4 text-2xl">
+            <li class="hover:text-[#1877F2] transition-colors duration-300">
+              <a
+                href="https://www.facebook.com/1000hillsrugby/"
+                aria-label="Facebook"
+              >
+                <i class="fa-brands fa-facebook-f"></i>
+              </a>
+            </li>
+            <li class="hover:text-[#E4405F] transition-colors duration-300">
+              <a
+                href="https://www.instagram.com/1000hillsrugby/"
+                aria-label="Instagram"
+              >
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+            </li>
+            <li class="hover:text-[#1DA1F2] transition-colors duration-300">
+              <a href="https://x.com/1000HillsRugby" aria-label="Twitter">
+                <i class="fa-brands fa-x-twitter"></i>
+              </a>
+            </li>
+            <li class="hover:text-[#FF0000] transition-colors duration-300">
+              <a
+                href="https://www.youtube.com/@1000HillsRugby"
+                aria-label="YouTube"
+              >
+                <i class="fa-brands fa-youtube"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+    <section class="foter">
+      <p>
+        &copy; 2024 1000HillsRugby. All Rights Reserved|
+        <a href="privacy">Privacy Policy</a>
+      </p>
+    </section>
 
     <script src="./index.js"></script>
-</body>
-
+  </body>
 </html>

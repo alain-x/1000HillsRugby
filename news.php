@@ -73,6 +73,14 @@ $result = $conn->query($sql);
           >Shop</a
         >
       </li>
+      
+      <li>
+        <a
+          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+          href="./teams"
+          >Teams</a
+        >
+      </li>
       <li class="relative group">
         <a
           class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
@@ -120,130 +128,7 @@ $result = $conn->query($sql);
             >
           </li>
         </ul>
-      </li>
-      <li class="relative group">
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
-          >Result<i class="fas fa-chevron-down text-sm"></i
-        ></a>
-        <ul
-          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
-        >
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./fixtures"
-              >Fixtures</a
-            >
-          </li>
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./results"
-              >Results</a
-            >
-          </li>
-        </ul>
-      </li>
-      <li class="relative group">
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
-          >Teams<i class="fas fa-chevron-down text-sm"></i
-        ></a>
-        <ul
-          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
-        >
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./menprofiles"
-              >Men's Senior</a
-            >
-          </li>
-          <li>
-            <a
-              class="block px-4 py-2 w-[150px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./womenprofiles"
-              >Women's Senior</a
-            >
-          </li>
-          
-
-          <li class="relative">
-            <!-- Parent Dropdown -->
-            <button
-              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-              onclick="toggleDropdown('academy-menu')"
-            >
-              Academy  </i>
-            </button>
-            <ul
-              id="academy-menu"
-              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-            >
-              <!-- Under 18 Dropdown -->
-              <li class="relative">
-                <button
-                  class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                  onclick="toggleDropdown('under18-menu')"
-                >
-                  Under 18 <i class="fas fa-chevron-down text-sm"></i>
-                </button>
-                <ul
-                  id="under18-menu"
-                  class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-                >
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under18Boys"
-                      >Boys</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under18Girls"
-                      >Girls</a
-                    >
-                  </li>
-                </ul>
-              </li>
-          
-              <!-- Under 16 Dropdown -->
-              <li class="relative">
-                <button
-                  class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                  onclick="toggleDropdown('under16-menu')"
-                >
-                  Under 16 <i class="fas fa-chevron-down text-sm"></i>
-                </button>
-                <ul
-                  id="under16-menu"
-                  class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-                >
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under16Boys"
-                      >Boys</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under16Girls"
-                      >Girls</a
-                    >
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          
-         
-        </ul>
-      </li>
+      </li> 
       <li class="relative group">
         <a
           class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none mr-10"
@@ -328,6 +213,13 @@ $result = $conn->query($sql);
               >Shop</a
             >
           </li>
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./teams"
+              >Teams</a
+            >
+          </li>
  
           <!-- Dropdown for Education -->
           <li class="relative">
@@ -386,139 +278,7 @@ $result = $conn->query($sql);
               </li>
             </ul>
           </li>
- 
-          <!-- Dropdown for Results -->
-          <li class="relative">
-            <button
-              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-              onclick="toggleDropdown('results-menu-mobile')"
-            >
-              Results <i class="fas fa-chevron-down text-sm"></i>
-            </button>
-            <ul
-              id="results-menu-mobile"
-              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-            >
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./fixtures"
-                  >Fixtures</a
-                >
-              </li>
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./results"
-                  >Results</a
-                >
-              </li>
-            </ul>
-          </li>
- 
-           
-          <!-- Dropdown for Teams -->
-
-        <li class="relative">
-         <button
-          class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-          onclick="toggleDropdown('teams-menu-mobile')"
-         >
-          Teams <i class="fas fa-chevron-down text-sm"></i>
-         </button>
-         <ul
-          id="teams-menu-mobile"
-          class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-         >
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./menprofiles"
-              >Men's Senior</a
-            >
-          </li>
-
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./womenprofiles"
-              >Women's Senior</a
-            >
-          </li>
-          <li class="relative">
-            <!-- Parent Dropdown -->
-            <button
-              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-              onclick="toggleDropdown('academy-menu-mobile')"
-            >
-              Academy </i>
-            </button>
-            <ul
-              id="academy-menu-mobile"
-              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-            >
-              <!-- Under 18 Dropdown -->
-              <li class="relative">
-                <button
-                  class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                  onclick="toggleDropdown('under18-menu-mobile')"
-                >
-                  Under 18 <i class="fas fa-chevron-down text-sm"></i>
-                </button>
-                <ul
-                  id="under18-menu-mobile"
-                  class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-                >
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under18Boys"
-                      >Boys</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under18Girls"
-                      >Girls</a
-                    >
-                  </li>
-                </ul>
-              </li>
-          
-              <!-- Under 16 Dropdown -->
-              <li class="relative">
-                <button
-                  class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                  onclick="toggleDropdown('under16-menu-mobile')"
-                >
-                  Under 16 <i class="fas fa-chevron-down text-sm"></i>
-                </button>
-                <ul
-                  id="under16-menu-mobile"
-                  class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-                >
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under16Boys"
-                      >Boys</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under16Girls"
-                      >Girls</a
-                    >
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          
-          </ul>
-      </li>
+  
  
           <!-- Contact -->
           <li class="relative">
