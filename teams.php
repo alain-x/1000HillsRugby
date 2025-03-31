@@ -1,6 +1,6 @@
 <?php
 // Database connection
-$conn = new mysqli('localhost', 'hillsrug_hillsrug', 'M00dle??', 'hillsrug_1000hills_rugby_db');
+    $conn = new mysqli('localhost', 'hillsrug_hillsrug', 'M00dle??', 'hillsrug_1000hills_rugby_db');
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -281,7 +281,7 @@ $conn->close();
             background-color: var(--primary-color);
         }
 
-        /* Header Styles */
+        /* Header Styles - Updated for horizontal logo and menu */
         .header {
             background: linear-gradient(
                 135deg,
@@ -292,6 +292,7 @@ $conn->close();
             padding: 1rem 0;
             box-shadow: var(--shadow);
             z-index: 1000;
+            position: relative;
         }
 
         .header.women {
@@ -323,6 +324,13 @@ $conn->close();
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
         }
 
         .logo {
@@ -373,6 +381,19 @@ $conn->close();
             font-family: "Open Sans", sans-serif;
         }
 
+        /* Mobile Menu Button - Updated for better alignment */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            margin-left: auto;
+        }
+
+        /* Navigation Links */
         .nav-links {
             display: flex;
             gap: 1.5rem;
@@ -443,6 +464,21 @@ $conn->close();
             color: var(--academy-u16-color);
         }
 
+        /* Mobile Menu Close Button */
+        .mobile-menu-close {
+            display: none;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        /* Search Bar */
         .search-bar {
             position: relative;
             width: 300px;
@@ -474,28 +510,26 @@ $conn->close();
             cursor: pointer;
         }
 
-        /* Mobile Menu Button */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--white);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        /* Team Selector */
-        .team-selector {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-
         /* Academy Dropdown */
         .academy-dropdown {
             position: relative;
-            display: inline-block;
+        }
+
+        .academy-dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .academy-dropdown-toggle::after {
+            content: "▾";
+            font-size: 0.8em;
+            transition: transform 0.3s ease;
+        }
+
+        .academy-dropdown.active .academy-dropdown-toggle::after {
+            transform: rotate(180deg);
         }
 
         .academy-dropdown-content {
@@ -513,6 +547,13 @@ $conn->close();
             display: block;
         }
 
+        .academy-dropdown.active .academy-dropdown-content {
+            display: block;
+            position: static;
+            box-shadow: none;
+            background-color: transparent;
+        }
+
         .academy-dropdown-content a {
             color: var(--text-color);
             padding: 0.75rem 1rem;
@@ -521,8 +562,14 @@ $conn->close();
             transition: var(--transition);
         }
 
-        .academy-dropdown-content a:hover {
+        .academy-dropdown:hover .academy-dropdown-content a:hover {
             background-color: var(--accent-color);
+        }
+
+        .academy-dropdown.active .academy-dropdown-content a {
+            color: var(--white);
+            padding: 1rem;
+            text-align: center;
         }
 
         /* Filter Bar */
@@ -1136,26 +1183,45 @@ $conn->close();
         }
 
         @media (max-width: 768px) {
+            /* Updated header layout for mobile */
             .header-content {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
+                flex-direction: row;
+                align-items: center;
+            }
+
+            .logo-container {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+                order: 2;
             }
 
             .nav-links {
                 display: none;
-                flex-direction: column;
+                position: fixed;
+                top: 0;
+                left: 0;
                 width: 100%;
-                margin-top: 1rem;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.9);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+                padding: 2rem;
             }
 
             .nav-links.active {
                 display: flex;
             }
 
-            .mobile-menu-btn {
+            .mobile-menu-close {
                 display: block;
-                order: 1;
             }
 
             .search-bar {
@@ -1168,6 +1234,7 @@ $conn->close();
                 position: static;
                 display: none;
                 box-shadow: none;
+                background-color: transparent;
             }
 
             .academy-dropdown:hover .academy-dropdown-content {
@@ -1214,7 +1281,6 @@ $conn->close();
                 height: auto;
             }
 
-            /* Adjust player card layout for small screens */
             .player-info {
                 padding: 1rem;
             }
@@ -1230,16 +1296,9 @@ $conn->close();
             .player-stats {
                 font-size: 0.75rem;
             }
-
-            /* Make sure last card fits */
-            .player-grid::after {
-                content: "";
-                flex: auto;
-            }
         }
 
-        /* Very small screens */
-        @media (max-width: 400px) {
+        @media (max-width: 300px) {
             .stats-grid {
                 grid-template-columns: 1fr;
             }
@@ -1255,55 +1314,58 @@ $conn->close();
     elseif (strpos($currentTeam, 'academy_u16') !== false) echo 'academy-u16';
     else echo $currentTeam;
 ?>">
-    <!-- Header -->
+    <!-- Header - Updated for horizontal logo and menu -->
     <header class="header <?php 
         if (strpos($currentTeam, 'academy_u18') !== false) echo 'academy-u18';
         elseif (strpos($currentTeam, 'academy_u16') !== false) echo 'academy-u16';
         else echo $currentTeam;
     ?>">
         <div class="container">
-            <div class="header-content">
-                <a href="./">
-                <div class="logo">
+            <div class="logo-container">
+                <a href="./" class="logo">
                     <img src="./logos_/logoT.jpg" alt="Club Logo" />
-                </div>
                 </a>
                 
-                <nav class="nav-links">
-                    <a href="./">Home</a>
-                    <a href="?team=men" class="<?php echo $currentTeam == 'men' ? 'active' : ''; ?>">Men's Squad</a>
-                    <a href="?team=women" class="<?php echo $currentTeam == 'women' ? 'active' : ''; ?>">Women's Squad</a>
-                    <div class="academy-dropdown" id="academyDropdown">
-                        <a href="#" class="<?php echo strpos($currentTeam, 'academy_') !== false ? 'active' : ''; ?>">Academy</a>
-                        <div class="academy-dropdown-content">
-                            <a href="?team=academy_u18_boys">U18 Boys</a>
-                            <a href="?team=academy_u18_girls">U18 Girls</a>
-                            <a href="?team=academy_u16_boys">U16 Boys</a>
-                            <a href="?team=academy_u16_girls">U16 Girls</a>
-                        </div>
-                    </div>
-                    <a href="./fixtures">Fixtures</a>
-                </nav>
-
-                <div class="search-bar">
-                    <form method="get" action="">
-                        <input
-                            type="text"
-                            name="search"
-                            placeholder="Search players..."
-                            value="<?php echo htmlspecialchars($search); ?>"
-                        />
-                        <button type="submit" class="search-btn">
-                            <i class="fas fa-search"></i>
-                        </button>
-                        <input type="hidden" name="filter" value="<?php echo htmlspecialchars($filter); ?>">
-                        <input type="hidden" name="team" value="<?php echo $currentTeam; ?>">
-                    </form>
-                </div>
-
                 <button class="mobile-menu-btn" id="mobileMenuBtn">
                     <i class="fas fa-bars"></i>
                 </button>
+            </div>
+
+            <nav class="nav-links" id="navLinks">
+                <button class="mobile-menu-close" id="mobileMenuClose">
+                    <i class="fas fa-times"></i>
+                </button>
+                <a href="./">Home</a>
+                <a href="?team=men" class="<?php echo $currentTeam == 'men' ? 'active' : ''; ?>">Men's Squad</a>
+                <a href="?team=women" class="<?php echo $currentTeam == 'women' ? 'active' : ''; ?>">Women's Squad</a>
+                <div class="academy-dropdown" id="academyDropdown">
+                    <div class="academy-dropdown-toggle">
+                        <a href="#" class="<?php echo strpos($currentTeam, 'academy_') !== false ? 'active' : ''; ?>">Academy</a>
+                    </div>
+                    <div class="academy-dropdown-content">
+                        <a href="?team=academy_u18_boys">U18 Boys</a>
+                        <a href="?team=academy_u18_girls">U18 Girls</a>
+                        <a href="?team=academy_u16_boys">U16 Boys</a>
+                        <a href="?team=academy_u16_girls">U16 Girls</a>
+                    </div>
+                </div>
+                <a href="./fixtures.php">Fixtures</a>
+            </nav>
+
+            <div class="search-bar">
+                <form method="get" action="">
+                    <input
+                        type="text"
+                        name="search"
+                        placeholder="Search players..."
+                        value="<?php echo htmlspecialchars($search); ?>"
+                    />
+                    <button type="submit" class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <input type="hidden" name="filter" value="<?php echo htmlspecialchars($filter); ?>">
+                    <input type="hidden" name="team" value="<?php echo $currentTeam; ?>">
+                </form>
             </div>
         </div>
     </header>
@@ -1527,22 +1589,58 @@ $conn->close();
 
     <script>
         // Mobile menu toggle
-        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-            document.querySelector('.nav-links').classList.toggle('active');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenuClose = document.getElementById('mobileMenuClose');
+        const navLinks = document.getElementById('navLinks');
+        const academyDropdown = document.getElementById('academyDropdown');
+
+        mobileMenuBtn.addEventListener('click', function() {
+            navLinks.classList.add('active');
+            document.body.style.overflow = 'hidden';
         });
 
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('.nav-links a').forEach(function(link) {
-            link.addEventListener('click', function() {
-                document.querySelector('.nav-links').classList.remove('active');
+        mobileMenuClose.addEventListener('click', function() {
+            navLinks.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // Academy dropdown toggle for mobile
+        academyDropdown.addEventListener('click', function(e) {
+            // Only prevent default if we're on mobile and clicking the toggle
+            if (window.innerWidth <= 768 && e.target.closest('.academy-dropdown-toggle')) {
+                e.preventDefault();
+                this.classList.toggle('active');
+            }
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!navLinks.contains(e.target) && e.target !== mobileMenuBtn) {
+                navLinks.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+            
+            // Close academy dropdown if clicking outside on mobile
+            if (window.innerWidth <= 768 && !academyDropdown.contains(e.target)) {
+                academyDropdown.classList.remove('active');
+            }
+        });
+
+        // Close dropdown when clicking a link inside it
+        document.querySelectorAll('.academy-dropdown-content a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    academyDropdown.classList.remove('active');
+                }
             });
         });
 
-        // Academy dropdown for mobile
-        document.getElementById('academyDropdown').addEventListener('click', function(e) {
-            if (window.innerWidth <= 768) {
-                e.preventDefault();
-                this.classList.toggle('active');
+        // Handle window resize to reset dropdown state
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                academyDropdown.classList.remove('active');
+                navLinks.classList.remove('active');
+                document.body.style.overflow = '';
             }
         });
     </script>
