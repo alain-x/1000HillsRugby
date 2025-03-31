@@ -87,7 +87,9 @@ function calculateTeamStats($conn, $team) {
         'backsCount' => 0,
         'forwardsCount' => 0,
         'captain' => 'None',
-        'viceCaptain' => 'None'
+        'viceCaptain' => 'None',
+        'topScorer' => 'None',
+        'topScorerPoints' => 0
     ];
 
     // Get all players for stats calculation
@@ -116,6 +118,12 @@ function calculateTeamStats($conn, $team) {
         if ($player['category'] == 'Forwards') $stats['forwardsCount']++;
         if ($player['category'] == 'Captain') $stats['captain'] = $player['name'];
         if ($player['category'] == 'Vice-Captain') $stats['viceCaptain'] = $player['name'];
+        
+        // Check for top scorer
+        if (intval($player['points'] ?? 0) > $stats['topScorerPoints']) {
+            $stats['topScorer'] = $player['name'];
+            $stats['topScorerPoints'] = intval($player['points'] ?? 0);
+        }
     }
 
     if ($stats['totalPlayers'] > 0) {
@@ -999,7 +1007,7 @@ $conn->close();
                 grid-template-columns: 1fr;
             }
 
-            /* Team stats grid for mobile */
+            /* Team stats grid for mobile - 2 columns */
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -1132,7 +1140,7 @@ $conn->close();
                 </div>
                 <div class="stats-item">
                     <div class="stats-value"><?php echo $teamStats['avgAge']; ?></div>
-                    <div class="stats-label">Avg Age</div>
+                    <div class="stats-label">Avg Year</div>
                 </div>
                 <div class="stats-item">
                     <div class="stats-value"><?php echo $teamStats['avgHeight']; ?> cm</div>
@@ -1157,6 +1165,14 @@ $conn->close();
                 <div class="stats-item">
                     <div class="stats-value"><?php echo $teamStats['viceCaptain']; ?></div>
                     <div class="stats-label">Vice-Captain</div>
+                </div>
+                <div class="stats-item">
+                    <div class="stats-value"><?php echo $teamStats['topScorer']; ?></div>
+                    <div class="stats-label">Top Scorer</div>
+                </div>
+                <div class="stats-item">
+                    <div class="stats-value"><?php echo $teamStats['topScorerPoints']; ?></div>
+                    <div class="stats-label">Top Scorer Points</div>
                 </div>
             </div>
         </div>
@@ -1184,7 +1200,7 @@ $conn->close();
 
                 <div class="detail-stats">
                     <div class="stat-item-lg">
-                        <div class="stat-label-lg">Age</div>
+                        <div class="stat-label-lg">Year</div>
                         <div class="stat-value-lg"><?php echo htmlspecialchars($selectedPlayer['age']); ?></div>
                     </div>
                     <div class="stat-item-lg">
@@ -1272,7 +1288,7 @@ $conn->close();
                                 <div class="player-stats">
                                     <div class="stat-item">
                                         <span class="stat-value"><?php echo htmlspecialchars($player['age']); ?></span>
-                                        <span class="stat-label">Age</span>
+                                        <span class="stat-label">Year</span>
                                     </div>
                                     <div class="stat-item">
                                         <span class="stat-value"><?php echo htmlspecialchars($player['height']); ?> cm</span>
