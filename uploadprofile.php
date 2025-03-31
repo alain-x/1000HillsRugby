@@ -1,6 +1,6 @@
 <?php
 // Database connection
-$conn = new mysqli('localhost', 'root', '1234', '1000hills_rugby');
+    $conn = new mysqli('localhost', 'hillsrug_hillsrug', 'M00dle??', 'hillsrug_1000hills_rugby_db');
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
