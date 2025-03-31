@@ -29,9 +29,10 @@ $conn->query("CREATE TABLE IF NOT EXISTS players (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )");
 
-// Get current team (men or women)
+// Get current team (men, women, u18-boys, u18-girls, u16-boys, u16-girls)
 $currentTeam = isset($_GET['team']) ? $_GET['team'] : 'men';
-if (!in_array($currentTeam, ['men', 'women'])) {
+$validTeams = ['men', 'women', 'u18-boys', 'u18-girls', 'u16-boys', 'u16-girls'];
+if (!in_array($currentTeam, $validTeams)) {
     $currentTeam = 'men';
 }
 
@@ -137,13 +138,26 @@ function calculateTeamStats($conn, $team) {
 
 $teamStats = calculateTeamStats($conn, $currentTeam);
 $conn->close();
+
+// Function to get team display name
+function getTeamDisplayName($team) {
+    switch($team) {
+        case 'men': return "Men's Team";
+        case 'women': return "Women's Team";
+        case 'u18-boys': return "Academy U18 Boys";
+        case 'u18-girls': return "Academy U18 Girls";
+        case 'u16-boys': return "Academy U16 Boys";
+        case 'u16-girls': return "Academy U16 Girls";
+        default: return ucfirst($team);
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $selectedPlayer ? htmlspecialchars($selectedPlayer['name']) : '1000 Hills Rugby Club - ' . ucfirst($currentTeam) . '\'s Squad'; ?></title>
+    <title><?php echo $selectedPlayer ? htmlspecialchars($selectedPlayer['name']) : '1000 Hills Rugby Club - ' . getTeamDisplayName($currentTeam); ?></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -160,6 +174,10 @@ $conn->close();
             --transition: all 0.3s ease;
             --women-color: #e91e63;
             --women-dark: #c2185b;
+            --u18-color: #2196F3;
+            --u18-dark: #1976D2;
+            --u16-color: #FF9800;
+            --u16-dark: #F57C00;
         }
         
         * {
@@ -228,6 +246,26 @@ $conn->close();
             transform: translateY(-2px);
         }
 
+        .btn-u18 {
+            background-color: var(--u18-color);
+            color: var(--white);
+        }
+
+        .btn-u18:hover {
+            background-color: var(--u18-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-u16 {
+            background-color: var(--u16-color);
+            color: var(--white);
+        }
+
+        .btn-u16:hover {
+            background-color: var(--u16-dark);
+            transform: translateY(-2px);
+        }
+
         .btn-outline {
             background-color: transparent;
             color: var(--primary-color);
@@ -277,6 +315,22 @@ $conn->close();
             );
         }
 
+        .header.u18 {
+            background: linear-gradient(
+                135deg,
+                var(--u18-color) 0%,
+                var(--secondary-color) 100%
+            );
+        }
+
+        .header.u16 {
+            background: linear-gradient(
+                135deg,
+                var(--u16-color) 0%,
+                var(--secondary-color) 100%
+            );
+        }
+
         .header-content {
             display: flex;
             justify-content: space-between;
@@ -317,6 +371,14 @@ $conn->close();
             color: var(--women-color);
         }
 
+        .header.u18 .logo span {
+            color: var(--u18-color);
+        }
+
+        .header.u16 .logo span {
+            color: var(--u16-color);
+        }
+
         .club-motto {
             font-size: 0.7rem;
             font-weight: 400;
@@ -343,6 +405,14 @@ $conn->close();
             color: var(--women-color);
         }
 
+        .header.u18 .nav-links a:hover {
+            color: var(--u18-color);
+        }
+
+        .header.u16 .nav-links a:hover {
+            color: var(--u16-color);
+        }
+
         .nav-links a::after {
             content: "";
             position: absolute;
@@ -358,6 +428,14 @@ $conn->close();
             background-color: var(--women-color);
         }
 
+        .header.u18 .nav-links a::after {
+            background-color: var(--u18-color);
+        }
+
+        .header.u16 .nav-links a::after {
+            background-color: var(--u16-color);
+        }
+
         .nav-links a:hover::after {
             width: 100%;
         }
@@ -368,6 +446,14 @@ $conn->close();
 
         .header.women .nav-links a.active {
             color: var(--women-color);
+        }
+
+        .header.u18 .nav-links a.active {
+            color: var(--u18-color);
+        }
+
+        .header.u16 .nav-links a.active {
+            color: var(--u16-color);
         }
 
         .search-bar {
@@ -416,6 +502,7 @@ $conn->close();
             display: flex;
             gap: 1rem;
             margin-bottom: 1.5rem;
+            flex-wrap: wrap;
         }
 
         /* Filter Bar */
@@ -460,6 +547,14 @@ $conn->close();
 
         .women .filter-tab.active {
             background-color: var(--women-color);
+        }
+
+        .u18 .filter-tab.active {
+            background-color: var(--u18-color);
+        }
+
+        .u16 .filter-tab.active {
+            background-color: var(--u16-color);
         }
 
         /* Player Grid */
@@ -548,6 +643,14 @@ $conn->close();
             color: var(--women-color);
         }
 
+        .u18 .player-position {
+            color: var(--u18-color);
+        }
+
+        .u16 .player-position {
+            color: var(--u16-color);
+        }
+
         .player-stats {
             display: flex;
             justify-content: space-between;
@@ -568,6 +671,14 @@ $conn->close();
 
         .women .stat-value {
             color: var(--women-color);
+        }
+
+        .u18 .stat-value {
+            color: var(--u18-color);
+        }
+
+        .u16 .stat-value {
+            color: var(--u16-color);
         }
 
         .stat-label {
@@ -599,6 +710,14 @@ $conn->close();
             color: var(--women-color);
         }
 
+        .u18 .back-button {
+            color: var(--u18-color);
+        }
+
+        .u16 .back-button {
+            color: var(--u16-color);
+        }
+
         .back-button:hover {
             text-decoration: underline;
         }
@@ -625,6 +744,14 @@ $conn->close();
             border-color: var(--women-color);
         }
 
+        .u18 .detail-image {
+            border-color: var(--u18-color);
+        }
+
+        .u16 .detail-image {
+            border-color: var(--u16-color);
+        }
+
         .detail-name {
             font-size: 2rem;
             font-weight: 700;
@@ -640,6 +767,14 @@ $conn->close();
 
         .women .detail-position {
             color: var(--women-color);
+        }
+
+        .u18 .detail-position {
+            color: var(--u18-color);
+        }
+
+        .u16 .detail-position {
+            color: var(--u16-color);
         }
 
         .detail-stats {
@@ -671,6 +806,14 @@ $conn->close();
 
         .women .stat-value-lg {
             color: var(--women-color);
+        }
+
+        .u18 .stat-value-lg {
+            color: var(--u18-color);
+        }
+
+        .u16 .stat-value-lg {
+            color: var(--u16-color);
         }
 
         .stat-label-lg {
@@ -780,6 +923,14 @@ $conn->close();
             color: var(--women-color);
         }
 
+        .u18 .stats-value {
+            color: var(--u18-color);
+        }
+
+        .u16 .stats-value {
+            color: var(--u16-color);
+        }
+
         .stats-label {
             font-size: 0.8rem;
             color: var(--light-text);
@@ -805,6 +956,14 @@ $conn->close();
 
         .women .spinner {
             border-left-color: var(--women-color);
+        }
+
+        .u18 .spinner {
+            border-left-color: var(--u18-color);
+        }
+
+        .u16 .spinner {
+            border-left-color: var(--u16-color);
         }
 
         @keyframes spin {
@@ -945,6 +1104,39 @@ $conn->close();
             opacity: 0.8;
         }
 
+        /* Academy Dropdown */
+        .academy-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .academy-dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--secondary-color);
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .academy-dropdown-content a {
+            color: var(--white);
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .academy-dropdown-content a:hover {
+            background-color: var(--secondary-light);
+        }
+
+        .academy-dropdown:hover .academy-dropdown-content {
+            display: block;
+        }
+
         /* Responsive Design */
         @media (max-width: 992px) {
             .footer-content {
@@ -1010,6 +1202,21 @@ $conn->close();
             /* Team stats grid for mobile - 2 columns */
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+
+            /* Academy dropdown for mobile */
+            .academy-dropdown-content {
+                position: static;
+                display: none;
+                width: 100%;
+            }
+
+            .academy-dropdown:hover .academy-dropdown-content {
+                display: none;
+            }
+
+            .academy-dropdown.active .academy-dropdown-content {
+                display: block;
             }
         }
 
@@ -1077,6 +1284,15 @@ $conn->close();
                 <a href="./">Home</a>
                     <a href="?team=men" class="<?php echo $currentTeam == 'men' ? 'active' : ''; ?>">Men's Squad</a>
                     <a href="?team=women" class="<?php echo $currentTeam == 'women' ? 'active' : ''; ?>">Women's Squad</a>
+                    <div class="academy-dropdown" id="academyDropdown">
+                        <a href="#" class="<?php echo in_array($currentTeam, ['u18-boys', 'u18-girls', 'u16-boys', 'u16-girls']) ? 'active' : ''; ?>">Academy <i class="fas fa-chevron-down"></i></a>
+                        <div class="academy-dropdown-content">
+                            <a href="?team=u18-boys" class="<?php echo $currentTeam == 'u18-boys' ? 'active' : ''; ?>">U18 Boys</a>
+                            <a href="?team=u18-girls" class="<?php echo $currentTeam == 'u18-girls' ? 'active' : ''; ?>">U18 Girls</a>
+                            <a href="?team=u16-boys" class="<?php echo $currentTeam == 'u16-boys' ? 'active' : ''; ?>">U16 Boys</a>
+                            <a href="?team=u16-girls" class="<?php echo $currentTeam == 'u16-girls' ? 'active' : ''; ?>">U16 Girls</a>
+                        </div>
+                    </div>
                     <a href="./fixtures.php">Fixtures</a>
                 </nav>
 
@@ -1110,8 +1326,10 @@ $conn->close();
                 <a href="?filter=all&search=<?php echo urlencode($search); ?>&team=<?php echo $currentTeam; ?>" class="filter-tab <?php echo $filter == 'all' ? 'active' : ''; ?>">All Players</a>
                 <a href="?filter=Backs&search=<?php echo urlencode($search); ?>&team=<?php echo $currentTeam; ?>" class="filter-tab <?php echo $filter == 'Backs' ? 'active' : ''; ?>">Backs</a>
                 <a href="?filter=Forwards&search=<?php echo urlencode($search); ?>&team=<?php echo $currentTeam; ?>" class="filter-tab <?php echo $filter == 'Forwards' ? 'active' : ''; ?>">Forwards</a>
-                <a href="?filter=Captain&search=<?php echo urlencode($search); ?>&team=<?php echo $currentTeam; ?>" class="filter-tab <?php echo $filter == 'Captain' ? 'active' : ''; ?>">Captain</a>
-                <a href="?filter=Vice-Captain&search=<?php echo urlencode($search); ?>&team=<?php echo $currentTeam; ?>" class="filter-tab <?php echo $filter == 'Vice-Captain' ? 'active' : ''; ?>">Vice-Captain</a>
+                <?php if (!in_array($currentTeam, ['u18-boys', 'u18-girls', 'u16-boys', 'u16-girls'])): ?>
+                    <a href="?filter=Captain&search=<?php echo urlencode($search); ?>&team=<?php echo $currentTeam; ?>" class="filter-tab <?php echo $filter == 'Captain' ? 'active' : ''; ?>">Captain</a>
+                    <a href="?filter=Vice-Captain&search=<?php echo urlencode($search); ?>&team=<?php echo $currentTeam; ?>" class="filter-tab <?php echo $filter == 'Vice-Captain' ? 'active' : ''; ?>">Vice-Captain</a>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -1120,7 +1338,7 @@ $conn->close();
     <main class="container">
         <!-- Team Stats -->
         <div class="team-stats">
-            <h2 class="section-title">Team Statistics</h2>
+            <h2 class="section-title">Team Statistics - <?php echo getTeamDisplayName($currentTeam); ?></h2>
             <div class="stats-grid">
                 <div class="stats-item">
                     <div class="stats-value"><?php echo $teamStats['totalPlayers']; ?></div>
@@ -1158,14 +1376,16 @@ $conn->close();
                     <div class="stats-value"><?php echo $teamStats['forwardsCount']; ?></div>
                     <div class="stats-label">Forwards</div>
                 </div>
-                <div class="stats-item">
-                    <div class="stats-value"><?php echo $teamStats['captain']; ?></div>
-                    <div class="stats-label">Captain</div>
-                </div>
-                <div class="stats-item">
-                    <div class="stats-value"><?php echo $teamStats['viceCaptain']; ?></div>
-                    <div class="stats-label">Vice-Captain</div>
-                </div>
+                <?php if (!in_array($currentTeam, ['u18-boys', 'u18-girls', 'u16-boys', 'u16-girls'])): ?>
+                    <div class="stats-item">
+                        <div class="stats-value"><?php echo $teamStats['captain']; ?></div>
+                        <div class="stats-label">Captain</div>
+                    </div>
+                    <div class="stats-item">
+                        <div class="stats-value"><?php echo $teamStats['viceCaptain']; ?></div>
+                        <div class="stats-label">Vice-Captain</div>
+                    </div>
+                <?php endif; ?>
                 <div class="stats-item">
                     <div class="stats-value"><?php echo $teamStats['topScorer']; ?></div>
                     <div class="stats-label">Top Scorer</div>
@@ -1194,7 +1414,7 @@ $conn->close();
                         <h2 class="detail-name"><?php echo htmlspecialchars($selectedPlayer['name']); ?></h2>
                         <p class="detail-position"><?php echo htmlspecialchars($selectedPlayer['role']); ?></p>
                         <p><strong>Category:</strong> <?php echo htmlspecialchars($selectedPlayer['category']); ?></p>
-                        <p><strong>Team:</strong> <?php echo ucfirst(htmlspecialchars($selectedPlayer['team'])); ?></p>
+                        <p><strong>Team:</strong> <?php echo getTeamDisplayName(htmlspecialchars($selectedPlayer['team'])); ?></p>
                     </div>
                 </div>
 
@@ -1319,6 +1539,17 @@ $conn->close();
                 document.querySelector('.nav-links').classList.remove('active');
             });
         });
+
+        // Academy dropdown toggle for mobile
+        const academyDropdown = document.getElementById('academyDropdown');
+        if (academyDropdown) {
+            academyDropdown.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    this.classList.toggle('active');
+                }
+            });
+        }
     </script>
 </body>
 </html>
