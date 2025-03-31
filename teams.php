@@ -281,7 +281,7 @@ $conn->close();
             background-color: var(--primary-color);
         }
 
-        /* Header Styles - Updated for horizontal logo and menu */
+        /* Header Styles */
         .header {
             background: linear-gradient(
                 135deg,
@@ -292,7 +292,6 @@ $conn->close();
             padding: 1rem 0;
             box-shadow: var(--shadow);
             z-index: 1000;
-            position: relative;
         }
 
         .header.women {
@@ -381,19 +380,6 @@ $conn->close();
             font-family: "Open Sans", sans-serif;
         }
 
-        /* Mobile Menu Button - Updated for better alignment */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--white);
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            margin-left: auto;
-        }
-
-        /* Navigation Links */
         .nav-links {
             display: flex;
             gap: 1.5rem;
@@ -464,21 +450,6 @@ $conn->close();
             color: var(--academy-u16-color);
         }
 
-        /* Mobile Menu Close Button */
-        .mobile-menu-close {
-            display: none;
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            color: var(--white);
-            font-size: 1.5rem;
-            cursor: pointer;
-            z-index: 1001;
-        }
-
-        /* Search Bar */
         .search-bar {
             position: relative;
             width: 300px;
@@ -510,7 +481,39 @@ $conn->close();
             cursor: pointer;
         }
 
-        /* Academy Dropdown */
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            order: 1;
+        }
+
+        .mobile-menu-close {
+            display: none;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        /* Team Selector */
+        .team-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* Academy Dropdown - Improved for Mobile */
         .academy-dropdown {
             position: relative;
         }
@@ -1183,22 +1186,10 @@ $conn->close();
         }
 
         @media (max-width: 768px) {
-            /* Updated header layout for mobile */
             .header-content {
-                flex-direction: row;
-                align-items: center;
-            }
-
-            .logo-container {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                width: 100%;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-                order: 2;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
             }
 
             .nav-links {
@@ -1218,6 +1209,10 @@ $conn->close();
 
             .nav-links.active {
                 display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
             }
 
             .mobile-menu-close {
@@ -1314,7 +1309,7 @@ $conn->close();
     elseif (strpos($currentTeam, 'academy_u16') !== false) echo 'academy-u16';
     else echo $currentTeam;
 ?>">
-    <!-- Header - Updated for horizontal logo and menu -->
+    <!-- Header -->
     <header class="header <?php 
         if (strpos($currentTeam, 'academy_u18') !== false) echo 'academy-u18';
         elseif (strpos($currentTeam, 'academy_u16') !== false) echo 'academy-u16';
@@ -1331,41 +1326,43 @@ $conn->close();
                 </button>
             </div>
 
-            <nav class="nav-links" id="navLinks">
-                <button class="mobile-menu-close" id="mobileMenuClose">
-                    <i class="fas fa-times"></i>
-                </button>
-                <a href="./">Home</a>
-                <a href="?team=men" class="<?php echo $currentTeam == 'men' ? 'active' : ''; ?>">Men's Squad</a>
-                <a href="?team=women" class="<?php echo $currentTeam == 'women' ? 'active' : ''; ?>">Women's Squad</a>
-                <div class="academy-dropdown" id="academyDropdown">
-                    <div class="academy-dropdown-toggle">
-                        <a href="#" class="<?php echo strpos($currentTeam, 'academy_') !== false ? 'active' : ''; ?>">Academy</a>
-                    </div>
-                    <div class="academy-dropdown-content">
-                        <a href="?team=academy_u18_boys">U18 Boys</a>
-                        <a href="?team=academy_u18_girls">U18 Girls</a>
-                        <a href="?team=academy_u16_boys">U16 Boys</a>
-                        <a href="?team=academy_u16_girls">U16 Girls</a>
-                    </div>
-                </div>
-                <a href="./fixtures.php">Fixtures</a>
-            </nav>
-
-            <div class="search-bar">
-                <form method="get" action="">
-                    <input
-                        type="text"
-                        name="search"
-                        placeholder="Search players..."
-                        value="<?php echo htmlspecialchars($search); ?>"
-                    />
-                    <button type="submit" class="search-btn">
-                        <i class="fas fa-search"></i>
+            <div class="header-content">
+                <nav class="nav-links" id="navLinks">
+                    <button class="mobile-menu-close" id="mobileMenuClose">
+                        <i class="fas fa-times"></i>
                     </button>
-                    <input type="hidden" name="filter" value="<?php echo htmlspecialchars($filter); ?>">
-                    <input type="hidden" name="team" value="<?php echo $currentTeam; ?>">
-                </form>
+                    <a href="./">Home</a>
+                    <a href="?team=men" class="<?php echo $currentTeam == 'men' ? 'active' : ''; ?>">Men's Squad</a>
+                    <a href="?team=women" class="<?php echo $currentTeam == 'women' ? 'active' : ''; ?>">Women's Squad</a>
+                    <div class="academy-dropdown" id="academyDropdown">
+                        <div class="academy-dropdown-toggle">
+                            <a href="#" class="<?php echo strpos($currentTeam, 'academy_') !== false ? 'active' : ''; ?>">Academy</a>
+                        </div>
+                        <div class="academy-dropdown-content">
+                            <a href="?team=academy_u18_boys">U18 Boys</a>
+                            <a href="?team=academy_u18_girls">U18 Girls</a>
+                            <a href="?team=academy_u16_boys">U16 Boys</a>
+                            <a href="?team=academy_u16_girls">U16 Girls</a>
+                        </div>
+                    </div>
+                    <a href="./fixtures.php">Fixtures</a>
+                </nav>
+
+                <div class="search-bar">
+                    <form method="get" action="">
+                        <input
+                            type="text"
+                            name="search"
+                            placeholder="Search players..."
+                            value="<?php echo htmlspecialchars($search); ?>"
+                        />
+                        <button type="submit" class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <input type="hidden" name="filter" value="<?php echo htmlspecialchars($filter); ?>">
+                        <input type="hidden" name="team" value="<?php echo $currentTeam; ?>">
+                    </form>
+                </div>
             </div>
         </div>
     </header>
@@ -1589,59 +1586,63 @@ $conn->close();
 
     <script>
         // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileMenuClose = document.getElementById('mobileMenuClose');
-        const navLinks = document.getElementById('navLinks');
-        const academyDropdown = document.getElementById('academyDropdown');
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenuClose = document.getElementById('mobileMenuClose');
+            const navLinks = document.getElementById('navLinks');
+            const academyDropdown = document.getElementById('academyDropdown');
 
-        mobileMenuBtn.addEventListener('click', function() {
-            navLinks.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
+            // Toggle mobile menu
+            mobileMenuBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                navLinks.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
 
-        mobileMenuClose.addEventListener('click', function() {
-            navLinks.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-
-        // Academy dropdown toggle for mobile
-        academyDropdown.addEventListener('click', function(e) {
-            // Only prevent default if we're on mobile and clicking the toggle
-            if (window.innerWidth <= 768 && e.target.closest('.academy-dropdown-toggle')) {
-                e.preventDefault();
-                this.classList.toggle('active');
-            }
-        });
-
-        // Close menu when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!navLinks.contains(e.target) && e.target !== mobileMenuBtn) {
+            // Close mobile menu
+            mobileMenuClose.addEventListener('click', function(e) {
+                e.stopPropagation();
                 navLinks.classList.remove('active');
                 document.body.style.overflow = '';
-            }
-            
-            // Close academy dropdown if clicking outside on mobile
-            if (window.innerWidth <= 768 && !academyDropdown.contains(e.target)) {
-                academyDropdown.classList.remove('active');
-            }
-        });
+            });
 
-        // Close dropdown when clicking a link inside it
-        document.querySelectorAll('.academy-dropdown-content a').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) {
-                    academyDropdown.classList.remove('active');
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!navLinks.contains(e.target) && e.target !== mobileMenuBtn) {
+                    navLinks.classList.remove('active');
+                    document.body.style.overflow = '';
                 }
             });
-        });
 
-        // Handle window resize to reset dropdown state
-        window.addEventListener('resize', function() {
-            if (window.innerWidth > 768) {
-                academyDropdown.classList.remove('active');
-                navLinks.classList.remove('active');
-                document.body.style.overflow = '';
-            }
+            // Academy dropdown toggle for mobile
+            academyDropdown.addEventListener('click', function(e) {
+                // Only prevent default if we're on mobile and clicking the toggle
+                if (window.innerWidth <= 768 && e.target.closest('.academy-dropdown-toggle')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.classList.toggle('active');
+                }
+            });
+
+            // Close dropdown when clicking a link inside it
+            document.querySelectorAll('.academy-dropdown-content a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) {
+                        academyDropdown.classList.remove('active');
+                        navLinks.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            });
+
+            // Handle window resize to reset dropdown state
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    academyDropdown.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
         });
     </script>
 </body>
