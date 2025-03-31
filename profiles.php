@@ -29,9 +29,9 @@ $conn->query("CREATE TABLE IF NOT EXISTS players (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )");
 
-// Get current team (men, women, u18-boys, u18-girls, u16-boys, u16-girls)
+// Get current team (men, women, academy_u18_boys, academy_u18_girls, academy_u16_boys, academy_u16_girls)
 $currentTeam = isset($_GET['team']) ? $_GET['team'] : 'men';
-$validTeams = ['men', 'women', 'u18-boys', 'u18-girls', 'u16-boys', 'u16-girls'];
+$validTeams = ['men', 'women', 'academy_u18_boys', 'academy_u18_girls', 'academy_u16_boys', 'academy_u16_girls'];
 if (!in_array($currentTeam, $validTeams)) {
     $currentTeam = 'men';
 }
@@ -138,26 +138,13 @@ function calculateTeamStats($conn, $team) {
 
 $teamStats = calculateTeamStats($conn, $currentTeam);
 $conn->close();
-
-// Function to get team display name
-function getTeamDisplayName($team) {
-    switch($team) {
-        case 'men': return "Men's Team";
-        case 'women': return "Women's Team";
-        case 'u18-boys': return "Academy U18 Boys";
-        case 'u18-girls': return "Academy U18 Girls";
-        case 'u16-boys': return "Academy U16 Boys";
-        case 'u16-girls': return "Academy U16 Girls";
-        default: return ucfirst($team);
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $selectedPlayer ? htmlspecialchars($selectedPlayer['name']) : '1000 Hills Rugby Club - ' . getTeamDisplayName($currentTeam); ?></title>
+    <title><?php echo $selectedPlayer ? htmlspecialchars($selectedPlayer['name']) : '1000 Hills Rugby Club - ' . ucfirst(str_replace('_', ' ', $currentTeam)); ?></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -174,10 +161,10 @@ function getTeamDisplayName($team) {
             --transition: all 0.3s ease;
             --women-color: #e91e63;
             --women-dark: #c2185b;
-            --u18-color: #2196F3;
-            --u18-dark: #1976D2;
-            --u16-color: #FF9800;
-            --u16-dark: #F57C00;
+            --academy-u18-color: #2196F3;
+            --academy-u18-dark: #1976D2;
+            --academy-u16-color: #FF9800;
+            --academy-u16-dark: #F57C00;
         }
         
         * {
@@ -246,23 +233,23 @@ function getTeamDisplayName($team) {
             transform: translateY(-2px);
         }
 
-        .btn-u18 {
-            background-color: var(--u18-color);
+        .btn-academy-u18 {
+            background-color: var(--academy-u18-color);
             color: var(--white);
         }
 
-        .btn-u18:hover {
-            background-color: var(--u18-dark);
+        .btn-academy-u18:hover {
+            background-color: var(--academy-u18-dark);
             transform: translateY(-2px);
         }
 
-        .btn-u16 {
-            background-color: var(--u16-color);
+        .btn-academy-u16 {
+            background-color: var(--academy-u16-color);
             color: var(--white);
         }
 
-        .btn-u16:hover {
-            background-color: var(--u16-dark);
+        .btn-academy-u16:hover {
+            background-color: var(--academy-u16-dark);
             transform: translateY(-2px);
         }
 
@@ -315,18 +302,18 @@ function getTeamDisplayName($team) {
             );
         }
 
-        .header.u18 {
+        .header.academy-u18 {
             background: linear-gradient(
                 135deg,
-                var(--u18-color) 0%,
+                var(--academy-u18-color) 0%,
                 var(--secondary-color) 100%
             );
         }
 
-        .header.u16 {
+        .header.academy-u16 {
             background: linear-gradient(
                 135deg,
-                var(--u16-color) 0%,
+                var(--academy-u16-color) 0%,
                 var(--secondary-color) 100%
             );
         }
@@ -371,12 +358,12 @@ function getTeamDisplayName($team) {
             color: var(--women-color);
         }
 
-        .header.u18 .logo span {
-            color: var(--u18-color);
+        .header.academy-u18 .logo span {
+            color: var(--academy-u18-color);
         }
 
-        .header.u16 .logo span {
-            color: var(--u16-color);
+        .header.academy-u16 .logo span {
+            color: var(--academy-u16-color);
         }
 
         .club-motto {
@@ -405,12 +392,12 @@ function getTeamDisplayName($team) {
             color: var(--women-color);
         }
 
-        .header.u18 .nav-links a:hover {
-            color: var(--u18-color);
+        .header.academy-u18 .nav-links a:hover {
+            color: var(--academy-u18-color);
         }
 
-        .header.u16 .nav-links a:hover {
-            color: var(--u16-color);
+        .header.academy-u16 .nav-links a:hover {
+            color: var(--academy-u16-color);
         }
 
         .nav-links a::after {
@@ -428,12 +415,12 @@ function getTeamDisplayName($team) {
             background-color: var(--women-color);
         }
 
-        .header.u18 .nav-links a::after {
-            background-color: var(--u18-color);
+        .header.academy-u18 .nav-links a::after {
+            background-color: var(--academy-u18-color);
         }
 
-        .header.u16 .nav-links a::after {
-            background-color: var(--u16-color);
+        .header.academy-u16 .nav-links a::after {
+            background-color: var(--academy-u16-color);
         }
 
         .nav-links a:hover::after {
@@ -448,12 +435,12 @@ function getTeamDisplayName($team) {
             color: var(--women-color);
         }
 
-        .header.u18 .nav-links a.active {
-            color: var(--u18-color);
+        .header.academy-u18 .nav-links a.active {
+            color: var(--academy-u18-color);
         }
 
-        .header.u16 .nav-links a.active {
-            color: var(--u16-color);
+        .header.academy-u16 .nav-links a.active {
+            color: var(--academy-u16-color);
         }
 
         .search-bar {
@@ -505,6 +492,39 @@ function getTeamDisplayName($team) {
             flex-wrap: wrap;
         }
 
+        /* Academy Dropdown */
+        .academy-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .academy-dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--white);
+            min-width: 200px;
+            box-shadow: var(--shadow-lg);
+            z-index: 1;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .academy-dropdown:hover .academy-dropdown-content {
+            display: block;
+        }
+
+        .academy-dropdown-content a {
+            color: var(--text-color);
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .academy-dropdown-content a:hover {
+            background-color: var(--accent-color);
+        }
+
         /* Filter Bar */
         .filter-bar {
             background-color: var(--secondary-color);
@@ -549,12 +569,12 @@ function getTeamDisplayName($team) {
             background-color: var(--women-color);
         }
 
-        .u18 .filter-tab.active {
-            background-color: var(--u18-color);
+        .academy-u18 .filter-tab.active {
+            background-color: var(--academy-u18-color);
         }
 
-        .u16 .filter-tab.active {
-            background-color: var(--u16-color);
+        .academy-u16 .filter-tab.active {
+            background-color: var(--academy-u16-color);
         }
 
         /* Player Grid */
@@ -643,12 +663,12 @@ function getTeamDisplayName($team) {
             color: var(--women-color);
         }
 
-        .u18 .player-position {
-            color: var(--u18-color);
+        .academy-u18 .player-position {
+            color: var(--academy-u18-color);
         }
 
-        .u16 .player-position {
-            color: var(--u16-color);
+        .academy-u16 .player-position {
+            color: var(--academy-u16-color);
         }
 
         .player-stats {
@@ -673,12 +693,12 @@ function getTeamDisplayName($team) {
             color: var(--women-color);
         }
 
-        .u18 .stat-value {
-            color: var(--u18-color);
+        .academy-u18 .stat-value {
+            color: var(--academy-u18-color);
         }
 
-        .u16 .stat-value {
-            color: var(--u16-color);
+        .academy-u16 .stat-value {
+            color: var(--academy-u16-color);
         }
 
         .stat-label {
@@ -710,12 +730,12 @@ function getTeamDisplayName($team) {
             color: var(--women-color);
         }
 
-        .u18 .back-button {
-            color: var(--u18-color);
+        .academy-u18 .back-button {
+            color: var(--academy-u18-color);
         }
 
-        .u16 .back-button {
-            color: var(--u16-color);
+        .academy-u16 .back-button {
+            color: var(--academy-u16-color);
         }
 
         .back-button:hover {
@@ -744,12 +764,12 @@ function getTeamDisplayName($team) {
             border-color: var(--women-color);
         }
 
-        .u18 .detail-image {
-            border-color: var(--u18-color);
+        .academy-u18 .detail-image {
+            border-color: var(--academy-u18-color);
         }
 
-        .u16 .detail-image {
-            border-color: var(--u16-color);
+        .academy-u16 .detail-image {
+            border-color: var(--academy-u16-color);
         }
 
         .detail-name {
@@ -769,12 +789,12 @@ function getTeamDisplayName($team) {
             color: var(--women-color);
         }
 
-        .u18 .detail-position {
-            color: var(--u18-color);
+        .academy-u18 .detail-position {
+            color: var(--academy-u18-color);
         }
 
-        .u16 .detail-position {
-            color: var(--u16-color);
+        .academy-u16 .detail-position {
+            color: var(--academy-u16-color);
         }
 
         .detail-stats {
@@ -808,12 +828,12 @@ function getTeamDisplayName($team) {
             color: var(--women-color);
         }
 
-        .u18 .stat-value-lg {
-            color: var(--u18-color);
+        .academy-u18 .stat-value-lg {
+            color: var(--academy-u18-color);
         }
 
-        .u16 .stat-value-lg {
-            color: var(--u16-color);
+        .academy-u16 .stat-value-lg {
+            color: var(--academy-u16-color);
         }
 
         .stat-label-lg {
@@ -923,12 +943,12 @@ function getTeamDisplayName($team) {
             color: var(--women-color);
         }
 
-        .u18 .stats-value {
-            color: var(--u18-color);
+        .academy-u18 .stats-value {
+            color: var(--academy-u18-color);
         }
 
-        .u16 .stats-value {
-            color: var(--u16-color);
+        .academy-u16 .stats-value {
+            color: var(--academy-u16-color);
         }
 
         .stats-label {
@@ -958,12 +978,12 @@ function getTeamDisplayName($team) {
             border-left-color: var(--women-color);
         }
 
-        .u18 .spinner {
-            border-left-color: var(--u18-color);
+        .academy-u18 .spinner {
+            border-left-color: var(--academy-u18-color);
         }
 
-        .u16 .spinner {
-            border-left-color: var(--u16-color);
+        .academy-u16 .spinner {
+            border-left-color: var(--academy-u16-color);
         }
 
         @keyframes spin {
@@ -1104,39 +1124,6 @@ function getTeamDisplayName($team) {
             opacity: 0.8;
         }
 
-        /* Academy Dropdown */
-        .academy-dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .academy-dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: var(--secondary-color);
-            min-width: 200px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-            z-index: 1;
-            border-radius: 0.5rem;
-            overflow: hidden;
-        }
-
-        .academy-dropdown-content a {
-            color: var(--white);
-            padding: 0.75rem 1rem;
-            text-decoration: none;
-            display: block;
-            transition: var(--transition);
-        }
-
-        .academy-dropdown-content a:hover {
-            background-color: var(--secondary-light);
-        }
-
-        .academy-dropdown:hover .academy-dropdown-content {
-            display: block;
-        }
-
         /* Responsive Design */
         @media (max-width: 992px) {
             .footer-content {
@@ -1177,6 +1164,20 @@ function getTeamDisplayName($team) {
                 order: 3;
             }
 
+            .academy-dropdown-content {
+                position: static;
+                display: none;
+                box-shadow: none;
+            }
+
+            .academy-dropdown:hover .academy-dropdown-content {
+                display: none;
+            }
+
+            .academy-dropdown.active .academy-dropdown-content {
+                display: block;
+            }
+
             .detail-header {
                 flex-direction: column;
                 text-align: center;
@@ -1197,26 +1198,6 @@ function getTeamDisplayName($team) {
 
             .footer-content {
                 grid-template-columns: 1fr;
-            }
-
-            /* Team stats grid for mobile - 2 columns */
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            /* Academy dropdown for mobile */
-            .academy-dropdown-content {
-                position: static;
-                display: none;
-                width: 100%;
-            }
-
-            .academy-dropdown:hover .academy-dropdown-content {
-                display: none;
-            }
-
-            .academy-dropdown.active .academy-dropdown-content {
-                display: block;
             }
         }
 
@@ -1269,9 +1250,17 @@ function getTeamDisplayName($team) {
         }
     </style>
 </head>
-<body class="<?php echo $currentTeam; ?>">
+<body class="<?php 
+    if (strpos($currentTeam, 'academy_u18') !== false) echo 'academy-u18';
+    elseif (strpos($currentTeam, 'academy_u16') !== false) echo 'academy-u16';
+    else echo $currentTeam;
+?>">
     <!-- Header -->
-    <header class="header <?php echo $currentTeam; ?>">
+    <header class="header <?php 
+        if (strpos($currentTeam, 'academy_u18') !== false) echo 'academy-u18';
+        elseif (strpos($currentTeam, 'academy_u16') !== false) echo 'academy-u16';
+        else echo $currentTeam;
+    ?>">
         <div class="container">
             <div class="header-content">
                 <a href="./">
@@ -1281,16 +1270,16 @@ function getTeamDisplayName($team) {
                 </a>
                 
                 <nav class="nav-links">
-                <a href="./">Home</a>
+                    <a href="./">Home</a>
                     <a href="?team=men" class="<?php echo $currentTeam == 'men' ? 'active' : ''; ?>">Men's Squad</a>
                     <a href="?team=women" class="<?php echo $currentTeam == 'women' ? 'active' : ''; ?>">Women's Squad</a>
                     <div class="academy-dropdown" id="academyDropdown">
-                        <a href="#" class="<?php echo in_array($currentTeam, ['u18-boys', 'u18-girls', 'u16-boys', 'u16-girls']) ? 'active' : ''; ?>">Academy <i class="fas fa-chevron-down"></i></a>
+                        <a href="#" class="<?php echo strpos($currentTeam, 'academy_') !== false ? 'active' : ''; ?>">Academy</a>
                         <div class="academy-dropdown-content">
-                            <a href="?team=u18-boys" class="<?php echo $currentTeam == 'u18-boys' ? 'active' : ''; ?>">U18 Boys</a>
-                            <a href="?team=u18-girls" class="<?php echo $currentTeam == 'u18-girls' ? 'active' : ''; ?>">U18 Girls</a>
-                            <a href="?team=u16-boys" class="<?php echo $currentTeam == 'u16-boys' ? 'active' : ''; ?>">U16 Boys</a>
-                            <a href="?team=u16-girls" class="<?php echo $currentTeam == 'u16-girls' ? 'active' : ''; ?>">U16 Girls</a>
+                            <a href="?team=academy_u18_boys">U18 Boys</a>
+                            <a href="?team=academy_u18_girls">U18 Girls</a>
+                            <a href="?team=academy_u16_boys">U16 Boys</a>
+                            <a href="?team=academy_u16_girls">U16 Girls</a>
                         </div>
                     </div>
                     <a href="./fixtures.php">Fixtures</a>
@@ -1326,7 +1315,7 @@ function getTeamDisplayName($team) {
                 <a href="?filter=all&search=<?php echo urlencode($search); ?>&team=<?php echo $currentTeam; ?>" class="filter-tab <?php echo $filter == 'all' ? 'active' : ''; ?>">All Players</a>
                 <a href="?filter=Backs&search=<?php echo urlencode($search); ?>&team=<?php echo $currentTeam; ?>" class="filter-tab <?php echo $filter == 'Backs' ? 'active' : ''; ?>">Backs</a>
                 <a href="?filter=Forwards&search=<?php echo urlencode($search); ?>&team=<?php echo $currentTeam; ?>" class="filter-tab <?php echo $filter == 'Forwards' ? 'active' : ''; ?>">Forwards</a>
-                <?php if (!in_array($currentTeam, ['u18-boys', 'u18-girls', 'u16-boys', 'u16-girls'])): ?>
+                <?php if (!strpos($currentTeam, 'academy_')): ?>
                     <a href="?filter=Captain&search=<?php echo urlencode($search); ?>&team=<?php echo $currentTeam; ?>" class="filter-tab <?php echo $filter == 'Captain' ? 'active' : ''; ?>">Captain</a>
                     <a href="?filter=Vice-Captain&search=<?php echo urlencode($search); ?>&team=<?php echo $currentTeam; ?>" class="filter-tab <?php echo $filter == 'Vice-Captain' ? 'active' : ''; ?>">Vice-Captain</a>
                 <?php endif; ?>
@@ -1338,7 +1327,7 @@ function getTeamDisplayName($team) {
     <main class="container">
         <!-- Team Stats -->
         <div class="team-stats">
-            <h2 class="section-title">Team Statistics - <?php echo getTeamDisplayName($currentTeam); ?></h2>
+            <h2 class="section-title">Team Statistics</h2>
             <div class="stats-grid">
                 <div class="stats-item">
                     <div class="stats-value"><?php echo $teamStats['totalPlayers']; ?></div>
@@ -1376,7 +1365,7 @@ function getTeamDisplayName($team) {
                     <div class="stats-value"><?php echo $teamStats['forwardsCount']; ?></div>
                     <div class="stats-label">Forwards</div>
                 </div>
-                <?php if (!in_array($currentTeam, ['u18-boys', 'u18-girls', 'u16-boys', 'u16-girls'])): ?>
+                <?php if (!strpos($currentTeam, 'academy_')): ?>
                     <div class="stats-item">
                         <div class="stats-value"><?php echo $teamStats['captain']; ?></div>
                         <div class="stats-label">Captain</div>
@@ -1414,7 +1403,16 @@ function getTeamDisplayName($team) {
                         <h2 class="detail-name"><?php echo htmlspecialchars($selectedPlayer['name']); ?></h2>
                         <p class="detail-position"><?php echo htmlspecialchars($selectedPlayer['role']); ?></p>
                         <p><strong>Category:</strong> <?php echo htmlspecialchars($selectedPlayer['category']); ?></p>
-                        <p><strong>Team:</strong> <?php echo getTeamDisplayName(htmlspecialchars($selectedPlayer['team'])); ?></p>
+                        <p><strong>Team:</strong> <?php 
+                            $teamName = $selectedPlayer['team'];
+                            if ($teamName == 'men') echo "Men's Team";
+                            elseif ($teamName == 'women') echo "Women's Team";
+                            elseif ($teamName == 'academy_u18_boys') echo "Academy U18 Boys";
+                            elseif ($teamName == 'academy_u18_girls') echo "Academy U18 Girls";
+                            elseif ($teamName == 'academy_u16_boys') echo "Academy U16 Boys";
+                            elseif ($teamName == 'academy_u16_girls') echo "Academy U16 Girls";
+                            else echo ucfirst($teamName);
+                        ?></p>
                     </div>
                 </div>
 
@@ -1540,16 +1538,13 @@ function getTeamDisplayName($team) {
             });
         });
 
-        // Academy dropdown toggle for mobile
-        const academyDropdown = document.getElementById('academyDropdown');
-        if (academyDropdown) {
-            academyDropdown.addEventListener('click', function(e) {
-                if (window.innerWidth <= 768) {
-                    e.preventDefault();
-                    this.classList.toggle('active');
-                }
-            });
-        }
+        // Academy dropdown for mobile
+        document.getElementById('academyDropdown').addEventListener('click', function(e) {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                this.classList.toggle('active');
+            }
+        });
     </script>
 </body>
 </html>
