@@ -413,10 +413,7 @@ try {
                             <i class="far fa-calendar-times text-7xl"></i>
                         </div>
                         <h3 class="text-xl font-medium text-gray-900 mb-2">No Upcoming Fixtures</h3>
-                        <p class="text-gray-500 max-w-md mx-auto mb-6">There are currently no scheduled matches for the selected filters. Please check back later or try different filters.</p>
-                        <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-                            View Full Schedule
-                        </button>
+                        <p class="text-gray-500 max-w-md mx-auto mb-6">There are currently no scheduled matches for the selected filters. Please check back later or try different filters.</p> 
                     </div>
                 <?php else: ?>
                     <!-- Fixtures Grid -->
