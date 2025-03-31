@@ -11,16 +11,16 @@ $competition = isset($_GET['competition']) ? $conn->real_escape_string($_GET['co
 $season = isset($_GET['season']) ? intval($_GET['season']) : date('Y');
 $tab = isset($_GET['tab']) ? $conn->real_escape_string($_GET['tab']) : 'fixtures';
 
-// Get all competitions for dropdown - using DISTINCT to avoid duplicates
+// Get all competitions for dropdown
 $competitions = [];
-$compResult = $conn->query("SELECT DISTINCT competition FROM fixtures ORDER BY competition");
+$compResult = $conn->query("SELECT DISTINCT competition FROM fixtures WHERE season = $season ORDER BY competition");
 if ($compResult->num_rows > 0) {
     while ($row = $compResult->fetch_assoc()) {
         $competitions[] = stripslashes($row['competition']);
     }
 }
 
-// Build SQL query with GROUP BY to prevent duplicates
+// Build SQL query
 if ($tab === 'results') {
     $sql = "SELECT * FROM fixtures WHERE status = 'COMPLETED' AND season = ? 
             AND NOT (home_score = 0 AND away_score = 0)";
@@ -30,7 +30,7 @@ if ($tab === 'results') {
 }
 
 $params = [$season];
-$types = "s";
+$types = "i"; // season is integer
 
 if ($gender != 'ALL') {
     $sql .= " AND gender = ?";
@@ -44,10 +44,7 @@ if ($competition != 'ALL') {
     $types .= "s";
 }
 
-// Add GROUP BY to ensure unique matches
-$sql .= " GROUP BY match_date, home_team, away_team";
-
-$sql .= ($tab === 'results') ? " ORDER BY match_date DESC" : " ORDER BY match_date ASC";
+$sql .= " ORDER BY match_date " . ($tab === 'results' ? "DESC" : "ASC");
 
 $stmt = $conn->prepare($sql);
 if ($stmt) {
@@ -126,12 +123,6 @@ function formatMatchDate($dateString) {
         .score-pill {
             min-width: 80px;
         }
-        .tab-indicator {
-            height: 3px;
-            background: linear-gradient(to right, rgb(10, 145, 19) 0%, rgb(1, 20, 2) 100%);
-            bottom: -1px;
-            transition: all 0.3s ease;
-        }
         .filter-select {
             -webkit-appearance: none;
             -moz-appearance: none;
@@ -140,57 +131,8 @@ function formatMatchDate($dateString) {
             background-position: right 0.5rem center;
             background-repeat: no-repeat;
             background-size: 1.5em 1.5em;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
             padding-right: 2.5rem;
         }
-        .filter-select::-ms-expand {
-            display: none;
-        }
-        /* Navigation styles */
-        .nav-container {
-            background: linear-gradient(to right, rgb(10, 145, 19) 0%, rgb(1, 20, 2) 100%);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .nav-item {
-            position: relative;
-            color: white;
-            transition: all 0.3s ease;
-        }
-        .nav-item:hover {
-            color: #d1fae5;
-        }
-        .nav-item.active {
-            color: white;
-            font-weight: 600;
-        }
-        .nav-item.active::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 24px;
-            height: 3px;
-            background-color: #34d399;
-            border-radius: 3px;
-        }
-        .mobile-nav {
-            background: linear-gradient(to right, rgb(10, 145, 19) 0%, rgb(1, 20, 2) 100%);
-        }
-        .mobile-nav-item {
-            color: white;
-            transition: all 0.2s ease;
-        }
-        .mobile-nav-item:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        .mobile-nav-item.active {
-            background-color: rgba(52, 211, 153, 0.2);
-            color: white;
-            font-weight: 600;
-        }
-        /* Mobile-specific styles */
         @media (max-width: 767px) {
             .mobile-match-row {
                 display: flex;
@@ -252,40 +194,29 @@ function formatMatchDate($dateString) {
                 background: white;
                 box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             }
-            .mobile-points {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                gap: 4px;
-            }
-            .mobile-divider {
-                color: #d1d5db;
-                padding: 0 4px;
-            }
         }
     </style>
 </head>
 <body class="bg-gray-50">
-    <!-- Professional Header -->
-    <header class="nav-container">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-green-800 to-green-900 shadow-md">
         <div class="container mx-auto px-4 py-3">
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-4">
                     <a href="./" class="flex items-center">
                         <img src="./logos_/logoT.jpg" alt="Club Logo" class="h-12 rounded-full border-2 border-white shadow-md">
-                        <span class="ml-3 text-xl font-bold text-white"></span>
                     </a>
                 </div>
                 
                 <nav class="hidden md:flex items-center space-x-8">
-                    <a href="fixtures.php?tab=fixtures" class="nav-item font-medium text-sm uppercase tracking-wider py-4 <?php echo $tab === 'fixtures' ? 'active' : ''; ?>">
+                    <a href="fixtures.php?tab=fixtures" class="text-white font-medium text-sm uppercase tracking-wider py-4 hover:text-green-200 <?php echo $tab === 'fixtures' ? 'font-bold' : ''; ?>">
                         <i class="fas fa-calendar-alt mr-2"></i>Fixtures
                     </a>
-                    <a href="fixtures.php?tab=results" class="nav-item font-medium text-sm uppercase tracking-wider py-4 <?php echo $tab === 'results' ? 'active' : ''; ?>">
+                    <a href="fixtures.php?tab=results" class="text-white font-medium text-sm uppercase tracking-wider py-4 hover:text-green-200 <?php echo $tab === 'results' ? 'font-bold' : ''; ?>">
                         <i class="fas fa-list-ol mr-2"></i>Results
                     </a>
-                    <a href="tables.php" class="nav-item font-medium text-sm uppercase tracking-wider py-4">
-                        <i class="fas fa-table mr-2"></i>League Tables
+                    <a href="tables.php" class="text-white font-medium text-sm uppercase tracking-wider py-4 hover:text-green-200">
+                        <i class="fas fa-table mr-2"></i>Tables
                     </a>
                 </nav>
                 
@@ -296,15 +227,15 @@ function formatMatchDate($dateString) {
         </div>
         
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden mobile-nav py-2 px-4 shadow-lg">
-            <a href="fixtures.php?tab=fixtures" class="block py-3 px-4 mobile-nav-item rounded-md <?php echo $tab === 'fixtures' ? 'active' : ''; ?>">
+        <div id="mobile-menu" class="hidden md:hidden bg-gradient-to-r from-green-800 to-green-900 py-2 px-4 shadow-lg">
+            <a href="fixtures.php?tab=fixtures" class="block py-3 px-4 text-white rounded-md hover:bg-green-700 <?php echo $tab === 'fixtures' ? 'bg-green-600 font-bold' : ''; ?>">
                 <i class="fas fa-calendar-alt mr-3"></i>Fixtures
             </a>
-            <a href="fixtures.php?tab=results" class="block py-3 px-4 mobile-nav-item rounded-md <?php echo $tab === 'results' ? 'active' : ''; ?>">
+            <a href="fixtures.php?tab=results" class="block py-3 px-4 text-white rounded-md hover:bg-green-700 <?php echo $tab === 'results' ? 'bg-green-600 font-bold' : ''; ?>">
                 <i class="fas fa-list-ol mr-3"></i>Results
             </a>
-            <a href="tables.php" class="block py-3 px-4 mobile-nav-item rounded-md">
-                <i class="fas fa-table mr-3"></i>League Tables
+            <a href="tables.php" class="block py-3 px-4 text-white rounded-md hover:bg-green-700">
+                <i class="fas fa-table mr-3"></i>Tables
             </a>
         </div>
     </header>
@@ -313,16 +244,16 @@ function formatMatchDate($dateString) {
     <main class="container mx-auto px-4 py-6">
         <!-- Page Title -->
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-rugby-dark">
+            <h1 class="text-2xl font-bold text-gray-800">
                 <?php echo $tab === 'results' ? 'Match Results' : 'Upcoming Fixtures'; ?>
-            </h2>
+            </h1>
         </div>
 
         <!-- Filters -->
         <div class="bg-white rounded-xl shadow-sm p-4 mb-6 grid grid-cols-1 sm:grid-cols-4 gap-3 border border-gray-100">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
-                <select id="genderFilter" class="filter-select w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-rugby-green focus:border-rugby-green text-sm">
+                <select id="genderFilter" class="filter-select w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-600 focus:border-green-600 text-sm">
                     <option value="ALL" <?php echo ($gender == 'ALL') ? 'selected' : ''; ?>>All Genders</option>
                     <option value="MEN" <?php echo ($gender == 'MEN') ? 'selected' : ''; ?>>Men</option>
                     <option value="WOMEN" <?php echo ($gender == 'WOMEN') ? 'selected' : ''; ?>>Women</option>
@@ -331,7 +262,7 @@ function formatMatchDate($dateString) {
             
             <div class="sm:col-span-2">
                 <label class="block text-sm font-medium text-gray-700 mb-1">Competition</label>
-                <select id="competitionFilter" class="filter-select w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-rugby-green focus:border-rugby-green text-sm">
+                <select id="competitionFilter" class="filter-select w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-600 focus:border-green-600 text-sm">
                     <option value="ALL" <?php echo ($competition == 'ALL') ? 'selected' : ''; ?>>All Competitions</option>
                     <?php foreach ($competitions as $comp): ?>
                         <option value="<?php echo displayText($comp); ?>" <?php echo ($competition == $comp) ? 'selected' : ''; ?>>
@@ -343,7 +274,7 @@ function formatMatchDate($dateString) {
             
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Season</label>
-                <select id="seasonFilter" class="filter-select w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-rugby-green focus:border-rugby-green text-sm">
+                <select id="seasonFilter" class="filter-select w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-600 focus:border-green-600 text-sm">
                     <?php 
                     $currentYear = date('Y');
                     for ($year = $currentYear; $year >= 2014; $year--) {
@@ -398,14 +329,12 @@ function formatMatchDate($dateString) {
                                 <span class="mobile-team-name"><?php echo displayText($fixture['home_team']); ?></span>
                             </div>
                             
-                            <!-- Score - Horizontal Layout -->
+                            <!-- Score -->
                             <div class="mobile-score-col">
                                 <?php if ($isCompleted && !$isZeroZero): ?>
-                                    <div class="mobile-points">
-                                        <span class="mobile-score"><?php echo isset($fixture['home_score']) ? (int)$fixture['home_score'] : '0'; ?></span>
-                                        <span class="mobile-divider">-</span>
-                                        <span class="mobile-score"><?php echo isset($fixture['away_score']) ? (int)$fixture['away_score'] : '0'; ?></span>
-                                    </div>
+                                    <span class="mobile-score"><?php echo (int)$fixture['home_score']; ?></span>
+                                    <span class="text-gray-400">-</span>
+                                    <span class="mobile-score"><?php echo (int)$fixture['away_score']; ?></span>
                                 <?php else: ?>
                                     <span class="mobile-vs">vs</span>
                                 <?php endif; ?>
@@ -477,10 +406,10 @@ function formatMatchDate($dateString) {
                                 <!-- Score -->
                                 <div class="text-center mx-2">
                                     <?php if ($isCompleted && !$isZeroZero): ?>
-                                        <div class="score-pill bg-rugby-green text-white py-1 px-3 rounded-full inline-block">
-                                            <span class="font-bold"><?php echo isset($fixture['home_score']) ? (int)$fixture['home_score'] : '0'; ?></span>
+                                        <div class="score-pill bg-green-700 text-white py-1 px-3 rounded-full inline-block">
+                                            <span class="font-bold"><?php echo (int)$fixture['home_score']; ?></span>
                                             <span class="mx-1">-</span>
-                                            <span class="font-bold"><?php echo isset($fixture['away_score']) ? (int)$fixture['away_score'] : '0'; ?></span>
+                                            <span class="font-bold"><?php echo (int)$fixture['away_score']; ?></span>
                                         </div>
                                         <div class="text-xs text-gray-500 mt-1">FINAL</div>
                                     <?php else: ?>
