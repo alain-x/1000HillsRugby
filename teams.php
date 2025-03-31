@@ -1282,7 +1282,7 @@ $conn->close();
                             <a href="?team=academy_u16_girls">U16 Girls</a>
                         </div>
                     </div>
-                    <a href="./fixtures.php">Fixtures</a>
+                    <a href="./fixtures">Fixtures</a>
                 </nav>
 
                 <div class="search-bar">
