@@ -165,12 +165,55 @@ try {
         .tab-content.active { display: block; }
         .fixture-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .fixture-card:hover { transform: translateY(-4px); box-shadow: var(--tw-shadow-card-hover); }
-        .team-logo { height: 72px; width: 72px; object-fit: contain; }
-        .default-logo { height: 72px; width: 72px; display: flex; align-items: center; justify-content: center; background-color: #F3F4F6; border-radius: 0.5rem; font-weight: 700; color: #9CA3AF; font-family: 'Montserrat', sans-serif; font-size: 1.5rem; }
+        .team-logo { height: 60px; width: 60px; object-fit: contain; }
+        .default-logo { height: 60px; width: 60px; display: flex; align-items: center; justify-content: center; background-color: #F3F4F6; border-radius: 0.5rem; font-weight: 700; color: #9CA3AF; font-family: 'Montserrat', sans-serif; font-size: 1.25rem; }
         .result-row { transition: background-color 0.2s ease; }
         .result-row:hover { background-color: #EFF6FF; }
         .badge { display: inline-flex; align-items: center; padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; line-height: 1; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Horizontal team layout */
+        .teams-horizontal {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .team-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            padding: 0.5rem;
+        }
+        .vs-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0 1rem;
+            font-weight: bold;
+            color: #6B7280;
+        }
+        .team-name {
+            text-align: center;
+            margin-top: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 640px) {
+            .teams-horizontal {
+                flex-direction: row;
+            }
+            .team-logo, .default-logo {
+                height: 50px;
+                width: 50px;
+            }
+            .team-name {
+                font-size: 0.8rem;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-50 font-sans text-gray-800">
@@ -351,11 +394,11 @@ try {
                                     </div>
                                 </div>
                                 
-                                <!-- Teams -->
+                                <!-- Teams - Horizontal Layout -->
                                 <div class="p-5">
-                                    <!-- Home Team -->
-                                    <div class="flex items-center justify-between mb-6">
-                                        <div class="flex items-center space-x-4">
+                                    <div class="teams-horizontal">
+                                        <!-- Home Team -->
+                                        <div class="team-container">
                                             <?php if (!empty($fixture['home_logo'])): ?>
                                                 <img src="logos_/<?php echo htmlspecialchars($fixture['home_logo']); ?>" alt="<?php echo htmlspecialchars($fixture['home_team']); ?>" class="team-logo">
                                             <?php else: ?>
@@ -363,23 +406,16 @@ try {
                                                     <?php echo substr($fixture['home_team'], 0, 1); ?>
                                                 </div>
                                             <?php endif; ?>
-                                            <span class="font-medium text-lg text-gray-800"><?php echo htmlspecialchars($fixture['home_team']); ?></span>
+                                            <span class="team-name"><?php echo htmlspecialchars($fixture['home_team']); ?></span>
                                         </div>
-                                    </div>
-                                    
-                                    <!-- VS Divider -->
-                                    <div class="relative my-4">
-                                        <div class="absolute inset-0 flex items-center">
-                                            <div class="w-full border-t border-gray-200"></div>
+                                        
+                                        <!-- VS Divider -->
+                                        <div class="vs-container">
+                                            <span>VS</span>
                                         </div>
-                                        <div class="relative flex justify-center">
-                                            <span class="px-3 bg-white text-sm font-medium text-gray-500">VS</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Away Team -->
-                                    <div class="flex items-center justify-between mt-6">
-                                        <div class="flex items-center space-x-4">
+                                        
+                                        <!-- Away Team -->
+                                        <div class="team-container">
                                             <?php if (!empty($fixture['away_logo'])): ?>
                                                 <img src="logos_/<?php echo htmlspecialchars($fixture['away_logo']); ?>" alt="<?php echo htmlspecialchars($fixture['away_team']); ?>" class="team-logo">
                                             <?php else: ?>
@@ -387,7 +423,7 @@ try {
                                                     <?php echo substr($fixture['away_team'], 0, 1); ?>
                                                 </div>
                                             <?php endif; ?>
-                                            <span class="font-medium text-lg text-gray-800"><?php echo htmlspecialchars($fixture['away_team']); ?></span>
+                                            <span class="team-name"><?php echo htmlspecialchars($fixture['away_team']); ?></span>
                                         </div>
                                     </div>
                                 </div>
@@ -453,31 +489,34 @@ try {
                                                 </div>
                                             </td>
                                             
-                                            <!-- Match -->
+                                            <!-- Match - Horizontal Teams -->
                                             <td class="px-6 py-4">
-                                                <div class="flex items-center">
-                                                    <div class="flex-shrink-0 h-10 w-10 mr-3">
-                                                        <?php if (!empty($fixture['home_logo'])): ?>
-                                                            <img src="logos_/<?php echo htmlspecialchars($fixture['home_logo']); ?>" alt="<?php echo htmlspecialchars($fixture['home_team']); ?>" class="h-10 w-10 rounded-lg">
-                                                        <?php else: ?>
-                                                            <div class="h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center font-medium">
-                                                                <?php echo substr($fixture['home_team'], 0, 1); ?>
-                                                            </div>
-                                                        <?php endif; ?>
+                                                <div class="flex items-center justify-between">
+                                                    <div class="flex items-center">
+                                                        <div class="flex-shrink-0 h-10 w-10 mr-3">
+                                                            <?php if (!empty($fixture['home_logo'])): ?>
+                                                                <img src="logos_/<?php echo htmlspecialchars($fixture['home_logo']); ?>" alt="<?php echo htmlspecialchars($fixture['home_team']); ?>" class="h-10 w-10 rounded-lg">
+                                                            <?php else: ?>
+                                                                <div class="h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center font-medium">
+                                                                    <?php echo substr($fixture['home_team'], 0, 1); ?>
+                                                                </div>
+                                                            <?php endif; ?>
+                                                        </div>
+                                                        <div class="text-sm font-medium text-gray-900"><?php echo htmlspecialchars($fixture['home_team']); ?></div>
                                                     </div>
-                                                    <div class="text-sm font-medium text-gray-900"><?php echo htmlspecialchars($fixture['home_team']); ?></div>
-                                                </div>
-                                                <div class="flex items-center mt-2">
-                                                    <div class="flex-shrink-0 h-10 w-10 mr-3">
-                                                        <?php if (!empty($fixture['away_logo'])): ?>
-                                                            <img src="logos_/<?php echo htmlspecialchars($fixture['away_logo']); ?>" alt="<?php echo htmlspecialchars($fixture['away_team']); ?>" class="h-10 w-10 rounded-lg">
-                                                        <?php else: ?>
-                                                            <div class="h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center font-medium">
-                                                                <?php echo substr($fixture['away_team'], 0, 1); ?>
-                                                            </div>
-                                                        <?php endif; ?>
+                                                    <span class="mx-2 text-gray-400">vs</span>
+                                                    <div class="flex items-center">
+                                                        <div class="flex-shrink-0 h-10 w-10 mr-3">
+                                                            <?php if (!empty($fixture['away_logo'])): ?>
+                                                                <img src="logos_/<?php echo htmlspecialchars($fixture['away_logo']); ?>" alt="<?php echo htmlspecialchars($fixture['away_team']); ?>" class="h-10 w-10 rounded-lg">
+                                                            <?php else: ?>
+                                                                <div class="h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center font-medium">
+                                                                    <?php echo substr($fixture['away_team'], 0, 1); ?>
+                                                                </div>
+                                                            <?php endif; ?>
+                                                        </div>
+                                                        <div class="text-sm font-medium text-gray-900"><?php echo htmlspecialchars($fixture['away_team']); ?></div>
                                                     </div>
-                                                    <div class="text-sm font-medium text-gray-900"><?php echo htmlspecialchars($fixture['away_team']); ?></div>
                                                 </div>
                                             </td>
                                             
