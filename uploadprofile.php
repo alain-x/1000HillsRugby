@@ -160,6 +160,19 @@ if ($result->num_rows > 0) {
 }
 
 $conn->close();
+
+// Function to get team display name
+function getTeamDisplayName($team) {
+    switch($team) {
+        case 'men': return "Men's Team";
+        case 'women': return "Women's Team";
+        case 'u18-boys': return "Academy U18 Boys";
+        case 'u18-girls': return "Academy U18 Girls";
+        case 'u16-boys': return "Academy U16 Boys";
+        case 'u16-girls': return "Academy U16 Girls";
+        default: return ucfirst($team);
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -183,6 +196,10 @@ $conn->close();
             --transition: all 0.3s ease;
             --women-color: #e91e63;
             --women-dark: #c2185b;
+            --u18-color: #2196F3;
+            --u18-dark: #1976D2;
+            --u16-color: #FF9800;
+            --u16-dark: #F57C00;
         }
         
         * {
@@ -437,6 +454,26 @@ $conn->close();
             transform: translateY(-2px);
         }
 
+        .btn-u18 {
+            background-color: var(--u18-color);
+            color: var(--white);
+        }
+
+        .btn-u18:hover {
+            background-color: var(--u18-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-u16 {
+            background-color: var(--u16-color);
+            color: var(--white);
+        }
+
+        .btn-u16:hover {
+            background-color: var(--u16-dark);
+            transform: translateY(-2px);
+        }
+
         .btn-outline {
             background-color: transparent;
             color: var(--primary-color);
@@ -623,6 +660,26 @@ $conn->close();
             color: var(--women-color);
         }
 
+        .team-u18-boys {
+            background-color: rgba(33, 150, 243, 0.1);
+            color: var(--u18-color);
+        }
+
+        .team-u18-girls {
+            background-color: rgba(33, 150, 243, 0.1);
+            color: var(--u18-color);
+        }
+
+        .team-u16-boys {
+            background-color: rgba(255, 152, 0, 0.1);
+            color: var(--u16-color);
+        }
+
+        .team-u16-girls {
+            background-color: rgba(255, 152, 0, 0.1);
+            color: var(--u16-color);
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .header-content {
@@ -735,6 +792,10 @@ $conn->close();
                         <select id="team" name="team" class="form-control" required>
                             <option value="men" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'men' ? 'selected' : ''); ?>>Men's Team</option>
                             <option value="women" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'women' ? 'selected' : ''); ?>>Women's Team</option>
+                            <option value="u18-boys" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'u18-boys' ? 'selected' : ''); ?>>Academy U18 Boys</option>
+                            <option value="u18-girls" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'u18-girls' ? 'selected' : ''); ?>>Academy U18 Girls</option>
+                            <option value="u16-boys" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'u16-boys' ? 'selected' : ''); ?>>Academy U16 Boys</option>
+                            <option value="u16-girls" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'u16-girls' ? 'selected' : ''); ?>>Academy U16 Girls</option>
                         </select>
                     </div>
                     
@@ -884,14 +945,14 @@ $conn->close();
                             </div>
                             <div class="player-info">
                                 <span class="team-badge team-<?php echo htmlspecialchars($player['team']); ?>">
-                                    <?php echo ucfirst(htmlspecialchars($player['team'])); ?>'s Team
+                                    <?php echo getTeamDisplayName(htmlspecialchars($player['team'])); ?>
                                 </span>
                                 <h3 class="player-name"><?php echo htmlspecialchars($player['name']); ?></h3>
                                 <p class="player-position"><?php echo htmlspecialchars($player['role']); ?></p>
                                 <div class="player-stats">
                                     <div class="stat-item">
                                         <span class="stat-value"><?php echo htmlspecialchars($player['age']); ?></span>
-                                        <span class="stat-label">Age</span>
+                                        <span class="stat-label">Year</span>
                                     </div>
                                     <div class="stat-item">
                                         <span class="stat-value"><?php echo htmlspecialchars($player['height']); ?> cm</span>
