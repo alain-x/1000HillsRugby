@@ -1,6 +1,6 @@
 <?php
 // Database connection
-$conn = new mysqli('localhost', 'hillsrug_hillsrug', 'M00dle??', 'hillsrug_1000hills_rugby_db');
+$conn = new mysqli('localhost', 'root', '1234', '1000hills_rugby');
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -152,7 +152,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 // Get all players for listing
 $players = [];
-$result = $conn->query("SELECT * FROM players ORDER BY team, name");
+$result = $conn->query("SELECT * FROM players ORDER BY 
+    CASE 
+        WHEN team = 'men' THEN 1
+        WHEN team = 'women' THEN 2
+        WHEN team = 'academy_u18_boys' THEN 3
+        WHEN team = 'academy_u18_girls' THEN 4
+        WHEN team = 'academy_u16_boys' THEN 5
+        WHEN team = 'academy_u16_girls' THEN 6
+        ELSE 7
+    END, name");
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
         $players[] = $row;
@@ -160,19 +169,6 @@ if ($result->num_rows > 0) {
 }
 
 $conn->close();
-
-// Function to get team display name
-function getTeamDisplayName($team) {
-    switch($team) {
-        case 'men': return "Men's Team";
-        case 'women': return "Women's Team";
-        case 'u18-boys': return "Academy U18 Boys";
-        case 'u18-girls': return "Academy U18 Girls";
-        case 'u16-boys': return "Academy U16 Boys";
-        case 'u16-girls': return "Academy U16 Girls";
-        default: return ucfirst($team);
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -196,10 +192,10 @@ function getTeamDisplayName($team) {
             --transition: all 0.3s ease;
             --women-color: #e91e63;
             --women-dark: #c2185b;
-            --u18-color: #2196F3;
-            --u18-dark: #1976D2;
-            --u16-color: #FF9800;
-            --u16-dark: #F57C00;
+            --academy-u18-color: #2196F3;
+            --academy-u18-dark: #1976D2;
+            --academy-u16-color: #FF9800;
+            --academy-u16-dark: #F57C00;
         }
         
         * {
@@ -454,23 +450,23 @@ function getTeamDisplayName($team) {
             transform: translateY(-2px);
         }
 
-        .btn-u18 {
-            background-color: var(--u18-color);
+        .btn-academy-u18 {
+            background-color: var(--academy-u18-color);
             color: var(--white);
         }
 
-        .btn-u18:hover {
-            background-color: var(--u18-dark);
+        .btn-academy-u18:hover {
+            background-color: var(--academy-u18-dark);
             transform: translateY(-2px);
         }
 
-        .btn-u16 {
-            background-color: var(--u16-color);
+        .btn-academy-u16 {
+            background-color: var(--academy-u16-color);
             color: var(--white);
         }
 
-        .btn-u16:hover {
-            background-color: var(--u16-dark);
+        .btn-academy-u16:hover {
+            background-color: var(--academy-u16-dark);
             transform: translateY(-2px);
         }
 
@@ -660,24 +656,14 @@ function getTeamDisplayName($team) {
             color: var(--women-color);
         }
 
-        .team-u18-boys {
+        .team-academy-u18 {
             background-color: rgba(33, 150, 243, 0.1);
-            color: var(--u18-color);
+            color: var(--academy-u18-color);
         }
 
-        .team-u18-girls {
-            background-color: rgba(33, 150, 243, 0.1);
-            color: var(--u18-color);
-        }
-
-        .team-u16-boys {
+        .team-academy-u16 {
             background-color: rgba(255, 152, 0, 0.1);
-            color: var(--u16-color);
-        }
-
-        .team-u16-girls {
-            background-color: rgba(255, 152, 0, 0.1);
-            color: var(--u16-color);
+            color: var(--academy-u16-color);
         }
 
         /* Responsive Design */
@@ -792,10 +778,10 @@ function getTeamDisplayName($team) {
                         <select id="team" name="team" class="form-control" required>
                             <option value="men" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'men' ? 'selected' : ''); ?>>Men's Team</option>
                             <option value="women" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'women' ? 'selected' : ''); ?>>Women's Team</option>
-                            <option value="u18-boys" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'u18-boys' ? 'selected' : ''); ?>>Academy U18 Boys</option>
-                            <option value="u18-girls" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'u18-girls' ? 'selected' : ''); ?>>Academy U18 Girls</option>
-                            <option value="u16-boys" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'u16-boys' ? 'selected' : ''); ?>>Academy U16 Boys</option>
-                            <option value="u16-girls" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'u16-girls' ? 'selected' : ''); ?>>Academy U16 Girls</option>
+                            <option value="academy_u18_boys" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'academy_u18_boys' ? 'selected' : ''); ?>>Academy U18 Boys</option>
+                            <option value="academy_u18_girls" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'academy_u18_girls' ? 'selected' : ''); ?>>Academy U18 Girls</option>
+                            <option value="academy_u16_boys" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'academy_u16_boys' ? 'selected' : ''); ?>>Academy U16 Boys</option>
+                            <option value="academy_u16_girls" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'academy_u16_girls' ? 'selected' : ''); ?>>Academy U16 Girls</option>
                         </select>
                     </div>
                     
@@ -944,15 +930,28 @@ function getTeamDisplayName($team) {
                                 <?php endif; ?>
                             </div>
                             <div class="player-info">
-                                <span class="team-badge team-<?php echo htmlspecialchars($player['team']); ?>">
-                                    <?php echo getTeamDisplayName(htmlspecialchars($player['team'])); ?>
+                                <span class="team-badge team-<?php 
+                                    if (strpos($player['team'], 'academy_u18') !== false) echo 'academy-u18';
+                                    elseif (strpos($player['team'], 'academy_u16') !== false) echo 'academy-u16';
+                                    else echo $player['team'];
+                                ?>">
+                                    <?php 
+                                        $teamName = $player['team'];
+                                        if ($teamName == 'men') echo "Men's Team";
+                                        elseif ($teamName == 'women') echo "Women's Team";
+                                        elseif ($teamName == 'academy_u18_boys') echo "Academy U18 Boys";
+                                        elseif ($teamName == 'academy_u18_girls') echo "Academy U18 Girls";
+                                        elseif ($teamName == 'academy_u16_boys') echo "Academy U16 Boys";
+                                        elseif ($teamName == 'academy_u16_girls') echo "Academy U16 Girls";
+                                        else echo ucfirst($teamName);
+                                    ?>
                                 </span>
                                 <h3 class="player-name"><?php echo htmlspecialchars($player['name']); ?></h3>
                                 <p class="player-position"><?php echo htmlspecialchars($player['role']); ?></p>
                                 <div class="player-stats">
                                     <div class="stat-item">
                                         <span class="stat-value"><?php echo htmlspecialchars($player['age']); ?></span>
-                                        <span class="stat-label">Year</span>
+                                        <span class="stat-label">Age</span>
                                     </div>
                                     <div class="stat-item">
                                         <span class="stat-value"><?php echo htmlspecialchars($player['height']); ?> cm</span>
@@ -987,7 +986,7 @@ function getTeamDisplayName($team) {
                     <div class="footer-logo">
                         <img src="https://via.placeholder.com/40x40" alt="Club Logo" />
                         <div class="footer-logo-text">
-                            <h3><span>1000 Hills</span> Rugby Club</h3>
+                            <h3><span>1000 Hills</span> Rugby Club</h1>
                             <p class="footer-motto">Strength in Unity</p>
                         </div>
                     </div>
