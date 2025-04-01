@@ -1,6 +1,6 @@
 <?php
 // Database connection
-$conn = new mysqli('localhost', 'hillsrug_hillsrug', 'M00dle??', 'hillsrug_1000hills_rugby_db');
+$conn = new mysqli('localhost', 'root', '1234', '1000hills_rugby');
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -807,14 +807,15 @@ $conn->close();
                 </div>
                 
                 <div class="form-row">
-                    <div class="form-group">
-                        <label for="category" class="form-label">Special Role</label>
-                        <select id="category" name="category" class="form-control">
-                            <option value="">Regular Player</option>
-                            <option value="Captain" <?php echo (isset($currentPlayer['special_role']) && $currentPlayer['special_role'] == 'Captain' ? 'selected' : ''; ?>>Captain</option>
-                            <option value="Vice-Captain" <?php echo (isset($currentPlayer['special_role']) && $currentPlayer['special_role'] == 'Vice-Captain' ? 'selected' : ''; ?>>Vice-Captain</option>
-                        </select>
-                    </div>
+                <div class="form-group">
+    <label for="category" class="form-label">Special Role</label>
+    <select id="category" name="category" class="form-control">
+        <option value="">Regular Player</option>
+        <option value="Captain" <?php echo (isset($currentPlayer['special_role']) && $currentPlayer['special_role'] == 'Captain') ? 'selected' : ''; ?>>Captain</option>
+        <option value="Vice-Captain" <?php echo (isset($currentPlayer['special_role']) && $currentPlayer['special_role'] == 'Vice-Captain') ? 'selected' : ''; ?>>Vice-Captain</option>
+    </select>
+</div>
+
                     
                     <div class="form-group">
                         <label for="joined" class="form-label">Year Joined</label>
