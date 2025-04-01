@@ -1,6 +1,6 @@
 <?php
 // Database connection
-    $conn = new mysqli('localhost', 'hillsrug_hillsrug', 'M00dle??', 'hillsrug_1000hills_rugby_db');
+$conn = new mysqli('localhost', 'hillsrug_hillsrug', 'M00dle??', 'hillsrug_1000hills_rugby_db');
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -12,7 +12,8 @@ $conn->query("CREATE TABLE IF NOT EXISTS players (
     img VARCHAR(255),
     age INT(3),
     role VARCHAR(50),
-    category VARCHAR(50),
+    player_category VARCHAR(50),  -- Backs or Forwards
+    special_role VARCHAR(50),     -- Captain, Vice-Captain, or NULL
     team VARCHAR(20) NOT NULL DEFAULT 'men',
     weight VARCHAR(10),
     height VARCHAR(10),
@@ -58,7 +59,11 @@ if (!$selectedPlayer) {
     $sql = "SELECT * FROM players WHERE team = '" . $conn->real_escape_string($currentTeam) . "'";
 
     if ($filter != 'all') {
-        $sql .= " AND category = '" . $conn->real_escape_string($filter) . "'";
+        if ($filter == 'Backs' || $filter == 'Forwards') {
+            $sql .= " AND player_category = '" . $conn->real_escape_string($filter) . "'";
+        } elseif ($filter == 'Captain' || $filter == 'Vice-Captain') {
+            $sql .= " AND special_role = '" . $conn->real_escape_string($filter) . "'";
+        }
     }
 
     if (!empty($search)) {
@@ -115,10 +120,11 @@ function calculateTeamStats($conn, $team) {
         $totalHeight += intval($player['height'] ?? 0);
         $totalWeight += intval($player['weight'] ?? 0);
 
-        if ($player['category'] == 'Backs') $stats['backsCount']++;
-        if ($player['category'] == 'Forwards') $stats['forwardsCount']++;
-        if ($player['category'] == 'Captain') $stats['captain'] = $player['name'];
-        if ($player['category'] == 'Vice-Captain') $stats['viceCaptain'] = $player['name'];
+        if ($player['player_category'] == 'Backs') $stats['backsCount']++;
+        if ($player['player_category'] == 'Forwards') $stats['forwardsCount']++;
+        
+        if ($player['special_role'] == 'Captain') $stats['captain'] = $player['name'];
+        if ($player['special_role'] == 'Vice-Captain') $stats['viceCaptain'] = $player['name'];
         
         // Check for top scorer
         if (intval($player['points'] ?? 0) > $stats['topScorerPoints']) {
@@ -147,6 +153,7 @@ $conn->close();
     <title><?php echo $selectedPlayer ? htmlspecialchars($selectedPlayer['name']) : '1000 Hills Rugby Club - ' . ucfirst(str_replace('_', ' ', $currentTeam)); ?></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Your existing CSS styles remain unchanged */
         :root {
             --primary-color: #0a9113;
             --primary-dark: #077a0e;
@@ -1461,7 +1468,11 @@ $conn->close();
                     <div>
                         <h2 class="detail-name"><?php echo htmlspecialchars($selectedPlayer['name']); ?></h2>
                         <p class="detail-position"><?php echo htmlspecialchars($selectedPlayer['role']); ?></p>
-                        <p><strong>Category:</strong> <?php echo htmlspecialchars($selectedPlayer['category']); ?></p>
+                        <p><strong>Category:</strong> <?php echo htmlspecialchars($selectedPlayer['player_category']); 
+                            if (!empty($selectedPlayer['special_role'])) {
+                                echo ' (' . htmlspecialchars($selectedPlayer['special_role']) . ')';
+                            }
+                        ?></p>
                         <p><strong>Team:</strong> <?php 
                             $teamName = $selectedPlayer['team'];
                             if ($teamName == 'men') echo "Men's Team";
@@ -1561,7 +1572,11 @@ $conn->close();
                             </div>
                             <div class="player-info">
                                 <h3 class="player-name"><?php echo htmlspecialchars($player['name']); ?></h3>
-                                <p class="player-position"><?php echo htmlspecialchars($player['role']); ?></p>
+                                <p class="player-position"><?php echo htmlspecialchars($player['role']); 
+                                    if (!empty($player['special_role'])) {
+                                        echo ' (' . htmlspecialchars($player['special_role']) . ')';
+                                    }
+                                ?></p>
                                 <div class="player-stats">
                                     <div class="stat-item">
                                         <span class="stat-value"><?php echo htmlspecialchars($player['age']); ?></span>
