@@ -12,8 +12,8 @@ $conn->query("CREATE TABLE IF NOT EXISTS players (
     img VARCHAR(255),
     age INT(3),
     role VARCHAR(50),
-    position_category VARCHAR(50), -- Changed from 'category' to 'position_category'
-    special_role VARCHAR(50),      -- Added for Captain/Vice-Captain
+    position_category VARCHAR(50),
+    special_role VARCHAR(50),
     team VARCHAR(20) NOT NULL DEFAULT 'men',
     weight VARCHAR(10),
     height VARCHAR(10),
@@ -30,7 +30,7 @@ $conn->query("CREATE TABLE IF NOT EXISTS players (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )");
 
-// Get current team (men, women, academy_u18_boys, academy_u18_girls, academy_u16_boys, academy_u16_girls)
+// Get current team 
 $currentTeam = isset($_GET['team']) ? $_GET['team'] : 'men';
 $validTeams = ['men', 'women', 'academy_u18_boys', 'academy_u18_girls', 'academy_u16_boys', 'academy_u16_girls'];
 if (!in_array($currentTeam, $validTeams)) {
@@ -50,11 +50,196 @@ if ($playerId > 0) {
     $stmt->close();
 }
 
-// Get filter and search parameters (only if not viewing a single player)
+// Handle profile download
+if (isset($_GET['download_profile'])) {
+    if ($playerId > 0 && $selectedPlayer) {
+        // Include the TCPDF library
+        require_once('tcpdf/tcpdf.php');
+        
+        // Create new PDF document with custom page size if needed
+        $pdf = new TCPDF('P', 'mm', array(210, 297), true, 'UTF-8', false); // A4 size
+        
+        // Set document information
+        $pdf->SetCreator('1000 Hills Rugby Club');
+        $pdf->SetAuthor('1000 Hills Rugby Club');
+        $pdf->SetTitle($selectedPlayer['name'] . ' - Professional Profile');
+        $pdf->SetSubject('Player Profile');
+        
+        // Remove default header/footer
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+        
+        // Set auto page breaks to false to ensure everything fits on one page
+        $pdf->SetAutoPageBreak(false, 0);
+        
+        // Set margins (smaller margins to fit more content)
+        $pdf->SetMargins(10, 10, 10);
+        
+        // Add a page
+        $pdf->AddPage();
+        
+        // Set font (smaller font size to fit more content)
+        $pdf->SetFont('helvetica', '', 9);
+        
+        // Get team display name
+        $teamName = getTeamDisplayName($selectedPlayer['team']);
+        
+        // Add club logo (smaller size)
+        $logoPath = 'logos_/logoT.jpg';
+        if (file_exists($logoPath)) {
+            $pdf->Image($logoPath, 10, 10, 25, 0, 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+        }
+        
+        // Add player image if exists (smaller size)
+        $playerImageHtml = '';
+        if (!empty($selectedPlayer['img'])) {
+            $playerImagePath = $selectedPlayer['img'];
+            if (file_exists($playerImagePath)) {
+                // Get image dimensions to maintain aspect ratio
+                list($width, $height) = getimagesize($playerImagePath);
+                $ratio = $height / $width;
+                $newWidth = 30; // Smaller width
+                $newHeight = $newWidth * $ratio;
+                
+                $pdf->Image($playerImagePath, ($pdf->getPageWidth() - 10 - $newWidth), 10, $newWidth, $newHeight, '', '', 'T', false, 300, '', false, false, 0, false, false, false);
+            }
+        }
+        
+        // Main content - using tables for better layout control
+        $html = '
+        <style>
+            .header { text-align: center; margin-bottom: 5px; }
+            .header h1 { color: #0a9113; font-size: 14px; margin-bottom: 3px; }
+            .header .subtitle { color: #666; font-size: 10px; }
+            .info-row { margin-bottom: 3px; font-size: 9px; }
+            .label { font-weight: bold; width: 30%; }
+            .value { width: 70%; }
+            .section { margin-bottom: 8px; }
+            .section h3 { color: #0a9113; font-size: 10px; border-bottom: 1px solid #eee; padding-bottom: 2px; margin-bottom: 5px; }
+            .stats-table { width: 100%; margin-bottom: 5px; }
+            .stats-table td { text-align: center; padding: 3px; font-size: 9px; }
+            .stat-value { font-weight: bold; color: #0a9113; }
+            .sponsor { background: #f5f5f5; padding: 5px; border-radius: 3px; margin-top: 5px; font-size: 9px; }
+            .sponsor h4 { margin-top: 0; color: #0a9113; font-size: 10px; }
+        </style>
+        
+        <div style="height: 30px;"></div> <!-- Space for header images -->
+        
+        <div class="header">
+            <h1>' . htmlspecialchars($selectedPlayer['name']) . '</h1>
+            <div class="subtitle">' . htmlspecialchars($selectedPlayer['role']) . ' | ' . $teamName . '</div>
+        </div>
+        
+        <table border="0" cellpadding="2" cellspacing="0" width="100%">
+            <tr>
+                <td width="50%" valign="top">
+                    <div class="section">
+                        <h3>Player Information</h3>
+                        <table border="0" cellpadding="2" cellspacing="0" width="100%">
+                            <tr><td class="label">Position:</td><td class="value">' . htmlspecialchars($selectedPlayer['role']) . '</td></tr>
+                            <tr><td class="label">Category:</td><td class="value">' . htmlspecialchars($selectedPlayer['position_category']) . '</td></tr>
+                            ' . (!empty($selectedPlayer['special_role']) ? '<tr><td class="label">Role:</td><td class="value">' . htmlspecialchars($selectedPlayer['special_role']) . '</td></tr>' : '') . '
+                            <tr><td class="label">Team:</td><td class="value">' . $teamName . '</td></tr>
+                            <tr><td class="label">Age:</td><td class="value">' . htmlspecialchars($selectedPlayer['age']) . '</td></tr>
+                            <tr><td class="label">Height:</td><td class="value">' . htmlspecialchars($selectedPlayer['height']) . ' cm</td></tr>
+                            <tr><td class="label">Weight:</td><td class="value">' . htmlspecialchars($selectedPlayer['weight']) . ' kg</td></tr>
+                        </table>
+                    </div>
+                    
+                    <div class="section">
+                        <h3>Career Statistics</h3>
+                        <table class="stats-table" border="0" cellpadding="2" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <div class="stat-value">' . htmlspecialchars($selectedPlayer['games']) . '</div>
+                                    <div>Games Played</div>
+                                </td>
+                                <td>
+                                    <div class="stat-value">' . htmlspecialchars($selectedPlayer['points']) . '</div>
+                                    <div>Total Points</div>
+                                </td>
+                                <td>
+                                    <div class="stat-value">' . htmlspecialchars($selectedPlayer['tries']) . '</div>
+                                    <div>Tries Scored</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td width="50%" valign="top">
+                    <div class="section">
+                        <h3>Personal Information</h3>
+                        <table border="0" cellpadding="2" cellspacing="0" width="100%">
+                            <tr><td class="label">Place of Birth:</td><td class="value">' . htmlspecialchars($selectedPlayer['placeOfBirth'] ?? 'N/A') . '</td></tr>
+                            <tr><td class="label">Nationality:</td><td class="value">' . htmlspecialchars($selectedPlayer['nationality'] ?? 'N/A') . '</td></tr>
+                            <tr><td class="label">Joined Club:</td><td class="value">' . htmlspecialchars($selectedPlayer['joined'] ?? 'N/A') . '</td></tr>
+                        </table>
+                    </div>
+                    
+                    <div class="section">
+                        <h3>Career Highlights</h3>
+                        <table border="0" cellpadding="2" cellspacing="0" width="100%">
+                            <tr><td class="label">Honours:</td><td class="value">' . nl2br(htmlspecialchars($selectedPlayer['honours'] ?? 'N/A')) . '</td></tr>
+                            <tr><td class="label">Previous Clubs:</td><td class="value">' . nl2br(htmlspecialchars($selectedPlayer['previousClubs'] ?? 'N/A')) . '</td></tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>';
+        
+        if (!empty($selectedPlayer['sponsor'])) {
+            $html .= '
+            <div class="sponsor">
+                <h4>Sponsored By</h4>
+                <div><strong>' . htmlspecialchars($selectedPlayer['sponsor']) . '</strong></div>
+                ' . (!empty($selectedPlayer['sponsorDesc']) ? '<div>' . nl2br(htmlspecialchars($selectedPlayer['sponsorDesc'])) . '</div>' : '') . '
+            </div>';
+        }
+        
+        $html .= '
+        <div style="text-align: center; margin-top: 10px; color: #666; font-size: 7px;">
+            <p>Generated by 1000 Hills Rugby Club on ' . date('F j, Y') . '</p>
+            <p>© ' . date('Y') . ' 1000 Hills Rugby Club. All rights reserved.</p>
+        </div>';
+        
+        // Output the HTML content
+        $pdf->writeHTML($html, true, false, true, false, '');
+        
+        // Check if we need to adjust content to fit on one page
+        $pageHeight = $pdf->getPageHeight();
+        $currentY = $pdf->GetY();
+        
+        // If content is too long, reduce font size and regenerate
+        if ($currentY > ($pageHeight - 20)) {
+            $pdf->deletePage(1);
+            $pdf->AddPage();
+            $pdf->SetFont('helvetica', '', 8); // Smaller font
+            $pdf->writeHTML($html, true, false, true, false, '');
+        }
+        
+        // Close and output PDF document
+        $pdf->Output(str_replace(' ', '_', $selectedPlayer['name']) . '_Profile.pdf', 'D');
+        exit();
+    }
+}
+
+function getTeamDisplayName($team) {
+    switch ($team) {
+        case 'men': return "Men's Team";
+        case 'women': return "Women's Team";
+        case 'academy_u18_boys': return "Academy U18 Boys";
+        case 'academy_u18_girls': return "Academy U18 Girls";
+        case 'academy_u16_boys': return "Academy U16 Boys";
+        case 'academy_u16_girls': return "Academy U16 Girls";
+        default: return ucfirst(str_replace('_', ' ', $team));
+    }
+}
+
+// Get filter and search parameters
 $filter = isset($_GET['filter']) ? $_GET['filter'] : 'all';
 $search = isset($_GET['search']) ? strtolower($_GET['search']) : '';
 
-// Build SQL query for player list (only if not viewing a single player)
+// Build SQL query for player list
 if (!$selectedPlayer) {
     $sql = "SELECT * FROM players WHERE team = '" . $conn->real_escape_string($currentTeam) . "'";
 
@@ -98,7 +283,6 @@ function calculateTeamStats($conn, $team) {
         'topScorerPoints' => 0
     ];
 
-    // Get all players for stats calculation
     $result = $conn->query("SELECT * FROM players WHERE team = '" . $conn->real_escape_string($team) . "'");
     $players = [];
     if ($result->num_rows > 0) {
@@ -125,7 +309,6 @@ function calculateTeamStats($conn, $team) {
         if ($player['special_role'] == 'Captain') $stats['captain'] = $player['name'];
         if ($player['special_role'] == 'Vice-Captain') $stats['viceCaptain'] = $player['name'];
         
-        // Check for top scorer
         if (intval($player['points'] ?? 0) > $stats['topScorerPoints']) {
             $stats['topScorer'] = $player['name'];
             $stats['topScorerPoints'] = intval($player['points'] ?? 0);
@@ -518,7 +701,7 @@ $conn->close();
             flex-wrap: wrap;
         }
 
-        /* Academy Dropdown - Improved for Mobile */
+        /* Academy Dropdown */
         .academy-dropdown {
             position: relative;
         }
@@ -768,6 +951,7 @@ $conn->close();
             box-shadow: var(--shadow-lg);
             padding: 2rem;
             margin: 2rem 0;
+            position: relative;
         }
 
         .back-button {
@@ -945,6 +1129,46 @@ $conn->close();
             font-size: 0.9rem;
             color: var(--light-text);
             margin-top: 0.25rem;
+        }
+
+        /* Download Button */
+        .download-profile {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .women .download-profile {
+            background: var(--women-color);
+        }
+
+        .academy-u18 .download-profile {
+            background: var(--academy-u18-color);
+        }
+
+        .academy-u16 .download-profile {
+            background: var(--academy-u16-color);
+        }
+
+        .download-profile:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .download-profile i {
+            font-size: 1.2rem;
         }
 
         /* No Results */
@@ -1266,6 +1490,15 @@ $conn->close();
             .footer-content {
                 grid-template-columns: 1fr;
             }
+
+            .download-profile {
+                position: static;
+                margin: 1rem auto;
+                border-radius: 2rem;
+                width: auto;
+                height: auto;
+                padding: 0.75rem 1.5rem;
+            }
         }
 
         @media (max-width: 576px) {
@@ -1457,6 +1690,11 @@ $conn->close();
                     <i class="fas fa-arrow-left"></i> Back to Players
                 </div>
                 
+                <!-- Download Profile Button -->
+                <a href="?player_id=<?php echo $playerId; ?>&team=<?php echo $currentTeam; ?>&download_profile=1" class="download-profile" title="Download Profile">
+                    <i class="fas fa-download"></i>
+                </a>
+                
                 <div class="detail-header">
                     <?php if (!empty($selectedPlayer['img'])): ?>
                         <img src="<?php echo htmlspecialchars($selectedPlayer['img']); ?>" alt="<?php echo htmlspecialchars($selectedPlayer['name']); ?>" class="detail-image">
@@ -1598,8 +1836,6 @@ $conn->close();
         <?php endif; ?>
     </main>
 
-     
-
     <script>
         // Mobile menu toggle
         document.addEventListener('DOMContentLoaded', function() {
@@ -1632,7 +1868,6 @@ $conn->close();
 
             // Academy dropdown toggle for mobile
             academyDropdown.addEventListener('click', function(e) {
-                // Only prevent default if we're on mobile and clicking the toggle
                 if (window.innerWidth <= 768 && e.target.closest('.academy-dropdown-toggle')) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -1664,10 +1899,7 @@ $conn->close();
             const filterTabs = document.querySelectorAll('.filter-tab');
             filterTabs.forEach(tab => {
                 tab.addEventListener('click', function(e) {
-                    // Remove active class from all tabs
                     filterTabs.forEach(t => t.classList.remove('active'));
-                    
-                    // Add active class to clicked tab
                     this.classList.add('active');
                 });
             });
