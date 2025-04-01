@@ -274,13 +274,13 @@ try {
                 <a href="/" class="nav-item font-medium text-sm uppercase tracking-wider py-4">
                         <i class="fas fa-home mr-2"></i>Home
                     </a>
-                    <a href="fixtures.php?tab=fixtures" class="nav-item <?php echo $active_tab === 'fixtures' ? 'active' : ''; ?> font-medium text-sm uppercase tracking-wider py-4">
+                    <a href="fixtures?tab=fixtures" class="nav-item <?php echo $active_tab === 'fixtures' ? 'active' : ''; ?> font-medium text-sm uppercase tracking-wider py-4">
                         <i class="fas fa-calendar-alt mr-2"></i>Fixtures
                     </a>
-                    <a href="fixtures.php?tab=results" class="nav-item <?php echo $active_tab === 'results' ? 'active' : ''; ?> font-medium text-sm uppercase tracking-wider py-4">
+                    <a href="fixtures?tab=results" class="nav-item <?php echo $active_tab === 'results' ? 'active' : ''; ?> font-medium text-sm uppercase tracking-wider py-4">
                         <i class="fas fa-list-ol mr-2"></i>Results
                     </a>
-                    <a href="tables.php" class="nav-item font-medium text-sm uppercase tracking-wider py-4">
+                    <a href="tables" class="nav-item font-medium text-sm uppercase tracking-wider py-4">
                         <i class="fas fa-table mr-2"></i>League Tables
                     </a>
                 </nav>
@@ -297,13 +297,13 @@ try {
         <a href="/" class="block py-3 px-4 mobile-nav-item rounded-md">
                 <i class="fas fa-home mr-3"></i>Home
             </a>
-            <a href="fixtures.php?tab=fixtures" class="block py-3 px-4 mobile-nav-item <?php echo $active_tab === 'fixtures' ? 'active' : ''; ?> rounded-md">
+            <a href="fixtures?tab=fixtures" class="block py-3 px-4 mobile-nav-item <?php echo $active_tab === 'fixtures' ? 'active' : ''; ?> rounded-md">
                 <i class="fas fa-calendar-alt mr-3"></i>Fixtures
             </a>
-            <a href="fixtures.php?tab=results" class="block py-3 px-4 mobile-nav-item <?php echo $active_tab === 'results' ? 'active' : ''; ?> rounded-md">
+            <a href="fixtures?tab=results" class="block py-3 px-4 mobile-nav-item <?php echo $active_tab === 'results' ? 'active' : ''; ?> rounded-md">
                 <i class="fas fa-list-ol mr-3"></i>Results
             </a>
-            <a href="tables.php" class="block py-3 px-4 mobile-nav-item rounded-md">
+            <a href="tables" class="block py-3 px-4 mobile-nav-item rounded-md">
                 <i class="fas fa-table mr-3"></i>League Tables
             </a>
         </div>
