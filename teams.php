@@ -12,8 +12,8 @@ $conn->query("CREATE TABLE IF NOT EXISTS players (
     img VARCHAR(255),
     age INT(3),
     role VARCHAR(50),
-    player_category VARCHAR(50),  -- Backs or Forwards
-    special_role VARCHAR(50),     -- Captain, Vice-Captain, or NULL
+    position_category VARCHAR(50), -- Changed from 'category' to 'position_category'
+    special_role VARCHAR(50),      -- Added for Captain/Vice-Captain
     team VARCHAR(20) NOT NULL DEFAULT 'men',
     weight VARCHAR(10),
     height VARCHAR(10),
@@ -60,7 +60,7 @@ if (!$selectedPlayer) {
 
     if ($filter != 'all') {
         if ($filter == 'Backs' || $filter == 'Forwards') {
-            $sql .= " AND player_category = '" . $conn->real_escape_string($filter) . "'";
+            $sql .= " AND position_category = '" . $conn->real_escape_string($filter) . "'";
         } elseif ($filter == 'Captain' || $filter == 'Vice-Captain') {
             $sql .= " AND special_role = '" . $conn->real_escape_string($filter) . "'";
         }
@@ -120,9 +120,8 @@ function calculateTeamStats($conn, $team) {
         $totalHeight += intval($player['height'] ?? 0);
         $totalWeight += intval($player['weight'] ?? 0);
 
-        if ($player['player_category'] == 'Backs') $stats['backsCount']++;
-        if ($player['player_category'] == 'Forwards') $stats['forwardsCount']++;
-        
+        if ($player['position_category'] == 'Backs') $stats['backsCount']++;
+        if ($player['position_category'] == 'Forwards') $stats['forwardsCount']++;
         if ($player['special_role'] == 'Captain') $stats['captain'] = $player['name'];
         if ($player['special_role'] == 'Vice-Captain') $stats['viceCaptain'] = $player['name'];
         
@@ -153,7 +152,6 @@ $conn->close();
     <title><?php echo $selectedPlayer ? htmlspecialchars($selectedPlayer['name']) : '1000 Hills Rugby Club - ' . ucfirst(str_replace('_', ' ', $currentTeam)); ?></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Your existing CSS styles remain unchanged */
         :root {
             --primary-color: #0a9113;
             --primary-dark: #077a0e;
@@ -1468,9 +1466,11 @@ $conn->close();
                     <div>
                         <h2 class="detail-name"><?php echo htmlspecialchars($selectedPlayer['name']); ?></h2>
                         <p class="detail-position"><?php echo htmlspecialchars($selectedPlayer['role']); ?></p>
-                        <p><strong>Category:</strong> <?php echo htmlspecialchars($selectedPlayer['player_category']); 
+                        <p><strong>Category:</strong> <?php 
                             if (!empty($selectedPlayer['special_role'])) {
-                                echo ' (' . htmlspecialchars($selectedPlayer['special_role']) . ')';
+                                echo htmlspecialchars($selectedPlayer['special_role']) . ' (' . htmlspecialchars($selectedPlayer['position_category']) . ')';
+                            } else {
+                                echo htmlspecialchars($selectedPlayer['position_category']);
                             }
                         ?></p>
                         <p><strong>Team:</strong> <?php 
@@ -1572,11 +1572,10 @@ $conn->close();
                             </div>
                             <div class="player-info">
                                 <h3 class="player-name"><?php echo htmlspecialchars($player['name']); ?></h3>
-                                <p class="player-position"><?php echo htmlspecialchars($player['role']); 
-                                    if (!empty($player['special_role'])) {
-                                        echo ' (' . htmlspecialchars($player['special_role']) . ')';
-                                    }
-                                ?></p>
+                                <p class="player-position"><?php echo htmlspecialchars($player['role']); ?></p>
+                                <?php if (!empty($player['special_role'])): ?>
+                                    <p><small><strong><?php echo htmlspecialchars($player['special_role']); ?></strong></small></p>
+                                <?php endif; ?>
                                 <div class="player-stats">
                                     <div class="stat-item">
                                         <span class="stat-value"><?php echo htmlspecialchars($player['age']); ?></span>
@@ -1598,6 +1597,55 @@ $conn->close();
             </div>
         <?php endif; ?>
     </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <img src="https://via.placeholder.com/40x40" alt="Club Logo" />
+                        <div class="footer-logo-text">
+                            <h3><span>1000 Hills</span> Rugby Club</h1>
+                            <p class="footer-motto">Strength in Unity</p>
+                        </div>
+                    </div>
+                    <p>
+                        Founded in 2010, 1000 Hills Rugby Club is one of Rwanda's premier
+                        rugby clubs, dedicated to developing talent and promoting the
+                        sport nationwide.
+                    </p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="?team=men">Men's Squad</a></li>
+                        <li><a href="?team=women">Women's Squad</a></li>
+                        <li><a href="uploadprofile.php">Player Management</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Kigali, Rwanda</p>
+                    <p><i class="fas fa-phone"></i> +250 788 123 456</p>
+                    <p><i class="fas fa-envelope"></i> info@1000hillsrugby.com</p>
+
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <?php echo date('Y'); ?> 1000 Hills Rugby Club. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
         // Mobile menu toggle
@@ -1657,6 +1705,18 @@ $conn->close();
                     navLinks.classList.remove('active');
                     document.body.style.overflow = '';
                 }
+            });
+
+            // Tab functionality
+            const filterTabs = document.querySelectorAll('.filter-tab');
+            filterTabs.forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    // Remove active class from all tabs
+                    filterTabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                });
             });
         });
     </script>
