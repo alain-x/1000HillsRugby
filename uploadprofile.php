@@ -42,7 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $conn->real_escape_string(trim($_POST['name'] ?? ''));
     $age = isset($_POST['age']) ? intval($_POST['age']) : 0;
     $role = $conn->real_escape_string(trim($_POST['role'] ?? ''));
-    $category = $conn->real_escape_string(trim($_POST['category'] ?? ''));
+    $position_category = $conn->real_escape_string(trim($_POST['player_category'] ?? ''));
+    $special_role = $conn->real_escape_string(trim($_POST['category'] ?? ''));
     $team = $conn->real_escape_string(trim($_POST['team'] ?? 'men'));
     $weight = $conn->real_escape_string(trim($_POST['weight'] ?? ''));
     $height = $conn->real_escape_string(trim($_POST['height'] ?? ''));
@@ -101,7 +102,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     img = '$imgPath', 
                     age = $age, 
                     role = '$role', 
-                    category = '$category', 
+                    position_category = '$position_category', 
+                    special_role = '$special_role', 
                     team = '$team',
                     weight = '$weight', 
                     height = '$height', 
@@ -118,9 +120,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     WHERE id = $id";
         } else {
             // Insert new player
-            $sql = "INSERT INTO players (name, img, age, role, category, team, weight, height, games, points, tries, 
+            $sql = "INSERT INTO players (name, img, age, role, position_category, special_role, team, weight, height, games, points, tries, 
                     placeOfBirth, nationality, honours, joined, previousClubs, sponsor, sponsorDesc)
-                    VALUES ('$name', '$imgPath', $age, '$role', '$category', '$team', '$weight', '$height', $games, $points, $tries,
+                    VALUES ('$name', '$imgPath', $age, '$role', '$position_category', '$special_role', '$team', '$weight', '$height', $games, $points, $tries,
                     '$placeOfBirth', '$nationality', '$honours', '$joined', '$previousClubs', '$sponsor', '$sponsorDesc')";
         }
         
@@ -173,6 +175,7 @@ $conn->close();
     <title>1000 Hills Rugby Club - Player Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Your existing CSS remains the same */
         :root {
             --primary-color: #0a9113;
             --primary-dark: #077a0e;
@@ -768,18 +771,17 @@ $conn->close();
                 </div>
                 
                 <div class="form-row">
-                <div class="form-group">
-    <label for="team" class="form-label">Team *</label>
-    <select id="team" name="team" class="form-control" required>
-        <option value="men" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'men') ? 'selected' : ''; ?>>Men's Team</option>
-        <option value="women" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'women') ? 'selected' : ''; ?>>Women's Team</option>
-        <option value="academy_u18_boys" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'academy_u18_boys') ? 'selected' : ''; ?>>Academy U18 Boys</option>
-        <option value="academy_u18_girls" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'academy_u18_girls') ? 'selected' : ''; ?>>Academy U18 Girls</option>
-        <option value="academy_u16_boys" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'academy_u16_boys') ? 'selected' : ''; ?>>Academy U16 Boys</option>
-        <option value="academy_u16_girls" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'academy_u16_girls') ? 'selected' : ''; ?>>Academy U16 Girls</option>
-    </select>
-</div>
-
+                    <div class="form-group">
+                        <label for="team" class="form-label">Team *</label>
+                        <select id="team" name="team" class="form-control" required>
+                            <option value="men" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'men') ? 'selected' : ''; ?>>Men's Team</option>
+                            <option value="women" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'women') ? 'selected' : ''; ?>>Women's Team</option>
+                            <option value="academy_u18_boys" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'academy_u18_boys') ? 'selected' : ''; ?>>Academy U18 Boys</option>
+                            <option value="academy_u18_girls" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'academy_u18_girls') ? 'selected' : ''; ?>>Academy U18 Girls</option>
+                            <option value="academy_u16_boys" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'academy_u16_boys') ? 'selected' : ''; ?>>Academy U16 Boys</option>
+                            <option value="academy_u16_girls" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'academy_u16_girls') ? 'selected' : ''; ?>>Academy U16 Girls</option>
+                        </select>
+                    </div>
                     
                     <div class="form-group">
                         <label for="age" class="form-label">Age</label>
@@ -796,13 +798,12 @@ $conn->close();
                     </div>
                     
                     <div class="form-group">
-    <label for="player_category" class="form-label">Player Category *</label>
-    <select id="player_category" name="player_category" class="form-control" required>
-        <option value="Backs" <?php echo (isset($currentPlayer['category']) && ($currentPlayer['category'] == 'Backs' || $currentPlayer['category'] == 'Captain' || $currentPlayer['category'] == 'Vice-Captain')) ? 'selected' : ''; ?>>Backs</option>
-        <option value="Forwards" <?php echo (isset($currentPlayer['category']) && ($currentPlayer['category'] == 'Forwards' || $currentPlayer['category'] == 'Captain' || $currentPlayer['category'] == 'Vice-Captain')) ? 'selected' : ''; ?>>Forwards</option>
-    </select>
-</div>
-
+                        <label for="player_category" class="form-label">Player Category *</label>
+                        <select id="player_category" name="player_category" class="form-control" required>
+                            <option value="Backs" <?php echo (isset($currentPlayer['position_category']) && $currentPlayer['position_category'] == 'Backs') ? 'selected' : ''; ?>>Backs</option>
+                            <option value="Forwards" <?php echo (isset($currentPlayer['position_category']) && $currentPlayer['position_category'] == 'Forwards') ? 'selected' : ''; ?>>Forwards</option>
+                        </select>
+                    </div>
                 </div>
                 
                 <div class="form-row">
@@ -810,8 +811,8 @@ $conn->close();
                         <label for="category" class="form-label">Special Role</label>
                         <select id="category" name="category" class="form-control">
                             <option value="">Regular Player</option>
-                            <option value="Captain" <?php echo (isset($currentPlayer['category']) && $currentPlayer['category'] == 'Captain' ? 'selected' : ''); ?>>Captain</option>
-                            <option value="Vice-Captain" <?php echo (isset($currentPlayer['category']) && $currentPlayer['category'] == 'Vice-Captain' ? 'selected' : ''); ?>>Vice-Captain</option>
+                            <option value="Captain" <?php echo (isset($currentPlayer['special_role']) && $currentPlayer['special_role'] == 'Captain' ? 'selected' : ''; ?>>Captain</option>
+                            <option value="Vice-Captain" <?php echo (isset($currentPlayer['special_role']) && $currentPlayer['special_role'] == 'Vice-Captain' ? 'selected' : ''; ?>>Vice-Captain</option>
                         </select>
                     </div>
                     
@@ -945,6 +946,11 @@ $conn->close();
                                 </span>
                                 <h3 class="player-name"><?php echo htmlspecialchars($player['name']); ?></h3>
                                 <p class="player-position"><?php echo htmlspecialchars($player['role']); ?></p>
+                                <?php if (!empty($player['special_role'])): ?>
+                                    <p><small><strong><?php echo htmlspecialchars($player['special_role']); ?></strong> (<?php echo htmlspecialchars($player['position_category']); ?>)</small></p>
+                                <?php else: ?>
+                                    <p><small><?php echo htmlspecialchars($player['position_category']); ?></small></p>
+                                <?php endif; ?>
                                 <div class="player-stats">
                                     <div class="stat-item">
                                         <span class="stat-value"><?php echo htmlspecialchars($player['age']); ?></span>
