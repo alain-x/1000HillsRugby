@@ -53,174 +53,156 @@ if ($playerId > 0) {
 // Handle profile download
 if (isset($_GET['download_profile'])) {
     if ($playerId > 0 && $selectedPlayer) {
-        // Include the TCPDF library
         require_once('tcpdf/tcpdf.php');
         
-        // Create new PDF document with custom page size if needed
-        $pdf = new TCPDF('P', 'mm', array(210, 297), true, 'UTF-8', false); // A4 size
+        // Create landscape A4 PDF
+        $pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false);
         
-        // Set document information
+        // Document setup
         $pdf->SetCreator('1000 Hills Rugby Club');
         $pdf->SetAuthor('1000 Hills Rugby Club');
-        $pdf->SetTitle($selectedPlayer['name'] . ' - Professional Profile');
-        $pdf->SetSubject('Player Profile');
-        
-        // Remove default header/footer
+        $pdf->SetTitle('Player Certificate - ' . $selectedPlayer['name']);
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
-        
-        // Set auto page breaks to false to ensure everything fits on one page
-        $pdf->SetAutoPageBreak(false, 0);
-        
-        // Set margins (smaller margins to fit more content)
-        $pdf->SetMargins(10, 10, 10);
-        
-        // Add a page
+        $pdf->SetMargins(15, 15, 15);
         $pdf->AddPage();
+
+        // Elegant background with subtle gradient
+        $pdf->LinearGradient(0, 0, $pdf->getPageWidth(), $pdf->getPageHeight(), 
+                           array(248, 252, 248), array(240, 245, 240), array(0,0,1,0));
         
-        // Set font (smaller font size to fit more content)
-        $pdf->SetFont('helvetica', '', 9);
+        // Certificate frame with decorative border
+        $pdf->SetLineWidth(1.5);
+        $pdf->SetDrawColor(15, 82, 25); // Darker green border
+        $pdf->RoundedRect(10, 10, 277, 190, 8, '1111', 'D', array(), array(255, 255, 255));
         
-        // Get team display name
-        $teamName = getTeamDisplayName($selectedPlayer['team']);
+        // Inner decorative border
+        $pdf->SetLineWidth(0.5);
+        $pdf->SetDrawColor(100, 160, 100);
+        $pdf->RoundedRect(13, 13, 271, 184, 6, '1111', 'D');
         
-        // Add club logo (smaller size)
-        $logoPath = 'logos_/logoT.jpg';
-        if (file_exists($logoPath)) {
-            $pdf->Image($logoPath, 10, 10, 25, 0, 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+        // Club logo with subtle shadow effect
+        $pdf->Image('logos_/logoT.jpg', $pdf->getPageWidth()/2 - 20, 20, 40, 40, '', '', '', false, 300, '', false, false, 0);
+        
+        // Certificate header with attractive font
+        $pdf->SetFont('dejavusans', 'B', 20);
+        $pdf->SetTextColor(15, 82, 25); // Dark green
+        $pdf->SetY(65);
+        $pdf->Cell(0, 10, 'OFFICIAL PLAYER CERTIFICATE', 0, 1, 'C');
+        
+        // Player name with stylish formatting
+        $pdf->SetFont('dejavusans', 'B', 24);
+        $pdf->SetTextColor(25, 130, 35); // Vibrant green
+        $pdf->Cell(0, 12, strtoupper($selectedPlayer['name']), 0, 1, 'C');
+        $pdf->Ln(3);
+        
+        // Decorative divider with rugby ball motif
+        $pdf->SetLineWidth(1);
+        $pdf->SetDrawColor(25, 130, 35); 
+        $pdf->Ln(12);
+        
+        // Player details in two stylish columns
+        $col1 = 25;
+        $col2 = 160;
+        $lineHeight = 8;
+        
+        // Left column with subtle background
+        $pdf->SetFillColor(240, 248, 240);
+        $pdf->Rect($col1 - 5, $pdf->GetY() - 2, 120, 65, 'F', array(), array(230, 240, 230));
+        
+        $pdf->SetFont('dejavusans', 'B', 14);
+        $pdf->SetTextColor(15, 82, 25);
+        $pdf->SetXY($col1, $pdf->GetY());
+        $pdf->Cell(0, $lineHeight, 'PLAYER INFORMATION', 0, 1);
+        
+        $personalDetails = array(
+            'Player ID:' => $playerId,
+            'Position:' => $selectedPlayer['role'],
+            'Team:' => getTeamDisplayName($selectedPlayer['team']),
+            'Jersey:' => ($selectedPlayer['jersey'] ?? 'N/A'),
+            'Joined:' => ($selectedPlayer['joined'] ?? 'N/A'),
+            'DOB:' => ($selectedPlayer['dob'] ?? 'N/A')
+        );
+        
+        $pdf->SetFont('dejavusans', '', 11);
+        $pdf->SetTextColor(60, 60, 60);
+        foreach ($personalDetails as $label => $value) {
+            $pdf->SetX($col1);
+            $pdf->Cell(45, $lineHeight, $label, 0, 0);
+            $pdf->SetFont('dejavusans', 'B', 11);
+            $pdf->Cell(0, $lineHeight, $value, 0, 1);
+            $pdf->SetFont('dejavusans', '', 11);
         }
         
-        // Add player image if exists (smaller size)
-        $playerImageHtml = '';
-        if (!empty($selectedPlayer['img'])) {
-            $playerImagePath = $selectedPlayer['img'];
-            if (file_exists($playerImagePath)) {
-                // Get image dimensions to maintain aspect ratio
-                list($width, $height) = getimagesize($playerImagePath);
-                $ratio = $height / $width;
-                $newWidth = 30; // Smaller width
-                $newHeight = $newWidth * $ratio;
-                
-                $pdf->Image($playerImagePath, ($pdf->getPageWidth() - 10 - $newWidth), 10, $newWidth, $newHeight, '', '', 'T', false, 300, '', false, false, 0, false, false, false);
-            }
+        // Right column with subtle background
+        $pdf->SetFillColor(240, 248, 240);
+        $pdf->Rect($col2 - 5, $pdf->GetY() - 58, 120, 65, 'F', array(), array(230, 240, 230));
+        
+        $pdf->SetFont('dejavusans', 'B', 14);
+        $pdf->SetTextColor(15, 82, 25);
+        $pdf->SetXY($col2, $pdf->GetY() - 56);
+        $pdf->Cell(0, $lineHeight, 'PLAYER STATISTICS', 0, 1);
+        
+        $stats = array(
+            'Games Played:' => $selectedPlayer['games'],
+            'Tries Scored:' => $selectedPlayer['tries'],
+            'Points:' => $selectedPlayer['points'],
+            'Disciplinary:' => ($selectedPlayer['disciplinary'] ?? 'Clean'),
+            'Height:' => ($selectedPlayer['height'] ?? '--'),
+            'Weight:' => ($selectedPlayer['weight'] ?? '--')
+        );
+        
+        $pdf->SetFont('dejavusans', '', 11);
+        $pdf->SetTextColor(60, 60, 60);
+        foreach ($stats as $label => $value) {
+            $pdf->SetX($col2);
+            $pdf->Cell(45, $lineHeight, $label, 0, 0);
+            $pdf->SetFont('dejavusans', 'B', 11);
+            $pdf->Cell(0, $lineHeight, $value, 0, 1);
+            $pdf->SetFont('dejavusans', '', 11);
         }
+         
         
-        // Main content - using tables for better layout control
-        $html = '
-        <style>
-            .header { text-align: center; margin-bottom: 5px; }
-            .header h1 { color: #0a9113; font-size: 14px; margin-bottom: 3px; }
-            .header .subtitle { color: #666; font-size: 10px; }
-            .info-row { margin-bottom: 3px; font-size: 9px; }
-            .label { font-weight: bold; width: 30%; }
-            .value { width: 70%; }
-            .section { margin-bottom: 8px; }
-            .section h3 { color: #0a9113; font-size: 10px; border-bottom: 1px solid #eee; padding-bottom: 2px; margin-bottom: 5px; }
-            .stats-table { width: 100%; margin-bottom: 5px; }
-            .stats-table td { text-align: center; padding: 3px; font-size: 9px; }
-            .stat-value { font-weight: bold; color: #0a9113; }
-            .sponsor { background: #f5f5f5; padding: 5px; border-radius: 3px; margin-top: 5px; font-size: 9px; }
-            .sponsor h4 { margin-top: 0; color: #0a9113; font-size: 10px; }
-        </style>
-        
-        <div style="height: 30px;"></div> <!-- Space for header images -->
-        
-        <div class="header">
-            <h1>' . htmlspecialchars($selectedPlayer['name']) . '</h1>
-            <div class="subtitle">' . htmlspecialchars($selectedPlayer['role']) . ' | ' . $teamName . '</div>
-        </div>
-        
-        <table border="0" cellpadding="2" cellspacing="0" width="100%">
-            <tr>
-                <td width="50%" valign="top">
-                    <div class="section">
-                        <h3>Player Information</h3>
-                        <table border="0" cellpadding="2" cellspacing="0" width="100%">
-                            <tr><td class="label">Position:</td><td class="value">' . htmlspecialchars($selectedPlayer['role']) . '</td></tr>
-                            <tr><td class="label">Category:</td><td class="value">' . htmlspecialchars($selectedPlayer['position_category']) . '</td></tr>
-                            ' . (!empty($selectedPlayer['special_role']) ? '<tr><td class="label">Role:</td><td class="value">' . htmlspecialchars($selectedPlayer['special_role']) . '</td></tr>' : '') . '
-                            <tr><td class="label">Team:</td><td class="value">' . $teamName . '</td></tr>
-                            <tr><td class="label">Age:</td><td class="value">' . htmlspecialchars($selectedPlayer['age']) . '</td></tr>
-                            <tr><td class="label">Height:</td><td class="value">' . htmlspecialchars($selectedPlayer['height']) . ' cm</td></tr>
-                            <tr><td class="label">Weight:</td><td class="value">' . htmlspecialchars($selectedPlayer['weight']) . ' kg</td></tr>
-                        </table>
-                    </div>
-                    
-                    <div class="section">
-                        <h3>Career Statistics</h3>
-                        <table class="stats-table" border="0" cellpadding="2" cellspacing="0">
-                            <tr>
-                                <td>
-                                    <div class="stat-value">' . htmlspecialchars($selectedPlayer['games']) . '</div>
-                                    <div>Games Played</div>
-                                </td>
-                                <td>
-                                    <div class="stat-value">' . htmlspecialchars($selectedPlayer['points']) . '</div>
-                                    <div>Total Points</div>
-                                </td>
-                                <td>
-                                    <div class="stat-value">' . htmlspecialchars($selectedPlayer['tries']) . '</div>
-                                    <div>Tries Scored</div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </td>
-                <td width="50%" valign="top">
-                    <div class="section">
-                        <h3>Personal Information</h3>
-                        <table border="0" cellpadding="2" cellspacing="0" width="100%">
-                            <tr><td class="label">Place of Birth:</td><td class="value">' . htmlspecialchars($selectedPlayer['placeOfBirth'] ?? 'N/A') . '</td></tr>
-                            <tr><td class="label">Nationality:</td><td class="value">' . htmlspecialchars($selectedPlayer['nationality'] ?? 'N/A') . '</td></tr>
-                            <tr><td class="label">Joined Club:</td><td class="value">' . htmlspecialchars($selectedPlayer['joined'] ?? 'N/A') . '</td></tr>
-                        </table>
-                    </div>
-                    
-                    <div class="section">
-                        <h3>Career Highlights</h3>
-                        <table border="0" cellpadding="2" cellspacing="0" width="100%">
-                            <tr><td class="label">Honours:</td><td class="value">' . nl2br(htmlspecialchars($selectedPlayer['honours'] ?? 'N/A')) . '</td></tr>
-                            <tr><td class="label">Previous Clubs:</td><td class="value">' . nl2br(htmlspecialchars($selectedPlayer['previousClubs'] ?? 'N/A')) . '</td></tr>
-                        </table>
-                    </div>
-                </td>
-            </tr>
-        </table>';
-        
-        if (!empty($selectedPlayer['sponsor'])) {
-            $html .= '
-            <div class="sponsor">
-                <h4>Sponsored By</h4>
-                <div><strong>' . htmlspecialchars($selectedPlayer['sponsor']) . '</strong></div>
-                ' . (!empty($selectedPlayer['sponsorDesc']) ? '<div>' . nl2br(htmlspecialchars($selectedPlayer['sponsorDesc'])) . '</div>' : '') . '
-            </div>';
-        }
-        
-        $html .= '
-        <div style="text-align: center; margin-top: 10px; color: #666; font-size: 7px;">
-            <p>Generated by 1000 Hills Rugby Club on ' . date('F j, Y') . '</p>
-            <p>© ' . date('Y') . ' 1000 Hills Rugby Club. All rights reserved.</p>
-        </div>';
-        
-        // Output the HTML content
-        $pdf->writeHTML($html, true, false, true, false, '');
-        
-        // Check if we need to adjust content to fit on one page
-        $pageHeight = $pdf->getPageHeight();
-        $currentY = $pdf->GetY();
-        
-        // If content is too long, reduce font size and regenerate
-        if ($currentY > ($pageHeight - 20)) {
-            $pdf->deletePage(1);
-            $pdf->AddPage();
-            $pdf->SetFont('helvetica', '', 8); // Smaller font
-            $pdf->writeHTML($html, true, false, true, false, '');
-        }
-        
-        // Close and output PDF document
-        $pdf->Output(str_replace(' ', '_', $selectedPlayer['name']) . '_Profile.pdf', 'D');
+        // Adjust line position for more margin above signatures
+$pdf->SetLineWidth(0.5);
+$pdf->SetDrawColor(100, 160, 100);
+
+// Left signature (Club President)
+$pdf->Line($col1 + 10, 180, $col1 + 80, 180); // Moved down from 160 to 170
+$pdf->SetFont('dejavusans', 'I', 10);
+$pdf->SetTextColor(15, 82, 25);
+$pdf->SetXY($col1 + 10, 180); // Moved down from 163 to 175
+$pdf->Cell(70, 5, 'Club President', 0, 0, 'C');
+
+// Right signature (Head Coach)
+$pdf->Line($col2 + 10, 180, $col2 + 80, 180); // Moved down from 160 to 170
+$pdf->SetXY($col2 + 10, 180); // Moved down from 163 to 175
+$pdf->Cell(70, 5, 'Head Coach', 0, 0, 'C');
+
+// Issue date with decorative element
+$pdf->SetFont('dejavusans', 'I', 10);
+$pdf->SetTextColor(100, 100, 100);
+$pdf->SetXY($pdf->getPageWidth()/2 - 30, 183); // Moved down from 175 to 185
+$pdf->Cell(60, 5, 'Issued: ' . date('F j, Y'), 0, 0, 'C');
+ 
+
+        // Output the PDF
+        $pdf->Output(str_replace(' ', '_', $selectedPlayer['name']) . '_Certificate.pdf', 'D');
         exit();
     }
+}
+
+
+// Helper function to calculate a player rating (example implementation)
+function calculatePlayerRating($player) {
+    // This is just an example - implement your own rating logic
+    $rating = 0;
+    if ($player['games'] > 0) {
+        $rating += min(40, ($player['games'] * 2));
+        $rating += min(30, ($player['points'] * 0.5));
+        $rating += min(30, ($player['tries'] * 3));
+    }
+    return $rating > 0 ? round($rating) . '/100' : 'N/A';
 }
 
 function getTeamDisplayName($team) {
