@@ -12,8 +12,8 @@ $conn->query("CREATE TABLE IF NOT EXISTS players (
     img VARCHAR(255),
     age INT(3),
     role VARCHAR(50),
-    position_category VARCHAR(50),
-    special_role VARCHAR(50),
+    position_category VARCHAR(50), -- Changed from 'category' to 'position_category'
+    special_role VARCHAR(50),      -- Added for Captain/Vice-Captain
     team VARCHAR(20) NOT NULL DEFAULT 'men',
     weight VARCHAR(10),
     height VARCHAR(10),
@@ -30,7 +30,7 @@ $conn->query("CREATE TABLE IF NOT EXISTS players (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )");
 
-// Get current team 
+// Get current team (men, women, academy_u18_boys, academy_u18_girls, academy_u16_boys, academy_u16_girls)
 $currentTeam = isset($_GET['team']) ? $_GET['team'] : 'men';
 $validTeams = ['men', 'women', 'academy_u18_boys', 'academy_u18_girls', 'academy_u16_boys', 'academy_u16_girls'];
 if (!in_array($currentTeam, $validTeams)) {
@@ -50,178 +50,11 @@ if ($playerId > 0) {
     $stmt->close();
 }
 
-// Handle profile download
-if (isset($_GET['download_profile'])) {
-    if ($playerId > 0 && $selectedPlayer) {
-        require_once('tcpdf/tcpdf.php');
-        
-        // Create landscape A4 PDF
-        $pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false);
-        
-        // Document setup
-        $pdf->SetCreator('1000 Hills Rugby Club');
-        $pdf->SetAuthor('1000 Hills Rugby Club');
-        $pdf->SetTitle('Player Certificate - ' . $selectedPlayer['name']);
-        $pdf->setPrintHeader(false);
-        $pdf->setPrintFooter(false);
-        $pdf->SetMargins(15, 15, 15);
-        $pdf->AddPage();
-
-        // Elegant background with subtle gradient
-        $pdf->LinearGradient(0, 0, $pdf->getPageWidth(), $pdf->getPageHeight(), 
-                           array(248, 252, 248), array(240, 245, 240), array(0,0,1,0));
-        
-        // Certificate frame with decorative border
-        $pdf->SetLineWidth(1.5);
-        $pdf->SetDrawColor(15, 82, 25); // Darker green border
-        $pdf->RoundedRect(10, 10, 277, 190, 8, '1111', 'D', array(), array(255, 255, 255));
-        
-        // Inner decorative border
-        $pdf->SetLineWidth(0.5);
-        $pdf->SetDrawColor(100, 160, 100);
-        $pdf->RoundedRect(13, 13, 271, 184, 6, '1111', 'D');
-        
-        // Club logo with subtle shadow effect
-        $pdf->Image('logos_/logoT.jpg', $pdf->getPageWidth()/2 - 20, 20, 40, 40, '', '', '', false, 300, '', false, false, 0);
-        
-        // Certificate header with attractive font
-        $pdf->SetFont('dejavusans', 'B', 20);
-        $pdf->SetTextColor(15, 82, 25); // Dark green
-        $pdf->SetY(65);
-        $pdf->Cell(0, 10, 'OFFICIAL PLAYER CERTIFICATE', 0, 1, 'C');
-        
-        // Player name with stylish formatting
-        $pdf->SetFont('dejavusans', 'B', 24);
-        $pdf->SetTextColor(25, 130, 35); // Vibrant green
-        $pdf->Cell(0, 12, strtoupper($selectedPlayer['name']), 0, 1, 'C');
-        $pdf->Ln(3);
-        
-        // Decorative divider with rugby ball motif
-        $pdf->SetLineWidth(1);
-        $pdf->SetDrawColor(25, 130, 35); 
-        $pdf->Ln(12);
-        
-        // Player details in two stylish columns
-        $col1 = 25;
-        $col2 = 160;
-        $lineHeight = 8;
-        
-        // Left column with subtle background
-        $pdf->SetFillColor(240, 248, 240);
-        $pdf->Rect($col1 - 5, $pdf->GetY() - 2, 120, 65, 'F', array(), array(230, 240, 230));
-        
-        $pdf->SetFont('dejavusans', 'B', 14);
-        $pdf->SetTextColor(15, 82, 25);
-        $pdf->SetXY($col1, $pdf->GetY());
-        $pdf->Cell(0, $lineHeight, 'PLAYER INFORMATION', 0, 1);
-        
-        $personalDetails = array(
-            'Player ID:' => $playerId,
-            'Position:' => $selectedPlayer['role'],
-            'Team:' => getTeamDisplayName($selectedPlayer['team']),
-            'Jersey:' => ($selectedPlayer['jersey'] ?? 'N/A'),
-            'Joined:' => ($selectedPlayer['joined'] ?? 'N/A'),
-            'DOB:' => ($selectedPlayer['dob'] ?? 'N/A')
-        );
-        
-        $pdf->SetFont('dejavusans', '', 11);
-        $pdf->SetTextColor(60, 60, 60);
-        foreach ($personalDetails as $label => $value) {
-            $pdf->SetX($col1);
-            $pdf->Cell(45, $lineHeight, $label, 0, 0);
-            $pdf->SetFont('dejavusans', 'B', 11);
-            $pdf->Cell(0, $lineHeight, $value, 0, 1);
-            $pdf->SetFont('dejavusans', '', 11);
-        }
-        
-        // Right column with subtle background
-        $pdf->SetFillColor(240, 248, 240);
-        $pdf->Rect($col2 - 5, $pdf->GetY() - 58, 120, 65, 'F', array(), array(230, 240, 230));
-        
-        $pdf->SetFont('dejavusans', 'B', 14);
-        $pdf->SetTextColor(15, 82, 25);
-        $pdf->SetXY($col2, $pdf->GetY() - 56);
-        $pdf->Cell(0, $lineHeight, 'PLAYER STATISTICS', 0, 1);
-        
-        $stats = array(
-            'Games Played:' => $selectedPlayer['games'],
-            'Tries Scored:' => $selectedPlayer['tries'],
-            'Points:' => $selectedPlayer['points'],
-            'Disciplinary:' => ($selectedPlayer['disciplinary'] ?? 'Clean'),
-            'Height:' => ($selectedPlayer['height'] ?? '--'),
-            'Weight:' => ($selectedPlayer['weight'] ?? '--')
-        );
-        
-        $pdf->SetFont('dejavusans', '', 11);
-        $pdf->SetTextColor(60, 60, 60);
-        foreach ($stats as $label => $value) {
-            $pdf->SetX($col2);
-            $pdf->Cell(45, $lineHeight, $label, 0, 0);
-            $pdf->SetFont('dejavusans', 'B', 11);
-            $pdf->Cell(0, $lineHeight, $value, 0, 1);
-            $pdf->SetFont('dejavusans', '', 11);
-        }
-         
-        
-        // Adjust line position for more margin above signatures
-$pdf->SetLineWidth(0.5);
-$pdf->SetDrawColor(100, 160, 100);
-
-// Left signature (Club President)
-$pdf->Line($col1 + 10, 180, $col1 + 80, 180); // Moved down from 160 to 170
-$pdf->SetFont('dejavusans', 'I', 10);
-$pdf->SetTextColor(15, 82, 25);
-$pdf->SetXY($col1 + 10, 180); // Moved down from 163 to 175
-$pdf->Cell(70, 5, 'Club President', 0, 0, 'C');
-
-// Right signature (Head Coach)
-$pdf->Line($col2 + 10, 180, $col2 + 80, 180); // Moved down from 160 to 170
-$pdf->SetXY($col2 + 10, 180); // Moved down from 163 to 175
-$pdf->Cell(70, 5, 'Head Coach', 0, 0, 'C');
-
-// Issue date with decorative element
-$pdf->SetFont('dejavusans', 'I', 10);
-$pdf->SetTextColor(100, 100, 100);
-$pdf->SetXY($pdf->getPageWidth()/2 - 30, 183); // Moved down from 175 to 185
-$pdf->Cell(60, 5, 'Issued: ' . date('F j, Y'), 0, 0, 'C');
- 
-
-        // Output the PDF
-        $pdf->Output(str_replace(' ', '_', $selectedPlayer['name']) . '_Certificate.pdf', 'D');
-        exit();
-    }
-}
-
-
-// Helper function to calculate a player rating (example implementation)
-function calculatePlayerRating($player) {
-    // This is just an example - implement your own rating logic
-    $rating = 0;
-    if ($player['games'] > 0) {
-        $rating += min(40, ($player['games'] * 2));
-        $rating += min(30, ($player['points'] * 0.5));
-        $rating += min(30, ($player['tries'] * 3));
-    }
-    return $rating > 0 ? round($rating) . '/100' : 'N/A';
-}
-
-function getTeamDisplayName($team) {
-    switch ($team) {
-        case 'men': return "Men's Team";
-        case 'women': return "Women's Team";
-        case 'academy_u18_boys': return "Academy U18 Boys";
-        case 'academy_u18_girls': return "Academy U18 Girls";
-        case 'academy_u16_boys': return "Academy U16 Boys";
-        case 'academy_u16_girls': return "Academy U16 Girls";
-        default: return ucfirst(str_replace('_', ' ', $team));
-    }
-}
-
-// Get filter and search parameters
+// Get filter and search parameters (only if not viewing a single player)
 $filter = isset($_GET['filter']) ? $_GET['filter'] : 'all';
 $search = isset($_GET['search']) ? strtolower($_GET['search']) : '';
 
-// Build SQL query for player list
+// Build SQL query for player list (only if not viewing a single player)
 if (!$selectedPlayer) {
     $sql = "SELECT * FROM players WHERE team = '" . $conn->real_escape_string($currentTeam) . "'";
 
@@ -265,6 +98,7 @@ function calculateTeamStats($conn, $team) {
         'topScorerPoints' => 0
     ];
 
+    // Get all players for stats calculation
     $result = $conn->query("SELECT * FROM players WHERE team = '" . $conn->real_escape_string($team) . "'");
     $players = [];
     if ($result->num_rows > 0) {
@@ -291,6 +125,7 @@ function calculateTeamStats($conn, $team) {
         if ($player['special_role'] == 'Captain') $stats['captain'] = $player['name'];
         if ($player['special_role'] == 'Vice-Captain') $stats['viceCaptain'] = $player['name'];
         
+        // Check for top scorer
         if (intval($player['points'] ?? 0) > $stats['topScorerPoints']) {
             $stats['topScorer'] = $player['name'];
             $stats['topScorerPoints'] = intval($player['points'] ?? 0);
@@ -683,7 +518,7 @@ $conn->close();
             flex-wrap: wrap;
         }
 
-        /* Academy Dropdown */
+        /* Academy Dropdown - Improved for Mobile */
         .academy-dropdown {
             position: relative;
         }
@@ -933,7 +768,6 @@ $conn->close();
             box-shadow: var(--shadow-lg);
             padding: 2rem;
             margin: 2rem 0;
-            position: relative;
         }
 
         .back-button {
@@ -1111,46 +945,6 @@ $conn->close();
             font-size: 0.9rem;
             color: var(--light-text);
             margin-top: 0.25rem;
-        }
-
-        /* Download Button */
-        .download-profile {
-            position: absolute;
-            top: 2rem;
-            right: 2rem;
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: var(--shadow);
-        }
-
-        .women .download-profile {
-            background: var(--women-color);
-        }
-
-        .academy-u18 .download-profile {
-            background: var(--academy-u18-color);
-        }
-
-        .academy-u16 .download-profile {
-            background: var(--academy-u16-color);
-        }
-
-        .download-profile:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .download-profile i {
-            font-size: 1.2rem;
         }
 
         /* No Results */
@@ -1472,15 +1266,6 @@ $conn->close();
             .footer-content {
                 grid-template-columns: 1fr;
             }
-
-            .download-profile {
-                position: static;
-                margin: 1rem auto;
-                border-radius: 2rem;
-                width: auto;
-                height: auto;
-                padding: 0.75rem 1.5rem;
-            }
         }
 
         @media (max-width: 576px) {
@@ -1672,11 +1457,6 @@ $conn->close();
                     <i class="fas fa-arrow-left"></i> Back to Players
                 </div>
                 
-                <!-- Download Profile Button -->
-                <a href="?player_id=<?php echo $playerId; ?>&team=<?php echo $currentTeam; ?>&download_profile=1" class="download-profile" title="Download Profile">
-                    <i class="fas fa-download"></i>
-                </a>
-                
                 <div class="detail-header">
                     <?php if (!empty($selectedPlayer['img'])): ?>
                         <img src="<?php echo htmlspecialchars($selectedPlayer['img']); ?>" alt="<?php echo htmlspecialchars($selectedPlayer['name']); ?>" class="detail-image">
@@ -1818,6 +1598,8 @@ $conn->close();
         <?php endif; ?>
     </main>
 
+     
+
     <script>
         // Mobile menu toggle
         document.addEventListener('DOMContentLoaded', function() {
@@ -1850,6 +1632,7 @@ $conn->close();
 
             // Academy dropdown toggle for mobile
             academyDropdown.addEventListener('click', function(e) {
+                // Only prevent default if we're on mobile and clicking the toggle
                 if (window.innerWidth <= 768 && e.target.closest('.academy-dropdown-toggle')) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -1881,7 +1664,10 @@ $conn->close();
             const filterTabs = document.querySelectorAll('.filter-tab');
             filterTabs.forEach(tab => {
                 tab.addEventListener('click', function(e) {
+                    // Remove active class from all tabs
                     filterTabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
                     this.classList.add('active');
                 });
             });
