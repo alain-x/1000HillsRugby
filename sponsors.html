@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Valued Sponsors</title>
+    <style>
+      :root {
+        --primary-color: #1a1a1a;
+        --secondary-color: #e30613;
+        --bg-color: #f8f8f8;
+        --text-color: #333;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", system-ui, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        overflow-x: hidden;
+      }
+
+      .sponsors-section {
+        padding: 60px 0;
+        position: relative;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 0 20px;
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 10px;
+      }
+
+      .section-subtitle {
+        font-size: 1.1rem;
+        color: #666;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .sponsors-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        padding: 40px 0;
+      }
+
+      .sponsors-track {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        width: max-content;
+        animation: scroll 15s linear infinite;
+        will-change: transform;
+      }
+
+      .sponsor-item {
+        flex: 0 0 auto;
+        width: 230px;
+        height: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 25px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .sponsor-item:hover {
+        transform: translateY(-5px) scale(1.03);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        z-index: 10;
+      }
+
+      .sponsor-logo-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .sponsor-logo {
+        max-width: 90%;
+        max-height: 90%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        filter: grayscale(100%);
+        opacity: 0.85;
+        transition: all 0.4s ease;
+      }
+
+      .sponsor-item:hover .sponsor-logo {
+        filter: grayscale(0%);
+        opacity: 1;
+        transform: scale(1.05);
+      }
+
+      .admin-panel {
+        text-align: center;
+        margin-top: 60px;
+        padding: 0 20px;
+      }
+
+      .admin-btn {
+        display: inline-block;
+        padding: 14px 28px;
+        background-color: var(--secondary-color);
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(227, 6, 19, 0.2);
+      }
+
+      .admin-btn:hover {
+        background-color: #c00511;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(227, 6, 19, 0.3);
+      }
+
+      @keyframes scroll {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(
+            calc(-220px * var(--sponsor-count) - 50px * var(--sponsor-count))
+          );
+        }
+      }
+
+      /* Gradient fade effect on sides */
+      .sponsors-container::before,
+      .sponsors-container::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 150px;
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      .sponsors-container::before {
+        left: 0;
+        background: linear-gradient(90deg, var(--bg-color) 70%, transparent);
+      }
+
+      .sponsors-container::after {
+        right: 0;
+        background: linear-gradient(90deg, transparent, var(--bg-color) 70%);
+      }
+
+      /* Pause animation on hover */
+      .sponsors-container:hover .sponsors-track {
+        animation-play-state: paused;
+      }
+
+      @media (max-width: 1024px) {
+        .sponsor-item {
+          width: 180px;
+          height: 120px;
+          padding: 20px;
+        }
+
+        .sponsors-container::before,
+        .sponsors-container::after {
+          width: 80px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .section-title {
+          font-size: 2rem;
+        }
+
+        .sponsor-item {
+          width: 160px;
+          height: 100px;
+          padding: 15px;
+        }
+
+        .sponsors-track {
+          gap: 30px;
+        }
+
+        .sponsors-container::before,
+        .sponsors-container::after {
+          width: 40px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .sponsors-section {
+          padding: 40px 0;
+        }
+
+        .section-title {
+          font-size: 1.8rem;
+        }
+
+        .sponsor-item {
+          width: 140px;
+          height: 90px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="sponsors-section">
+      <div class="section-header">
+        <h1 class="section-title">Our Valued Sponsors</h1>
+        <p class="section-subtitle">
+          We gratefully acknowledge the support of these organizations
+        </p>
+      </div>
+
+      <div class="sponsors-container">
+        <div class="sponsors-track" id="sponsorsTrack">
+          <!-- Sponsors will be loaded here by JavaScript -->
+        </div>
+      </div>
+
+      <div class="admin-panel">
+        <a href="uploadsponsors.php" class="admin-btn">Manage Sponsors</a>
+      </div>
+    </section>
+
+    <script>
+      // Fetch sponsors from PHP backend
+      fetch("get_sponsors.php")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((sponsors) => {
+          const track = document.getElementById("sponsorsTrack");
+
+          if (!sponsors || sponsors.length === 0) {
+            track.innerHTML =
+              '<p style="color: #666; text-align: center; width: 100%;">No sponsors found</p>';
+            return;
+          }
+
+          // Set CSS variable for animation calculation
+          document.documentElement.style.setProperty(
+            "--sponsor-count",
+            sponsors.length
+          );
+
+          // Duplicate sponsors for seamless looping
+          const duplicatedSponsors = [...sponsors, ...sponsors];
+
+          duplicatedSponsors.forEach((sponsor) => {
+            const div = document.createElement("div");
+            div.className = "sponsor-item";
+            div.innerHTML = `
+                        <div class="sponsor-logo-container">
+                            <img src="${sponsor.logo_path}" alt="Sponsor Logo" class="sponsor-logo" loading="lazy">
+                        </div>
+                    `;
+            track.appendChild(div);
+          });
+        })
+        .catch((error) => {
+          console.error("Error loading sponsors:", error);
+          document.getElementById("sponsorsTrack").innerHTML =
+            '<p style="color: #666; text-align: center; width: 100%;">Error loading sponsors. Please try again later.</p>';
+        });
+    </script>
+  </body>
+</html>
