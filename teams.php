@@ -71,6 +71,9 @@ if (!$selectedPlayer) {
         $sql .= " OR LOWER(role) LIKE '%" . $conn->real_escape_string($search) . "%')";
     }
 
+    // Sort players by name
+    $sql .= " ORDER BY name ASC";
+
     $result = $conn->query($sql);
     $players = [];
     if ($result->num_rows > 0) {
@@ -99,7 +102,7 @@ function calculateTeamStats($conn, $team) {
     ];
 
     // Get all players for stats calculation
-    $result = $conn->query("SELECT * FROM players WHERE team = '" . $conn->real_escape_string($team) . "'");
+    $result = $conn->query("SELECT * FROM players WHERE team = '" . $conn->real_escape_string($team) . "' ORDER BY name ASC");
     $players = [];
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
@@ -1597,8 +1600,6 @@ $conn->close();
             </div>
         <?php endif; ?>
     </main>
-
-     
 
     <script>
         // Mobile menu toggle
