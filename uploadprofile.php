@@ -29,6 +29,9 @@ if (isset($_GET['delete'])) {
     if ($conn->query($sql)) {
         $message = 'Player deleted successfully!';
         $messageClass = 'alert-success';
+        // Redirect to clear the delete parameter from URL
+        header("Location: uploadprofile.php");
+        exit();
     } else {
         $message = 'Error deleting player: ' . $conn->error;
         $messageClass = 'alert-error';
@@ -59,8 +62,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sponsorDesc = $conn->real_escape_string(trim($_POST['sponsorDesc'] ?? ''));
 
     // Handle image upload
-    $imgPath = $currentPlayer['img'] ?? ''; // Keep existing image if not changed
-    
+    $imgPath = '';
+    if (isset($_POST['existing_image'])) {
+        $imgPath = $conn->real_escape_string(trim($_POST['existing_image']));
+    }
+
     if (isset($_FILES['player_image']) && $_FILES['player_image']['error'] === UPLOAD_ERR_OK) {
         $uploadDir = 'uploads/players/';
         if (!file_exists($uploadDir)) {
@@ -79,8 +85,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (in_array($fileType, $allowedTypes)) {
             if (move_uploaded_file($_FILES['player_image']['tmp_name'], $targetPath)) {
                 // Delete old image if it exists
-                if (!empty($currentPlayer['img']) && file_exists($currentPlayer['img'])) {
-                    unlink($currentPlayer['img']);
+                if (!empty($_POST['existing_image']) && file_exists($_POST['existing_image'])) {
+                    unlink($_POST['existing_image']);
                 }
                 $imgPath = $targetPath;
             } else {
@@ -95,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     // Only proceed with database operation if there were no errors
     if (empty($message)) {
-        if ($editMode && $id > 0) {
+        if ($id > 0) {
             // Update existing player
             $sql = "UPDATE players SET 
                     name = '$name', 
@@ -127,10 +133,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         
         if ($conn->query($sql)) {
-            $message = 'Player profile ' . ($editMode ? 'updated' : 'added') . ' successfully!';
+            $message = 'Player profile ' . ($id > 0 ? 'updated' : 'added') . ' successfully!';
             $messageClass = 'alert-success';
-            $editMode = false;
-            $currentPlayer = null;
+            // Redirect to clear the form and prevent duplicate submissions
+            header("Location: uploadprofile.php");
+            exit();
         } else {
             $message = 'Error: ' . $conn->error;
             $messageClass = 'alert-error';
@@ -145,6 +152,10 @@ if (isset($_GET['edit'])) {
     $result = $conn->query("SELECT * FROM players WHERE id = $id");
     if ($result->num_rows > 0) {
         $currentPlayer = $result->fetch_assoc();
+    } else {
+        // Player not found, redirect
+        header("Location: uploadprofile.php");
+        exit();
     }
 }
 
@@ -729,7 +740,7 @@ $conn->close();
     <main class="container">
         <!-- Player Form -->
         <div class="form-container">
-            <h2 class="section-title"><?php echo $editMode ? 'Edit Player' : 'Add New Player'; ?></h2>
+            <h2 class="section-title"><?php echo isset($_GET['edit']) ? 'Edit Player' : 'Add New Player'; ?></h2>
             
             <?php if ($message): ?>
                 <div class="alert <?php echo $messageClass; ?>">
@@ -738,8 +749,9 @@ $conn->close();
             <?php endif; ?>
             
             <form method="POST" action="uploadprofile.php" enctype="multipart/form-data">
-                <?php if ($editMode): ?>
-                    <input type="hidden" name="id" value="<?php echo $currentPlayer['id'] ?? ''; ?>">
+                <?php if (isset($_GET['edit']) && isset($currentPlayer['id'])): ?>
+                    <input type="hidden" name="id" value="<?php echo $currentPlayer['id']; ?>">
+                    <input type="hidden" name="existing_image" value="<?php echo htmlspecialchars($currentPlayer['img'] ?? ''); ?>">
                 <?php endif; ?>
                 
                 <div class="form-group">
@@ -771,17 +783,18 @@ $conn->close();
                 </div>
                 
                 <div class="form-row">
-                    <div class="form-group">
-                        <label for="team" class="form-label">Team *</label>
-                        <select id="team" name="team" class="form-control" required>
-                            <option value="men" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'men') ? 'selected' : ''; ?>>Men's Team</option>
-                            <option value="women" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'women') ? 'selected' : ''; ?>>Women's Team</option>
-                            <option value="academy_u18_boys" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'academy_u18_boys') ? 'selected' : ''; ?>>Academy U18 Boys</option>
-                            <option value="academy_u18_girls" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'academy_u18_girls') ? 'selected' : ''; ?>>Academy U18 Girls</option>
-                            <option value="academy_u16_boys" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'academy_u16_boys') ? 'selected' : ''; ?>>Academy U16 Boys</option>
-                            <option value="academy_u16_girls" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'academy_u16_girls') ? 'selected' : ''; ?>>Academy U16 Girls</option>
-                        </select>
-                    </div>
+                <div class="form-group">
+    <label for="team" class="form-label">Team *</label>
+    <select id="team" name="team" class="form-control" required>
+        <option value="men" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'men') ? 'selected' : ''; ?>>Men's Team</option>
+        <option value="women" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'women') ? 'selected' : ''; ?>>Women's Team</option>
+        <option value="academy_u18_boys" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'academy_u18_boys') ? 'selected' : ''; ?>>Academy U18 Boys</option>
+        <option value="academy_u18_girls" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'academy_u18_girls') ? 'selected' : ''; ?>>Academy U18 Girls</option>
+        <option value="academy_u16_boys" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'academy_u16_boys') ? 'selected' : ''; ?>>Academy U16 Boys</option>
+        <option value="academy_u16_girls" <?php echo (isset($currentPlayer['team']) && $currentPlayer['team'] == 'academy_u16_girls') ? 'selected' : ''; ?>>Academy U16 Girls</option>
+    </select>
+</div>
+
                     
                     <div class="form-group">
                         <label for="age" class="form-label">Age</label>
@@ -798,31 +811,32 @@ $conn->close();
                     </div>
                     
                     <div class="form-group">
-                        <label for="player_category" class="form-label">Player Category *</label>
-                        <select id="player_category" name="player_category" class="form-control" required>
-                            <option value="Backs" <?php echo (isset($currentPlayer['position_category']) && $currentPlayer['position_category'] == 'Backs') ? 'selected' : ''; ?>>Backs</option>
-                            <option value="Forwards" <?php echo (isset($currentPlayer['position_category']) && $currentPlayer['position_category'] == 'Forwards') ? 'selected' : ''; ?>>Forwards</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                <div class="form-group">
-    <label for="category" class="form-label">Special Role</label>
-    <select id="category" name="category" class="form-control">
-        <option value="">Regular Player</option>
-        <option value="Captain" <?php echo (isset($currentPlayer['special_role']) && $currentPlayer['special_role'] == 'Captain') ? 'selected' : ''; ?>>Captain</option>
-        <option value="Vice-Captain" <?php echo (isset($currentPlayer['special_role']) && $currentPlayer['special_role'] == 'Vice-Captain') ? 'selected' : ''; ?>>Vice-Captain</option>
+    <label for="player_category" class="form-label">Player Category *</label>
+    <select id="player_category" name="player_category" class="form-control" required>
+        <option value="Backs" <?php echo (isset($currentPlayer['position_category']) && $currentPlayer['position_category'] == 'Backs') ? 'selected' : ''; ?>>Backs</option>
+        <option value="Forwards" <?php echo (isset($currentPlayer['position_category']) && $currentPlayer['position_category'] == 'Forwards') ? 'selected' : ''; ?>>Forwards</option>
     </select>
 </div>
 
-                    
-                    <div class="form-group">
-                        <label for="joined" class="form-label">Year Joined</label>
-                        <input type="text" id="joined" name="joined" class="form-control" 
-                               value="<?php echo htmlspecialchars($currentPlayer['joined'] ?? ''); ?>">
-                    </div>
                 </div>
+                
+                <div class="form-row">
+    <div class="form-group">
+        <label for="category" class="form-label">Special Role</label>
+        <select id="category" name="category" class="form-control">
+            <option value="">Regular Player</option>
+            <option value="Captain" <?php echo (isset($currentPlayer['special_role']) && $currentPlayer['special_role'] == 'Captain') ? 'selected' : ''; ?>>Captain</option>
+            <option value="Vice-Captain" <?php echo (isset($currentPlayer['special_role']) && $currentPlayer['special_role'] == 'Vice-Captain') ? 'selected' : ''; ?>>Vice-Captain</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="joined" class="form-label">Year Joined</label>
+        <input type="text" id="joined" name="joined" class="form-control" 
+               value="<?php echo htmlspecialchars($currentPlayer['joined'] ?? ''); ?>">
+    </div>
+</div>
+
                 
                 <div class="form-row">
                     <div class="form-group">
@@ -897,12 +911,12 @@ $conn->close();
                 </div>
                 
                 <div class="form-actions">
-                    <?php if ($editMode): ?>
+                    <?php if (isset($_GET['edit'])): ?>
                         <a href="uploadprofile.php" class="btn btn-outline">Cancel</a>
                     <?php else: ?>
                         <button type="reset" class="btn btn-outline">Reset</button>
                     <?php endif; ?>
-                    <button type="submit" class="btn btn-primary"><?php echo $editMode ? 'Update' : 'Save'; ?> Player</button>
+                    <button type="submit" class="btn btn-primary"><?php echo isset($_GET['edit']) ? 'Update' : 'Save'; ?> Player</button>
                 </div>
             </form>
         </div>
