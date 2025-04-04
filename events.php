@@ -84,13 +84,22 @@ $conn->close();
         height: 400px; /* Fixed height */
         display: flex;
         flex-direction: column;
+        background: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        transition: transform 0.3s ease;
+        overflow: hidden; /* Prevent content overflow */
+      }
+      
+      .event-card:hover {
+        transform: scale(1.05);
       }
       
       .event-content {
         flex: 1;
         display: flex;
         flex-direction: column;
-        overflow: hidden;
+        padding: 1rem;
       }
       
       .event-description-container {
@@ -104,7 +113,6 @@ $conn->close();
         flex: 1;
         overflow-y: auto;
         padding-right: 8px;
-        max-height: 150px; /* Adjust as needed */
       }
       
       /* Scrollbar styling */
@@ -125,45 +133,35 @@ $conn->close();
       .event-description::-webkit-scrollbar-thumb:hover {
         background: #555;
       }
+
+      /* Footer styles */
+      .foter {
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        padding: 1rem;
+        background-color: #1d6c1c;
+        color: #fff;
+        z-index: 1000;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .foter a {
+        color: #fff;
+        text-decoration: underline;
+        margin-left: 0.5rem;
+      }
+
+      .foter a:hover {
+        color: #c2ffc1;
+        text-decoration: none;
+      }
     </style>
   </head>
 
-  <style>
-    #menu-toggle:checked ~ #menu {
-      display: block;
-    }
-
-    /* Hide the menu if not checked */
-    #menu:hover {
-      display: block;
-    }
-    .foter {
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      text-align: center;
-      padding: 1rem;
-      background-color: #1d6c1c;
-      color: #fff;
-      z-index: 1000;
-      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .foter a {
-      color: #fff;
-      text-decoration: underline;
-      margin-left: 0.5rem;
-    }
-
-    .foter a:hover {
-      color: #c2ffc1;
-      text-decoration: none;
-    }
-  </style>
-
   <body> 
-    <main> 
-      
+    <main>
     <!-- Transparent Navbar -->
     <nav
       class="navbar fixed top-0 left-0 w-full px-2 z-20 h-[10vh] flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300"
@@ -466,7 +464,76 @@ $conn->close();
         </div>
       </div>
     </nav>
-      <!-- Previous sections remain unchanged -->
+      <section
+        class="relative h-screen max-w-full grid grid-cols-12 items-center bg-cover bg-center overflow-hidden"
+        style="background-image: url('./images/events-bg.jpg')"
+      >
+        <!-- Gradient Overlay for Better Text Contrast -->
+        <div
+          class="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/50"
+        ></div>
+
+        <!-- Text Content -->
+        <div
+          class="text-container col-span-12 z-10 text-white flex flex-col gap-4 pl-6 lg:pl-10 items-start text-left"
+        >
+          <p
+            class="font-bold text-lg flex flex-wrap lg:text-2xl mt-[50px] uppercase tracking-widest animate__animated animate__fadeIn animate__delay-1s"
+          >
+            <!--  Upcoming Event: Jade Water 7s First Edition  -->
+          </p>
+          <h1
+            class="font-extrabold leading-tight flex flex-col items-start text-left space-y-2"
+          >
+            <span
+              class="text-[#dcbb26] lg:text-8xl md:text-6xl text-4xl block animate__animated animate__fadeIn animate__delay-2s"
+            >
+              Discpline
+            </span>
+            <span
+              class="lg:text-8xl md:text-6xl text-4xl block animate__animated animate__fadeIn animate__delay-3s"
+            >
+              Sportsmanship
+            </span>
+            <span
+              class="text-green-500 lg:text-8xl md:text-6xl text-4xl block animate__animated animate__fadeIn animate__delay-4s"
+            >
+              Integrity
+            </span>
+          </h1>
+          <p
+            class="text-base lg:text-lg mt-2 text-white/80 animate__animated animate__fadeIn animate__delay-5s lg:w-[40%] md:w-[55%] w-[70%]"
+          >
+            Join 1000 Hills Rugby at Don Bosco Gatenga, home to our senior men's
+            and women's teams, age-grade, and grassroots squads. Watch the
+            action, support rising talent, and be part of our rugby family
+          </p>
+        </div>
+
+        <!-- Parallax Background Effect -->
+        <div
+          class="absolute inset-0 bg-[url('./images/4blripeq.png')] bg-fixed bg-cover bg-center opacity-60"
+        ></div>
+
+        <!-- Scroll-to-Top Button -->
+        <a
+          href="#top"
+          class="fixed bottom-20 border border-white right-2 z-50 bg-[#006838] hover:bg-[#00562c] transition-all duration-300 text-white px-4 py-2 rounded-full shadow-lg text-lg flex items-center justify-center"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-6 h-6"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M19 15l-7-7-7 7" />
+          </svg>
+        </a>
+      </section>
 
       <section
         class="relative flex flex-col items-center mt-24 space-y-8 py-16 bg-gradient-to-t from-white to-white shadow-3xl border-2 border-green-600 p-2 rounded-lg max-w-7xl mx-auto px-4 lg:px-8"
@@ -502,7 +569,7 @@ $conn->close();
               <i class="fas fa-smile text-blue-500 text-2xl mr-3"></i>
               <h2 class="text-xl font-semibold"><?php echo htmlspecialchars($event['title']); ?></h2>
             </div>
-            <div class="event-content">
+            <div class="flex-grow">
               <p class="text-gray-600 mb-2"><strong>Date:</strong> <?php echo htmlspecialchars($event['event_date']); ?></p>
               <p class="text-gray-600 mb-2">
                 <strong>Time:</strong> <?php echo htmlspecialchars($event['event_time']); ?>
@@ -518,19 +585,514 @@ $conn->close();
               </p>
               <div class="event-description-container">
                 <p class="text-gray-600 mb-2"><strong>Description:</strong></p>
-                <p class="text-gray-600 event-description">
+                <div class="event-description">
                   <?php echo htmlspecialchars($event['description']); ?>
-                </p>
+                </div>
               </div>
             </div>
           </div>
           <?php endforeach; ?>
         </div>
 
-        <!-- Rest of the content remains unchanged -->
+        <!-- Newsletter Subscription Section -->
+        <div class="w-full max-w-md mx-auto mt-10">
+          <h3 class="text-xl font-semibold text-center text-gray-700 mb-4">
+            Connect with 1000 Hills Rugby for Event Updates
+          </h3>
+          <p class="text-center text-gray-600 mb-4">
+            Follow us on social media to get the latest updates quickly!
+          </p>
+          <div class="flex justify-center space-x-4">
+            <a
+              href="https://www.facebook.com/1000hillsrugby"
+              class="text-gray-500 hover:text-[#006838] transition-colors duration-300"
+            >
+              <i class="fab fa-facebook-f text-2xl"></i>
+            </a>
+            <a
+              href="https://x.com/1000hillsrugby"
+              class="text-gray-500 hover:text-[#006838] transition-colors duration-300"
+            >
+              <i class="fab fa-twitter text-2xl"></i>
+            </a>
+            <a
+              href="https://www.instagram.com/1000hillsrugby/"
+              class="text-gray-500 hover:text-[#006838] transition-colors duration-300"
+            >
+              <i class="fab fa-instagram text-2xl"></i>
+            </a>
+
+            <a
+              href="https://www.linkedin.com/company/1000hillsrugby/"
+              class="text-gray-500 hover:text-[#006838] transition-colors duration-300"
+            >
+              <i class="fab fa-linkedin-in text-2xl"></i>
+            </a>
+            <a
+              href="https://www.tiktok.com/@1000.hills.rugby?_t=ZM-8trKu7CddnL&_r=1 "
+              class="text-gray-500 hover:text-[#006838] transition-colors duration-300"
+            >
+              <i class="fab fa-tiktok text-2xl"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Decorative Background Element -->
+        <div
+          class="absolute top-0 left-0 w-[100px] h-[5px] bg-[#dcbb26] transform -translate-y-[50%]"
+        ></div>
       </section>
 
       <!-- Rest of your HTML remains the same -->
+      <section class="lg:mx-6 mx-2">
+        <!-- Title Section -->
+        <div class="text-center my-16">
+          <p class="font-semibold text-gray-600 tracking-wider">
+            WHAT'S HAPPENING
+          </p>
+          <h1 class="text-6xl font-bold">
+            CLUB <span class="text-gray-600">EVENTS</span>
+          </h1>
+        </div>
+
+        <!-- Event and Video Section -->
+        <div
+          class="flex flex-col lg:flex-row gap-10 items-start justify-center"
+        >
+          <!-- Event Cards Container -->
+          <div class="lg:w-8/12 grid lg:grid-cols-2 gap-8">
+            <?php 
+            $featuredEvents = array_slice($events, 0, 2);
+            foreach ($featuredEvents as $event): 
+              $dateParts = explode('-', $event['event_date']);
+              $day = $dateParts[2];
+              $month = date('M', mktime(0, 0, 0, $dateParts[1], 10));
+            ?>
+            <!-- Event Card -->
+            <div
+              class="bg-white h-[50vh] rounded-xl shadow-xl overflow-hidden group transition-transform duration-300 hover:-translate-y-2 border-2 border-green-400"
+            >
+              <div
+                class="flex items-center justify-center bg-green-500 text-white p-6 group-hover:bg-green-600 transition-colors duration-300"
+              >
+                <div class="text-center">
+                  <p class="text-3xl font-extrabold"><?php echo $day; ?></p>
+                  <p class="text-sm tracking-wide"><?php echo $month; ?></p>
+                </div>
+              </div>
+              <div class="p-6">
+                <h2
+                  class="text-2xl font-semibold mb-3 text-black group-hover:text-green-600 transition-colors duration-300"
+                >
+                  <?php echo htmlspecialchars($event['title']); ?>
+                </h2>
+                <p class="text-gray-700 mb-4"><?php echo htmlspecialchars($event['location']); ?> / <?php echo htmlspecialchars($event['event_time']); ?></p>
+                <span
+                  class="text-xs bg-yellow-100 text-yellow-800 py-1 px-3 rounded-full"
+                  ><?php echo htmlspecialchars($event['participants']); ?></span
+                >
+              </div>
+              <div
+                class="relative group-hover:bg-gray-100 transition-colors duration-300"
+              >
+                <div
+                  class="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
+                >
+                </div>
+              </div>
+            </div>
+            <?php endforeach; ?>
+          </div>
+        </div>
+      </section>
+
+      <section class="mb-14">
+        <!-- Section Header -->
+        <div
+          class="border-l-[10px] w-11/12 mx-auto flex my-16 flex-col gap-2 col-span-9 border-[#0B3D39] pl-4"
+        >
+          <p class="font-semibold text-lg tracking-widest text-[#4A4A4A]">
+            TRAINING SESSIONS
+          </p>
+          <h1 class="lg:text-6xl text-3xl font-extrabold">
+            WEEKLY <span class="text-gray-500">SCHEDULE</span>
+          </h1>
+        </div>
+
+        <!-- Schedule Table -->
+        <div
+          class="w-11/12 lg:w-10/12 mx-auto border-2 border-[#0B3D39] rounded-3xl overflow-hidden shadow-lg bg-gradient-to-br from-white to-[#E6F4EA]"
+        >
+          <table class="w-full text-left text-gray-800">
+            <?php foreach ($schedule as $day): ?>
+            <thead>
+              <tr class="bg-[#D4EDDA]">
+                <th
+                  class="py-4 px-4 lg:py-5 lg:px-8 text-xl lg:text-2xl font-bold tracking-wide text-[#0B3D39]"
+                >
+                  <?php echo strtoupper($day['day']); ?>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                class="border-b border-gray-300 hover:bg-[#F9F9F9] transition duration-300"
+              >
+                <td
+                  class="py-4 px-4 lg:py-5 lg:px-8 flex flex-col lg:flex-row items-start gap-4 lg:gap-6"
+                >
+                  <i
+                    class="text-3xl lg:text-5xl fa-solid fa-person-running text-[black]"
+                  ></i>
+                  <div class="flex flex-col">
+                    <p class="text-xs lg:text-sm text-gray-500">
+                      <i class="fa-solid fa-location-dot"></i><?php echo htmlspecialchars($day['location']); ?>
+                    </p>
+                    <div
+                      class="flex flex-col lg:flex-row items-start lg:items-center gap-2 lg:gap-4"
+                    >
+                      <p
+                        class="text-lg lg:text-2xl font-semibold text-[#6D6E71]"
+                      >
+                        <?php echo htmlspecialchars($day['time_range']); ?>
+                      </p>
+                      <span
+                        class="border border-gray-300 h-4 hidden lg:inline-block mx-2"
+                      ></span>
+                      <p
+                        class="text-lg lg:text-2xl font-semibold text-[#0B3D39]"
+                      >
+                        <?php echo htmlspecialchars($day['activity']); ?>
+                      </p>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <?php endforeach; ?>
+          </table>
+        </div>
+      </section>
+
+      <section class="mb-14 py-12">
+        <div class="w-11/12 mx-auto text-center">
+          <h2 class="text-5xl font-bold mb-8">Highlights</h2>
+          <div class="flex flex-wrap gap-8 justify-center">
+            <!-- Highlight 1 -->
+            <div class="bg-gray-50 p-6 rounded-lg shadow-md w-full sm:w-1/3">
+              <a href="#">
+                <i class="fa-solid fa-trophy text-5xl text-[#6d6e71]"></i>
+                <h3 class="text-2xl font-semibold mt-4">Competitions</h3>
+                <p class="text-lg mt-2 text-gray-600">
+                  Showcase your skills in our events and stand a chance to win
+                  amazing prizes.
+                </p>
+              </a>
+            </div>
+            <!-- Highlight 2 -->
+
+            <div class="bg-gray-50 p-6 rounded-lg shadow-md w-full sm:w-1/3">
+              <a href="#">
+                <i class="fa-solid fa-microphone text-5xl text-[#6d6e71]"></i>
+                <h3 class="text-2xl font-semibold mt-4">Keynote Speakers</h3>
+                <p class="text-lg mt-2 text-gray-600">
+                  Hear from rugby leaders and experts as they share insights and
+                  tips for success.
+                </p>
+              </a>
+            </div>
+            <!-- Highlight 3 -->
+            <div class="bg-gray-50 p-6 rounded-lg shadow-md w-full sm:w-1/3">
+              <a href="#">
+                <i
+                  class="fa-solid fa-network-wired text-5xl text-[#6d6e71]"
+                ></i>
+                <h3 class="text-2xl font-semibold mt-4">Networking</h3>
+                <p class="text-lg mt-2 text-gray-600">
+                  Connect with players, veterans, partners and volunteers in our
+                  networking sessions.
+                </p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sponsors Section -->
+      <section class="py-20 bg-[#F5F9F8] relative overflow-hidden">
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-white via-transparent to-[#F5F9F8]"
+        ></div>
+        <div
+          class="w-11/12 max-w-7xl mx-auto text-center flex flex-col items-center relative z-10"
+        >
+          <h2
+            class="text-5xl font-extrabold mb-6 text-[#0B3D39] tracking-wide drop-shadow-sm"
+          >
+            Our Partners
+          </h2>
+          <p
+            class="text-lg mb-12 text-gray-700 lg:w-[60%] md:w-[75%] w-[90%] leading-relaxed drop-shadow-sm lg:text-center text-start"
+          >
+            We are immensely proud and grateful to be supported by these trusted
+            companies and organizations. Their generous contributions,
+            dedication, and partnership play a crucial role in bringing all we
+            do to life, ensuring 1000 Hills Rugby success, and helping us
+            achieve our shared goals.
+          </p>
+          <div class="slider-container">
+            <div class="slider-track">
+              <img
+                src="images/rqt.jpg"
+                alt="logo"
+                class="partner-logo h-48 object-cover"
+              />
+              <img
+                src="./images/LSFG+PartnerLogos-Colour-horizontal.jpg"
+                alt="logo"
+                class="partner-logo h-40 object-cover"
+              />
+              <img
+                src="images/anymore.jpg"
+                alt="logo"
+                class="partner-logo h-40 object-cover"
+              />
+              <img
+                src="images/pwr.png"
+                alt="logo"
+                class="partner-logo h-40 object-cover"
+              />
+              <img
+                src="images/rqt.jpg"
+                alt="logo"
+                class="partner-logo h-40 object-cover"
+              />
+              <img
+                src="./images/LSFG+PartnerLogos-Colour-horizontal.jpg"
+                alt="logo"
+                class="partner-logo h-40 object-cover"
+              />
+              <img
+                src="images/anymore.jpg"
+                alt="logo"
+                class="partner-logo h-40 object-cover"
+              />
+              <img
+                src="images/pwr.png"
+                alt="logo"
+                class="partner-logo h-40 object-cover"
+              />
+              <!-- Duplicate slides for smooth loop -->
+
+              <img
+                src="images/rqt.jpg"
+                alt="logo"
+                class="partner-logo h-40 object-cover"
+              />
+              <img
+                src="./images/LSFG+PartnerLogos-Colour-horizontal.jpg"
+                alt="logo"
+                class="partner-logo h-40 object-cover"
+              />
+              <img
+                src="images/anymore.jpg"
+                alt="logo"
+                class="partner-logo h-40 object-cover"
+              />
+              <img
+                src="images/pwr.png"
+                alt="logo"
+                class="partner-logo h-40 object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-20 relative overflow-hidden">
+        <!-- Enhanced Background with Particles and Gradient -->
+        <div
+          class="absolute inset-0 bg-gradient-to-br from-[bg-yellow-100] to-[#6d6e71] opacity-95"
+        ></div>
+        <div
+          class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20 mix-blend-overlay"
+        ></div>
+        <!-- Adding a subtle cube pattern texture -->
+
+        <!-- Particle Effect for Extra Visual Appeal -->
+        <div
+          class="absolute inset-0 flex justify-center items-center pointer-events-none"
+        >
+          <div
+            class="h-[300px] w-[300px] bg-gradient-to-r from-[green] via-transparent to-[yellow] opacity-50 rounded-full blur-2xl animate-float"
+          ></div>
+        </div>
+
+        <div
+          class="w-11/12 max-w-4xl mx-auto text-center text-black relative z-10"
+        >
+          <h2
+            class="text-6xl font-extrabold mb-6 tracking-wider drop-shadow-lg"
+          >
+            Register Now
+          </h2>
+          <p
+            class="lg:text-center text-start text-lg mb-10 leading-relaxed max-w-2xl mx-auto drop-shadow-md"
+          >
+            Don't miss out on this incredible opportunity! This is your chance
+            to gain invaluable skills, connect with our community, and
+            collaborate with like-minded individuals. Be part of something
+            special!
+          </p>
+          <a
+            href="https://app.smartsheet.com/b/form/2d87156a9d224acbb4d770966eb6cee3"
+            class="bg-white text-black px-10 py-4 rounded-full text-xl font-semibold shadow-lg transition duration-300 transform hover:bg-yellow-600 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-white hover:shadow-2xl"
+          >
+            Register</a
+          >
+        </div>
+      </section>
     </main>
+
+    <footer
+      class="w-full mb-[1px] px-6 py-12 grid grid-cols-12 gap-y-12 lg:gap-8 text-white bg-gradient-to-b from-black to-gray-900 lg:h-auto"
+    >
+      <!-- Logo Section -->
+      <div
+        class="lg:col-span-3 col-span-6 flex items-center justify-center lg:justify-start lg:mx-0 mb-8 lg:mb-0"
+      >
+        <img
+          class="lg:w-[150px] h-[150px] w-[120px] lg:h-[120px] object-contain transition-transform duration-300 hover:scale-105"
+          src="./images/1000-hills-logo.png"
+          alt="Logo"
+        />
+      </div>
+
+      <!-- Team Info Section -->
+      <div
+        class="lg:col-span-3 col-span-6 flex flex-col items-center lg:items-start mb-8 lg:mb-0"
+      >
+        <p class="text-lg font-bold tracking-wide text-[#dcbb26] uppercase">
+          Teams
+        </p>
+        <ul class="mt-4 text-[#a5a6a8] text-sm font-light flex flex-col gap-2">
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./program#p1">Player Development Program</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./program#p2">Women's Rugby Program</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./program#p3">Rugby & Life Skills Program</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./program#p4">Grassroots Rugby Initiative</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./staff">Coaching Staff</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Club Info Section -->
+      <div
+        class="lg:col-span-3 col-span-6 flex flex-col items-center lg:items-start mb-8 lg:mb-0"
+      >
+        <p class="text-lg font-bold tracking-wide text-[#dcbb26] uppercase">
+          Community
+        </p>
+        <ul class="mt-4 text-[#a5a6a8] text-sm font-light flex flex-col gap-2">
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./about">About Us</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./program">Programs</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./news">News & Media</a>
+          </li>
+          <li class="hover:text-[#dcbb26] transition-colors duration-300">
+            <a href="./contact">Contact</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Contact & Social Media Section -->
+      <div
+        class="lg:col-span-3 col-span-6 flex flex-col items-center lg:items-start"
+      >
+        <div class="mb-6">
+          <p class="text-lg font-bold tracking-wide text-[#dcbb26] uppercase">
+            Contact
+          </p>
+          <ul
+            class="mt-4 text-[#a5a6a8] text-sm font-light flex flex-col gap-2"
+          >
+            <li
+              class="flex items-center hover:text-[#dcbb26] transition-colors duration-300"
+            >
+              <i class="text-[#006838] mr-2 fa-solid fa-phone"></i>+250 788 261
+              386
+            </li>
+            <li
+              class="flex items-center hover:text-[#dcbb26] transition-colors duration-300"
+            >
+              <i class="text-[#006838] mr-2 fa-solid fa-envelope"></i
+              >thillsrugby@gmail.com
+            </li>
+            <li
+              class="flex items-center hover:text-[#dcbb26] transition-colors duration-300"
+            >
+              <i class="text-[#006838] mr-2 fa-solid fa-location-dot"></i>KK 591
+              St, Kigali
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="text-lg font-bold tracking-wide text-[#dcbb26] uppercase">
+            Connect
+          </p>
+          <ul class="mt-4 flex gap-4 text-2xl">
+            <li class="hover:text-[#1877F2] transition-colors duration-300">
+              <a
+                href="https://www.facebook.com/1000hillsrugby/"
+                aria-label="Facebook"
+              >
+                <i class="fa-brands fa-facebook-f"></i>
+              </a>
+            </li>
+            <li class="hover:text-[#E4405F] transition-colors duration-300">
+              <a
+                href="https://www.instagram.com/1000hillsrugby/"
+                aria-label="Instagram"
+              >
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+            </li>
+            <li class="hover:text-[#1DA1F2] transition-colors duration-300">
+              <a href="https://x.com/1000HillsRugby" aria-label="Twitter">
+                <i class="fa-brands fa-x-twitter"></i>
+              </a>
+            </li>
+            <li class="hover:text-[#FF0000] transition-colors duration-300">
+              <a
+                href="https://www.youtube.com/@1000HillsRugby"
+                aria-label="YouTube"
+              >
+                <i class="fa-brands fa-youtube"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+    <section class="foter">
+      <p>
+        &copy; 2024 1000HillsRugby. All Rights Reserved|
+        <a href="privacy.html">Privacy Policy</a>
+      </p>
+    </section>
+    <script src="./index.js"></script>
   </body>
 </html>
