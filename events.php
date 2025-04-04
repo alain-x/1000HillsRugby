@@ -84,29 +84,13 @@ $conn->close();
         height: 400px; /* Fixed height */
         display: flex;
         flex-direction: column;
-        background: white;
-        border-radius: 0.5rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        transition: transform 0.3s ease;
-        overflow: hidden; /* Prevent content overflow */
-      }
-      
-      .event-card:hover {
-        transform: scale(1.05);
       }
       
       .event-content {
         flex: 1;
         display: flex;
         flex-direction: column;
-        padding: 1rem;
-      }
-      
-      .event-description-container {
-        flex: 1;
         overflow: hidden;
-        display: flex;
-        flex-direction: column;
       }
       
       .event-description {
@@ -133,35 +117,45 @@ $conn->close();
       .event-description::-webkit-scrollbar-thumb:hover {
         background: #555;
       }
-
-      /* Footer styles */
-      .foter {
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        text-align: center;
-        padding: 1rem;
-        background-color: #1d6c1c;
-        color: #fff;
-        z-index: 1000;
-        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-      }
-
-      .foter a {
-        color: #fff;
-        text-decoration: underline;
-        margin-left: 0.5rem;
-      }
-
-      .foter a:hover {
-        color: #c2ffc1;
-        text-decoration: none;
-      }
     </style>
   </head>
 
+  <style>
+    #menu-toggle:checked ~ #menu {
+      display: block;
+    }
+
+    /* Hide the menu if not checked */
+    #menu:hover {
+      display: block;
+    }
+    .foter {
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      padding: 1rem;
+      background-color: #1d6c1c;
+      color: #fff;
+      z-index: 1000;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .foter a {
+      color: #fff;
+      text-decoration: underline;
+      margin-left: 0.5rem;
+    }
+
+    .foter a:hover {
+      color: #c2ffc1;
+      text-decoration: none;
+    }
+  </style>
+
   <body> 
-    <main>
+    <main> 
+      
     <!-- Transparent Navbar -->
     <nav
       class="navbar fixed top-0 left-0 w-full px-2 z-20 h-[10vh] flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300"
@@ -569,7 +563,7 @@ $conn->close();
               <i class="fas fa-smile text-blue-500 text-2xl mr-3"></i>
               <h2 class="text-xl font-semibold"><?php echo htmlspecialchars($event['title']); ?></h2>
             </div>
-            <div class="flex-grow">
+            <div class="event-content">
               <p class="text-gray-600 mb-2"><strong>Date:</strong> <?php echo htmlspecialchars($event['event_date']); ?></p>
               <p class="text-gray-600 mb-2">
                 <strong>Time:</strong> <?php echo htmlspecialchars($event['event_time']); ?>
@@ -583,12 +577,9 @@ $conn->close();
               <p class="text-gray-600 mb-2">
                 <strong>Frequency:</strong> <?php echo htmlspecialchars($event['frequency']); ?>
               </p>
-              <div class="event-description-container">
-                <p class="text-gray-600 mb-2"><strong>Description:</strong></p>
-                <div class="event-description">
-                  <?php echo htmlspecialchars($event['description']); ?>
-                </div>
-              </div>
+              <p class="text-gray-600 mb-2 event-description">
+                <strong>Description:</strong> <?php echo htmlspecialchars($event['description']); ?>
+              </p>
             </div>
           </div>
           <?php endforeach; ?>
