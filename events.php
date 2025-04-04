@@ -76,6 +76,40 @@ $conn->close();
           transform: translateX(-50%);
         }
       }
+      
+      /* Custom styles for event cards */
+      .event-card {
+        min-width: 300px;
+        width: 300px;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .event-description {
+        max-height: 200px;
+        overflow-y: auto;
+        padding-right: 8px;
+      }
+      
+      /* Scrollbar styling */
+      .event-description::-webkit-scrollbar {
+        width: 6px;
+      }
+      
+      .event-description::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+      }
+      
+      .event-description::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+      }
+      
+      .event-description::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
     </style>
   </head>
 
@@ -97,27 +131,27 @@ $conn->close();
       background-color: #1d6c1c;
       color: #fff;
       z-index: 1000;
-      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for visual enhancement */
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
     }
 
     .foter a {
       color: #fff;
-      text-decoration: underline; /* Or none if you prefer no underline */
+      text-decoration: underline;
       margin-left: 0.5rem;
     }
 
     .foter a:hover {
-      color: #c2ffc1; /* Slightly lighter shade on hover */
+      color: #c2ffc1;
       text-decoration: none;
     }
   </style>
 
   <body> 
-    <main>
-        <!-- Transparent Navbar -->
+    <main> 
+    <!-- Transparent Navbar -->
     <nav
       class="navbar fixed top-0 left-0 w-full px-2 z-20 h-[10vh] flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300"
-    >
+       >
       <!-- Logo -->
       <div class="navbar-logo w-2/12">
         <a href="./">
@@ -416,7 +450,6 @@ $conn->close();
         </div>
       </div>
     </nav>
- 
       <section
         class="relative h-screen max-w-full grid grid-cols-12 items-center bg-cover bg-center overflow-hidden"
         style="background-image: url('./images/events-bg.jpg')"
@@ -511,33 +544,35 @@ $conn->close();
 
         <!-- Event Highlights Carousel (Horizontal Scroll) -->
         <div
-          class="relative w-full max-w-5xl overflow-x-auto flex space-x-6 py-4 no-scrollbar"
+          class="relative w-full max-w-5xl overflow-x-auto flex space-x-6 py-4 no-scrollbar items-stretch"
         >
           <?php foreach ($events as $event): ?>
           <!-- Event Card -->
           <div
-            class="bg-white shadow-lg rounded-lg p-4 min-w-[300px] transform hover:scale-105 transition duration-300"
+            class="event-card bg-white shadow-lg rounded-lg p-4 transform hover:scale-105 transition duration-300"
           >
             <div class="flex items-center mb-4">
               <i class="fas fa-smile text-blue-500 text-2xl mr-3"></i>
               <h2 class="text-xl font-semibold"><?php echo htmlspecialchars($event['title']); ?></h2>
             </div>
-            <p class="text-gray-600 mb-2"><strong>Date:</strong> <?php echo htmlspecialchars($event['event_date']); ?></p>
-            <p class="text-gray-600 mb-2">
-              <strong>Time:</strong> <?php echo htmlspecialchars($event['event_time']); ?>
-            </p>
-            <p class="text-gray-600 mb-2">
-              <strong>Location:</strong> <?php echo htmlspecialchars($event['location']); ?>
-            </p>
-            <p class="text-gray-600 mb-2">
-              <strong>Participants:</strong> <?php echo htmlspecialchars($event['participants']); ?>
-            </p>
-            <p class="text-gray-600 mb-2">
-              <strong>Frequency:</strong> <?php echo htmlspecialchars($event['frequency']); ?>
-            </p>
-            <p class="text-gray-600 mb-2">
-              <strong>Description:</strong> <?php echo htmlspecialchars($event['description']); ?>
-            </p>
+            <div class="flex-grow">
+              <p class="text-gray-600 mb-2"><strong>Date:</strong> <?php echo htmlspecialchars($event['event_date']); ?></p>
+              <p class="text-gray-600 mb-2">
+                <strong>Time:</strong> <?php echo htmlspecialchars($event['event_time']); ?>
+              </p>
+              <p class="text-gray-600 mb-2">
+                <strong>Location:</strong> <?php echo htmlspecialchars($event['location']); ?>
+              </p>
+              <p class="text-gray-600 mb-2">
+                <strong>Participants:</strong> <?php echo htmlspecialchars($event['participants']); ?>
+              </p>
+              <p class="text-gray-600 mb-2">
+                <strong>Frequency:</strong> <?php echo htmlspecialchars($event['frequency']); ?>
+              </p>
+              <p class="text-gray-600 mb-2 event-description">
+                <strong>Description:</strong> <?php echo htmlspecialchars($event['description']); ?>
+              </p>
+            </div>
           </div>
           <?php endforeach; ?>
         </div>
@@ -591,6 +626,7 @@ $conn->close();
         ></div>
       </section>
 
+      <!-- Rest of your HTML remains the same -->
       <section class="lg:mx-6 mx-2">
         <!-- Title Section -->
         <div class="text-center my-16">
