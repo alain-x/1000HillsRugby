@@ -885,7 +885,7 @@ $conn->close();
                 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="games" class="form-label">Games Played</label>
+                        <label for="games" class="form-label">Games Played ( in 1000 Hills Rugby)</label>
                         <input type="number" id="games" name="games" class="form-control" min="0"
                                value="<?php echo htmlspecialchars($currentPlayer['games'] ?? ''); ?>">
                     </div>
