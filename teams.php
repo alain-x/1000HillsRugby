@@ -1582,7 +1582,7 @@ $conn->close();
                                 <div class="player-stats">
                                     <div class="stat-item">
                                         <span class="stat-value"><?php echo htmlspecialchars($player['age']); ?></span>
-                                        <span class="stat-label">Year</span>
+                                        <span class="stat-label">Year of Birth</span>
                                     </div>
                                     <div class="stat-item">
                                         <span class="stat-value"><?php echo htmlspecialchars($player['height']); ?> cm</span>
