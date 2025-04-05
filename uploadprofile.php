@@ -891,7 +891,7 @@ $conn->close();
                     </div>
                     
                     <div class="form-group">
-                        <label for="points" class="form-label">Total Points</label>
+                        <label for="points" class="form-label">Total Points for 1000 Hills Rugby</label>
                         <input type="number" id="points" name="points" class="form-control" min="0"
                                value="<?php echo htmlspecialchars($currentPlayer['points'] ?? ''); ?>">
                     </div>
@@ -899,7 +899,7 @@ $conn->close();
                 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="tries" class="form-label">Total Tries</label>
+                        <label for="tries" class="form-label">Total Tries for 1000 Hills Rugby</label>
                         <input type="number" id="tries" name="tries" class="form-control" min="0"
                                value="<?php echo htmlspecialchars($currentPlayer['tries'] ?? ''); ?>">
                     </div>
