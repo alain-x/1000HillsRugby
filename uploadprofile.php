@@ -718,14 +718,11 @@ $conn->close();
                 <div class="logo">
                     <img src="https://via.placeholder.com/50x50" alt="Club Logo" />
                     <div class="logo-text">
-                        <h1><span>1000 Hills</span> Rugby Club</h1>
-                        <span class="club-motto">Strength in Unity</span>
+                        <h1><span>1000 Hills</span> Rugby Club</h1> 
                     </div>
                 </div>
 
-                <nav class="nav-links">
-                    <a href="?team=men">Men's Squad</a>
-                    <a href="?team=women">Women's Squad</a>
+                <nav class="nav-links"> 
                     <a href="uploadprofile.php" class="active">Player Management</a>
                 </nav>
 
@@ -797,7 +794,7 @@ $conn->close();
 
                     
                     <div class="form-group">
-                        <label for="age" class="form-label">Age</label>
+                        <label for="age" class="form-label">Year of Born</label>
                         <input type="number" id="age" name="age" class="form-control" min="16" max="3000"
                                value="<?php echo htmlspecialchars($currentPlayer['age'] ?? ''); ?>">
                     </div>
@@ -969,7 +966,7 @@ $conn->close();
                                 <div class="player-stats">
                                     <div class="stat-item">
                                         <span class="stat-value"><?php echo htmlspecialchars($player['age']); ?></span>
-                                        <span class="stat-label">Age</span>
+                                        <span class="stat-label">Year of Born</span>
                                     </div>
                                     <div class="stat-item">
                                         <span class="stat-value"><?php echo htmlspecialchars($player['height']); ?> cm</span>
@@ -984,9 +981,9 @@ $conn->close();
                                     <a href="?edit=<?php echo $player['id']; ?>" class="action-btn edit-btn" title="Edit">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
-                                    <a href="?delete=<?php echo $player['id']; ?>" class="action-btn delete-btn" title="Delete" onclick="return confirm('Are you sure you want to delete this player?')">
+                                <!--   <a href="?delete=<?php echo $player['id']; ?>" class="action-btn delete-btn" title="Delete" onclick="return confirm('Are you sure you want to delete this player?')">
                                         <i class="fas fa-trash-alt"></i> Delete
-                                    </a>
+                                    </a>  -->
                                 </div>
                             </div>
                         </div>
@@ -997,7 +994,7 @@ $conn->close();
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
+    <!-- <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-about">
@@ -1043,7 +1040,7 @@ $conn->close();
                 <p>&copy; <?php echo date('Y'); ?> 1000 Hills Rugby Club. All Rights Reserved.</p>
             </div>
         </div>
-    </footer>
+    </footer>  -->
 
     <script>
         // Mobile menu toggle
