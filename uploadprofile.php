@@ -38,8 +38,35 @@ if (isset($_GET['delete'])) {
     }
 }
 
+// Handle remove image action
+if (isset($_POST['remove_image'])) {
+    $id = intval($_POST['id']);
+    
+    // Get the current image path
+    $result = $conn->query("SELECT img FROM players WHERE id = $id");
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        if (!empty($row['img'])) {
+            // Delete the image file
+            if (file_exists($row['img'])) {
+                unlink($row['img']);
+            }
+            
+            // Update the database to remove the image reference
+            $conn->query("UPDATE players SET img = '' WHERE id = $id");
+            
+            $message = 'Image removed successfully!';
+            $messageClass = 'alert-success';
+            
+            // Refresh the page to show changes
+            header("Location: uploadprofile.php?edit=$id");
+            exit();
+        }
+    }
+}
+
 // Handle form submission for adding/editing
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['remove_image'])) {
     // Sanitize and validate input
     $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
     $name = $conn->real_escape_string(trim($_POST['name'] ?? ''));
@@ -380,6 +407,7 @@ $conn->close();
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
         }
 
         .image-preview img {
@@ -391,6 +419,27 @@ $conn->close();
         .image-preview-placeholder {
             color: #ccc;
             font-size: 3rem;
+        }
+
+        .remove-image-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(220, 53, 69, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .remove-image-btn:hover {
+            background-color: #dc3545;
         }
 
         .upload-btn-wrapper {
@@ -763,6 +812,11 @@ $conn->close();
                         <div class="image-preview" id="imagePreview">
                             <?php if (!empty($currentPlayer['img'])): ?>
                                 <img src="<?php echo htmlspecialchars($currentPlayer['img']); ?>" alt="Current Player Image">
+                                <?php if (isset($_GET['edit'])): ?>
+                                    <button type="button" class="remove-image-btn" id="removeImageBtn" title="Remove Image">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                <?php endif; ?>
                             <?php else: ?>
                                 <div class="image-preview-placeholder">
                                     <i class="fas fa-user"></i>
@@ -778,6 +832,19 @@ $conn->close();
                         <small class="text-muted">Max file size: 2MB (JPEG, PNG, GIF, WEBP)</small>
                     </div>
                 </div>
+                
+                <!-- Remove Image Form (hidden by default) -->
+                <?php if (isset($_GET['edit']) && !empty($currentPlayer['img'])): ?>
+                    <div id="removeImageForm" style="display: none; margin-bottom: 1.5rem;">
+                        <p>Are you sure you want to remove this image?</p>
+                        <form method="POST" action="uploadprofile.php" style="display: inline-block;">
+                            <input type="hidden" name="id" value="<?php echo $currentPlayer['id']; ?>">
+                            <input type="hidden" name="remove_image" value="1">
+                            <button type="submit" class="btn btn-danger">Remove Image</button>
+                            <button type="button" id="cancelRemoveBtn" class="btn btn-outline">Cancel</button>
+                        </form>
+                    </div>
+                <?php endif; ?>
                 
                 <div class="form-row">
                 <div class="form-group">
@@ -1015,9 +1082,9 @@ $conn->close();
                                     <a href="?edit=<?php echo $player['id']; ?>" class="action-btn edit-btn" title="Edit">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
-                                <!--   <a href="?delete=<?php echo $player['id']; ?>" class="action-btn delete-btn" title="Delete" onclick="return confirm('Are you sure you want to delete this player?')">
+                                <!--    <a href="?delete=<?php echo $player['id']; ?>" class="action-btn delete-btn" title="Delete" onclick="return confirm('Are you sure you want to delete this player?')">
                                         <i class="fas fa-trash-alt"></i> Delete
-                                    </a>  -->
+                                    </a>-->
                                 </div>
                             </div>
                         </div>
@@ -1026,55 +1093,6 @@ $conn->close();
             <?php endif; ?>
         </div>
     </main>
-
-    <!-- Footer -->
-    <!-- <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-about">
-                    <div class="footer-logo">
-                        <img src="https://via.placeholder.com/40x40" alt="Club Logo" />
-                        <div class="footer-logo-text">
-                            <h3><span>1000 Hills</span> Rugby Club</h1>
-                            <p class="footer-motto">Strength in Unity</p>
-                        </div>
-                    </div>
-                    <p>
-                        Founded in 2010, 1000 Hills Rugby Club is one of Rwanda's premier
-                        rugby clubs, dedicated to developing talent and promoting the
-                        sport nationwide.
-                    </p>
-                </div>
-
-                <div class="footer-links">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="?team=men">Men's Squad</a></li>
-                        <li><a href="?team=women">Women's Squad</a></li>
-                        <li><a href="uploadprofile.php">Player Management</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-contact">
-                    <h4>Contact Us</h4>
-                    <p><i class="fas fa-map-marker-alt"></i> Kigali, Rwanda</p>
-                    <p><i class="fas fa-phone"></i> +250 788 123 456</p>
-                    <p><i class="fas fa-envelope"></i> info@1000hillsrugby.com</p>
-
-                    <div class="footer-social">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <p>&copy; <?php echo date('Y'); ?> 1000 Hills Rugby Club. All Rights Reserved.</p>
-            </div>
-        </div>
-    </footer>  -->
 
     <script>
         // Mobile menu toggle
@@ -1105,6 +1123,17 @@ $conn->close();
                         const img = document.createElement('img');
                         img.src = this.result;
                         imagePreview.appendChild(img);
+                        
+                        // Add remove button for new image
+                        const removeBtn = document.createElement('button');
+                        removeBtn.className = 'remove-image-btn';
+                        removeBtn.title = 'Remove Image';
+                        removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                        removeBtn.addEventListener('click', function() {
+                            playerImageInput.value = '';
+                            imagePreview.innerHTML = '<div class="image-preview-placeholder"><i class="fas fa-user"></i></div>';
+                        });
+                        imagePreview.appendChild(removeBtn);
                     });
                     
                     reader.readAsDataURL(file);
@@ -1113,6 +1142,23 @@ $conn->close();
             
             uploadBtn.addEventListener('click', function() {
                 playerImageInput.click();
+            });
+        }
+
+        // Remove image functionality
+        const removeImageBtn = document.getElementById('removeImageBtn');
+        const removeImageForm = document.getElementById('removeImageForm');
+        const cancelRemoveBtn = document.getElementById('cancelRemoveBtn');
+        
+        if (removeImageBtn && removeImageForm) {
+            removeImageBtn.addEventListener('click', function() {
+                removeImageForm.style.display = 'block';
+            });
+        }
+        
+        if (cancelRemoveBtn && removeImageForm) {
+            cancelRemoveBtn.addEventListener('click', function() {
+                removeImageForm.style.display = 'none';
             });
         }
 

@@ -83,6 +83,14 @@ if (!$selectedPlayer) {
     }
 }
 
+// Function to truncate long names
+function truncateName($name, $maxLength = 15) {
+    if (strlen($name) > $maxLength) {
+        return substr($name, 0, $maxLength) . '...';
+    }
+    return $name;
+}
+
 // Calculate team stats
 function calculateTeamStats($conn, $team) {
     $stats = [
@@ -140,6 +148,11 @@ function calculateTeamStats($conn, $team) {
         $stats['avgHeight'] = round($totalHeight / $stats['totalPlayers'], 1);
         $stats['avgWeight'] = round($totalWeight / $stats['totalPlayers'], 1);
     }
+
+    // Truncate long names
+    $stats['captain'] = truncateName($stats['captain']);
+    $stats['viceCaptain'] = truncateName($stats['viceCaptain']);
+    $stats['topScorer'] = truncateName($stats['topScorer']);
 
     return $stats;
 }
@@ -708,6 +721,9 @@ $conn->close();
             font-size: 1.25rem;
             font-weight: 700;
             margin: 0 0 0.25rem 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .player-position {
@@ -1015,6 +1031,14 @@ $conn->close();
             text-transform: uppercase;
         }
 
+        /* Truncated names in stats */
+        .stats-item.truncated-name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
         /* Loading State */
         .loading {
             display: flex;
@@ -1290,6 +1314,9 @@ $conn->close();
 
             .player-name {
                 font-size: 1.1rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             .player-position {
@@ -1433,16 +1460,16 @@ $conn->close();
                     <div class="stats-label">Forwards</div>
                 </div>
                 <?php if (!strpos($currentTeam, 'academy_')): ?>
-                    <div class="stats-item">
+                    <div class="stats-item truncated-name">
                         <div class="stats-value"><?php echo $teamStats['captain']; ?></div>
                         <div class="stats-label">Captain</div>
                     </div>
-                    <div class="stats-item">
+                    <div class="stats-item truncated-name">
                         <div class="stats-value"><?php echo $teamStats['viceCaptain']; ?></div>
                         <div class="stats-label">Vice-Captain</div>
                     </div>
                 <?php endif; ?>
-                <div class="stats-item">
+                <div class="stats-item truncated-name">
                     <div class="stats-value"><?php echo $teamStats['topScorer']; ?></div>
                     <div class="stats-label">Top Scorer</div>
                 </div>
@@ -1601,7 +1628,7 @@ $conn->close();
         <?php endif; ?>
     </main>
 
-    <script>
+     <script>
         // Mobile menu toggle
         document.addEventListener('DOMContentLoaded', function() {
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
