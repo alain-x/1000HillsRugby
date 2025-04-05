@@ -1491,7 +1491,7 @@ $conn->close();
 
                 <div class="detail-stats">
                     <div class="stat-item-lg">
-                        <div class="stat-label-lg">Year</div>
+                        <div class="stat-label-lg">Year of Birth</div>
                         <div class="stat-value-lg"><?php echo htmlspecialchars($selectedPlayer['age']); ?></div>
                     </div>
                     <div class="stat-item-lg">

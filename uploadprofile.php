@@ -793,19 +793,53 @@ $conn->close();
 </div>
 
                     
-                    <div class="form-group">
-                        <label for="age" class="form-label">Year of Born</label>
-                        <input type="number" id="age" name="age" class="form-control" min="16" max="3000"
-                               value="<?php echo htmlspecialchars($currentPlayer['age'] ?? ''); ?>">
-                    </div>
+<div class="form-group">
+    <label for="age" class="form-label">Year of Birth *</label>
+    <select id="age" name="age" class="form-control" required>
+        <option value="">Select Year</option>
+        <?php
+        $currentYear = date('Y');
+        $selectedYear = $currentPlayer['age'] ?? '';
+        for ($year = $currentYear; $year >= 1980; $year--) {
+            $selected = ($year == $selectedYear) ? 'selected' : '';
+            echo "<option value=\"$year\" $selected>$year</option>";
+        }
+        ?>
+    </select>
+</div>
+
                 </div>
                 
                 <div class="form-row">
-                    <div class="form-group">
-                        <label for="role" class="form-label">Position/Role *</label>
-                        <input type="text" id="role" name="role" class="form-control" 
-                               value="<?php echo htmlspecialchars($currentPlayer['role'] ?? ''); ?>" required>
-                    </div>
+                <div class="form-group">
+    <label for="role" class="form-label">Position/Role *</label>
+    <select id="role" name="role" class="form-control" required>
+        <?php
+        $positions = [
+            "Loose-head prop",
+            "Hooker",
+            "Tight-head prop",
+            "Second-row",
+            "Blindside flanker",
+            "Open side flanker",
+            "Number 8",
+            "Scrum-half",
+            "Fly-half",
+            "Left wing",
+            "Inside centre",
+            "Outside centre",
+            "Right wing",
+            "Full-back"
+        ];
+        $currentRole = $currentPlayer['role'] ?? '';
+        foreach ($positions as $position) {
+            $selected = ($position === $currentRole) ? 'selected' : '';
+            echo "<option value=\"$position\" $selected>$position</option>";
+        }
+        ?>
+    </select>
+</div>
+
                     
                     <div class="form-group">
     <label for="player_category" class="form-label">Player Category *</label>
@@ -966,7 +1000,7 @@ $conn->close();
                                 <div class="player-stats">
                                     <div class="stat-item">
                                         <span class="stat-value"><?php echo htmlspecialchars($player['age']); ?></span>
-                                        <span class="stat-label">Year of Born</span>
+                                        <span class="stat-label">Year of Birth</span>
                                     </div>
                                     <div class="stat-item">
                                         <span class="stat-value"><?php echo htmlspecialchars($player['height']); ?> cm</span>
