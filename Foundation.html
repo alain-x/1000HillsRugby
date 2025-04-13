@@ -3,6 +3,1327 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="1000 Hills Rugby Career Guidance Program - Empowering youth through rugby and career development in South Africa"
+    />
+    <meta
+      name="keywords"
+      content="rugby, career guidance, youth development, South Africa, sports education"
+    />
+    <meta name="author" content="1000 Hills Rugby" />
+    <title>1000 Hills Rugby - Career Guidance Program</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #1a3a6e;
+        --primary-light: #2a4a7e;
+        --secondary: #e67e22;
+        --secondary-light: #f68c30;
+        --light: #f5f9ff;
+        --dark: #333333;
+        --gray: #6c757d;
+        --white: #ffffff;
+        --success: #28a745;
+        --transition: all 0.3s ease-in-out;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--dark);
+        background-color: var(--light);
+        overflow-x: hidden;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        background: linear-gradient(135deg, var(--primary) 0%, #0d2444 100%);
+        color: var(--white);
+        padding: 0;
+        text-align: center;
+        margin-bottom: 40px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .header-slideshow {
+        position: relative;
+        width: 100%;
+        height: 500px;
+        overflow: hidden;
+      }
+
+      .header-slide {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .header-slide.active {
+        opacity: 1;
+      }
+
+      .header-slide::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+
+      .header-content {
+        position: relative;
+        z-index: 2;
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .slide-indicators {
+        position: absolute;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        z-index: 3;
+      }
+
+      .slide-indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .slide-indicator.active {
+        background-color: var(--secondary);
+        transform: scale(1.2);
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-weight: 700;
+        line-height: 1.2;
+      }
+
+      h1 {
+        font-size: 2.8rem;
+        margin-bottom: 15px;
+        position: relative;
+        display: inline-block;
+        animation: fadeInDown 1s ease-out;
+      }
+
+      h1::after {
+        content: "";
+        position: absolute;
+        width: 60px;
+        height: 4px;
+        background-color: var(--secondary);
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      .header-subtitle {
+        font-size: 1.3rem;
+        opacity: 0.9;
+        max-width: 800px;
+        margin: 0 auto;
+        font-weight: 300;
+        animation: fadeIn 1.5s ease-out;
+      }
+
+      /* Section Styles */
+      section {
+        padding: 60px 0;
+      }
+
+      .intro-section {
+        text-align: center;
+        margin-bottom: 60px;
+        animation: fadeIn 1s ease-out;
+      }
+
+      .intro-text {
+        max-width: 800px;
+        margin: 0 auto 30px;
+        font-size: 1.15rem;
+        line-height: 1.8;
+        color: var(--gray);
+      }
+
+      .program-description {
+        max-width: 900px;
+        margin: 0 auto 40px;
+        padding: 0 20px;
+        text-align: center;
+        font-size: 1.1rem;
+        line-height: 1.8;
+      }
+
+      .program-description p {
+        margin-bottom: 20px;
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 60px;
+        position: relative;
+      }
+
+      .section-title h2 {
+        font-size: 2.2rem;
+        color: var(--primary);
+        display: inline-block;
+        padding-bottom: 15px;
+        position: relative;
+      }
+
+      .section-title h2::after {
+        content: "";
+        position: absolute;
+        width: 80px;
+        height: 4px;
+        background-color: var(--secondary);
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      .section-title p {
+        max-width: 700px;
+        margin: 20px auto 0;
+        color: var(--gray);
+      }
+
+      /* Skills Container */
+      .skills-container {
+        position: relative;
+        margin: 60px 0;
+      }
+
+      .skills-cycle {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      .skill-card {
+        background: var(--white);
+        border-radius: 16px;
+        padding: 35px 25px;
+        width: 300px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        transition: var(--transition);
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+      }
+
+      .skill-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        transition: var(--transition);
+      }
+
+      .skill-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+      }
+
+      .skill-card:hover::before {
+        height: 8px;
+      }
+
+      .skill-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 25px;
+        color: var(--white);
+        font-size: 2rem;
+        transition: var(--transition);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .skill-card:hover .skill-icon {
+        transform: rotate(10deg) scale(1.1);
+      }
+
+      .skill-card h3 {
+        color: var(--primary);
+        margin-bottom: 15px;
+        font-size: 1.4rem;
+        transition: var(--transition);
+      }
+
+      .skill-card:hover h3 {
+        color: var(--secondary);
+      }
+
+      .skill-card p {
+        color: var(--gray);
+        font-size: 1rem;
+        line-height: 1.7;
+      }
+
+      .cycle-connector {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 30px 0;
+        opacity: 0.7;
+        transition: var(--transition);
+      }
+
+      .skills-cycle:hover .cycle-connector {
+        opacity: 1;
+      }
+
+      .connector-line {
+        width: 60px;
+        height: 2px;
+        background-color: var(--secondary);
+        margin: 0 15px;
+        position: relative;
+      }
+
+      .connector-line::before {
+        content: "";
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: var(--secondary);
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .connector-icon {
+        color: var(--secondary);
+        font-size: 1.8rem;
+        animation: pulse 2s infinite;
+      }
+
+      /* CTA Section */
+      .cta-section {
+        background: linear-gradient(135deg, var(--primary) 0%, #0d2444 100%);
+        color: var(--white);
+        padding: 70px 30px;
+        text-align: center;
+        border-radius: 16px;
+        margin: 80px 0;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cta-section::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0) 70%
+        );
+        animation: rotate 20s linear infinite;
+      }
+
+      .cta-content {
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .cta-content h2 {
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+        color: var(--white);
+      }
+
+      .cta-content p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        line-height: 1.8;
+        opacity: 0.9;
+      }
+
+      .btn {
+        display: inline-block;
+        background-color: var(--secondary);
+        color: var(--white);
+        padding: 14px 35px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        margin-top: 10px;
+        transition: var(--transition);
+        border: 2px solid var(--secondary);
+        position: relative;
+        overflow: hidden;
+        font-size: 1.1rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .btn:hover {
+        background-color: transparent;
+        color: var(--secondary);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: 0.5s;
+      }
+
+      .btn:hover::before {
+        left: 100%;
+      }
+
+      /* Stats Section */
+      .stats-section {
+        background-color: var(--white);
+        padding: 60px 0;
+        text-align: center;
+      }
+
+      .stats-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap: 30px;
+        margin-top: 50px;
+      }
+
+      .stat-card {
+        flex: 1;
+        min-width: 200px;
+        padding: 30px;
+        background: var(--light);
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        transition: var(--transition);
+      }
+
+      .stat-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .stat-number {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 10px;
+        line-height: 1;
+      }
+
+      .stat-label {
+        font-size: 1.1rem;
+        color: var(--gray);
+        font-weight: 500;
+      }
+
+      /* Testimonials */
+      .testimonials-section {
+        background-color: var(--light);
+        padding: 80px 0;
+      }
+
+      .testimonials-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        justify-content: center;
+        margin-top: 50px;
+      }
+
+      .testimonial-card {
+        flex: 1;
+        min-width: 300px;
+        max-width: 350px;
+        background: var(--white);
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        position: relative;
+      }
+
+      .testimonial-card::before {
+        content: '"';
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        font-size: 5rem;
+        color: rgba(230, 126, 34, 0.1);
+        font-family: Georgia, serif;
+        line-height: 1;
+      }
+
+      .testimonial-content {
+        font-style: italic;
+        margin-bottom: 20px;
+        color: var(--dark);
+        position: relative;
+        z-index: 1;
+      }
+
+      .testimonial-author {
+        display: flex;
+        align-items: center;
+      }
+
+      .author-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: var(--primary);
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        margin-right: 15px;
+      }
+
+      .author-info h4 {
+        font-size: 1.1rem;
+        color: var(--primary);
+        margin-bottom: 5px;
+      }
+
+      .author-info p {
+        font-size: 0.9rem;
+        color: var(--gray);
+      }
+
+      /* Footer Styles */
+      footer {
+        width: 100%;
+        margin-bottom: 1px;
+        padding: 3rem 1.5rem;
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 3rem 2rem;
+        color: white;
+        background: linear-gradient(to bottom, black, #111827);
+      }
+
+      .footer-logo {
+        grid-column: span 6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .footer-logo img {
+        width: 120px;
+        height: 120px;
+        object-fit: contain;
+        transition: transform 0.3s;
+      }
+
+      .footer-logo img:hover {
+        transform: scale(1.05);
+      }
+
+      .footer-section {
+        grid-column: span 6;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .footer-section h3 {
+        font-size: 1.125rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #dcbb26;
+        margin-bottom: 1rem;
+      }
+
+      .footer-section ul {
+        list-style: none;
+        margin-top: 1rem;
+        font-size: 0.875rem;
+        font-weight: 300;
+        color: #a5a6a8;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .footer-section ul li {
+        transition: color 0.3s;
+      }
+
+      .footer-section ul li:hover {
+        color: #dcbb26;
+      }
+
+      .footer-section ul li a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .footer-contact {
+        grid-column: span 6;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .footer-contact h3 {
+        font-size: 1.125rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #dcbb26;
+        margin-bottom: 1rem;
+      }
+
+      .contact-info {
+        margin-top: 1rem;
+        font-size: 0.875rem;
+        font-weight: 300;
+        color: #a5a6a8;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .contact-info li {
+        display: flex;
+        align-items: center;
+        transition: color 0.3s;
+      }
+
+      .contact-info li:hover {
+        color: #dcbb26;
+      }
+
+      .contact-info i {
+        color: #006838;
+        margin-right: 0.5rem;
+      }
+
+      .social-links {
+        margin-top: 1.5rem;
+      }
+
+      .social-links h3 {
+        font-size: 1.125rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #dcbb26;
+        margin-bottom: 1rem;
+      }
+
+      .social-icons {
+        display: flex;
+        gap: 1rem;
+        font-size: 1.5rem;
+      }
+
+      .social-icons a {
+        color: white;
+        transition: color 0.3s;
+      }
+
+      .social-icons a:hover {
+        color: #1877f2;
+      }
+
+      .social-icons a:nth-child(2):hover {
+        color: #e4405f;
+      }
+
+      .social-icons a:nth-child(3):hover {
+        color: #1da1f2;
+      }
+
+      .social-icons a:nth-child(4):hover {
+        color: #ff0000;
+      }
+
+      /* Responsive Footer */
+      @media (min-width: 1024px) {
+        .footer-logo {
+          grid-column: span 3;
+          justify-content: flex-start;
+        }
+
+        .footer-section {
+          grid-column: span 3;
+          align-items: flex-start;
+        }
+
+        .footer-contact {
+          grid-column: span 3;
+          align-items: flex-start;
+        }
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Responsive Styles */
+      @media (max-width: 1200px) {
+        .skill-card {
+          width: 280px;
+        }
+      }
+
+      @media (max-width: 992px) {
+        h1 {
+          font-size: 2.4rem;
+        }
+
+        .header-subtitle {
+          font-size: 1.1rem;
+        }
+
+        .skill-card {
+          width: 240px;
+          padding: 30px 20px;
+        }
+
+        .section-title h2 {
+          font-size: 2rem;
+        }
+
+        .stat-card {
+          min-width: 160px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2rem;
+        }
+
+        .header-slideshow {
+          height: 400px;
+        }
+
+        .header-subtitle {
+          font-size: 1rem;
+        }
+
+        section {
+          padding: 50px 0;
+        }
+
+        .skill-card {
+          width: 100%;
+          max-width: 350px;
+        }
+
+        .cycle-connector {
+          transform: rotate(90deg);
+          margin: 40px 0;
+        }
+
+        .stats-container {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .stat-card {
+          width: 100%;
+          max-width: 300px;
+        }
+
+        .cta-section {
+          padding: 50px 20px;
+        }
+
+        .cta-content h2 {
+          font-size: 1.8rem;
+        }
+
+        .cta-content p {
+          font-size: 1.1rem;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .container {
+          padding: 0 15px;
+        }
+
+        header {
+          padding: 0;
+        }
+
+        h1 {
+          font-size: 1.8rem;
+        }
+
+        .header-slideshow {
+          height: 350px;
+        }
+
+        .section-title h2 {
+          font-size: 1.7rem;
+        }
+
+        .intro-text {
+          font-size: 1rem;
+        }
+
+        .cta-section {
+          padding: 40px 15px;
+          margin: 60px 0;
+        }
+
+        .btn {
+          padding: 12px 25px;
+          font-size: 1rem;
+        }
+      }
+    </style>
   </head>
-  <body></body>
+  <body>
+    <header>
+      <div class="header-slideshow">
+        <!-- Slide 1 -->
+        <div
+          class="header-slide active"
+          style="background-image: url('./images/allmember1.jpg')"
+        >
+          <div class="header-content">
+            <h1>1000 Hills Rugby Career Guidance Program</h1>
+            <p class="header-subtitle">
+              Empowering youth through rugby and career development
+            </p>
+          </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div
+          class="header-slide"
+          style="background-image: url('./uploads/1740072895_fans.JPG')"
+        >
+          <div class="header-content">
+            <h1>Building Future Leaders</h1>
+            <p class="header-subtitle">
+              Combining sports training with essential life skills for a
+              brighter future
+            </p>
+          </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div
+          class="header-slide"
+          style="
+            background-image: url('./uploads/1740744533_allmember (10).jpeg');
+          "
+        >
+          <div class="header-content">
+            <h1>Creating Opportunities</h1>
+            <p class="header-subtitle">
+              Pathways to employment and entrepreneurship through our program
+            </p>
+          </div>
+        </div>
+
+        <div class="slide-indicators">
+          <div class="slide-indicator active" data-slide="0"></div>
+          <div class="slide-indicator" data-slide="1"></div>
+          <div class="slide-indicator" data-slide="2"></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <section class="intro-section">
+        <div class="program-description">
+          <p>
+            At 1000 Hills Rugby, we use rugby as a tool to unlock potential and
+            prepare youth for successful futures. Our Career Guidance Program
+            empowers boys and girls with life skills, job readiness, and
+            entrepreneurship training in a safe, inclusive environment.
+          </p>
+
+          <p>
+            Through hands-on workshops and expert-led sessions, participants
+            build confidence, set goals, and develop leadership, teamwork,
+            communication, CV writing, interview, and critical thinking skills.
+            We help youth discover their passions, whether in sports, business,
+            or other careers, and prepare them to thrive.
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <h2>Our Skills Development</h2>
+          <p>
+            We follow a structured approach to equip youth with essential skills
+            for life and work
+          </p>
+        </div>
+
+        <div class="skills-container">
+          <!-- First Row -->
+          <div class="skills-cycle">
+            <div class="skill-card">
+              <div class="skill-icon">
+                <i class="fas fa-user-shield"></i>
+              </div>
+              <h3>Confidence Building</h3>
+              <p>
+                Developing self-assurance through achievement, positive
+                reinforcement, and overcoming challenges on and off the field.
+              </p>
+            </div>
+
+            <div class="cycle-connector">
+              <div class="connector-icon"></div>
+            </div>
+
+            <div class="skill-card">
+              <div class="skill-icon">
+                <i class="fas fa-bullseye"></i>
+              </div>
+              <h3>Goal Setting</h3>
+              <p>
+                Learning to set SMART goals and develop strategies to achieve
+                personal, academic, and professional objectives.
+              </p>
+            </div>
+
+            <div class="cycle-connector">
+              <div class="connector-icon"></div>
+            </div>
+
+            <div class="skill-card">
+              <div class="skill-icon">
+                <i class="fas fa-flag"></i>
+              </div>
+              <h3>Leadership</h3>
+              <p>
+                Cultivating the ability to guide, inspire and motivate others
+                through rugby team roles and community projects.
+              </p>
+            </div>
+          </div>
+
+          <!-- Second Row -->
+          <div class="skills-cycle">
+            <div class="skill-card">
+              <div class="skill-icon">
+                <i class="fas fa-people-arrows"></i>
+              </div>
+              <h3>Teamwork</h3>
+              <p>
+                Mastering collaboration, conflict resolution and collective
+                achievement through rugby and group initiatives.
+              </p>
+            </div>
+
+            <div class="cycle-connector">
+              <div class="connector-icon"></div>
+            </div>
+
+            <div class="skill-card">
+              <div class="skill-icon">
+                <i class="fas fa-comments"></i>
+              </div>
+              <h3>Communication</h3>
+              <p>
+                Developing effective verbal, non-verbal and digital
+                communication skills for professional environments.
+              </p>
+            </div>
+
+            <div class="cycle-connector">
+              <div class="connector-icon"></div>
+            </div>
+
+            <div class="skill-card">
+              <div class="skill-icon">
+                <i class="fas fa-file-alt"></i>
+              </div>
+              <h3>CV Writing</h3>
+              <p>
+                Creating professional resumes, cover letters and online profiles
+                that effectively showcase skills and experience.
+              </p>
+            </div>
+          </div>
+
+          <!-- Third Row -->
+          <div class="skills-cycle">
+            <div class="skill-card">
+              <div class="skill-icon">
+                <i class="fas fa-user-tie"></i>
+              </div>
+              <h3>Interview Skills</h3>
+              <p>
+                Mastering the art of professional interviews, from preparation
+                to follow-up, through mock sessions and feedback.
+              </p>
+            </div>
+
+            <div class="cycle-connector">
+              <div class="connector-icon"></div>
+            </div>
+
+            <div class="skill-card">
+              <div class="skill-icon">
+                <i class="fas fa-brain"></i>
+              </div>
+              <h3>Critical Thinking</h3>
+              <p>
+                Developing analytical abilities, problem-solving techniques and
+                decision-making skills for real-world challenges.
+              </p>
+            </div>
+
+            <div class="cycle-connector">
+              <div class="connector-icon"></div>
+            </div>
+
+            <div class="skill-card">
+              <div class="skill-icon">
+                <i class="fas fa-seedling"></i>
+              </div>
+              <h3>Continuous Growth</h3>
+              <p>
+                Applying all learned skills in real-world scenarios while
+                developing habits for lifelong learning and adaptation.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta-section">
+        <div class="cta-content">
+          <h2>Join Our Movement</h2>
+          <p>
+            Together, we're building a generation of resilient, skilled leaders
+            ready to transform their communities. Partner with us to expand our
+            impact and create more success stories.
+          </p>
+          <a href="./contact" class="btn"
+            >Partner with us to shape the future</a
+          >
+        </div>
+      </section>
+    </div>
+    <footer>
+      <!-- Logo Section -->
+      <div class="footer-logo">
+        <img src="./images/1000-hills-logo.png" alt="1000 Hills Rugby Logo" />
+      </div>
+
+      <!-- Team Info Section -->
+      <div class="footer-section">
+        <h3>Teams</h3>
+        <ul>
+          <li><a href="./program#p1">Player Development Program</a></li>
+          <li><a href="./program#p2">Women's Rugby Program</a></li>
+          <li><a href="./program#p3">Rugby & Life Skills Program</a></li>
+          <li><a href="./program#p4">Grassroots Rugby Initiative</a></li>
+          <li><a href="./staff">Coaching Staff</a></li>
+        </ul>
+      </div>
+
+      <!-- Club Info Section -->
+      <div class="footer-section">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="./about">About Us</a></li>
+          <li><a href="./program">Programs</a></li>
+          <li><a href="./news">News & Media</a></li>
+          <li><a href="./contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact & Social Media Section -->
+      <div class="footer-contact">
+        <div>
+          <h3>Contact</h3>
+          <ul class="contact-info">
+            <li><i class="fas fa-phone"></i>+250 788 261 386</li>
+            <li><i class="fas fa-envelope"></i>thillsrugby@gmail.com</li>
+            <li><i class="fas fa-location-dot"></i>KK 591 St, Kigali</li>
+          </ul>
+        </div>
+
+        <div class="social-links">
+          <h3>Connect</h3>
+          <div class="social-icons">
+            <a
+              href="https://www.facebook.com/1000hillsrugby/"
+              aria-label="Facebook"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+            <a
+              href="https://www.instagram.com/1000hillsrugby/"
+              aria-label="Instagram"
+              ><i class="fab fa-instagram"></i
+            ></a>
+            <a href="https://x.com/1000HillsRugby" aria-label="Twitter"
+              ><i class="fab fa-x-twitter"></i
+            ></a>
+            <a
+              href="https://www.youtube.com/@1000HillsRugby"
+              aria-label="YouTube"
+              ><i class="fab fa-youtube"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Header Slideshow
+      document.addEventListener("DOMContentLoaded", function () {
+        const slides = document.querySelectorAll(".header-slide");
+        const indicators = document.querySelectorAll(".slide-indicator");
+        let currentSlide = 0;
+        let slideInterval;
+
+        // Function to show a specific slide
+        function showSlide(index) {
+          slides.forEach((slide) => slide.classList.remove("active"));
+          indicators.forEach((indicator) =>
+            indicator.classList.remove("active")
+          );
+
+          slides[index].classList.add("active");
+          indicators[index].classList.add("active");
+          currentSlide = index;
+        }
+
+        // Function to go to next slide
+        function nextSlide() {
+          let newIndex = (currentSlide + 1) % slides.length;
+          showSlide(newIndex);
+        }
+
+        // Start auto slideshow
+        function startSlideShow() {
+          slideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+        }
+
+        // Stop auto slideshow
+        function stopSlideShow() {
+          clearInterval(slideInterval);
+        }
+
+        // Add click event to indicators
+        indicators.forEach((indicator, index) => {
+          indicator.addEventListener("click", () => {
+            stopSlideShow();
+            showSlide(index);
+            startSlideShow();
+          });
+        });
+
+        // Start the slideshow
+        startSlideShow();
+
+        // Pause on hover
+        const slideshow = document.querySelector(".header-slideshow");
+        slideshow.addEventListener("mouseenter", stopSlideShow);
+        slideshow.addEventListener("mouseleave", startSlideShow);
+      });
+
+      // Counter animation for stats
+      function animateCounters() {
+        const counters = document.querySelectorAll(".stat-number");
+        const speed = 200;
+
+        counters.forEach((counter) => {
+          const target = +counter.getAttribute("data-count");
+          const count = +counter.innerText;
+          const increment = target / speed;
+
+          if (count < target) {
+            counter.innerText = Math.ceil(count + increment);
+            setTimeout(animateCounters, 1);
+          } else {
+            counter.innerText = target;
+          }
+        });
+      }
+
+      // Initialize counters when stats section is in view
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              animateCounters();
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+
+      const statsSection = document.querySelector(".stats-section");
+      if (statsSection) {
+        observer.observe(statsSection);
+      }
+
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          const targetId = this.getAttribute("href");
+          if (targetId === "#") return;
+
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 80,
+              behavior: "smooth",
+            });
+          }
+        });
+      });
+
+      // Add animation class when elements come into view
+      const animateOnScroll = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("animated");
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      document
+        .querySelectorAll(".skill-card, .testimonial-card, .section-title")
+        .forEach((element) => {
+          animateOnScroll.observe(element);
+        });
+    </script>
+  </body>
 </html>
