@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="1000 Hills Rugby Career Guidance Program - Empowering youth through rugby and career development in South Africa"
+      content="1000 Hills Rugby Career Guidance Program - Empowering youth through rugby and career development in Rwanda"
     />
     <meta
       name="keywords"
@@ -58,6 +58,188 @@
         padding: 0 20px;
       }
 
+      /* Navigation Styles */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 80px;
+        background: rgba(26, 58, 110, 0.98);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 2rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        transition: var(--transition);
+      }
+
+      .navbar.scrolled {
+        background: rgba(26, 58, 110, 0.98);
+        height: 70px;
+      }
+
+      .navbar-logo {
+        width: 60px;
+        height: 60px;
+        transition: var(--transition);
+      }
+
+      .navbar-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 1.5rem;
+      }
+
+      .nav-links li {
+        position: relative;
+      }
+
+      .nav-links a {
+        color: var(--white);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.95rem;
+        padding: 0.5rem 0;
+        position: relative;
+        transition: var(--transition);
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: var(--secondary);
+        transition: var(--transition);
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: var(--white);
+        min-width: 200px;
+        border-radius: 5px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: var(--transition);
+        z-index: 100;
+      }
+
+      .dropdown:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .dropdown-menu li {
+        padding: 0;
+      }
+
+      .dropdown-menu a {
+        color: var(--dark);
+        padding: 0.7rem 1rem;
+        display: block;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        transition: var(--transition);
+      }
+
+      .dropdown-menu a:hover {
+        background: var(--light);
+        color: var(--secondary);
+        padding-left: 1.2rem;
+      }
+
+      .dropdown-toggle {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        cursor: pointer;
+      }
+
+      .mobile-menu-toggle {
+        display: none;
+        cursor: pointer;
+        color: var(--white);
+        font-size: 1.5rem;
+      }
+
+      .mobile-menu {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background: var(--white);
+        padding: 1rem;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        transform: translateY(-150%);
+        transition: var(--transition);
+        z-index: 999;
+      }
+
+      .mobile-menu.active {
+        transform: translateY(0);
+      }
+
+      .mobile-links {
+        list-style: none;
+      }
+
+      .mobile-links li {
+        margin-bottom: 0.5rem;
+      }
+
+      .mobile-links a {
+        display: block;
+        padding: 0.8rem;
+        color: var(--dark);
+        text-decoration: none;
+        border-radius: 5px;
+        transition: var(--transition);
+      }
+
+      .mobile-links a:hover {
+        background: var(--light);
+        color: var(--secondary);
+      }
+
+      .mobile-dropdown-toggle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.8rem;
+        color: var(--dark);
+        cursor: pointer;
+      }
+
+      .mobile-dropdown-menu {
+        padding-left: 1rem;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+
+      .mobile-dropdown-menu.active {
+        max-height: 500px;
+      }
+
       /* Header Styles */
       header {
         background: linear-gradient(135deg, var(--primary) 0%, #0d2444 100%);
@@ -68,6 +250,7 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         position: relative;
         overflow: hidden;
+        margin-top: 80px;
       }
 
       .header-slideshow {
@@ -812,6 +995,14 @@
         .stat-card {
           min-width: 160px;
         }
+
+        .nav-links {
+          display: none;
+        }
+
+        .mobile-menu-toggle {
+          display: block;
+        }
       }
 
       @media (max-width: 768px) {
@@ -898,10 +1089,118 @@
           padding: 12px 25px;
           font-size: 1rem;
         }
+
+        .navbar {
+          padding: 0 1rem;
+        }
+
+        .navbar-logo {
+          width: 50px;
+          height: 50px;
+        }
       }
     </style>
   </head>
   <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="navbar-logo">
+        <a href="./">
+          <img src="./images/1000-hills-logo.png" alt="1000 Hills Rugby Logo" />
+        </a>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="./">Home</a></li>
+        <li><a href="./about">About</a></li>
+        <li><a href="./program">Programs</a></li>
+        <li><a href="./community">Community</a></li>
+        <li><a href="./shop">Shop</a></li>
+        <li><a href="./teams">Teams</a></li>
+
+        <li class="dropdown">
+          <a class="dropdown-toggle"
+            >Education <i class="fas fa-chevron-down"></i
+          ></a>
+          <ul class="dropdown-menu">
+            <li><a href="./education">1HR Education Program</a></li>
+            <li><a href="./Foundation">Career Foundation</a></li>
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a class="dropdown-toggle"
+            >Events <i class="fas fa-chevron-down"></i
+          ></a>
+          <ul class="dropdown-menu">
+            <li><a href="./events">Events</a></li>
+            <li><a href="./news">News & Media</a></li>
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a class="dropdown-toggle"
+            >Contact <i class="fas fa-chevron-down"></i
+          ></a>
+          <ul class="dropdown-menu">
+            <li><a href="./staff">Staff</a></li>
+            <li><a href="./contact">Contact Us</a></li>
+            <li><a href="./register#reForm">Register</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+      <ul class="mobile-links">
+        <li><a href="./">Home</a></li>
+        <li><a href="./about">About</a></li>
+        <li><a href="./program">Programs</a></li>
+        <li><a href="./community">Community</a></li>
+        <li><a href="./shop">Shop</a></li>
+        <li><a href="./teams">Teams</a></li>
+
+        <li>
+          <div class="mobile-dropdown-toggle">
+            <span>Education</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <ul class="mobile-dropdown-menu">
+            <li><a href="./education">1HR Education Program</a></li>
+            <li><a href="./Foundation">Career Foundation</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <div class="mobile-dropdown-toggle">
+            <span>Events</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <ul class="mobile-dropdown-menu">
+            <li><a href="./events">Events</a></li>
+            <li><a href="./news">News & Media</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <div class="mobile-dropdown-toggle">
+            <span>Contact</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <ul class="mobile-dropdown-menu">
+            <li><a href="./staff">Staff</a></li>
+            <li><a href="./contact">Contact Us</a></li>
+            <li><a href="./register#reForm">Register</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
     <header>
       <div class="header-slideshow">
         <!-- Slide 1 -->
@@ -1198,6 +1497,41 @@
     </footer>
 
     <script>
+      // Mobile Menu Toggle
+      const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
+      const mobileMenu = document.querySelector(".mobile-menu");
+      const dropdownToggles = document.querySelectorAll(
+        ".mobile-dropdown-toggle"
+      );
+
+      mobileMenuToggle.addEventListener("click", () => {
+        mobileMenu.classList.toggle("active");
+        mobileMenuToggle.innerHTML = mobileMenu.classList.contains("active")
+          ? '<i class="fas fa-times"></i>'
+          : '<i class="fas fa-bars"></i>';
+      });
+
+      // Mobile Dropdown Toggle
+      dropdownToggles.forEach((toggle) => {
+        toggle.addEventListener("click", () => {
+          const menu = toggle.nextElementSibling;
+          menu.classList.toggle("active");
+          const icon = toggle.querySelector("i");
+          icon.classList.toggle("fa-chevron-down");
+          icon.classList.toggle("fa-chevron-up");
+        });
+      });
+
+      // Navbar Scroll Effect
+      window.addEventListener("scroll", () => {
+        const navbar = document.querySelector(".navbar");
+        if (window.scrollY > 50) {
+          navbar.classList.add("scrolled");
+        } else {
+          navbar.classList.remove("scrolled");
+        }
+      });
+
       // Header Slideshow
       document.addEventListener("DOMContentLoaded", function () {
         const slides = document.querySelectorAll(".header-slide");
