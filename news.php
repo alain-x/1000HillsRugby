@@ -96,13 +96,13 @@ $result = $conn->query($sql);
               >1HR Education Program</a
             >
           </li>
-          <!--<li>
+          <li>
             <a
               class="block px-4 py-2 w-[180px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
               href="./Foundation"
               >Career Foundation</a
             >
-          </li>-->
+          </li>
         </ul>
       </li>
       <li class="relative group">
@@ -240,13 +240,13 @@ $result = $conn->query($sql);
                   >1HR Education Program</a
                 >
               </li>
-              <!--<li>
+              <li>
                 <a
                   class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
                   href="./Foundation"
                   >Career Foundation</a
                 >
-              </li>-->
+              </li>
             </ul>
           </li>
  
