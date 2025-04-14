@@ -383,10 +383,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label for="category" class="required-field">Category</label>
                         <select id="category" name="category" required>
                             <option value="">Select Category</option>
-                            <option value="Training" <?php echo $attendance['category'] === 'Training' ? 'selected' : ''; ?>>Training</option>
-                            <option value="Match" <?php echo $attendance['category'] === 'Match' ? 'selected' : ''; ?>>Match</option>
-                            <option value="Meeting" <?php echo $attendance['category'] === 'Meeting' ? 'selected' : ''; ?>>Meeting</option>
-                            <option value="Other" <?php echo $attendance['category'] === 'Other' ? 'selected' : ''; ?>>Other</option>
+                            <option value="Senior Men Team" <?php echo $attendance['category'] === 'Senior Men Team' ? 'selected' : ''; ?>>Senior Men Team</option>
+                            <option value="Senior Women Team" <?php echo $attendance['category'] === 'Senior Women Team' ? 'selected' : ''; ?>>Senior Women Team</option>
+                            <option value="U19 Boys" <?php echo $attendance['category'] === 'U19 Boys' ? 'selected' : ''; ?>>U19 Boys</option>
+                            <option value="U19 Girls" <?php echo $attendance['category'] === 'U19 Girls' ? 'selected' : ''; ?>>U19 Girls</option>
+                            <option value="Visitor" <?php echo $attendance['category'] === 'Visitor' ? 'selected' : ''; ?>>Visitor</option>
                         </select>
                         <div class="invalid-feedback">Please select a category</div>
                     </div>
@@ -410,10 +411,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="form-group">
                         <label for="session_type">Session Type</label>
                         <select id="session_type" name="session_type[]" multiple>
-                            <option value="Morning" <?php echo in_array('Morning', $session_types) ? 'selected' : ''; ?>>Morning</option>
-                            <option value="Afternoon" <?php echo in_array('Afternoon', $session_types) ? 'selected' : ''; ?>>Afternoon</option>
-                            <option value="Evening" <?php echo in_array('Evening', $session_types) ? 'selected' : ''; ?>>Evening</option>
-                            <option value="Full Day" <?php echo in_array('Full Day', $session_types) ? 'selected' : ''; ?>>Full Day</option>
+                            <option value="Practice" <?php echo in_array('Practice', $session_types) ? 'selected' : ''; ?>>Practice</option>
+                            <option value="Strength & Conditioning" <?php echo in_array('Strength & Conditioning', $session_types) ? 'selected' : ''; ?>>Strength & Conditioning</option>
+                            <option value="Fun Rugby" <?php echo in_array('Fun Rugby', $session_types) ? 'selected' : ''; ?>>Fun Rugby</option>
+                            <option value="Game" <?php echo in_array('Game', $session_types) ? 'selected' : ''; ?>>Game</option>
                         </select>
                         <small class="text-muted">Hold Ctrl/Cmd to select multiple options</small>
                     </div>
