@@ -237,8 +237,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             <form method="post" id="loginForm">
                 <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" class="form-control" 
+                    <label for="username">Email</label>
+                    <input type="text" id="username" name="username" class="form-control"  placeholder="XXX@gmail.com" 
                            value="<?= isset($_POST['username']) ? htmlspecialchars($_POST['username']) : '' ?>" 
                            required autofocus>
                 </div>
