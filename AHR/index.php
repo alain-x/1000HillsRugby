@@ -279,10 +279,11 @@ if (!isLoggedIn()) {
                         <label for="category" class="required-field">Category</label>
                         <select id="category" name="category" required>
                             <option value="">Select Category</option>
-                            <option value="Training">Training</option>
-                            <option value="Match">Match</option>
-                            <option value="Meeting">Meeting</option>
-                            <option value="Other">Other</option>
+                            <option value="Senior Men Team">Senior Men Team</option>
+                            <option value="Senior Women Team">Senior Women Team</option>
+                            <option value="U19 Boys">U19 Boys</option>
+                            <option value="U19 Girls">U19 Girls</option>
+                            <option value="Visitor">Visitor</option>
                         </select>
                         <div class="invalid-feedback">Please select a category</div>
                     </div>
@@ -306,10 +307,10 @@ if (!isLoggedIn()) {
                     <div class="form-group">
                         <label for="session_type">Session Type</label>
                         <select id="session_type" name="session_type[]" multiple>
-                            <option value="Morning">Morning</option>
-                            <option value="Afternoon">Afternoon</option>
-                            <option value="Evening">Evening</option>
-                            <option value="Full Day">Full Day</option>
+                            <option value="Practice">Practice</option>
+                            <option value="Strength & Conditioning">Strength & Conditioning </option>
+                            <option value="Fun Rugby">Fun Rugby</option>
+                            <option value="Game"> Game</option>
                         </select>
                         <small class="text-muted">Hold Ctrl/Cmd to select multiple options</small>
                     </div>
