@@ -48,38 +48,288 @@ $users_result = $conn->query($users_sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background-color: #f5f5f5; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .card { background-color: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 20px; margin-bottom: 20px; }
-        h1 { color: #2c3e50; margin-top: 0; }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background-color: #3498db; color: white; position: sticky; top: 0; }
-        tr:nth-child(even) { background-color: #f9f9f9; }
-        tr:hover { background-color: #f1f1f1; }
-        .action-links a { margin-right: 10px; color: #2980b9; text-decoration: none; }
-        .action-links a:hover { text-decoration: underline; }
-        .btn { display: inline-block; background-color: #3498db; color: white; padding: 10px 15px; text-decoration: none; border-radius: 4px; margin-right: 10px; }
-        .btn:hover { background-color: #2980b9; }
-        .btn-danger { background-color: #e74c3c; }
-        .btn-danger:hover { background-color: #c0392b; }
-        .btn-success { background-color: #2ecc71; }
-        .btn-success:hover { background-color: #27ae60; }
-        .pagination { display: flex; list-style: none; padding: 0; }
-        .pagination li { margin-right: 5px; }
-        .pagination a { display: block; padding: 8px 12px; background-color: white; border: 1px solid #ddd; text-decoration: none; color: #3498db; }
-        .pagination a.active { background-color: #3498db; color: white; border-color: #3498db; }
-        .pagination a:hover:not(.active) { background-color: #f1f1f1; }
-        .tab-container { margin-bottom: 20px; }
-        .tab-links { display: flex; border-bottom: 1px solid #ddd; }
-        .tab-link { padding: 10px 20px; cursor: pointer; background-color: #f1f1f1; border: 1px solid #ddd; border-bottom: none; margin-right: 5px; border-radius: 5px 5px 0 0; }
-        .tab-link.active { background-color: white; border-bottom: 1px solid white; margin-bottom: -1px; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .stats-container { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; }
-        .stat-card { flex: 1; min-width: 200px; background-color: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); padding: 15px; }
-        .stat-card h3 { margin-top: 0; color: #7f8c8d; font-size: 14px; }
-        .stat-card p { font-size: 24px; margin: 10px 0 0; color: #2c3e50; font-weight: bold; }
+        :root {
+            --primary-color: #3498db;
+            --danger-color: #e74c3c;
+            --success-color: #2ecc71;
+            --text-color: #2c3e50;
+            --light-text: #7f8c8d;
+            --border-color: #ddd;
+            --hover-color: #f1f1f1;
+            --card-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            padding: 15px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+        
+        h1 {
+            color: var(--text-color);
+            margin-top: 0;
+            font-size: 1.8rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            min-width: 600px;
+        }
+        
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            position: sticky;
+            top: 0;
+            font-weight: 500;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        tr:hover {
+            background-color: var(--hover-color);
+        }
+        
+        .action-links a {
+            margin-right: 10px;
+            color: var(--primary-color);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        
+        .action-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 12px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+        
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+        }
+        
+        .btn-success:hover {
+            background-color: #27ae60;
+        }
+        
+        .pagination {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            gap: 5px;
+        }
+        
+        .pagination a {
+            display: block;
+            padding: 8px 12px;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            text-decoration: none;
+            color: var(--primary-color);
+            border-radius: 4px;
+        }
+        
+        .pagination a.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .pagination a:hover:not(.active) {
+            background-color: var(--hover-color);
+        }
+        
+        .tab-container {
+            margin-bottom: 20px;
+        }
+        
+        .tab-links {
+            display: flex;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--border-color);
+            gap: 5px;
+        }
+        
+        .tab-link {
+            padding: 8px 15px;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            border: 1px solid var(--border-color);
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            font-size: 0.9rem;
+        }
+        
+        .tab-link.active {
+            background-color: white;
+            border-bottom: 1px solid white;
+            margin-bottom: -1px;
+            font-weight: 500;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .stats-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            flex: 1 1 200px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 15px;
+        }
+        
+        .stat-card h3 {
+            margin-top: 0;
+            color: var(--light-text);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .stat-card p {
+            font-size: 1.5rem;
+            margin: 10px 0 0;
+            color: var(--text-color);
+            font-weight: bold;
+        }
+        
+        .text-danger {
+            color: var(--danger-color);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .card {
+                padding: 10px;
+            }
+            
+            th, td {
+                padding: 8px;
+                font-size: 0.85rem;
+            }
+            
+            .btn {
+                padding: 6px 10px;
+                font-size: 0.85rem;
+            }
+            
+            .tab-link {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+            
+            .stat-card {
+                flex: 1 1 150px;
+                padding: 10px;
+            }
+            
+            .stat-card h3 {
+                font-size: 0.8rem;
+            }
+            
+            .stat-card p {
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .action-links a {
+                display: block;
+                margin: 5px 0;
+            }
+            
+            .tab-links {
+                flex-direction: column;
+                border-bottom: none;
+            }
+            
+            .tab-link {
+                border-radius: 5px;
+                border: 1px solid var(--border-color);
+                margin-bottom: 5px;
+            }
+            
+            .tab-link.active {
+                border-bottom: 1px solid var(--border-color);
+                margin-bottom: 5px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -106,7 +356,7 @@ $users_result = $conn->query($users_sql);
         
         <div class="card">
             <div class="tab-content active" id="attendance">
-                <div style="margin-bottom: 20px;">
+                <div style="margin-bottom: 15px;">
                     <a href="index.php" class="btn btn-success">Add New Attendance</a>
                     <a href="register.php" class="btn">Register New User</a>
                 </div>
@@ -152,7 +402,7 @@ $users_result = $conn->query($users_sql);
             </div>
             
             <div class="tab-content" id="users">
-                <div style="margin-bottom: 20px;">
+                <div style="margin-bottom: 15px;">
                     <a href="register.php" class="btn btn-success">Register New User</a>
                 </div>
                 
@@ -166,7 +416,10 @@ $users_result = $conn->query($users_sql);
                         </tr>
                     </thead>
                     <tbody>
-                        <?php while ($user = $users_result->fetch_assoc()): ?>
+                        <?php 
+                        // Reset users_result pointer
+                        $users_result->data_seek(0);
+                        while ($user = $users_result->fetch_assoc()): ?>
                         <tr>
                             <td><?= htmlspecialchars($user['username']) ?></td>
                             <td><?= $user['is_admin'] ? 'Admin' : 'User' ?></td>
