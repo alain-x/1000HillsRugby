@@ -408,16 +408,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 
                 <div class="form-row">
-                    <div class="form-group">
-                        <label for="session_type">Session Type</label>
-                        <select id="session_type" name="session_type[]" multiple>
-                            <option value="Practice" <?php echo in_array('Practice', $session_types) ? 'selected' : ''; ?>>Practice</option>
-                            <option value="Strength & Conditioning" <?php echo in_array('Strength & Conditioning', $session_types) ? 'selected' : ''; ?>>Strength & Conditioning</option>
-                            <option value="Fun Rugby" <?php echo in_array('Fun Rugby', $session_types) ? 'selected' : ''; ?>>Fun Rugby</option>
-                            <option value="Game" <?php echo in_array('Game', $session_types) ? 'selected' : ''; ?>>Game</option>
-                        </select>
-                        <small class="text-muted">Hold Ctrl/Cmd to select multiple options</small>
-                    </div>
+                <div class="form-group">
+    <label>Session Type</label>
+    <div class="checkbox-group">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="practice" name="session_type[]" value="Practice" <?php echo in_array('Practice', $session_types) ? 'checked' : ''; ?>>
+            <label class="form-check-label" for="practice">Practice</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="strength" name="session_type[]" value="Strength & Conditioning" <?php echo in_array('Strength & Conditioning', $session_types) ? 'checked' : ''; ?>>
+            <label class="form-check-label" for="strength">Strength & Conditioning</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="fun_rugby" name="session_type[]" value="Fun Rugby" <?php echo in_array('Fun Rugby', $session_types) ? 'checked' : ''; ?>>
+            <label class="form-check-label" for="fun_rugby">Fun Rugby</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="game" name="session_type[]" value="Game" <?php echo in_array('Game', $session_types) ? 'checked' : ''; ?>>
+            <label class="form-check-label" for="game">Game</label>
+        </div>
+    </div>
+</div>
                     
                     <div class="form-group">
                         <label for="attendance_status" class="required-field">Attendance Status</label>

@@ -304,16 +304,34 @@ if (!isLoggedIn()) {
                 </div>
                 
                 <div class="form-row">
-                    <div class="form-group">
-                        <label for="session_type">Session Type</label>
-                        <select id="session_type" name="session_type[]" multiple>
-                            <option value="Practice">Practice</option>
-                            <option value="Strength & Conditioning">Strength & Conditioning </option>
-                            <option value="Fun Rugby">Fun Rugby</option>
-                            <option value="Game"> Game</option>
-                        </select>
-                        <small class="text-muted">Hold Ctrl/Cmd to select multiple options</small>
-                    </div>
+                <div class="form-group">
+    <label>Session Type</label>
+    <div class="pl-3"> <!-- Adds slight left padding for alignment -->
+        <!-- Practice -->
+        <div class="form-check">
+            <input type="checkbox" id="session_practice" name="session_type[]" value="Practice" class="form-check-input">
+            <label for="session_practice" class="form-check-label">Practice</label>
+        </div>
+        
+        <!-- Strength & Conditioning -->
+        <div class="form-check">
+            <input type="checkbox" id="session_strength" name="session_type[]" value="Strength & Conditioning" class="form-check-input">
+            <label for="session_strength" class="form-check-label">Strength & Conditioning</label>
+        </div>
+        
+        <!-- Fun Rugby -->
+        <div class="form-check">
+            <input type="checkbox" id="session_fun" name="session_type[]" value="Fun Rugby" class="form-check-input">
+            <label for="session_fun" class="form-check-label">Fun Rugby</label>
+        </div>
+        
+        <!-- Game -->
+        <div class="form-check">
+            <input type="checkbox" id="session_game" name="session_type[]" value="Game" class="form-check-input">
+            <label for="session_game" class="form-check-label">Game</label>
+        </div>
+    </div>
+</div>
                     
                     <div class="form-group">
                         <label for="attendance_status" class="required-field">Attendance Status</label>
