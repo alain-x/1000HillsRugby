@@ -1,9 +1,9 @@
 <?php
 // Increase PHP timeout and file upload limits
-ini_set('max_execution_time', 300); // 5 minutes
-ini_set('max_input_time', 300);     // 5 minutes
-ini_set('upload_max_filesize', '50M'); // 50MB
-ini_set('post_max_size', '50M');      // 50MB
+ini_set('max_execution_time', 300);
+ini_set('max_input_time', 300);
+ini_set('upload_max_filesize', '50M');
+ini_set('post_max_size', '50M');
 
 // Database connection
 $servername = "localhost";
@@ -17,75 +17,66 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Handle form submission for adding/editing articles
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Start a transaction for atomic operations
+// Handle form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     $conn->begin_transaction();
 
     try {
-        // Get main article details
-        $title = $_POST["title"];
-        $category = $_POST["category"];
-        $date_published = $_POST["date_published"];
+        $title = $conn->real_escape_string($_POST["title"]);
+        $category = $conn->real_escape_string($_POST["category"]);
+        $date_published = $conn->real_escape_string($_POST["date_published"]);
         
-        // Check if we're editing an existing article
-        $is_edit = isset($_POST["article_id"]) && !empty($_POST["article_id"]);
-        
-        if ($is_edit) {
-            $article_id = $_POST["article_id"];
+        // Check if editing existing article
+        if (isset($_POST["article_id"]) && !empty($_POST["article_id"])) {
+            $article_id = $conn->real_escape_string($_POST["article_id"]);
             
-            // Update the article
-            $sql = "UPDATE articles SET title = ?, category = ?, date_published = ? WHERE id = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ssss", $title, $category, $date_published, $article_id);
-            $stmt->execute();
-            $stmt->close();
+            // Update article
+            $sql = "UPDATE articles SET title = '$title', category = '$category', 
+                    date_published = '$date_published' WHERE id = '$article_id'";
+            if (!$conn->query($sql)) {
+                throw new Exception("Error updating article: " . $conn->error);
+            }
             
             // Delete existing details to replace them
-            $sql = "DELETE FROM article_details WHERE article_id = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("s", $article_id);
-            $stmt->execute();
-            $stmt->close();
+            $sql = "DELETE FROM article_details WHERE article_id = '$article_id'";
+            if (!$conn->query($sql)) {
+                throw new Exception("Error deleting article details: " . $conn->error);
+            }
         } else {
-            // Generate a unique ID for the article
+            // Create new article
             $article_id = uniqid();
-
-            // Insert into `articles` table
-            $sql = "INSERT INTO articles (id, title, category, date_published) VALUES (?, ?, ?, ?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ssss", $article_id, $title, $category, $date_published);
-            $stmt->execute();
-            $stmt->close();
+            $sql = "INSERT INTO articles (id, title, category, date_published) 
+                    VALUES ('$article_id', '$title', '$category', '$date_published')";
+            if (!$conn->query($sql)) {
+                throw new Exception("Error creating article: " . $conn->error);
+            }
         }
 
-        // Define upload directory
+        // Process main image
         $upload_dir = "uploads/";
         if (!is_dir($upload_dir)) {
-            mkdir($upload_dir, 0777, true); // Create directory if it doesn't exist
+            mkdir($upload_dir, 0777, true);
         }
 
-        // Process main image (if provided)
         if (!empty($_FILES["main_image"]["name"])) {
             $main_image_name = time() . "_" . basename($_FILES["main_image"]["name"]);
             $main_image_path = $upload_dir . $main_image_name;
 
             if (move_uploaded_file($_FILES["main_image"]["tmp_name"], $main_image_path)) {
-                // Update the article with the main image path
-                $sql = "UPDATE articles SET main_image_path = ? WHERE id = ?";
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("ss", $main_image_path, $article_id);
-                $stmt->execute();
-                $stmt->close();
+                $main_image_path = $conn->real_escape_string($main_image_path);
+                $sql = "UPDATE articles SET main_image_path = '$main_image_path' WHERE id = '$article_id'";
+                if (!$conn->query($sql)) {
+                    throw new Exception("Error updating main image: " . $conn->error);
+                }
             }
         }
 
-        // Process subtitles, contents, and multiple images
+        // Process sections
         foreach ($_POST["subtitle"] as $index => $subtitle) {
-            $content = $_POST["content"][$index];
+            $subtitle = $conn->real_escape_string($subtitle);
+            $content = $conn->real_escape_string($_POST["content"][$index]);
             $image_paths = [];
 
-            // Handle multiple image uploads for this section
             if (!empty($_FILES["image"]["name"][$index])) {
                 foreach ($_FILES["image"]["tmp_name"][$index] as $key => $tmp_name) {
                     if ($_FILES["image"]["error"][$index][$key] === UPLOAD_ERR_OK) {
@@ -93,27 +84,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $target_file = $upload_dir . $image_name;
 
                         if (move_uploaded_file($tmp_name, $target_file)) {
-                            $image_paths[] = $target_file;
+                            $image_paths[] = $conn->real_escape_string($target_file);
                         }
                     }
                 }
             }
 
-            // Insert into `article_details` table
-            $sql = "INSERT INTO article_details (article_id, subtitle, content, image_path) VALUES (?, ?, ?, ?)";
-            $stmt = $conn->prepare($sql);
-            $image_paths_str = implode(",", $image_paths); // Store multiple image paths as a comma-separated string
-            $stmt->bind_param("ssss", $article_id, $subtitle, $content, $image_paths_str);
-            $stmt->execute();
-            $stmt->close();
+            $image_paths_str = implode(",", $image_paths);
+            $sql = "INSERT INTO article_details (article_id, subtitle, content, image_path) 
+                    VALUES ('$article_id', '$subtitle', '$content', '$image_paths_str')";
+            if (!$conn->query($sql)) {
+                throw new Exception("Error inserting article details: " . $conn->error);
+            }
         }
 
-        // Commit the transaction
         $conn->commit();
         header("Location: " . $_SERVER['PHP_SELF'] . "?success=1");
         exit();
     } catch (Exception $e) {
-        // Rollback the transaction on error
         $conn->rollback();
         die("Error: " . $e->getMessage());
     }
@@ -121,27 +109,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 // Handle delete action
 if (isset($_GET['delete'])) {
-    $article_id = $_GET['delete'];
+    $article_id = $conn->real_escape_string($_GET['delete']);
     
-    // Start transaction
     $conn->begin_transaction();
     
     try {
-        // First get image paths to delete files
-        $sql = "SELECT main_image_path FROM articles WHERE id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $article_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        $main_image_path = $row['main_image_path'] ?? null;
+        // Get images to delete from filesystem
+        $sql = "SELECT main_image_path FROM articles WHERE id = '$article_id'";
+        $result = $conn->query($sql);
+        $main_image_path = $result->fetch_assoc()['main_image_path'] ?? null;
         
-        // Get detail images
-        $sql = "SELECT image_path FROM article_details WHERE article_id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $article_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $sql = "SELECT image_path FROM article_details WHERE article_id = '$article_id'";
+        $result = $conn->query($sql);
         $detail_images = [];
         while ($row = $result->fetch_assoc()) {
             if (!empty($row['image_path'])) {
@@ -150,19 +129,16 @@ if (isset($_GET['delete'])) {
         }
         
         // Delete from database
-        $sql = "DELETE FROM article_details WHERE article_id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $article_id);
-        $stmt->execute();
-        $stmt->close();
+        $sql = "DELETE FROM article_details WHERE article_id = '$article_id'";
+        if (!$conn->query($sql)) {
+            throw new Exception("Error deleting article details: " . $conn->error);
+        }
         
-        $sql = "DELETE FROM articles WHERE id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $article_id);
-        $stmt->execute();
-        $stmt->close();
+        $sql = "DELETE FROM articles WHERE id = '$article_id'";
+        if (!$conn->query($sql)) {
+            throw new Exception("Error deleting article: " . $conn->error);
+        }
         
-        // Commit transaction
         $conn->commit();
         
         // Delete files
@@ -184,7 +160,7 @@ if (isset($_GET['delete'])) {
     }
 }
 
-// Fetch all articles for listing
+// Fetch all articles
 $articles = [];
 $sql = "SELECT * FROM articles ORDER BY date_published DESC";
 $result = $conn->query($sql);
@@ -194,31 +170,21 @@ if ($result->num_rows > 0) {
     }
 }
 
-// Check if we're editing an article
+// Check if editing an article
 $edit_article = null;
 $edit_details = [];
 if (isset($_GET['edit'])) {
-    $article_id = $_GET['edit'];
+    $article_id = $conn->real_escape_string($_GET['edit']);
     
-    // Get article
-    $sql = "SELECT * FROM articles WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $article_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $sql = "SELECT * FROM articles WHERE id = '$article_id'";
+    $result = $conn->query($sql);
     $edit_article = $result->fetch_assoc();
-    $stmt->close();
     
-    // Get article details
-    $sql = "SELECT * FROM article_details WHERE article_id = ? ORDER BY id";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $article_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $sql = "SELECT * FROM article_details WHERE article_id = '$article_id' ORDER BY id";
+    $result = $conn->query($sql);
     while ($row = $result->fetch_assoc()) {
         $edit_details[] = $row;
     }
-    $stmt->close();
 }
 
 $conn->close();
@@ -232,20 +198,32 @@ $conn->close();
     <title>Rugby News Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Confirm before deleting
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    if (!confirm('Are you sure you want to delete this article?')) {
+                        e.preventDefault();
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body class="bg-gray-100 text-gray-900 p-6">
     <div class="container mx-auto">
         <h1 class="text-3xl font-bold mb-8">Rugby News Management</h1>
         
         <?php if (isset($_GET['success'])): ?>
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6" role="alert">
-                <span class="block sm:inline">Article saved successfully!</span>
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6">
+                Article saved successfully!
             </div>
         <?php endif; ?>
         
         <?php if (isset($_GET['deleted'])): ?>
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6" role="alert">
-                <span class="block sm:inline">Article deleted successfully!</span>
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6">
+                Article deleted successfully!
             </div>
         <?php endif; ?>
         
@@ -258,7 +236,7 @@ $conn->close();
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date Published</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
@@ -272,7 +250,7 @@ $conn->close();
                                     <a href="?edit=<?= $article['id'] ?>" class="text-blue-500 hover:text-blue-700 mr-3">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
-                                    <a href="?delete=<?= $article['id'] ?>" class="text-red-500 hover:text-red-700" onclick="return confirm('Are you sure you want to delete this article?')">
+                                    <a href="?delete=<?= $article['id'] ?>" class="text-red-500 hover:text-red-700 delete-btn">
                                         <i class="fas fa-trash"></i> Delete
                                     </a>
                                 </td>
@@ -292,19 +270,20 @@ $conn->close();
                     <input type="hidden" name="article_id" value="<?= $edit_article['id'] ?>">
                 <?php endif; ?>
                 
-                <!-- Main Article Fields -->
                 <div class="mb-6">
                     <label class="block text-lg font-semibold mb-2">Title</label>
                     <input type="text" name="title" placeholder="Enter title" required 
                            value="<?= $edit_article ? htmlspecialchars($edit_article['title']) : '' ?>" 
                            class="w-full p-2 border rounded">
                 </div>
+                
                 <div class="mb-6">
                     <label class="block text-lg font-semibold mb-2">Category</label>
                     <input type="text" name="category" placeholder="Enter category" required 
                            value="<?= $edit_article ? htmlspecialchars($edit_article['category']) : '' ?>" 
                            class="w-full p-2 border rounded">
                 </div>
+                
                 <div class="mb-6">
                     <label class="block text-lg font-semibold mb-2">Date Published</label>
                     <input type="datetime-local" name="date_published" required 
@@ -312,7 +291,6 @@ $conn->close();
                            class="w-full p-2 border rounded">
                 </div>
 
-                <!-- Main Image -->
                 <div class="mb-6">
                     <label class="block text-lg font-semibold mb-2">Main Image</label>
                     <?php if ($edit_article && !empty($edit_article['main_image_path'])): ?>
@@ -324,11 +302,11 @@ $conn->close();
                     <input type="file" name="main_image" accept="image/*" class="w-full p-2 border rounded">
                 </div>
 
-                <!-- Repeatable Fields for Subtitles, Content, and Multiple Images -->
+                <!-- Sections -->
                 <div id="repeatable-fields" class="mb-6">
                     <?php if ($edit_article && !empty($edit_details)): ?>
                         <?php foreach ($edit_details as $index => $detail): ?>
-                            <div class="mb-6 section-container">
+                            <div class="mb-6 section-container border p-4 rounded-lg">
                                 <div class="flex justify-between items-center mb-2">
                                     <h3 class="text-xl font-semibold">Section <?= $index + 1 ?></h3>
                                     <button type="button" onclick="removeSection(this)" class="text-red-500 hover:text-red-700">
@@ -341,15 +319,17 @@ $conn->close();
                                 <textarea name="content[]" placeholder="Content" 
                                           class="w-full p-2 border rounded mb-2"><?= htmlspecialchars($detail['content']) ?></textarea>
                                 <div class="image-upload-section mb-4">
-                                    <label class="block text-lg font-semibold mb-2">Images (Multiple)</label>
+                                    <label class="block text-lg font-semibold mb-2">Images</label>
                                     <?php if (!empty($detail['image_path'])): ?>
-                                        <div class="mb-2">
+                                        <div class="mb-2 flex flex-wrap gap-2">
                                             <?php foreach (explode(",", $detail['image_path']) as $image_path): ?>
                                                 <?php if (!empty($image_path)): ?>
-                                                    <img src="<?= $image_path ?>" alt="Section image" class="h-24 inline-block mr-2 mb-2">
+                                                    <div class="relative">
+                                                        <img src="<?= $image_path ?>" alt="Section image" class="h-24 object-cover">
+                                                    </div>
                                                 <?php endif; ?>
                                             <?php endforeach; ?>
-                                            <p class="text-sm text-gray-500">Current images. Upload new ones to replace.</p>
+                                            <p class="text-sm text-gray-500 w-full">Current images. Upload new ones to replace.</p>
                                         </div>
                                     <?php endif; ?>
                                     <input type="file" name="image[<?= $index ?>][]" accept="image/*" multiple class="w-full p-2 border rounded">
@@ -357,7 +337,7 @@ $conn->close();
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <div class="mb-6 section-container">
+                        <div class="mb-6 section-container border p-4 rounded-lg">
                             <div class="flex justify-between items-center mb-2">
                                 <h3 class="text-xl font-semibold">Section 1</h3>
                                 <button type="button" onclick="removeSection(this)" class="text-red-500 hover:text-red-700">
@@ -374,34 +354,34 @@ $conn->close();
                     <?php endif; ?>
                 </div>
 
-                <!-- Add More Sections Button -->
                 <button type="button" onclick="addFields()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-6">
                     <i class="fas fa-plus"></i> Add More Sections
                 </button>
 
-                <!-- Submit Button -->
-                <button type="submit" name="submit" class="mt-6 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-                    <i class="fas fa-save"></i> <?= $edit_article ? 'Update Article' : 'Upload Article' ?>
-                </button>
-                
-                <?php if ($edit_article): ?>
-                    <a href="<?= $_SERVER['PHP_SELF'] ?>" class="ml-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
-                        <i class="fas fa-times"></i> Cancel
-                    </a>
-                <?php endif; ?>
+                <div class="flex items-center">
+                    <button type="submit" name="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                        <i class="fas fa-save"></i> <?= $edit_article ? 'Update Article' : 'Save Article' ?>
+                    </button>
+                    
+                    <?php if ($edit_article): ?>
+                        <a href="<?= $_SERVER['PHP_SELF'] ?>" class="ml-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                    <?php endif; ?>
+                </div>
             </form>
         </div>
     </div>
 
     <script>
-        let sectionCount = <?= $edit_article ? count($edit_details) : 1 ?>; // Track the number of sections
-
+        let sectionCount = <?= $edit_article ? count($edit_details) : 1 ?>;
+        
         function addFields() {
-            sectionCount++; // Increment section number
+            sectionCount++;
             let container = document.getElementById("repeatable-fields");
-
+            
             let div = document.createElement("div");
-            div.className = "mb-6 section-container";
+            div.className = "mb-6 section-container border p-4 rounded-lg";
             div.innerHTML = `
                 <div class="flex justify-between items-center mb-2">
                     <h3 class="text-xl font-semibold">Section ${sectionCount}</h3>
@@ -420,17 +400,21 @@ $conn->close();
         }
         
         function removeSection(button) {
-            if (document.querySelectorAll('.section-container').length > 1) {
-                button.closest('.section-container').remove();
-                // Reindex the image arrays
-                const containers = document.querySelectorAll('.section-container');
-                containers.forEach((container, index) => {
-                    const fileInput = container.querySelector('input[type="file"]');
+            const sections = document.querySelectorAll('.section-container');
+            if (sections.length > 1) {
+                const sectionToRemove = button.closest('.section-container');
+                sectionToRemove.remove();
+                
+                // Reindex remaining sections
+                const remainingSections = document.querySelectorAll('.section-container');
+                remainingSections.forEach((section, index) => {
+                    const fileInput = section.querySelector('input[type="file"]');
                     if (fileInput) {
                         fileInput.name = `image[${index}][]`;
                     }
                 });
-                sectionCount = containers.length;
+                
+                sectionCount = remainingSections.length;
             } else {
                 alert("You must have at least one section.");
             }
