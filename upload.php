@@ -1,9 +1,9 @@
 <?php
-// Increase PHP timeout and file upload limits
+// Remove file size limits
 ini_set('max_execution_time', 300);
 ini_set('max_input_time', 300);
-ini_set('upload_max_filesize', '50M');
-ini_set('post_max_size', '50M');
+ini_set('upload_max_filesize', '0');
+ini_set('post_max_size', '0');
 
 // Database connection
 $servername = "localhost";
@@ -29,11 +29,10 @@ $articles = [];
 if (isset($_GET['delete'])) {
     $article_id = $conn->real_escape_string($_GET['delete']);
     
-    // Start transaction
     $conn->begin_transaction();
     
     try {
-        // First get all image paths to delete files
+        // Get all image paths to delete files
         $main_image_path = '';
         $detail_images = [];
         
@@ -87,7 +86,7 @@ if (isset($_GET['delete'])) {
     }
 }
 
-// Handle form submission for adding/editing articles
+// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     $conn->begin_transaction();
 
@@ -131,6 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
             mkdir($upload_dir, 0777, true);
         }
 
+        $main_image_path = '';
         if (!empty($_FILES["main_image"]["name"])) {
             $main_image_name = time() . "_" . basename($_FILES["main_image"]["name"]);
             $main_image_path = $upload_dir . $main_image_name;
@@ -156,13 +156,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
             }
         }
 
-        // Process sections
+        // Process sections with improved image handling
         foreach ($_POST["subtitle"] as $index => $subtitle) {
             $subtitle = $conn->real_escape_string(trim($subtitle));
             $content = $conn->real_escape_string(trim($_POST["content"][$index] ?? ''));
+            
+            // Start with existing images if editing
             $image_paths = [];
+            if ($is_edit && !empty($_POST["existing_images"][$index])) {
+                $image_paths = explode(",", $_POST["existing_images"][$index]);
+            }
 
-            // Handle multiple image uploads for this section
+            // Handle newly uploaded images (add to existing ones)
             if (!empty($_FILES["image"]["name"][$index])) {
                 foreach ($_FILES["image"]["tmp_name"][$index] as $key => $tmp_name) {
                     if ($_FILES["image"]["error"][$index][$key] === UPLOAD_ERR_OK) {
@@ -174,9 +179,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                         }
                     }
                 }
-            } elseif ($is_edit && !empty($_POST["existing_images"][$index])) {
-                // Keep existing images if no new ones were uploaded
-                $image_paths = explode(",", $_POST["existing_images"][$index]);
+            }
+
+            // Remove any images marked for deletion
+            if (!empty($_POST["removed_images"][$index])) {
+                foreach ($_POST["removed_images"][$index] as $removed_path) {
+                    $key = array_search($removed_path, $image_paths);
+                    if ($key !== false) {
+                        // Delete the file
+                        if (file_exists($removed_path)) {
+                            unlink($removed_path);
+                        }
+                        // Remove from array
+                        unset($image_paths[$key]);
+                    }
+                }
+                $image_paths = array_values($image_paths); // Reindex array
             }
 
             $image_paths_str = implode(",", $image_paths);
@@ -299,6 +317,7 @@ $conn->close();
             justify-content: center;
             cursor: pointer;
             z-index: 10;
+            transition: opacity 0.2s;
         }
         .remove-image-btn:hover {
             background-color: #dc3545;
@@ -309,6 +328,12 @@ $conn->close();
         .article-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        .image-thumbnail {
+            position: relative;
+        }
+        .image-thumbnail:hover .remove-image-btn {
+            opacity: 1;
         }
     </style>
 </head>
@@ -387,6 +412,7 @@ $conn->close();
                         </div>
                     <?php endif; ?>
                     <input type="file" id="main_image" name="main_image" accept="image/*" class="w-full p-2 border rounded">
+                    <p class="text-sm text-gray-500 mt-1">Upload new image (no size limit)</p>
                 </div>
 
                 <!-- Sections -->
@@ -407,22 +433,30 @@ $conn->close();
                                 <textarea name="content[]" placeholder="Content" 
                                           class="w-full p-2 border rounded mb-2"><?php echo htmlspecialchars($detail['content'] ?? ''); ?></textarea>
                                 <div class="image-upload-section mb-4">
-                                    <label class="block text-lg font-semibold mb-2">Images (Multiple)</label>
+                                    <label class="block text-lg font-semibold mb-2">Images (Add more without removing existing)</label>
                                     <?php if (!empty($detail['image_path'])): ?>
-                                        <div class="flex flex-wrap gap-2 mb-2">
-                                            <?php foreach (explode(",", $detail['image_path']) as $imgPath): ?>
+                                        <div class="flex flex-wrap gap-2 mb-2" id="section-images-<?php echo $index; ?>">
+                                            <?php foreach (explode(",", $detail['image_path']) as $imgIdx => $imgPath): ?>
                                                 <?php if (!empty($imgPath)): ?>
-                                                    <div class="relative">
+                                                    <div class="image-thumbnail relative">
                                                         <img src="<?php echo htmlspecialchars($imgPath); ?>" alt="Section image" class="h-24 object-cover">
-                                                        <button type="button" class="remove-image-btn" onclick="removeSectionImage(this, <?php echo $index; ?>, '<?php echo htmlspecialchars($imgPath); ?>')">
+                                                        <button type="button" 
+                                                                onclick="removeImage(this, '<?php echo htmlspecialchars($imgPath); ?>', <?php echo $index; ?>)" 
+                                                                class="remove-image-btn opacity-0">
                                                             <i class="fas fa-times"></i>
                                                         </button>
+                                                        <input type="hidden" name="existing_images[<?php echo $index; ?>][]" value="<?php echo htmlspecialchars($imgPath); ?>">
                                                     </div>
                                                 <?php endif; ?>
                                             <?php endforeach; ?>
                                         </div>
                                     <?php endif; ?>
-                                    <input type="file" name="image[<?php echo $index; ?>][]" accept="image/*" multiple class="w-full p-2 border rounded">
+                                    
+                                    <input type="file" name="image[<?php echo $index; ?>][]" 
+                                           accept="image/*" multiple 
+                                           class="w-full p-2 border rounded"
+                                           onchange="previewNewImages(this, <?php echo $index; ?>)">
+                                    <p class="text-sm text-gray-500 mt-1">Select multiple images (no size limit)</p>
                                 </div>
                             </div>
                         <?php endforeach; ?>
@@ -438,8 +472,12 @@ $conn->close();
                             <input type="text" name="subtitle[]" placeholder="Subtitle" class="w-full p-2 border rounded mb-2">
                             <textarea name="content[]" placeholder="Content" class="w-full p-2 border rounded mb-2"></textarea>
                             <div class="image-upload-section mb-4">
-                                <label class="block text-lg font-semibold mb-2">Images (Multiple)</label>
-                                <input type="file" name="image[0][]" accept="image/*" multiple class="w-full p-2 border rounded">
+                                <label class="block text-lg font-semibold mb-2">Images</label>
+                                <div class="flex flex-wrap gap-2 mb-2" id="section-images-0"></div>
+                                <input type="file" name="image[0][]" accept="image/*" multiple 
+                                       class="w-full p-2 border rounded"
+                                       onchange="previewNewImages(this, 0)">
+                                <p class="text-sm text-gray-500 mt-1">Select multiple images (no size limit)</p>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -532,8 +570,12 @@ $conn->close();
                 <input type="text" name="subtitle[]" placeholder="Subtitle" class="w-full p-2 border rounded mb-2">
                 <textarea name="content[]" placeholder="Content" class="w-full p-2 border rounded mb-2"></textarea>
                 <div class="image-upload-section mb-4">
-                    <label class="block text-lg font-semibold mb-2">Images (Multiple)</label>
-                    <input type="file" name="image[${sectionCount - 1}][]" accept="image/*" multiple class="w-full p-2 border rounded">
+                    <label class="block text-lg font-semibold mb-2">Images</label>
+                    <div class="flex flex-wrap gap-2 mb-2" id="section-images-${sectionCount - 1}"></div>
+                    <input type="file" name="image[${sectionCount - 1}][]" accept="image/*" multiple 
+                           class="w-full p-2 border rounded"
+                           onchange="previewNewImages(this, ${sectionCount - 1})">
+                    <p class="text-sm text-gray-500 mt-1">Select multiple images (no size limit)</p>
                 </div>
             `;
             container.appendChild(div);
@@ -553,12 +595,19 @@ $conn->close();
                     const fileInput = section.querySelector('input[type="file"]');
                     if (fileInput) {
                         fileInput.name = `image[${index}][]`;
+                        fileInput.setAttribute('onchange', `previewNewImages(this, ${index})`);
                     }
                     
                     // Update the existing images input name
                     const existingImagesInput = section.querySelector('input[name^="existing_images"]');
                     if (existingImagesInput) {
                         existingImagesInput.name = `existing_images[${index}]`;
+                    }
+                    
+                    // Update the images container ID
+                    const imagesContainer = section.querySelector('div[id^="section-images-"]');
+                    if (imagesContainer) {
+                        imagesContainer.id = `section-images-${index}`;
                     }
                     
                     // Update the section title
@@ -574,19 +623,48 @@ $conn->close();
             }
         }
         
-        // Remove individual section image
-        function removeSectionImage(button, sectionIndex, imagePath) {
-            if (confirm('Are you sure you want to remove this image?')) {
-                // Create a hidden input to track removed images
-                const hiddenInput = document.createElement('input');
-                hiddenInput.type = 'hidden';
-                hiddenInput.name = `removed_images[${sectionIndex}][]`;
-                hiddenInput.value = imagePath;
-                document.querySelector('form').appendChild(hiddenInput);
+        // Remove individual image
+        function removeImage(button, imagePath, sectionIndex) {
+            if (confirm('Remove this image?')) {
+                // Create hidden input to track removed images
+                const removedInput = document.createElement('input');
+                removedInput.type = 'hidden';
+                removedInput.name = `removed_images[${sectionIndex}][]`;
+                removedInput.value = imagePath;
+                document.querySelector('form').appendChild(removedInput);
                 
                 // Remove the image element
-                button.parentElement.remove();
+                button.closest('.image-thumbnail').remove();
             }
+        }
+        
+        // Preview newly added images before upload
+        function previewNewImages(input, sectionIndex) {
+            const container = document.getElementById(`section-images-${sectionIndex}`) || 
+                             document.createElement('div');
+            container.className = 'flex flex-wrap gap-2 mb-2';
+            
+            if (!container.id) {
+                container.id = `section-images-${sectionIndex}`;
+                input.parentElement.insertBefore(container, input);
+            }
+
+            Array.from(input.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgDiv = document.createElement('div');
+                    imgDiv.className = 'image-thumbnail relative';
+                    imgDiv.innerHTML = `
+                        <img src="${e.target.result}" class="h-24 object-cover">
+                        <button type="button" onclick="this.parentElement.remove()" 
+                                class="remove-image-btn opacity-0">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    container.appendChild(imgDiv);
+                };
+                reader.readAsDataURL(file);
+            });
         }
         
         // Preview main image when selected
@@ -598,7 +676,8 @@ $conn->close();
                     const preview = document.querySelector('.image-preview');
                     preview.innerHTML = `
                         <img src="${event.target.result}" alt="Preview">
-                        <button type="button" class="remove-image-btn" onclick="document.getElementById('main_image').value = ''; document.getElementById('remove_main_image').value = '1'; this.parentElement.innerHTML = '<div class=\"image-preview-placeholder\"><i class=\"fas fa-image\"></i></div>';">
+                        <button type="button" onclick="document.getElementById('main_image').value = ''; document.getElementById('remove_main_image').value = '1'; this.parentElement.innerHTML = '<div class=\"image-preview-placeholder\"><i class=\"fas fa-image\"></i></div>';"
+                                class="remove-image-btn">
                             <i class="fas fa-times"></i>
                         </button>
                     `;
