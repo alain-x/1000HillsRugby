@@ -1,7 +1,6 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
 
-
 // Database connection
 $conn = new mysqli("localhost", "hillsrug_gasore", "M00dle??", "hillsrug_db", 3306);
 if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
@@ -16,7 +15,7 @@ if (!$article_id) {
 }
 
 // Fetch main article details
-$sql = "SELECT title, category, date_published, main_image_path FROM articles WHERE id = ?";
+$sql = "SELECT title, category, date_published, main_image_path, content FROM articles WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $article_id);
 $stmt->execute();
@@ -43,19 +42,50 @@ $conn->close();
 
 // Get full URL of the news detail page
 $page_url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+// Prepare description from article content (first 160 characters)
+$description = !empty($article['content']) ? substr(strip_tags($article['content']), 0, 160) : '1000 Hills Rugby news article';
+$description = htmlspecialchars($description, ENT_QUOTES, 'UTF-8');
+
+// Prepare image URL for social sharing (use main image if available)
+$share_image = !empty($article['main_image_path']) ? $article['main_image_path'] : 'http://' . $_SERVER['HTTP_HOST'] . '/images/1000-hills-logo.png';
+if (!empty($share_image)) {
+    // Ensure the image URL is absolute
+    if (strpos($share_image, 'http') !== 0) {
+        $share_image = 'http://' . $_SERVER['HTTP_HOST'] . '/' . ltrim($share_image, '/');
+    }
+}
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="./images/t_icon.png" type="image/png" />
     <title><?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?> | 1000 Hills Rugby</title>
+    
+    <!-- Open Graph / Facebook Meta Tags -->
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="<?php echo $page_url; ?>" />
+    <meta property="og:title" content="<?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?> | 1000 Hills Rugby" />
+    <meta property="og:description" content="<?php echo $description; ?>" />
+    <meta property="og:image" content="<?php echo $share_image; ?>" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="1000 Hills Rugby" />
+    
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="<?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?> | 1000 Hills Rugby" />
+    <meta name="twitter:description" content="<?php echo $description; ?>" />
+    <meta name="twitter:image" content="<?php echo $share_image; ?>" />
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-gray-100 text-gray-900">
+    <!-- Rest of your HTML remains the same -->
     <!-- Transparent Navbar -->
     <nav
     class="navbar fixed top-0 left-0 w-full px-2 z-20 h-[10vh] flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300"
