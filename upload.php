@@ -132,6 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
 
         $main_image_path = '';
         if (!empty($_FILES["main_image"]["name"])) {
+            // If new image is uploaded, use it
             $main_image_name = time() . "_" . basename($_FILES["main_image"]["name"]);
             $main_image_path = $upload_dir . $main_image_name;
 
@@ -147,12 +148,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                     throw new Exception("Error updating main image: " . $conn->error);
                 }
             }
-        } elseif ($is_edit && !empty($_POST["existing_main_image"])) {
-            // Keep existing image if no new one was uploaded
-            $main_image_path = $conn->real_escape_string($_POST["existing_main_image"]);
-            $sql = "UPDATE articles SET main_image_path = '$main_image_path' WHERE id = '$article_id'";
-            if (!$conn->query($sql)) {
-                throw new Exception("Error updating main image: " . $conn->error);
+        } elseif ($is_edit) {
+            // Handle when main image is removed
+            if (isset($_POST["remove_main_image"]) && $_POST["remove_main_image"] == '1') {
+                // Delete the existing image file
+                if (!empty($_POST["existing_main_image"]) && file_exists($_POST["existing_main_image"])) {
+                    unlink($_POST["existing_main_image"]);
+                }
+                // Set main_image_path to empty in database
+                $sql = "UPDATE articles SET main_image_path = NULL WHERE id = '$article_id'";
+                if (!$conn->query($sql)) {
+                    throw new Exception("Error removing main image: " . $conn->error);
+                }
+            } elseif (!empty($_POST["existing_main_image"])) {
+                // Keep existing image if no new one was uploaded and not marked for removal
+                $main_image_path = $conn->real_escape_string($_POST["existing_main_image"]);
+                $sql = "UPDATE articles SET main_image_path = '$main_image_path' WHERE id = '$article_id'";
+                if (!$conn->query($sql)) {
+                    throw new Exception("Error updating main image: " . $conn->error);
+                }
             }
         }
 
@@ -398,7 +412,7 @@ $conn->close();
                         <div class="mb-4">
                             <div class="image-preview">
                                 <img src="<?php echo htmlspecialchars($currentArticle['main_image_path']); ?>" alt="Current main image">
-                                <button type="button" class="remove-image-btn" onclick="document.getElementById('main_image').value = ''; document.getElementById('remove_main_image').value = '1'; this.parentElement.innerHTML = '<div class=\"image-preview-placeholder\"><i class=\"fas fa-image\"></i></div>';">
+                                <button type="button" class="remove-image-btn" onclick="removeMainImage()">
                                     <i class="fas fa-times"></i>
                                 </button>
                             </div>
@@ -638,6 +652,16 @@ $conn->close();
             }
         }
         
+        // Remove main image
+        function removeMainImage() {
+            if (confirm('Remove the main image?')) {
+                document.getElementById('remove_main_image').value = '1';
+                const preview = document.querySelector('.image-preview');
+                preview.innerHTML = '<div class="image-preview-placeholder"><i class="fas fa-image"></i></div>';
+                document.getElementById('main_image').value = '';
+            }
+        }
+        
         // Preview newly added images before upload
         function previewNewImages(input, sectionIndex) {
             const container = document.getElementById(`section-images-${sectionIndex}`) || 
@@ -676,11 +700,13 @@ $conn->close();
                     const preview = document.querySelector('.image-preview');
                     preview.innerHTML = `
                         <img src="${event.target.result}" alt="Preview">
-                        <button type="button" onclick="document.getElementById('main_image').value = ''; document.getElementById('remove_main_image').value = '1'; this.parentElement.innerHTML = '<div class=\"image-preview-placeholder\"><i class=\"fas fa-image\"></i></div>';"
+                        <button type="button" onclick="removeMainImage()"
                                 class="remove-image-btn">
                             <i class="fas fa-times"></i>
                         </button>
                     `;
+                    // Reset remove flag if new image is selected
+                    document.getElementById('remove_main_image').value = '0';
                 };
                 reader.readAsDataURL(file);
             }
