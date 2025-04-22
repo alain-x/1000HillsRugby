@@ -40,19 +40,49 @@ $stmt_sections->close();
 
 $conn->close();
 
-// Get full URL of the news detail page
-$page_url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+// Get full URL of the news detail page (force HTTPS)
+$page_url = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
 // Prepare description from article content (first 160 characters)
 $description = !empty($article['content']) ? substr(strip_tags($article['content']), 0, 160) : '1000 Hills Rugby news article';
 $description = htmlspecialchars($description, ENT_QUOTES, 'UTF-8');
 
-// Prepare image URL for social sharing (use main image if available)
-$share_image = !empty($article['main_image_path']) ? $article['main_image_path'] : 'http://' . $_SERVER['HTTP_HOST'] . '/images/1000-hills-logo.png';
-if (!empty($share_image)) {
-    // Ensure the image URL is absolute
-    if (strpos($share_image, 'http') !== 0) {
-        $share_image = 'http://' . $_SERVER['HTTP_HOST'] . '/' . ltrim($share_image, '/');
+// Prepare image URL for social sharing with validation
+function getValidImageUrl($image_path) {
+    $base_url = "https://" . $_SERVER['HTTP_HOST'];
+    
+    // If image path is already a full URL
+    if (filter_var($image_path, FILTER_VALIDATE_URL)) {
+        return $image_path;
+    }
+    
+    // If image path is relative
+    $full_path = $_SERVER['DOCUMENT_ROOT'] . '/' . ltrim($image_path, '/');
+    
+    // Check if file exists and is readable
+    if (file_exists($full_path) && is_readable($full_path)) {
+        // Check if it's a valid image file
+        $image_info = @getimagesize($full_path);
+        if ($image_info !== false) {
+            return $base_url . '/' . ltrim($image_path, '/');
+        }
+    }
+    
+    return false;
+}
+
+// Get valid share image
+$share_image = !empty($article['main_image_path']) ? getValidImageUrl($article['main_image_path']) : false;
+
+// Fallback to logo if main image is invalid
+if (!$share_image) {
+    $share_image = "https://$_SERVER[HTTP_HOST]/images/1000-hills-logo.png";
+    
+    // Verify the fallback image exists
+    $fallback_path = $_SERVER['DOCUMENT_ROOT'] . '/images/1000-hills-logo.png';
+    if (!file_exists($fallback_path) || !is_readable($fallback_path)) {
+        // If even the fallback doesn't exist, don't set any image
+        $share_image = false;
     }
 }
 ?>
@@ -65,21 +95,36 @@ if (!empty($share_image)) {
     <link rel="icon" href="./images/t_icon.png" type="image/png" />
     <title><?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?> | 1000 Hills Rugby</title>
     
+    <!-- Essential Meta Tags -->
+    <meta name="description" content="<?php echo $description; ?>">
+    
     <!-- Open Graph / Facebook Meta Tags -->
     <meta property="og:type" content="article" />
     <meta property="og:url" content="<?php echo $page_url; ?>" />
     <meta property="og:title" content="<?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?> | 1000 Hills Rugby" />
     <meta property="og:description" content="<?php echo $description; ?>" />
+    <?php if ($share_image): ?>
     <meta property="og:image" content="<?php echo $share_image; ?>" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="<?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?>" />
+    <?php endif; ?>
     <meta property="og:site_name" content="1000 Hills Rugby" />
+    <meta property="article:published_time" content="<?php echo date('c', strtotime($article['date_published'])); ?>" />
     
     <!-- Twitter Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="<?php echo $share_image ? 'summary_large_image' : 'summary'; ?>" />
+    <meta name="twitter:site" content="@1000HillsRugby" />
+    <meta name="twitter:creator" content="@1000HillsRugby" />
     <meta name="twitter:title" content="<?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?> | 1000 Hills Rugby" />
     <meta name="twitter:description" content="<?php echo $description; ?>" />
+    <?php if ($share_image): ?>
     <meta name="twitter:image" content="<?php echo $share_image; ?>" />
+    <meta name="twitter:image:alt" content="<?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?>" />
+    <?php endif; ?>
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="<?php echo $page_url; ?>" />
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
