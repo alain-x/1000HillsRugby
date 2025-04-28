@@ -1,7 +1,6 @@
 <?php
-// get_submission.php
-require_once 'includes/config.php';
-require_once 'includes/auth.php';
+require_once '../includes/config.php';
+require_once '../includes/auth.php';
 
 header('Content-Type: application/json');
 
@@ -12,7 +11,7 @@ if (!isset($_GET['id'])) {
 
 $submission_id = $_GET['id'];
 
-// Get submission details with form and user info
+// Get submission details with form info
 $stmt = $pdo->prepare("SELECT fs.*, u.username, u.email, f.title 
                       FROM form_submissions fs 
                       LEFT JOIN users u ON fs.user_id = u.id 
@@ -27,18 +26,13 @@ if (!$submission) {
 }
 
 // Check if current user has permission to view this submission
-if (isLoggedIn()) {
-    if (!isAdmin() && $submission['user_id'] != getUserId()) {
-        echo json_encode(['success' => false, 'message' => 'You don\'t have permission to view this submission']);
-        exit;
-    }
-} else {
-    echo json_encode(['success' => false, 'message' => 'You need to login to view submissions']);
+if (!isAdmin()) {
+    echo json_encode(['success' => false, 'message' => 'You don\'t have permission to view this submission']);
     exit;
 }
 
-// Get submission data with field labels
-$stmt = $pdo->prepare("SELECT ff.label, sd.field_value 
+// Get submission data with field labels and file info
+$stmt = $pdo->prepare("SELECT ff.label, ff.field_type, sd.field_value, sd.file_path, sd.file_size
                       FROM submission_data sd 
                       JOIN form_fields ff ON sd.field_id = ff.id 
                       WHERE sd.submission_id = ?");
