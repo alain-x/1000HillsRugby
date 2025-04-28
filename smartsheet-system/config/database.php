@@ -1,9 +1,9 @@
 <?php
 class Database {
     private $host = 'localhost';
-    private $db_name = 'smartsheet';
-    private $username = 'root';
-    private $password = '1234';
+    private $db_name = 'form_management_system';
+    private $username = 'hillsrug';
+    private $password = 'M00dle!!';
     private $conn;
 
     public function connect() {
