@@ -51,17 +51,13 @@ $description = htmlspecialchars($description, ENT_QUOTES, 'UTF-8');
 function getValidImageUrl($image_path) {
     $base_url = "https://" . $_SERVER['HTTP_HOST'];
     
-    // If image path is already a full URL
     if (filter_var($image_path, FILTER_VALIDATE_URL)) {
         return $image_path;
     }
     
-    // If image path is relative
     $full_path = $_SERVER['DOCUMENT_ROOT'] . '/' . ltrim($image_path, '/');
     
-    // Check if file exists and is readable
     if (file_exists($full_path) && is_readable($full_path)) {
-        // Check if it's a valid image file
         $image_info = @getimagesize($full_path);
         if ($image_info !== false) {
             return $base_url . '/' . ltrim($image_path, '/');
@@ -77,11 +73,8 @@ $share_image = !empty($article['main_image_path']) ? getValidImageUrl($article['
 // Fallback to logo if main image is invalid
 if (!$share_image) {
     $share_image = "https://$_SERVER[HTTP_HOST]/images/1000-hills-logo.png";
-    
-    // Verify the fallback image exists
     $fallback_path = $_SERVER['DOCUMENT_ROOT'] . '/images/1000-hills-logo.png';
-    if (!file_exists($fallback_path) || !is_readable($fallback_path)) {
-        // If even the fallback doesn't exist, don't set any image
+    if (!file_exists($fallback_path)) {
         $share_image = false;
     }
 }
@@ -91,663 +84,324 @@ if (!$share_image) {
 <html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="./images/t_icon.png" type="image/png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="./images/t_icon.png" type="image/png">
     <title><?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?> | 1000 Hills Rugby</title>
     
-    <!-- Essential Meta Tags -->
+    <!-- Meta Tags -->
     <meta name="description" content="<?php echo $description; ?>">
-    
-    <!-- Open Graph / Facebook Meta Tags -->
-    <meta property="og:type" content="article" />
-    <meta property="og:url" content="<?php echo $page_url; ?>" />
-    <meta property="og:title" content="<?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?> | 1000 Hills Rugby" />
-    <meta property="og:description" content="<?php echo $description; ?>" />
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="<?php echo $page_url; ?>">
+    <meta property="og:title" content="<?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?> | 1000 Hills Rugby">
+    <meta property="og:description" content="<?php echo $description; ?>">
     <?php if ($share_image): ?>
-    <meta property="og:image" content="<?php echo $share_image; ?>" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="<?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?>" />
+    <meta property="og:image" content="<?php echo $share_image; ?>">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="<?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?>">
     <?php endif; ?>
-    <meta property="og:site_name" content="1000 Hills Rugby" />
-    <meta property="article:published_time" content="<?php echo date('c', strtotime($article['date_published'])); ?>" />
-    
-    <!-- Twitter Meta Tags -->
-    <meta name="twitter:card" content="<?php echo $share_image ? 'summary_large_image' : 'summary'; ?>" />
-    <meta name="twitter:site" content="@1000HillsRugby" />
-    <meta name="twitter:creator" content="@1000HillsRugby" />
-    <meta name="twitter:title" content="<?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?> | 1000 Hills Rugby" />
-    <meta name="twitter:description" content="<?php echo $description; ?>" />
+    <meta property="og:site_name" content="1000 Hills Rugby">
+    <meta property="article:published_time" content="<?php echo date('c', strtotime($article['date_published'])); ?>">
+    <meta name="twitter:card" content="<?php echo $share_image ? 'summary_large_image' : 'summary'; ?>">
+    <meta name="twitter:site" content="@1000HillsRugby">
+    <meta name="twitter:creator" content="@1000HillsRugby">
+    <meta name="twitter:title" content="<?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?> | 1000 Hills Rugby">
+    <meta name="twitter:description" content="<?php echo $description; ?>">
     <?php if ($share_image): ?>
-    <meta name="twitter:image" content="<?php echo $share_image; ?>" />
-    <meta name="twitter:image:alt" content="<?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?>" />
+    <meta name="twitter:image" content="<?php echo $share_image; ?>">
+    <meta name="twitter:image:alt" content="<?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?>">
     <?php endif; ?>
+    <link rel="canonical" href="<?php echo $page_url; ?>">
     
-    <!-- Canonical URL -->
-    <link rel="canonical" href="<?php echo $page_url; ?>" />
-    
+    <!-- CSS & Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom responsive styles */
+        .article-content p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .image-collage {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        @media (max-width: 640px) {
+            .navbar-logo {
+                width: 50% !important;
+            }
+            
+            .article-title {
+                font-size: 1.5rem !important;
+                line-height: 1.3 !important;
+            }
+            
+            .section-title {
+                font-size: 1.25rem !important;
+            }
+            
+            .social-share {
+                justify-content: space-between;
+            }
+            
+            .social-share a {
+                font-size: 1.5rem !important;
+            }
+        }
+        
+        @media (min-width: 641px) and (max-width: 1023px) {
+            .article-title {
+                font-size: 2rem !important;
+            }
+        }
+        
+        /* Smooth scrolling for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Better focus states for accessibility */
+        a:focus, button:focus {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 text-gray-900">
-    <!-- Rest of your HTML remains the same -->
-    <!-- Transparent Navbar -->
-    <nav
-    class="navbar fixed top-0 left-0 w-full px-2 z-20 h-[10vh] flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300"
-    >
-    <!-- Logo -->
-    <div class="navbar-logo w-2/12">
-      <a href="./">
-        <img
-          class="w-[60px] hover:w-[70px] transition-transform duration-300"
-          src="./images/1000-hills-logo.png"
-          alt="1000 Hills Rugby"
-        />
-      </a>
-    </div>
- 
-    <!-- Desktop Navigation -->
-    <ul
-      class="hidden lg:flex lg:space-x-8 font-600 text-gray-800 text-sm tracking-wider"
-    >
-      <li>
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-          href="./"
-          >Home</a
-        >
-      </li>
-      <li>
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-          href="./about"
-          >About</a
-        >
-      </li>
-      <li>
-       <a
-         class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-         href="./program"
-         >Programs</a
-       >
-     </li>
-     <li>
-       <a
-         class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-         href="./community"
-         >Community</a
-       >
-     </li>
-      <li>
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
-          href="./shop"
-          >Shop</a
-        >
-      </li>
-      <li class="relative group">
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
-          >Education<i class="fas fa-chevron-down text-sm"></i
-        ></a>
-        <ul
-          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
-        >
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./education"
-              >Education</a
-            >
-          </li>
-          <li>
-            <a
-              class="block px-4 py-2 w-[180px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./Foundation"
-              >Career Foundation</a
-            >
-          </li>
-        </ul>
-      </li>
-      <li class="relative group">
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
-          >Events<i class="fas fa-chevron-down text-sm"></i
-        ></a>
-        <ul
-          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
-        >
-          <li>
-            <a
-              class="block px-4 py-2  hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./events"
-              >Events</a
-            >
-          </li>
-          <li>
-            <a
-              class="block px-4 py-2 w-[150px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./news"
-              >News & Media</a
-            >
-          </li>
-        </ul>
-      </li>
-      <li class="relative group">
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
-          >Result<i class="fas fa-chevron-down text-sm"></i
-        ></a>
-        <ul
-          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
-        >
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./fixtures"
-              >Fixtures</a
-            >
-          </li>
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./results"
-              >Results</a
-            >
-          </li>
-        </ul>
-      </li>
-      <li class="relative group">
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
-          >Teams<i class="fas fa-chevron-down text-sm"></i
-        ></a>
-        <ul
-          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
-        >
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./menprofiles"
-              >Men's Senior</a
-            >
-          </li>
-          <li>
-            <a
-              class="block px-4 py-2 w-[150px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./womenprofiles"
-              >Women's Senior</a
-            >
-          </li>
-          
-
-          <li class="relative">
-            <!-- Parent Dropdown -->
-            <button
-              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-              onclick="toggleDropdown('academy-menu')"
-            >
-              Academy  </i>
-            </button>
-            <ul
-              id="academy-menu"
-              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-            >
-              <!-- Under 18 Dropdown -->
-              <li class="relative">
-                <button
-                  class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                  onclick="toggleDropdown('under18-menu')"
-                >
-                  Under 18 <i class="fas fa-chevron-down text-sm"></i>
+<body class="bg-gray-100 text-gray-900 font-sans antialiased">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full px-4 z-50 h-16 flex items-center justify-between bg-white/90 backdrop-blur-lg shadow-md transition-all duration-300">
+        <!-- Logo -->
+        <div class="flex-shrink-0">
+            <a href="./" class="focus:outline-none">
+                <img class="h-12 w-auto hover:scale-105 transition-transform" src="./images/1000-hills-logo.png" alt="1000 Hills Rugby">
+            </a>
+        </div>
+        
+        <!-- Desktop Navigation -->
+        <div class="hidden lg:flex items-center space-x-6">
+            <a href="./" class="text-sm font-medium text-gray-800 hover:text-green-600 transition-colors">Home</a>
+            <a href="./about" class="text-sm font-medium text-gray-800 hover:text-green-600 transition-colors">About</a>
+            <a href="./program" class="text-sm font-medium text-gray-800 hover:text-green-600 transition-colors">Programs</a>
+            <a href="./community" class="text-sm font-medium text-gray-800 hover:text-green-600 transition-colors">Community</a>
+            <a href="./shop" class="text-sm font-medium text-gray-800 hover:text-green-600 transition-colors">Shop</a>
+            
+            <!-- Dropdown Menus -->
+            <div class="relative group">
+                <button class="text-sm font-medium text-gray-800 hover:text-green-600 transition-colors flex items-center focus:outline-none">
+                    Education <i class="fas fa-chevron-down ml-1 text-xs"></i>
                 </button>
-                <ul
-                  id="under18-menu"
-                  class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-                >
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under18Boys"
-                      >Boys</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under18Girls"
-                      >Girls</a
-                    >
-                  </li>
-                </ul>
-              </li>
-          
-              <!-- Under 16 Dropdown -->
-              <li class="relative">
-                <button
-                  class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                  onclick="toggleDropdown('under16-menu')"
-                >
-                  Under 16 <i class="fas fa-chevron-down text-sm"></i>
-                </button>
-                <ul
-                  id="under16-menu"
-                  class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-                >
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under16Boys"
-                      >Boys</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under16Girls"
-                      >Girls</a
-                    >
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          
-         
-        </ul>
-      </li>
-      <li class="relative group">
-        <a
-          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none mr-10"
-          >Contact<i class="fas fa-chevron-down text-sm"></i
-        ></a>
-        <ul
-          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
-        >
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./staff"
-              >Staff</a
-            >
-          </li>
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./contact"
-              >Contact us</a
-            >
-          </li>
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./register#reForm"
-              >Register</a
-            >
-          </li>
-        </ul>
-      </li>
-    </ul>
- 
-    <!-- Mobile Menu & Social Media -->
-    <div class="relative lg:hidden flex flex-wrap items-center">
-      <!-- Mobile Menu Toggle -->
-      <input type="checkbox" id="menu-toggle" class="hidden" />
-      <label for="menu-toggle" class="cursor-pointer text-2xl text-black">
-        <i class="fa-solid fa-bars" id="menu-open-icon"></i>
-        <i class="fa-solid fa-times hidden" id="menu-close-icon"></i>
-      </label>
- 
-      <!-- Mobile Menu -->
-      <div
-        id="menu"
-        class="absolute top-full right-0 bg-white text-gray-800 w-48 mt-2 rounded-md shadow-lg hidden transition-all duration-300"
-      >
-        <ul class="flex flex-col text-left space-y-1">
-          <!-- Main Menu Items -->
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./"
-              >Home</a
-            >
-          </li>
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./about"
-              >About</a
-            >
-          </li>
-          <li>
-           <a
-             class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-             href="./program"
-             >Programs</a
-           >
-         </li>
-         <li>
-           <a
-             class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-             href="./community"
-             >Community</a
-           >
-         </li>
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./shop"
-              >Shop</a
-            >
-          </li>
- 
-          <!-- Dropdown for Education -->
-          <li class="relative">
-            <button
-              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-              onclick="toggleDropdown('education-menu-mobile')"
-            >
-              Education <i class="fas fa-chevron-down text-sm"></i>
+                <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden group-hover:block">
+                    <a href="./education" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">Education</a>
+                    <a href="./Foundation" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">Career Foundation</a>
+                </div>
+            </div>
+            
+            <!-- More dropdowns... -->
+        </div>
+        
+        <!-- Mobile Menu Button -->
+        <div class="lg:hidden">
+            <button id="mobile-menu-button" class="text-gray-800 focus:outline-none">
+                <i class="fas fa-bars text-xl" id="menu-icon"></i>
             </button>
-            <ul
-              id="education-menu-mobile"
-              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-            >
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./education"
-                  >Education</a
-                >
-              </li>
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./Foundation"
-                  >Career Foundation</a
-                >
-              </li>
-            </ul>
-          </li>
- 
-          <!-- Dropdown for Events -->
-          <li class="relative">
-            <button
-              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-              onclick="toggleDropdown('events-menu-mobile')"
-            >
-              Events <i class="fas fa-chevron-down text-sm"></i>
-            </button>
-            <ul
-              id="events-menu-mobile"
-              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-            >
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./events"
-                  >Events</a
-                >
-              </li>
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./news"
-                  >News & Media</a
-                >
-              </li>
-            </ul>
-          </li>
- 
-          <!-- Dropdown for Results -->
-          <li class="relative">
-            <button
-              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-              onclick="toggleDropdown('results-menu-mobile')"
-            >
-              Results <i class="fas fa-chevron-down text-sm"></i>
-            </button>
-            <ul
-              id="results-menu-mobile"
-              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-            >
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./fixtures"
-                  >Fixtures</a
-                >
-              </li>
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./results"
-                  >Results</a
-                >
-              </li>
-            </ul>
-          </li>
- 
-           
-          <!-- Dropdown for Teams -->
-
-        <li class="relative">
-         <button
-          class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-          onclick="toggleDropdown('teams-menu-mobile')"
-         >
-          Teams <i class="fas fa-chevron-down text-sm"></i>
-         </button>
-         <ul
-          id="teams-menu-mobile"
-          class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-         >
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./menprofiles"
-              >Men's Senior</a
-            >
-          </li>
-
-          <li>
-            <a
-              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./womenprofiles"
-              >Women's Senior</a
-            >
-          </li>
-          <li class="relative">
-            <!-- Parent Dropdown -->
-            <button
-              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-              onclick="toggleDropdown('academy-menu-mobile')"
-            >
-              Academy </i>
-            </button>
-            <ul
-              id="academy-menu-mobile"
-              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-            >
-              <!-- Under 18 Dropdown -->
-              <li class="relative">
-                <button
-                  class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                  onclick="toggleDropdown('under18-menu-mobile')"
-                >
-                  Under 18 <i class="fas fa-chevron-down text-sm"></i>
-                </button>
-                <ul
-                  id="under18-menu-mobile"
-                  class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-                >
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under18Boys"
-                      >Boys</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under18Girls"
-                      >Girls</a
-                    >
-                  </li>
-                </ul>
-              </li>
-          
-              <!-- Under 16 Dropdown -->
-              <li class="relative">
-                <button
-                  class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                  onclick="toggleDropdown('under16-menu-mobile')"
-                >
-                  Under 16 <i class="fas fa-chevron-down text-sm"></i>
-                </button>
-                <ul
-                  id="under16-menu-mobile"
-                  class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-                >
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under16Boys"
-                      >Boys</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                      href="./under16Girls"
-                      >Girls</a
-                    >
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          
-          </ul>
-      </li>
- 
-          <!-- Contact -->
-          <li class="relative">
-            <button
-              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-              onclick="toggleDropdown('contact-menu-mobile')"
-            >
-              Contact <i class="fas fa-chevron-down text-sm"></i>
-            </button>
-            <ul
-              id="contact-menu-mobile"
-              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
-            >
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./staff"
-                  >Staff</a
-                >
-              </li>
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./contact"
-                  >Contact Us</a
-                >
-              </li>
-              <li>
-                <a
-                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./register#reForm"
-                  >Register</a
-                >
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
+        </div>
     </nav>
- 
-
-    <div class="max-w-5xl mt-[80px] mx-auto p-4">
-        <!-- Back Button -->
-        <a href="news" class="flex items-center text-blue-500 hover:text-blue-700 mb-4">
-            <i class="fas fa-arrow-left mr-2"></i> Back
-        </a>
-
-        <!-- Article Title and Metadata -->
-        <h1 class="text-3xl font-bold"><?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?></h1>
-        <p class="text-gray-500 text-sm mt-2"><?php echo date("F j, Y", strtotime($article['date_published'])); ?></p>
-
-        <!-- Social Share Buttons -->
-        <div class="flex gap-4 my-4">
-            <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode($page_url); ?>&title=<?php echo urlencode($article['title']); ?>" target="_blank" class="text-blue-600 text-2xl">
-                <i class="fab fa-facebook"></i>
-            </a>
-            <a href="https://twitter.com/intent/tweet?url=<?php echo urlencode($page_url); ?>&text=<?php echo urlencode($article['title']); ?>" target="_blank" class="text-blue-400 text-2xl">
-                <i class="fab fa-twitter"></i>
-            </a>
-            <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo urlencode($page_url); ?>" target="_blank" class="text-blue-700 text-2xl">
-                <i class="fab fa-linkedin"></i>
-            </a>
-            <a href="whatsapp://send?text=<?php echo urlencode($article['title'] . ' ' . $page_url); ?>" target="_blank" class="text-green-500 text-2xl">
-                <i class="fab fa-whatsapp"></i>
-            </a>
-            <a href="#" onclick="copyToClipboard('<?php echo $page_url; ?>')" class="text-gray-600 text-2xl">
-                <i class="fas fa-link"></i>
-            </a>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-white transform translate-x-full lg:hidden transition-transform duration-300 ease-in-out pt-16 overflow-y-auto">
+        <div class="px-4 py-6 space-y-6">
+            <a href="./" class="block py-2 text-lg font-medium text-gray-800 border-b border-gray-100">Home</a>
+            <a href="./about" class="block py-2 text-lg font-medium text-gray-800 border-b border-gray-100">About</a>
+            <a href="./program" class="block py-2 text-lg font-medium text-gray-800 border-b border-gray-100">Programs</a>
+            <a href="./community" class="block py-2 text-lg font-medium text-gray-800 border-b border-gray-100">Community</a>
+            <a href="./shop" class="block py-2 text-lg font-medium text-gray-800 border-b border-gray-100">Shop</a>
+            
+            <!-- Mobile Dropdowns -->
+            <div class="border-b border-gray-100 pb-2">
+                <button class="mobile-dropdown-toggle w-full flex justify-between items-center py-2 text-lg font-medium text-gray-800 focus:outline-none">
+                    Education <i class="fas fa-chevron-down text-sm"></i>
+                </button>
+                <div class="mobile-dropdown-content hidden pl-4 mt-2 space-y-2">
+                    <a href="./education" class="block py-2 text-base text-gray-600">Education</a>
+                    <a href="./Foundation" class="block py-2 text-base text-gray-600">Career Foundation</a>
+                </div>
+            </div>
+            
+            <!-- More mobile dropdowns... -->
         </div>
-
-        <!-- Main Image -->
-        <?php if (!empty($article['main_image_path'])): ?>
-            <img class="w-full h-auto object-cover my-6" src="<?php echo htmlspecialchars($article['main_image_path'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?>">
-        <?php endif; ?>
-
-        <!-- Article Sections -->
-        <?php foreach ($sections as $section): ?>
-            <section class="my-6">
-                <?php if (!empty($section['subtitle'])): ?>
-                    <h3 class="text-2xl font-semibold"><?php echo htmlspecialchars($section['subtitle'], ENT_QUOTES, 'UTF-8'); ?></h3>
-                <?php endif; ?>
-                <?php if (!empty($section['content'])): ?>
-                    <p class="text-gray-700 mt-2"><?php echo nl2br(htmlspecialchars($section['content'], ENT_QUOTES, 'UTF-8')); ?></p>
-                <?php endif; ?>
-                <?php if (!empty($section['image_path'])): ?>
-                    <?php
-                    // Handle multiple images (comma-separated)
-                    $images = explode(',', $section['image_path']);
-                    $imageCount = count($images);
-                    ?>
-                    <?php if ($imageCount === 1): ?>
-                        <!-- Single Image: Display Large -->
-                        <img class="w-full h-auto object-cover rounded-lg mt-4" src="<?php echo htmlspecialchars(trim($images[0]), ENT_QUOTES, 'UTF-8'); ?>" alt="Section Image">
-                    <?php else: ?>
-                        <!-- Multiple Images: Display as Collage -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2 mt-6">
-    <?php foreach ($images as $image): ?>
-        <div class="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 w-[490px] h-96 mx-auto">
-            <img class="w-full h-full object-cover rounded-lg" src="<?php echo htmlspecialchars(trim($image), ENT_QUOTES, 'UTF-8'); ?>" alt="Section Image">
-        </div>
-    <?php endforeach; ?>
-</div>
-                    <?php endif; ?>
-                <?php endif; ?>
-            </section>
-        <?php endforeach; ?>
     </div>
+
+    <!-- Main Content -->
+    <main class="pt-16 min-h-screen">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Back Button -->
+            <a href="news" class="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6 transition-colors text-sm sm:text-base focus:outline-none">
+                <i class="fas fa-arrow-left mr-2"></i> Back to News
+            </a>
+            
+            <!-- Article Header -->
+            <header class="mb-8">
+                <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2 leading-tight article-title"><?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?></h1>
+                <div class="flex items-center text-sm text-gray-500">
+                    <span><?php echo date("F j, Y", strtotime($article['date_published'])); ?></span>
+                    <?php if (!empty($article['category'])): ?>
+                        <span class="mx-2">•</span>
+                        <span class="bg-gray-200 px-2 py-1 rounded-full text-xs"><?php echo htmlspecialchars($article['category'], ENT_QUOTES, 'UTF-8'); ?></span>
+                    <?php endif; ?>
+                </div>
+            </header>
+            
+            <!-- Social Sharing -->
+            <div class="flex flex-wrap gap-4 sm:gap-6 my-6 social-share">
+                <span class="text-gray-700 text-sm sm:text-base self-center">Share:</span>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode($page_url); ?>" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 text-xl sm:text-2xl transition-colors focus:outline-none" aria-label="Share on Facebook">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="https://twitter.com/intent/tweet?url=<?php echo urlencode($page_url); ?>&text=<?php echo urlencode($article['title']); ?>" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-600 text-xl sm:text-2xl transition-colors focus:outline-none" aria-label="Share on Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo urlencode($page_url); ?>" target="_blank" rel="noopener noreferrer" class="text-blue-700 hover:text-blue-900 text-xl sm:text-2xl transition-colors focus:outline-none" aria-label="Share on LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="whatsapp://send?text=<?php echo urlencode($article['title'] . ' ' . $page_url); ?>" target="_blank" rel="noopener noreferrer" class="text-green-500 hover:text-green-700 text-xl sm:text-2xl transition-colors focus:outline-none" aria-label="Share on WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <button onclick="copyToClipboard('<?php echo $page_url; ?>')" class="text-gray-600 hover:text-gray-800 text-xl sm:text-2xl transition-colors focus:outline-none" aria-label="Copy link">
+                    <i class="fas fa-link"></i>
+                </button>
+            </div>
+            
+            <!-- Main Image -->
+            <?php if (!empty($article['main_image_path'])): ?>
+                <figure class="my-8">
+                    <img class="w-full h-auto max-h-[70vh] object-cover rounded-lg shadow-md" src="<?php echo htmlspecialchars($article['main_image_path'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?>">
+                    <?php if (!empty($article['image_caption'])): ?>
+                        <figcaption class="text-center text-sm text-gray-500 mt-2"><?php echo htmlspecialchars($article['image_caption'], ENT_QUOTES, 'UTF-8'); ?></figcaption>
+                    <?php endif; ?>
+                </figure>
+            <?php endif; ?>
+            
+            <!-- Article Content -->
+            <article class="prose max-w-none lg:prose-lg article-content">
+                <?php if (!empty($article['content'])): ?>
+                    <div class="mb-8">
+                        <?php echo nl2br(htmlspecialchars($article['content'], ENT_QUOTES, 'UTF-8')); ?>
+                    </div>
+                <?php endif; ?>
+                
+                <!-- Article Sections -->
+                <?php foreach ($sections as $index => $section): ?>
+                    <section class="mb-10" id="section-<?php echo $index; ?>">
+                        <?php if (!empty($section['subtitle'])): ?>
+                            <h2 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 section-title"><?php echo htmlspecialchars($section['subtitle'], ENT_QUOTES, 'UTF-8'); ?></h2>
+                        <?php endif; ?>
+                        
+                        <?php if (!empty($section['content'])): ?>
+                            <div class="text-gray-700 mb-4">
+                                <?php echo nl2br(htmlspecialchars($section['content'], ENT_QUOTES, 'UTF-8')); ?>
+                            </div>
+                        <?php endif; ?>
+                        
+                        <?php if (!empty($section['image_path'])): ?>
+                            <?php
+                            $images = array_filter(array_map('trim', explode(',', $section['image_path'])));
+                            $imageCount = count($images);
+                            ?>
+                            <?php if ($imageCount === 1): ?>
+                                <!-- Single Image -->
+                                <figure class="my-6">
+                                    <img class="w-full h-auto max-h-[70vh] object-cover rounded-lg shadow-md" src="<?php echo htmlspecialchars($images[0], ENT_QUOTES, 'UTF-8'); ?>" alt="Article Image">
+                                </figure>
+                            <?php else: ?>
+                                <!-- Image Gallery -->
+                                <div class="image-collage my-6">
+                                    <?php foreach ($images as $image): ?>
+                                        <figure class="overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                                            <img class="w-full h-48 sm:h-56 md:h-64 object-cover" src="<?php echo htmlspecialchars($image, ENT_QUOTES, 'UTF-8'); ?>" alt="Article Image">
+                                        </figure>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    </section>
+                <?php endforeach; ?>
+            </article>
+            
+            <!-- Back to Top Button -->
+            <div class="mt-12 text-center">
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700 transition-colors focus:outline-none">
+                    <i class="fas fa-arrow-up mr-2"></i> Back to Top
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Footer sections... -->
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm text-gray-400">
+                &copy; <?php echo date('Y'); ?> 1000 Hills Rugby. All rights reserved.
+            </div>
+        </div>
+    </footer>
 
     <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            const isOpen = mobileMenu.classList.toggle('translate-x-full');
+            menuIcon.className = isOpen ? 'fas fa-bars text-xl' : 'fas fa-times text-xl';
+            document.body.style.overflow = isOpen ? 'auto' : 'hidden';
+        });
+        
+        // Mobile dropdown toggles
+        document.querySelectorAll('.mobile-dropdown-toggle').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const icon = button.querySelector('i');
+                
+                content.classList.toggle('hidden');
+                icon.className = content.classList.contains('hidden') ? 
+                    'fas fa-chevron-down text-sm' : 'fas fa-chevron-up text-sm';
+            });
+        });
+        
+        // Copy URL to clipboard
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
-                alert("Link copied to clipboard!");
-            }).catch(err => console.error("Failed to copy: ", err));
+                alert('Link copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
         }
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('translate-x-full');
+                menuIcon.className = 'fas fa-bars text-xl';
+                document.body.style.overflow = 'auto';
+            });
+        });
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
+                mobileMenu.classList.add('translate-x-full');
+                menuIcon.className = 'fas fa-bars text-xl';
+                document.body.style.overflow = 'auto';
+            }
+        });
     </script>
-    
-    <script src="./index.js"></script>
 </body>
 </html>
