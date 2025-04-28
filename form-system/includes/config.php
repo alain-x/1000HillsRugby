@@ -4,7 +4,7 @@ session_start();
 // Database configuration
 define('DB_HOST', 'localhost');
 define('DB_USER', 'hillsrug_hillsrug');
-define('DB_PASS', 'M00dle!!');
+define('DB_PASS', 'M00dle??');
 define('DB_NAME', 'hillsrug_form_management_system');
 
 // Base URL
