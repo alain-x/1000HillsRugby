@@ -13,12 +13,12 @@ if (!isset($_GET['id'])) {
 $submission_id = (int)$_GET['id'];
 
 try {
-    // Get submission details with form info
-    $stmt = $pdo->prepare("SELECT fs.*, u.username, u.email, f.title 
-                          FROM form_submissions fs 
-                          LEFT JOIN users u ON fs.user_id = u.id 
-                          JOIN forms f ON fs.form_id = f.id 
-                          WHERE fs.id = ?");
+    // Get submission details
+    $stmt = $pdo->prepare("SELECT fs.*, f.title, u.username, u.email 
+                         FROM form_submissions fs
+                         JOIN forms f ON fs.form_id = f.id
+                         LEFT JOIN users u ON fs.user_id = u.id
+                         WHERE fs.id = ?");
     $stmt->execute([$submission_id]);
     $submission = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -28,24 +28,15 @@ try {
         exit;
     }
 
-    // Check if current user has permission to view this submission
-    if (!isAdmin()) {
-        http_response_code(403);
-        echo json_encode(['success' => false, 'message' => 'You don\'t have permission to view this submission']);
-        exit;
-    }
-
-    // Get submission data with field labels and file info
-    $stmt = $pdo->prepare("SELECT ff.label, ff.field_type, sd.field_value as value, 
-                          sd.file_path, sd.file_size
-                          FROM submission_data sd 
-                          JOIN form_fields ff ON sd.field_id = ff.id 
-                          WHERE sd.submission_id = ?");
+    // Get all fields and responses
+    $stmt = $pdo->prepare("SELECT sd.*, ff.label, ff.field_type 
+                         FROM submission_data sd
+                         JOIN form_fields ff ON sd.field_id = ff.id
+                         WHERE sd.submission_id = ?");
     $stmt->execute([$submission_id]);
     $fields = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Prepare response
-    $response = [
+    echo json_encode([
         'success' => true,
         'submission' => [
             'title' => $submission['title'],
@@ -54,9 +45,7 @@ try {
             'submitted_at' => $submission['submitted_at']
         ],
         'fields' => $fields
-    ];
-
-    echo json_encode($response);
+    ]);
 
 } catch (PDOException $e) {
     http_response_code(500);
