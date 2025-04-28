@@ -18,9 +18,9 @@ if (!$form) {
     redirect('/admin/forms.php');
 }
 
-// Get submissions with user data and response count
+// Get submissions with user data and sample response
 $stmt = $pdo->prepare("SELECT fs.*, u.username, u.email, 
-                      (SELECT COUNT(*) FROM submission_data WHERE submission_id = fs.id) as response_count
+                      (SELECT value FROM submission_data WHERE submission_id = fs.id LIMIT 1) as sample_response
                       FROM form_submissions fs 
                       LEFT JOIN users u ON fs.user_id = u.id 
                       WHERE fs.form_id = ? 
@@ -54,18 +54,24 @@ require_once '../includes/header.php';
                                 <th>ID</th>
                                 <th>Submitted By</th>
                                 <th>Email</th>
-                                <th>Responses</th>
+                                <th>Response Preview</th>
                                 <th>Date</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($submissions as $submission): ?>
+                            <?php foreach ($submissions as $submission): 
+                                // Truncate the response if it's too long
+                                $responsePreview = $submission['sample_response'] ?? 'No response';
+                                if (strlen($responsePreview) > 50) {
+                                    $responsePreview = substr($responsePreview, 0, 50) . '...';
+                                }
+                            ?>
                                 <tr>
                                     <td><?= $submission['id'] ?></td>
                                     <td><?= htmlspecialchars($submission['username'] ?? 'Guest') ?></td>
                                     <td><?= htmlspecialchars($submission['email'] ?? 'N/A') ?></td>
-                                    <td><?= $submission['response_count'] ?></td>
+                                    <td><?= htmlspecialchars($responsePreview) ?></td>
                                     <td><?= date('M d, Y H:i', strtotime($submission['submitted_at'])) ?></td>
                                     <td>
                                         <button class="btn btn-sm btn-primary view-submission" 
