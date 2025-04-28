@@ -3,9 +3,9 @@ session_start();
 
 // Database configuration
 define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '1234');
-define('DB_NAME', 'form_management_system');
+define('DB_USER', 'hillsrug_hillsrug');
+define('DB_PASS', 'M00dle!!');
+define('DB_NAME', 'hillsrug_form_management_system');
 
 // Base URL
 define('BASE_URL', 'http://localhost/form-system');
