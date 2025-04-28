@@ -8,7 +8,7 @@ define('DB_PASS', 'M00dle??');
 define('DB_NAME', 'hillsrug_form_management_system');
 
 // Base URL
-define('BASE_URL', 'http://localhost/form-system');
+define('BASE_URL', 'http://www.1000hillsrugby.rw/form-system');
 
 // Create database connection
 try {
