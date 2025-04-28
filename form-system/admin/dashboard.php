@@ -22,6 +22,9 @@ $total_users = $stmt->fetch(PDO::FETCH_ASSOC)['total_users'];
 require_once '../includes/header.php';
 ?>
 
+<!-- Add Bootstrap CSS link -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 <div class="row">
     <div class="col-md-4 mb-4">
         <div class="card bg-primary text-white">

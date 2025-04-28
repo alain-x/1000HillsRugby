@@ -29,6 +29,10 @@ $forms = $stmt->fetchAll(PDO::FETCH_ASSOC);
 require_once '../includes/header.php';
 ?>
 
+
+
+<!-- Add Bootstrap CSS link -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>My Forms</h2>
     <a href="create_form.php" class="btn btn-primary">Create New Form</a>
