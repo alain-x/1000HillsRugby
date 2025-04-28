@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                              ? implode("\n", $field['options']) 
                              : null;
                     $stmt = $pdo->prepare("UPDATE form_fields 
-                                         SET field_type = ?, label = ?, placeholder = ?, options = ?, is_required = ?, sort_order = ?
+                                         SET field_type = ?, label = ?, placeholder = ?, options = ?, is_required = ?, sort_order = ?, allow_file_upload = ?, file_types = ?
                                          WHERE id = ?");
                     $stmt->execute([
                         $field['field_type'],
@@ -58,6 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $options,
                         isset($field['is_required']) ? 1 : 0,
                         $field['sort_order'] ?? 0,
+                        isset($field['allow_file_upload']) ? 1 : 0,
+                        $field['file_types'] ?? '',
                         $field_id
                     ]);
                 } else {
@@ -74,8 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                              ? implode("\n", $field['options']) 
                              : null;
                     $stmt = $pdo->prepare("INSERT INTO form_fields 
-                                         (form_id, field_type, label, placeholder, options, is_required, sort_order) 
-                                         VALUES (?, ?, ?, ?, ?, ?, ?)");
+                                         (form_id, field_type, label, placeholder, options, is_required, sort_order, allow_file_upload, file_types) 
+                                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
                     $stmt->execute([
                         $form_id,
                         $field['field_type'],
@@ -83,7 +85,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $field['placeholder'] ?? '',
                         $options,
                         isset($field['is_required']) ? 1 : 0,
-                        $field['sort_order'] ?? 0
+                        $field['sort_order'] ?? 0,
+                        isset($field['allow_file_upload']) ? 1 : 0,
+                        $field['file_types'] ?? ''
                     ]);
                 }
             }
@@ -172,6 +176,22 @@ require_once '../includes/header.php';
                                             <input type="number" class="form-control field-order" name="existing_fields[<?php echo $field['id']; ?>][sort_order]" value="<?php echo $field['sort_order']; ?>">
                                         </div>
                                     </div>
+                                    <div class="file-upload-container mb-3 <?php echo !in_array($field['field_type'], ['text', 'textarea']) ? 'd-none' : ''; ?>">
+                                        <div class="form-check">
+                                            <input class="form-check-input allow-file-upload" type="checkbox" 
+                                                   name="existing_fields[<?php echo $field['id']; ?>][allow_file_upload]" 
+                                                   id="allow_file_upload-<?php echo $field['id']; ?>"
+                                                   <?php echo $field['allow_file_upload'] ? 'checked' : ''; ?>>
+                                            <label class="form-check-label" for="allow_file_upload-<?php echo $field['id']; ?>">Allow file upload for this field</label>
+                                        </div>
+                                        <div class="mt-2 file-types-container <?php echo !$field['allow_file_upload'] ? 'd-none' : ''; ?>">
+                                            <label class="form-label">Allowed file types</label>
+                                            <input type="text" class="form-control file-types" 
+                                                   name="existing_fields[<?php echo $field['id']; ?>][file_types]" 
+                                                   value="<?php echo htmlspecialchars($field['file_types']); ?>"
+                                                   placeholder="jpg,png,pdf,docx (comma separated)">
+                                        </div>
+                                    </div>
                                     <div class="options-container <?php echo in_array($field['field_type'], ['select', 'radio', 'checkbox']) ? '' : 'd-none'; ?>">
                                         <div class="mb-3">
                                             <label class="form-label">Options (one per line)</label>
@@ -242,6 +262,16 @@ require_once '../includes/header.php';
                 <input type="number" class="form-control field-order" name="fields[0][sort_order]" value="0">
             </div>
         </div>
+        <div class="file-upload-container mb-3 d-none">
+            <div class="form-check">
+                <input class="form-check-input allow-file-upload" type="checkbox" name="fields[0][allow_file_upload]" id="allow_file_upload-0">
+                <label class="form-check-label" for="allow_file_upload-0">Allow file upload for this field</label>
+            </div>
+            <div class="mt-2 file-types-container d-none">
+                <label class="form-label">Allowed file types</label>
+                <input type="text" class="form-control file-types" name="fields[0][file_types]" placeholder="jpg,png,pdf,docx (comma separated)">
+            </div>
+        </div>
         <div class="options-container d-none">
             <div class="mb-3">
                 <label class="form-label">Options (one per line)</label>
@@ -283,6 +313,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function initField(fieldElement) {
         const typeSelect = fieldElement.querySelector('.field-type');
         const optionsContainer = fieldElement.querySelector('.options-container');
+        const fileUploadContainer = fieldElement.querySelector('.file-upload-container');
+        const fileTypesContainer = fieldElement.querySelector('.file-types-container');
+        const allowFileUploadCheckbox = fieldElement.querySelector('.allow-file-upload');
         const labelInput = fieldElement.querySelector('.field-label');
         const removeButton = fieldElement.querySelector('.remove-field');
         
@@ -295,7 +328,19 @@ document.addEventListener('DOMContentLoaded', function() {
         function toggleOptions() {
             const showOptions = ['select', 'radio', 'checkbox'].includes(typeSelect.value);
             optionsContainer.classList.toggle('d-none', !showOptions);
+            
+            const showFileUpload = ['text', 'textarea'].includes(typeSelect.value);
+            fileUploadContainer.classList.toggle('d-none', !showFileUpload);
+            
+            if (showFileUpload) {
+                fileTypesContainer.classList.toggle('d-none', !allowFileUploadCheckbox.checked);
+            }
         }
+        
+        // Toggle file types when checkbox changes
+        allowFileUploadCheckbox?.addEventListener('change', function() {
+            fileTypesContainer.classList.toggle('d-none', !this.checked);
+        });
         
         typeSelect.addEventListener('change', toggleOptions);
         toggleOptions(); // Initial check

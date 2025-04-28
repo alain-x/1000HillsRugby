@@ -23,6 +23,12 @@ $stmt = $pdo->prepare("SELECT * FROM form_fields WHERE form_id = ? ORDER BY sort
 $stmt->execute([$form_id]);
 $fields = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Set up file upload directory
+$upload_dir = __DIR__ . '/uploads/';
+if (!file_exists($upload_dir)) {
+    mkdir($upload_dir, 0755, true);
+}
+
 $error = '';
 $success = '';
 
@@ -38,14 +44,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         // Save submission data
         foreach ($fields as $field) {
-            $value = $_POST['field_' . $field['id']] ?? '';
+            $value = '';
+            $file_path = null;
             
-            if (is_array($value)) {
-                $value = implode(', ', $value);
+            if ($field['allow_file_upload'] && isset($_FILES['field_' . $field['id']])) {
+                // Handle file upload
+                $file = $_FILES['field_' . $field['id']];
+                
+                if ($file['error'] === UPLOAD_ERR_OK) {
+                    $allowed_types = explode(',', str_replace(' ', '', $field['file_types']));
+                    $file_ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+                    
+                    if (in_array($file_ext, $allowed_types)) {
+                        $filename = uniqid() . '_' . basename($file['name']);
+                        $destination = $upload_dir . $filename;
+                        
+                        if (move_uploaded_file($file['tmp_name'], $destination)) {
+                            $file_path = $filename;
+                        }
+                    }
+                }
+            } else {
+                // Handle regular form fields
+                $value = $_POST['field_' . $field['id']] ?? '';
+                
+                if (is_array($value)) {
+                    $value = implode(', ', $value);
+                }
             }
             
-            $stmt = $pdo->prepare("INSERT INTO submission_data (submission_id, field_id, field_value) VALUES (?, ?, ?)");
-            $stmt->execute([$submission_id, $field['id'], $value]);
+            $stmt = $pdo->prepare("INSERT INTO submission_data (submission_id, field_id, field_value, file_path) VALUES (?, ?, ?, ?)");
+            $stmt->execute([$submission_id, $field['id'], $value, $file_path]);
         }
         
         $pdo->commit();
@@ -65,11 +94,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 require_once 'includes/header.php';
 ?>
-
-
-
-<!-- Add Bootstrap CSS link -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <div class="row justify-content-center">
     <div class="col-md-8">
@@ -91,7 +115,7 @@ require_once 'includes/header.php';
                         <a href="<?php echo BASE_URL; ?>" class="btn btn-primary">Return Home</a>
                     </div>
                 <?php else: ?>
-                    <form method="POST">
+                    <form method="POST" enctype="multipart/form-data">
                         <?php foreach ($fields as $field): ?>
                             <div class="mb-3">
                                 <label for="field_<?php echo $field['id']; ?>" class="form-label">
@@ -101,7 +125,13 @@ require_once 'includes/header.php';
                                     <?php endif; ?>
                                 </label>
                                 
-                                <?php if ($field['field_type'] === 'text'): ?>
+                                <?php if ($field['allow_file_upload']): ?>
+                                    <input type="file" class="form-control" id="field_<?php echo $field['id']; ?>" 
+                                           name="field_<?php echo $field['id']; ?>"
+                                           accept="<?php echo htmlspecialchars(str_replace(',', ',.', $field['file_types'])); ?>"
+                                           <?php echo $field['is_required'] ? 'required' : ''; ?>>
+                                    <small class="text-muted">Allowed types: <?php echo htmlspecialchars($field['file_types']); ?></small>
+                                <?php elseif ($field['field_type'] === 'text'): ?>
                                     <input type="text" class="form-control" id="field_<?php echo $field['id']; ?>" name="field_<?php echo $field['id']; ?>" 
                                            placeholder="<?php echo htmlspecialchars($field['placeholder']); ?>" 
                                            <?php echo $field['is_required'] ? 'required' : ''; ?>>
