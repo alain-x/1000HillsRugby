@@ -1,4 +1,5 @@
 <?php
+// get_submission.php
 require_once 'includes/config.php';
 require_once 'includes/auth.php';
 
@@ -11,8 +12,8 @@ if (!isset($_GET['id'])) {
 
 $submission_id = $_GET['id'];
 
-// Get submission details
-$stmt = $pdo->prepare("SELECT fs.*, u.username, f.title 
+// Get submission details with form and user info
+$stmt = $pdo->prepare("SELECT fs.*, u.username, u.email, f.title 
                       FROM form_submissions fs 
                       LEFT JOIN users u ON fs.user_id = u.id 
                       JOIN forms f ON fs.form_id = f.id 
