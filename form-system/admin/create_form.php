@@ -28,12 +28,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Insert fields
             foreach ($fields as $field) {
                 if (!empty($field['label'])) {
-                    $stmt = $pdo->prepare("INSERT INTO form_fields 
-                                         (form_id, field_type, label, placeholder, options, is_required, sort_order) 
-                                         VALUES (?, ?, ?, ?, ?, ?, ?)");
                     $options = ($field['field_type'] === 'select' || $field['field_type'] === 'radio' || $field['field_type'] === 'checkbox') 
                              ? implode("\n", $field['options']) 
                              : null;
+                    $stmt = $pdo->prepare("INSERT INTO form_fields 
+                                         (form_id, field_type, label, placeholder, options, is_required, sort_order, allow_file_upload, file_types) 
+                                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
                     $stmt->execute([
                         $form_id,
                         $field['field_type'],
@@ -41,7 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $field['placeholder'] ?? '',
                         $options,
                         isset($field['is_required']) ? 1 : 0,
-                        $field['sort_order'] ?? 0
+                        $field['sort_order'] ?? 0,
+                        isset($field['allow_file_upload']) ? 1 : 0,
+                        $field['file_types'] ?? ''
                     ]);
                 }
             }
@@ -62,6 +64,7 @@ require_once '../includes/header.php';
 
 <!-- Add Bootstrap CSS link -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 <div class="row justify-content-center">
     <div class="col-md-12">
         <div class="card shadow">
@@ -147,6 +150,16 @@ require_once '../includes/header.php';
                 <input type="number" class="form-control field-order" name="fields[0][sort_order]" value="0">
             </div>
         </div>
+        <div class="file-upload-container mb-3 d-none">
+            <div class="form-check">
+                <input class="form-check-input allow-file-upload" type="checkbox" name="fields[0][allow_file_upload]" id="allow_file_upload-0">
+                <label class="form-check-label" for="allow_file_upload-0">Allow file upload for this field</label>
+            </div>
+            <div class="mt-2 file-types-container d-none">
+                <label class="form-label">Allowed file types</label>
+                <input type="text" class="form-control file-types" name="fields[0][file_types]" placeholder="jpg,png,pdf,docx (comma separated)">
+            </div>
+        </div>
         <div class="options-container d-none">
             <div class="mb-3">
                 <label class="form-label">Options (one per line)</label>
@@ -156,7 +169,6 @@ require_once '../includes/header.php';
     </div>
 </div>
 
-<script src="../assets/js/script.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     let fieldCount = 0;
@@ -180,10 +192,13 @@ document.addEventListener('DOMContentLoaded', function() {
         initField(template);
     });
     
-    // Initialize existing fields (for edit mode)
+    // Initialize field functionality
     function initField(fieldElement) {
         const typeSelect = fieldElement.querySelector('.field-type');
         const optionsContainer = fieldElement.querySelector('.options-container');
+        const fileUploadContainer = fieldElement.querySelector('.file-upload-container');
+        const fileTypesContainer = fieldElement.querySelector('.file-types-container');
+        const allowFileUploadCheckbox = fieldElement.querySelector('.allow-file-upload');
         const labelInput = fieldElement.querySelector('.field-label');
         const removeButton = fieldElement.querySelector('.remove-field');
         
@@ -196,14 +211,28 @@ document.addEventListener('DOMContentLoaded', function() {
         function toggleOptions() {
             const showOptions = ['select', 'radio', 'checkbox'].includes(typeSelect.value);
             optionsContainer.classList.toggle('d-none', !showOptions);
+            
+            const showFileUpload = ['text', 'textarea'].includes(typeSelect.value);
+            fileUploadContainer.classList.toggle('d-none', !showFileUpload);
+            
+            if (showFileUpload) {
+                fileTypesContainer.classList.toggle('d-none', !allowFileUploadCheckbox.checked);
+            }
         }
+        
+        // Toggle file types when checkbox changes
+        allowFileUploadCheckbox.addEventListener('change', function() {
+            fileTypesContainer.classList.toggle('d-none', !this.checked);
+        });
         
         typeSelect.addEventListener('change', toggleOptions);
         toggleOptions(); // Initial check
         
         // Remove field
         removeButton.addEventListener('click', function() {
-            fieldElement.remove();
+            if (confirm('Are you sure you want to remove this field?')) {
+                fieldElement.remove();
+            }
         });
     }
     
