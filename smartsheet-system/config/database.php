@@ -1,8 +1,8 @@
 <?php
 class Database {
     private $host = 'localhost';
-    private $db_name = 'form_management_system';
-    private $username = 'hillsrug';
+    private $db_name = 'hillsrug_form_management_system';
+    private $username = 'hillsrug_hillsrug';
     private $password = 'M00dle!!';
     private $conn;
 
