@@ -1,0 +1,62 @@
+body {
+  background-color: #f8f9fa;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card {
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.card-header {
+  border-radius: 10px 10px 0 0 !important;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #eee;
+}
+
+.navbar {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.field-group {
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+}
+
+.field-group .card-header {
+  background-color: #f1f8ff;
+  padding: 0.5rem 1rem;
+}
+
+.field-title {
+  font-weight: 500;
+}
+
+.options-container textarea {
+  font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .field-group .row > div {
+    margin-bottom: 10px;
+  }
+
+  .field-group .row > div:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* Form submission view */
+.submission-data label {
+  font-weight: 600;
+  color: #495057;
+}
+
+.submission-data div {
+  padding: 8px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  margin-top: 5px;
+}
