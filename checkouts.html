@@ -1,0 +1,40 @@
+<style>
+  body {
+    font-size: 14px;
+    font-family: "Moderat", "Inter", sans-serif;
+    font-weight: 400;
+    color: #333;
+  }
+
+  #start-payment-button {
+    cursor: pointer;
+    position: relative;
+    background-color: #ff9b00;
+    color: #12122c;
+    max-width: 30%;
+    padding: 7.5px 16px;
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 4px;
+    border: none;
+    transition: all 0.1s ease-in;
+    vertical-align: middle;
+  }
+</style>
+
+<form method="POST" action="https://checkout.flutterwave.com/v3/hosted/pay">
+  <div>Your order is N2,000</div>
+  <input
+    type="hidden"
+    name="public_key"
+    value="FLWPUBK_TEST-02b9b5fc6406bd4a41c3ff141cc45e93-X"
+  />
+  <input type="hidden" name="customer[email]" value="test@mailnator.com" />
+  <input type="hidden" name="customer[name]" value="Ayomide Jimi-Oni" />
+  <input type="hidden" name="tx_ref" value="txref-81123" />
+  <input type="hidden" name="amount" value="2000" />
+  <input type="hidden" name="currency" value="RWF" />
+  <input type="hidden" name="meta[source]" value="docs-html-test" />
+  <br />
+  <button type="submit" id="start-payment-button">Pay Now</button>
+</form>

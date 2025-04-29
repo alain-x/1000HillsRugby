@@ -323,6 +323,7 @@ if(!isset($_SESSION['cart_p_id'])) {
                                         <option value=""><?php echo LANG_VALUE_35; ?></option>
                                         <option value="PayPal"><?php echo LANG_VALUE_36; ?></option>
                                         <option value="Bank Deposit"><?php echo LANG_VALUE_38; ?></option>
+                                        <option value="Flutterwave">Flutterwave</option>
                                     </select>
                                 </div>
 
@@ -358,6 +359,44 @@ if(!isset($_SESSION['cart_p_id'])) {
                                     </div>
                                     <div class="col-md-12 form-group">
                                         <input type="submit" class="btn btn-primary" value="<?php echo LANG_VALUE_46; ?>" name="form3" style="background-color: #ff6600; border-radius: 20px; border-color: #ff6600;">
+                                    </div>
+                                </form>
+
+                                <!-- Flutterwave Payment Form -->
+                                <style>
+                                  body {
+                                    font-size: 14px;
+                                    font-family: "Moderat", "Inter", sans-serif;
+                                    font-weight: 400;
+                                    color: #333;
+                                  }
+
+                                  #start-payment-button {
+                                    cursor: pointer;
+                                    position: relative;
+                                    background-color: #ff9b00;
+                                    color: #12122c;
+                                    max-width: 30%;
+                                    padding: 7.5px 16px;
+                                    font-weight: 500;
+                                    font-size: 14px;
+                                    border-radius: 4px;
+                                    border: none;
+                                    transition: all 0.1s ease-in;
+                                    vertical-align: middle;
+                                  }
+                                </style>
+
+                                <form method="POST" action="https://checkout.flutterwave.com/v3/hosted/pay" id="flutterwave_form">
+                                    <input type="hidden" name="public_key" value="FLWPUBK_TEST-02b9b5fc6406bd4a41c3ff141cc45e93-X" />
+                                    <input type="hidden" name="customer[email]" value="<?php echo $_SESSION['customer']['cust_email']; ?>" />
+                                    <input type="hidden" name="customer[name]" value="<?php echo $_SESSION['customer']['cust_name']; ?>" />
+                                    <input type="hidden" name="tx_ref" value="txref-<?php echo uniqid(); ?>" />
+                                    <input type="hidden" name="amount" value="<?php echo $final_total; ?>" />
+                                    <input type="hidden" name="currency" value="RWF" />
+                                    <input type="hidden" name="meta[source]" value="ecommerce-store" />
+                                    <div class="col-md-12 form-group">
+                                        <button type="submit" id="start-payment-button">Pay with Flutterwave</button>
                                     </div>
                                 </form>
                             </div>
