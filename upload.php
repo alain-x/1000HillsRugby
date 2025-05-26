@@ -1,20 +1,12 @@
 <?php
 // Set larger file size limits for handling 30 images of 31MB each
-ini_set('max_execution_time', 1200);  // 20 minutes
-ini_set('max_input_time', 1200);     // 20 minutes
-ini_set('upload_max_filesize', '40M');  // 40MB per file
-ini_set('post_max_size', '1200M');    // 1200MB (1.2GB) total
-ini_set('memory_limit', '512M');      // 512MB memory limit
-
-// Set PHP configuration for handling large files
-ini_set('max_file_uploads', 30);     // Allow up to 30 files per upload
+ini_set('max_execution_time', 300);  // 5 minutes
+ini_set('max_input_time', 300);     // 5 minutes
+ini_set('upload_max_filesize', '32M');  // 32MB per file
+ini_set('post_max_size', '1000M');    // 1000MB (1GB) total
+ini_set('memory_limit', '256M');      // 256MB memory limit
+ini_set('max_file_uploads', 50);     // Allow up to 50 files per upload
 ini_set('file_uploads', 1);          // Enable file uploads
-ini_set('memory_limit', '512M');      // 512MB memory limit
-
-// Additional settings for large file uploads
-ini_set('max_input_vars', 3000);      // Increase for multiple form fields
-ini_set('max_input_nesting_level', 100); // Increase nesting level
-ini_set('upload_progress.max_file_size', '1200M'); // Set progress tracking size
 
 // Database connection
 $servername = "localhost";
@@ -143,7 +135,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
 
         $main_image_path = '';
         if (!empty($_FILES["main_image"]["name"])) {
-            // If new image is uploaded, use it
             $main_image_name = time() . "_" . basename($_FILES["main_image"]["name"]);
             $main_image_path = $upload_dir . $main_image_name;
 
@@ -181,7 +172,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
             }
         }
 
-        // Process sections with improved image handling and error logging
+        // Process sections with improved image handling
         foreach ($_POST["subtitle"] as $index => $subtitle) {
             $subtitle = $conn->real_escape_string(trim($subtitle));
             $content = $conn->real_escape_string(trim($_POST["content"][$index] ?? ''));
@@ -201,44 +192,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                 foreach ($_FILES["image"]["tmp_name"][$index] as $key => $tmp_name) {
                     $error = $_FILES["image"]["error"][$index][$key];
                     $image_name = $_FILES["image"]["name"][$index][$key];
-                    $image_size = $_FILES["image"]["size"][$index][$key];
                     
-                    // Log file details
-                    error_log("Processing image: " . $image_name . " (size: " . $image_size . " bytes)");
-                    
-                    if ($error !== UPLOAD_ERR_OK) {
-                        $upload_errors[] = "Image "$image_name" upload error: " . $error;
-                        continue;
-                    }
-                    
-                    // Generate unique filename
-                    $unique_name = time() . "_" . uniqid() . "_" . basename($image_name);
-                    $target_file = $upload_dir . $unique_name;
+                    if ($error === UPLOAD_ERR_OK) {
+                        // Generate unique filename
+                        $unique_name = time() . "_" . uniqid() . "_" . basename($image_name);
+                        $target_file = $upload_dir . $unique_name;
 
-                    // Check file type
-                    $file_extension = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
-                    $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
-                    
-                    if (!in_array($file_extension, $allowed_extensions)) {
-                        $upload_errors[] = "Invalid file type for "$image_name": Only JPG, JPEG, PNG, and GIF files are allowed.";
-                        continue;
-                    }
-
-                    // Check file size (40MB max)
-                    $max_size = 40 * 1024 * 1024; // 40MB
-                    if ($image_size > $max_size) {
-                        $upload_errors[] = "File "$image_name" is too large. Maximum allowed size is 40MB.";
-                        continue;
-                    }
-
-                    // Attempt to move file
-                    if (move_uploaded_file($tmp_name, $target_file)) {
-                        // Set proper permissions
-                        chmod($target_file, 0644);
-                        $section_images[] = $conn->real_escape_string($target_file);
-                        error_log("Successfully uploaded "$image_name" to "$target_file"");
+                        // Move the file
+                        if (move_uploaded_file($tmp_name, $target_file)) {
+                            $section_images[] = $conn->real_escape_string($target_file);
+                        } else {
+                            $upload_errors[] = "Failed to move uploaded file '$image_name'";
+                        }
                     } else {
-                        $upload_errors[] = "Failed to move uploaded file "$image_name" to "$target_file"";
+                        $upload_errors[] = "Upload error for '$image_name': " . $error;
                     }
                 }
                 
@@ -247,10 +214,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                 
                 // If there were any errors, log them but continue with successful uploads
                 if (!empty($upload_errors)) {
-                    $error_message = "Upload completed with errors:\n" . implode("\n", $upload_errors);
-                    error_log($error_message);
-                    $message = $error_message;
-                    $messageClass = 'alert-warning';
+                    error_log("Upload errors: " . implode(", ", $upload_errors));
                 }
             }
 
@@ -485,7 +449,6 @@ $conn->close();
                         </div>
                     <?php endif; ?>
                     <input type="file" id="main_image" name="main_image" accept="image/*" class="w-full p-2 border rounded">
-                    <p class="text-sm text-gray-500 mt-1">Upload new image (no size limit)</p>
                 </div>
 
                 <!-- Sections -->
@@ -506,7 +469,7 @@ $conn->close();
                                 <textarea name="content[]" placeholder="Content" 
                                           class="w-full p-2 border rounded mb-2"><?php echo htmlspecialchars($detail['content'] ?? ''); ?></textarea>
                                 <div class="image-upload-section mb-4">
-                                    <label class="block text-lg font-semibold mb-2">Images (Add more without removing existing)</label>
+                                    <label class="block text-lg font-semibold mb-2">Images</label>
                                     <?php if (!empty($detail['image_path'])): ?>
                                         <div class="flex flex-wrap gap-2 mb-2" id="section-images-<?php echo $index; ?>">
                                             <?php foreach (explode(",", $detail['image_path']) as $imgIdx => $imgPath): ?>
@@ -529,7 +492,6 @@ $conn->close();
                                            accept="image/*" multiple 
                                            class="w-full p-2 border rounded"
                                            onchange="previewNewImages(this, <?php echo $index; ?>)">
-                                    <p class="text-sm text-gray-500 mt-1">Select multiple images (no size limit)</p>
                                 </div>
                             </div>
                         <?php endforeach; ?>
@@ -550,7 +512,6 @@ $conn->close();
                                 <input type="file" name="image[0][]" accept="image/*" multiple 
                                        class="w-full p-2 border rounded"
                                        onchange="previewNewImages(this, 0)">
-                                <p class="text-sm text-gray-500 mt-1">Select multiple images (no size limit)</p>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -648,7 +609,6 @@ $conn->close();
                     <input type="file" name="image[${sectionCount - 1}][]" accept="image/*" multiple 
                            class="w-full p-2 border rounded"
                            onchange="previewNewImages(this, ${sectionCount - 1})">
-                    <p class="text-sm text-gray-500 mt-1">Select multiple images (no size limit)</p>
                 </div>
             `;
             container.appendChild(div);
