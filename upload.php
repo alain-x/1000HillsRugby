@@ -1,9 +1,20 @@
 <?php
-// Remove file size limits
-ini_set('max_execution_time', 300);
-ini_set('max_input_time', 300);
-ini_set('upload_max_filesize', '0');
-ini_set('post_max_size', '0');
+// Set larger file size limits for handling 30 images of 31MB each
+ini_set('max_execution_time', 1200);  // 20 minutes
+ini_set('max_input_time', 1200);     // 20 minutes
+ini_set('upload_max_filesize', '40M');  // 40MB per file
+ini_set('post_max_size', '1200M');    // 1200MB (1.2GB) total
+ini_set('memory_limit', '512M');      // 512MB memory limit
+
+// Set PHP configuration for handling large files
+ini_set('max_file_uploads', 30);     // Allow up to 30 files per upload
+ini_set('file_uploads', 1);          // Enable file uploads
+ini_set('memory_limit', '512M');      // 512MB memory limit
+
+// Additional settings for large file uploads
+ini_set('max_input_vars', 3000);      // Increase for multiple form fields
+ini_set('max_input_nesting_level', 100); // Increase nesting level
+ini_set('upload_progress.max_file_size', '1200M'); // Set progress tracking size
 
 // Database connection
 $servername = "localhost";
@@ -184,13 +195,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
             // Handle newly uploaded images (add to existing ones)
             if (!empty($_FILES["image"]["name"][$index])) {
                 foreach ($_FILES["image"]["tmp_name"][$index] as $key => $tmp_name) {
-                    if ($_FILES["image"]["error"][$index][$key] === UPLOAD_ERR_OK) {
+                    $error = $_FILES["image"]["error"][$index][$key];
+                    if ($error === UPLOAD_ERR_OK) {
                         $image_name = time() . "_" . basename($_FILES["image"]["name"][$index][$key]);
                         $target_file = $upload_dir . $image_name;
 
+                        // Check file type
+                        $file_extension = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
+                        $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
+                        
+                        if (!in_array($file_extension, $allowed_extensions)) {
+                            throw new Exception("Invalid file type. Only JPG, JPEG, PNG, and GIF files are allowed.");
+                        }
+
+                        // Check file size (40MB max)
+                        $max_size = 40 * 1024 * 1024; // 40MB
+                        if ($_FILES["image"]["size"][$index][$key] > $max_size) {
+                            throw new Exception("File size too large. Maximum allowed size is 40MB.");
+                        }
+
                         if (move_uploaded_file($tmp_name, $target_file)) {
                             $image_paths[] = $conn->real_escape_string($target_file);
+                        } else {
+                            throw new Exception("Failed to move uploaded file.");
                         }
+                    } else {
+                        throw new Exception("Upload error: " . $error);
                     }
                 }
             }
