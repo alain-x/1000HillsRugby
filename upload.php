@@ -181,7 +181,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
             }
         }
 
-        // Process sections with improved image handling
+        // Process sections with improved image handling and error logging
         foreach ($_POST["subtitle"] as $index => $subtitle) {
             $subtitle = $conn->real_escape_string(trim($subtitle));
             $content = $conn->real_escape_string(trim($_POST["content"][$index] ?? ''));
@@ -194,34 +194,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
 
             // Handle newly uploaded images (add to existing ones)
             if (!empty($_FILES["image"]["name"][$index])) {
+                $section_images = [];
+                $upload_errors = [];
+                
+                // Process each image in this section
                 foreach ($_FILES["image"]["tmp_name"][$index] as $key => $tmp_name) {
                     $error = $_FILES["image"]["error"][$index][$key];
-                    if ($error === UPLOAD_ERR_OK) {
-                        $image_name = time() . "_" . basename($_FILES["image"]["name"][$index][$key]);
-                        $target_file = $upload_dir . $image_name;
-
-                        // Check file type
-                        $file_extension = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
-                        $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
-                        
-                        if (!in_array($file_extension, $allowed_extensions)) {
-                            throw new Exception("Invalid file type. Only JPG, JPEG, PNG, and GIF files are allowed.");
-                        }
-
-                        // Check file size (40MB max)
-                        $max_size = 40 * 1024 * 1024; // 40MB
-                        if ($_FILES["image"]["size"][$index][$key] > $max_size) {
-                            throw new Exception("File size too large. Maximum allowed size is 40MB.");
-                        }
-
-                        if (move_uploaded_file($tmp_name, $target_file)) {
-                            $image_paths[] = $conn->real_escape_string($target_file);
-                        } else {
-                            throw new Exception("Failed to move uploaded file.");
-                        }
-                    } else {
-                        throw new Exception("Upload error: " . $error);
+                    $image_name = $_FILES["image"]["name"][$index][$key];
+                    $image_size = $_FILES["image"]["size"][$index][$key];
+                    
+                    // Log file details
+                    error_log("Processing image: " . $image_name . " (size: " . $image_size . " bytes)");
+                    
+                    if ($error !== UPLOAD_ERR_OK) {
+                        $upload_errors[] = "Image "$image_name" upload error: " . $error;
+                        continue;
                     }
+                    
+                    // Generate unique filename
+                    $unique_name = time() . "_" . uniqid() . "_" . basename($image_name);
+                    $target_file = $upload_dir . $unique_name;
+
+                    // Check file type
+                    $file_extension = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
+                    $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
+                    
+                    if (!in_array($file_extension, $allowed_extensions)) {
+                        $upload_errors[] = "Invalid file type for "$image_name": Only JPG, JPEG, PNG, and GIF files are allowed.";
+                        continue;
+                    }
+
+                    // Check file size (40MB max)
+                    $max_size = 40 * 1024 * 1024; // 40MB
+                    if ($image_size > $max_size) {
+                        $upload_errors[] = "File "$image_name" is too large. Maximum allowed size is 40MB.";
+                        continue;
+                    }
+
+                    // Attempt to move file
+                    if (move_uploaded_file($tmp_name, $target_file)) {
+                        // Set proper permissions
+                        chmod($target_file, 0644);
+                        $section_images[] = $conn->real_escape_string($target_file);
+                        error_log("Successfully uploaded "$image_name" to "$target_file"");
+                    } else {
+                        $upload_errors[] = "Failed to move uploaded file "$image_name" to "$target_file"";
+                    }
+                }
+                
+                // Add successfully uploaded images to the section
+                $image_paths = array_merge($image_paths, $section_images);
+                
+                // If there were any errors, log them but continue with successful uploads
+                if (!empty($upload_errors)) {
+                    $error_message = "Upload completed with errors:\n" . implode("\n", $upload_errors);
+                    error_log($error_message);
+                    $message = $error_message;
+                    $messageClass = 'alert-warning';
                 }
             }
 
