@@ -585,21 +585,6 @@ $conn->close();
 
     <script>
         let sectionCount = <?php echo $editMode ? count($currentArticleDetails) : 1; ?>;
-
-        // Function to convert URLs to clickable links
-        function makeLinksClickable(text) {
-            // Regular expression to match URLs
-            const urlPattern = /\b(?:https?:\/\/)?(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&//=]*)\b/g;
-            return text.replace(urlPattern, function(url) {
-                // If URL doesn't start with http:// or https://, add https://
-                if (!url.match(/^https?:\/\//)) {
-                    url = 'https://' + url;
-                }
-                return '<a href="' + url + '" target="_blank" rel="noopener noreferrer">' + url + '</a>';
-            });
-        }
-
-        let sectionCount = <?php echo $editMode ? count($currentArticleDetails) : 1; ?>;
         
         // Add new section
         function addFields() {
