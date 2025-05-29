@@ -6,6 +6,20 @@ $conn = new mysqli("localhost", "hillsrug_gasore", "M00dle??", "hillsrug_db", 33
 if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
 $conn->set_charset("utf8mb4");
 
+// Function to convert URLs to clickable links
+function makeLinksClickable($text) {
+    // Regular expression to match URLs
+    $urlPattern = '/\b(?:https?:\/\/)?(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&//=]*)\b/';
+    return preg_replace_callback($urlPattern, function($matches) {
+        $url = $matches[0];
+        // If URL doesn't start with http:// or https://, add https://
+        if (!preg_match('/^https?:\/\//', $url)) {
+            $url = 'https://' . $url;
+        }
+        return '<a href="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '" target="_blank" rel="noopener noreferrer">' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '</a>';
+    }, $text);
+}
+
 // Get article ID from URL
 $article_id = isset($_GET['id']) ? $_GET['id'] : null;
 
@@ -289,7 +303,7 @@ if (!$share_image) {
             <article class="prose max-w-none lg:prose-lg article-content">
                 <?php if (!empty($article['content'])): ?>
                     <div class="mb-8">
-                        <?php echo nl2br(htmlspecialchars($article['content'], ENT_QUOTES, 'UTF-8')); ?>
+                        <?php echo nl2br(makeLinksClickable($article['content'])); ?>
                     </div>
                 <?php endif; ?>
                 
@@ -302,7 +316,7 @@ if (!$share_image) {
                         
                         <?php if (!empty($section['content'])): ?>
                             <div class="text-gray-700 mb-4">
-                                <?php echo nl2br(htmlspecialchars($section['content'], ENT_QUOTES, 'UTF-8')); ?>
+                                <?php echo nl2br(makeLinksClickable($section['content'])); ?>
                             </div>
                         <?php endif; ?>
                         
