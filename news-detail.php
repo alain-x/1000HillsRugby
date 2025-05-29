@@ -397,11 +397,18 @@ if (!$share_image) {
         // Close mobile menu when clicking outside
         document.addEventListener('click', (e) => {
             if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
-                mobileMenu.classList.add('translate-x-full');
-                menuIcon.className = 'fas fa-bars text-xl';
-                document.body.style.overflow = 'auto';
             }
+            return '<a href="' + url + '" target="_blank" rel="noopener noreferrer">' + url + '</a>';
         });
-    </script>
+    }
+
+    // Initialize clickable links
+    document.addEventListener('DOMContentLoaded', function() {
+        const contentElements = document.querySelectorAll('.article-content');
+        contentElements.forEach(element => {
+            element.innerHTML = makeLinksClickable(element.innerHTML);
+        });
+    });
+</script>
 </body>
 </html>
