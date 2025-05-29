@@ -20,6 +20,12 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Function to make URLs clickable
+function makeLinksClickable($text) {
+    $pattern = '/((?:https?|ftp):\/\/[^\s\/$.?#].[^\s]*)/i';
+    return preg_replace($pattern, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>', $text);
+}
+
 // Initialize variables
 $message = '';
 $messageClass = '';
@@ -371,6 +377,14 @@ $conn->close();
         }
         .image-thumbnail:hover .remove-image-btn {
             opacity: 1;
+        }
+        /* Style for clickable links in content */
+        .article-content a {
+            color: #3b82f6;
+            text-decoration: underline;
+        }
+        .article-content a:hover {
+            color: #2563eb;
         }
     </style>
 </head>
