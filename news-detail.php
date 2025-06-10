@@ -526,7 +526,7 @@ if (!$share_image) {
                     <i class="fab fa-facebook"></i>
                 </a>
                 <a href="https://twitter.com/intent/tweet?url=<?php echo urlencode($page_url); ?>&text=<?php echo urlencode($article['title']); ?>" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-600 text-xl sm:text-2xl transition-colors focus:outline-none" aria-label="Share on Twitter">
-                    <i class="fab fa-twitter"></i>
+                    <i class="fa-brands fa-x-twitter"></i>
                 </a>
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo urlencode($page_url); ?>" target="_blank" rel="noopener noreferrer" class="text-blue-700 hover:text-blue-900 text-xl sm:text-2xl transition-colors focus:outline-none" aria-label="Share on LinkedIn">
                     <i class="fab fa-linkedin"></i>
