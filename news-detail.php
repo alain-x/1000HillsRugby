@@ -522,13 +522,22 @@ if (!$share_image) {
             <!-- Social Sharing -->
             <div class="flex flex-wrap gap-4 sm:gap-6 my-6 social-share">
                 <span class="text-gray-700 text-sm sm:text-base self-center">Share:</span>
-                <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode($page_url); ?>" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 text-xl sm:text-2xl transition-colors focus:outline-none" aria-label="Share on Facebook">
-                    <i class="fab fa-facebook"></i>
-                </a>
-                <a href="https://twitter.com/intent/tweet?url=<?php echo urlencode($page_url); ?>&text=<?php echo urlencode($article['title']); ?>" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-600 text-xl sm:text-2xl transition-colors focus:outline-none" aria-label="Share on Twitter">
-                    <i class="fab fa-x-twitter"></i>
-                    
-                </a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode($page_url); ?>" 
+   target="_blank" 
+   rel="noopener noreferrer" 
+   class="text-blue-600 hover:text-blue-800 text-xl sm:text-2xl transition-colors focus:outline-none" 
+   aria-label="Share on Facebook">
+    <i class="fab fa-facebook"></i>
+</a>
+
+<a href="https://twitter.com/intent/tweet?url=<?php echo urlencode($page_url); ?>&text=<?php echo urlencode($article['title']); ?>" 
+   target="_blank" 
+   rel="noopener noreferrer" 
+   class="text-blue-400 hover:text-blue-600 text-xl sm:text-2xl transition-colors focus:outline-none" 
+   aria-label="Share on X">
+    <i class="fab fa-x-twitter"></i>
+</a>
+
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo urlencode($page_url); ?>" target="_blank" rel="noopener noreferrer" class="text-blue-700 hover:text-blue-900 text-xl sm:text-2xl transition-colors focus:outline-none" aria-label="Share on LinkedIn">
                     <i class="fab fa-linkedin"></i>
                 </a>
