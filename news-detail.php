@@ -117,8 +117,6 @@ if (!$share_image) {
     <!-- CSS & Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-yuU6N3+KPY3WQbsYK/ZUvN+wDn+X1V5lo0ZuSeGp3zTVSLLAhcYFAKy2Sr6ob3QQow0j0KmmFd+1tx1z2Nk+0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
     <style>
         /* Custom responsive styles */
         .article-content p {
@@ -528,8 +526,7 @@ if (!$share_image) {
                     <i class="fab fa-facebook"></i>
                 </a>
                 <a href="https://twitter.com/intent/tweet?url=<?php echo urlencode($page_url); ?>&text=<?php echo urlencode($article['title']); ?>" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-600 text-xl sm:text-2xl transition-colors focus:outline-none" aria-label="Share on Twitter">
-                            <i class="fa-brands fa-x-twitter"></i>
-                    
+                    <i class="fab fa-twitter"></i>
                 </a>
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo urlencode($page_url); ?>" target="_blank" rel="noopener noreferrer" class="text-blue-700 hover:text-blue-900 text-xl sm:text-2xl transition-colors focus:outline-none" aria-label="Share on LinkedIn">
                     <i class="fab fa-linkedin"></i>
