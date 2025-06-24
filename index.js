@@ -127,32 +127,32 @@ function toggleDropdown(menuId) {
 // Match Data******************************************************************************************
 const matches = [
   {
-    date: { day: "15", month: "Feb" },
+    date: { day: "21", month: "Jun" },
     team1: {
       name: "1000 Hills Rugby RFC",
       logo: "./logos_/logoT.jpg",
-      score: "14",
+      score: "12",
     },
     team2: {
       name: "Lion De Fer RFC",
       logo: "./images/lions.jpg",
-      score: "21",
+      score: "15",
     },
-    tournamentInfo: "Final - Jade Water7s 2025",
+    tournamentInfo: "GMT 7s 2025 - Semi-final",
   },
   {
-    date: { day: "15", month: "Feb" },
+    date: { day: "21", month: "Jun" },
     team1: {
       name: "1000 Hills Rugby RFC",
       logo: "./logos_/logoT.jpg",
-      score: "21",
+      score: "10",
     },
     team2: {
       name: "GITISI A RFC",
       logo: "", // Empty logo to trigger fallback
-      score: "19",
+      score: "07",
     },
-    tournamentInfo: "Semi Final - Jade Water7s 2025",
+    tournamentInfo: "GMT 7s 2025 ",
   },
 ];
 
