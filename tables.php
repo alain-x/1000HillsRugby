@@ -4,12 +4,12 @@ define('DB_HOST', 'localhost');
 define('DB_USER', 'hillsrug_hillsrug');
 define('DB_PASS', 'M00dle??');
 define('DB_NAME', 'hillsrug_1000hills_rugby_db');
-define('LOGO_DIR', 'logos_/');
+define('LOGO_DIR', __DIR__ . '/logos_/');
 define('DEFAULT_LOGO', 'default.png');
 
 // Error reporting
 error_reporting(E_ALL);
-ini_set('display_errors', 0);
+ini_set('display_errors', 1); // Enable for debugging
 ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/error.log');
 
@@ -29,6 +29,15 @@ try {
     
     if ($conn->connect_error) {
         throw new Exception("Database connection failed: " . $conn->connect_error);
+    }
+
+    // Check if required tables exist
+    $required_tables = ['teams', 'competitions', 'seasons', 'genders', 'league_standings'];
+    foreach ($required_tables as $table) {
+        $result = $conn->query("SHOW TABLES LIKE '$table'");
+        if ($result->num_rows == 0) {
+            throw new Exception("Required table '$table' doesn't exist. Please run setup_database.php first.");
+        }
     }
 
     // Get available competitions
@@ -149,7 +158,7 @@ try {
     
 } catch (Exception $e) {
     error_log($e->getMessage());
-    $error = "An error occurred while fetching league data. Please try again later.";
+    $error = "An error occurred while fetching league data: " . $e->getMessage();
 }
 ?>
 <!DOCTYPE html>
@@ -349,8 +358,11 @@ try {
                     <a href="fixtures?tab=results" class="nav-item font-medium text-sm uppercase tracking-wider">
                         <i class="fas fa-list-ol mr-2"></i>Results
                     </a>
-                    <a href="tables" class="nav-item active font-medium text-sm uppercase tracking-wider">
+                    <a href="tables.php" class="nav-item active font-medium text-sm uppercase tracking-wider">
                         <i class="fas fa-table mr-2"></i>League Tables
+                    </a>
+                    <a href="uploadtables.php" class="nav-item font-medium text-sm uppercase tracking-wider">
+                        <i class="fas fa-cog mr-2"></i>Manage
                     </a>
                 </nav>
                 
@@ -371,8 +383,11 @@ try {
             <a href="fixtures?tab=results" class="block mobile-nav-item rounded-md">
                 <i class="fas fa-list-ol mr-3"></i>Results
             </a>
-            <a href="tables" class="block mobile-nav-item active rounded-md">
+            <a href="tables.php" class="block mobile-nav-item active rounded-md">
                 <i class="fas fa-table mr-3"></i>League Tables
+            </a>
+            <a href="uploadtables.php" class="block mobile-nav-item rounded-md">
+                <i class="fas fa-cog mr-3"></i>Manage
             </a>
         </div>
     </header>
@@ -470,6 +485,9 @@ try {
                                         <i class="fas fa-table text-4xl text-gray-300 mb-3"></i>
                                         <p class="text-lg font-medium">No standings data available</p>
                                         <p class="text-sm">Please select different filters or add teams to the league.</p>
+                                        <a href="uploadtables.php" class="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                                            <i class="fas fa-plus mr-2"></i>Add Teams
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
