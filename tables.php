@@ -4,7 +4,7 @@ define('DB_HOST', 'localhost');
 define('DB_USER', 'hillsrug_hillsrug');
 define('DB_PASS', 'M00dle??');
 define('DB_NAME', 'hillsrug_1000hills_rugby_db');
-define('LOGO_DIR', __DIR__ . '/logos_/');
+define('LOGO_DIR', 'logos_/');
 define('DEFAULT_LOGO', 'default.png');
 
 // Error reporting
@@ -575,7 +575,7 @@ try {
             
             // Navigate to new URL with filters
             setTimeout(() => {
-                window.location.href = `tables?competition_id=${competition_id}&season_id=${season_id}&gender_id=${gender_id}`;
+                window.location.href = `tables.php?competition_id=${competition_id}&season_id=${season_id}&gender_id=${gender_id}`;
             }, 500);
         });
         

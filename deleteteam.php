@@ -4,7 +4,7 @@ define('DB_HOST', 'localhost');
 define('DB_USER', 'hillsrug_hillsrug');
 define('DB_PASS', 'M00dle??');
 define('DB_NAME', 'hillsrug_1000hills_rugby_db');
-define('LOGO_DIR', __DIR__ . '/logos_/');
+define('LOGO_DIR', 'logos_/');
 define('DEFAULT_LOGO', 'default.png');
 
 // Error reporting
@@ -86,4 +86,4 @@ try {
         $conn->close();
     }
 }
-?> 
+?>
