@@ -4,7 +4,7 @@ define('DB_HOST', 'localhost');
 define('DB_USER', 'hillsrug_hillsrug');
 define('DB_PASS', 'M00dle??');
 define('DB_NAME', 'hillsrug_1000hills_rugby_db');
-define('LOGO_DIR', __DIR__ . '/logos/');
+define('LOGO_DIR', __DIR__ . '/logos_/');
 define('DEFAULT_LOGO', 'default.png');
 define('MAX_FILE_SIZE', 2 * 1024 * 1024); // 2MB
 
@@ -15,18 +15,28 @@ if (!file_exists(LOGO_DIR)) {
 
 // Error reporting
 error_reporting(E_ALL);
-ini_set('display_errors', 0); // Disable on production
+ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/error.log');
 
 // Initialize variables
 $message = '';
 $messageType = '';
+
+// Handle messages from redirects (e.g., from delete operation)
+if (isset($_GET['message'])) {
+    $message = htmlspecialchars($_GET['message'], ENT_QUOTES, 'UTF-8');
+    $messageType = $_GET['type'] ?? 'success';
+} elseif (isset($_GET['error'])) {
+    $message = htmlspecialchars($_GET['error'], ENT_QUOTES, 'UTF-8');
+    $messageType = 'error';
+}
+
 $standings = [];
 $competitions = [];
 $seasons = [];
 $genders = [];
-$previous_positions = []; // To track position changes
+$previous_positions = [];
 
 // Create database connection with error handling
 try {
@@ -40,18 +50,51 @@ try {
     die("Database connection error. Please try again later.");
 }
 
-// Check if required tables exist
-try {
-    $required_tables = ['teams', 'competitions', 'seasons', 'genders', 'league_standings'];
-    foreach ($required_tables as $table) {
-        $result = $conn->query("SHOW TABLES LIKE '$table'");
-        if ($result->num_rows == 0) {
-            throw new Exception("Required table '$table' doesn't exist in the database.");
+// Handle delete team request
+if (isset($_GET['delete_team']) && is_numeric($_GET['delete_team'])) {
+    $team_id = (int)$_GET['delete_team'];
+    
+    try {
+        $conn->begin_transaction();
+        
+        // Get team logo before deletion
+        $stmt = $conn->prepare("SELECT logo FROM teams WHERE id = ?");
+        $stmt->bind_param("i", $team_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $team = $result->fetch_assoc();
+        $stmt->close();
+        
+        if ($team) {
+            // Delete from league_standings first
+            $stmt = $conn->prepare("DELETE FROM league_standings WHERE team_id = ?");
+            $stmt->bind_param("i", $team_id);
+            $stmt->execute();
+            $stmt->close();
+            
+            // Delete from teams
+            $stmt = $conn->prepare("DELETE FROM teams WHERE id = ?");
+            $stmt->bind_param("i", $team_id);
+            $stmt->execute();
+            $stmt->close();
+            
+            // Delete logo file if it exists and is not default
+            if ($team['logo'] && $team['logo'] !== DEFAULT_LOGO && file_exists(LOGO_DIR . $team['logo'])) {
+                unlink(LOGO_DIR . $team['logo']);
+            }
+            
+            $conn->commit();
+            $message = "Team deleted successfully!";
+            $messageType = "success";
+        } else {
+            throw new Exception("Team not found");
         }
+        
+    } catch (Exception $e) {
+        $conn->rollback();
+        $message = "Error deleting team: " . $e->getMessage();
+        $messageType = "error";
     }
-} catch (Exception $e) {
-    error_log($e->getMessage());
-    die("Database configuration error. Please contact the administrator.");
 }
 
 // Handle form submissions
@@ -292,7 +335,7 @@ try {
             $team_id = (int)$row['team_id'];
             $current_position = $position++;
             $previous_position = $previous_positions[$team_id] ?? $current_position;
-            $position_change = $previous_position - $current_position; // Positive = moved up, Negative = moved down
+            $position_change = $previous_position - $current_position;
             
             $logoPath = (!empty($row['team_logo']) && file_exists(LOGO_DIR . $row['team_logo'])) 
                 ? LOGO_DIR . $row['team_logo'] 
@@ -347,101 +390,239 @@ $conn->close();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .team-logo {
-            width: 30px;
-            height: 30px;
+            width: 35px;
+            height: 35px;
             object-fit: contain;
-            margin-right: 8px;
+            margin-right: 10px;
+            border-radius: 50%;
+            border: 2px solid #e5e7eb;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .team-initial {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 30px;
-            height: 30px;
-            margin-right: 8px;
-            background-color: #9CA3AF;
+            width: 35px;
+            height: 35px;
+            margin-right: 10px;
+            background: linear-gradient(135deg, #10B981, #059669);
             color: white;
             border-radius: 50%;
             font-weight: bold;
-        }
-        input[type="number"] {
-            width: 60px;
-            text-align: center;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .form-control {
             display: block;
             width: 100%;
-            padding: 0.375rem 0.75rem;
-            font-size: 1rem;
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
             line-height: 1.5;
-            color: #495057;
+            color: #374151;
             background-color: #fff;
             background-clip: padding-box;
-            border: 1px solid #ced4da;
-            border-radius: 0.25rem;
-            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+            outline: none;
         }
         .required-field::after {
             content: " *";
-            color: red;
+            color: #ef4444;
         }
         .alert-success {
-            background-color: #d1fae5;
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
             color: #065f46;
+            border: 1px solid #10b981;
         }
         .alert-error {
-            background-color: #fee2e2;
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
             color: #b91c1c;
+            border: 1px solid #ef4444;
         }
         .position-up {
             color: #10B981;
+            font-weight: bold;
         }
         .position-down {
             color: #EF4444;
+            font-weight: bold;
         }
         .position-same {
             color: #F59E0B;
+            font-weight: bold;
+        }
+        .card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        .card-header {
+            background: linear-gradient(135deg, #065f46 0%, #047857 100%);
+            color: white;
+            padding: 1.5rem;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-danger:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+        .input-number {
+            width: 60px;
+            text-align: center;
+            padding: 0.5rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.375rem;
+            transition: all 0.3s ease;
+        }
+        .input-number:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+            outline: none;
+        }
+        .nav-container {
+            background: linear-gradient(135deg, #065f46 0%, #047857 50%, #065f46 100%);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .nav-item {
+            position: relative;
+            color: white;
+            transition: all 0.3s ease;
+            padding: 12px 16px;
+            border-radius: 8px;
+        }
+        .nav-item:hover {
+            color: #d1fae5;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-1px);
+        }
+        .nav-item.active {
+            color: white;
+            background-color: rgba(52, 211, 153, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .table-responsive {
+                font-size: 12px;
+            }
+            .team-logo, .team-initial {
+                width: 25px;
+                height: 25px;
+                margin-right: 6px;
+            }
+            .input-number {
+                width: 50px;
+                padding: 0.25rem;
+            }
         }
     </style>
 </head>
 <body class="bg-gray-50">
-    <header class="bg-green-800 text-white shadow-md">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="tables.php" class="flex items-center">
-                <img src="<?= htmlspecialchars(LOGO_DIR . 'logoT.jpg', ENT_QUOTES, 'UTF-8') ?>" alt="1000 Hills Rugby" class="h-10">
-                <span class="ml-2 text-lg font-bold">1000 Hills Rugby</span>
+    <!-- Professional Header -->
+    <header class="nav-container">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <a href="./" class="flex items-center">
+                        <img src="./logos_/logoT.jpg" alt="Club Logo" class="h-12 rounded-full border-2 border-white shadow-md">
+                        <span class="ml-3 text-xl font-bold text-white">1000 Hills Rugby</span>
+                    </a>
+                </div>
+                
+                <nav class="hidden md:flex items-center space-x-2">
+                    <a href="tables.php" class="nav-item font-medium text-sm uppercase tracking-wider">
+                        <i class="fas fa-table mr-2"></i>League Table
+                    </a>
+                    <a href="uploadtables.php" class="nav-item active font-medium text-sm uppercase tracking-wider">
+                        <i class="fas fa-cog mr-2"></i>Manage Standings
+                    </a>
+                </nav>
+                
+                <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-green-800 py-2 px-4 shadow-lg">
+            <a href="tables.php" class="block py-3 px-4 text-white hover:bg-green-700 rounded-md">
+                <i class="fas fa-table mr-3"></i>League Table
             </a>
-            <nav class="flex space-x-4">
-                <a href="tables.php" class="text-green-200 hover:text-white font-bold">League Table</a>
-                <a href="uploadtables.php" class="text-white font-bold border-b-2 border-white pb-1">Manage Standings</a>
-            </nav>
+            <a href="uploadtables.php" class="block py-3 px-4 text-white bg-green-700 rounded-md">
+                <i class="fas fa-cog mr-3"></i>Manage Standings
+            </a>
         </div>
     </header>
 
     <main class="container mx-auto px-4 py-6">
         <?php if ($message): ?>
-            <div class="mb-4 p-3 rounded-md alert-<?= $messageType ?>">
-                <?= $message ?>
+            <div class="mb-6 p-4 rounded-lg alert-<?= $messageType ?> shadow-sm">
+                <div class="flex items-center">
+                    <i class="fas fa-<?= $messageType === 'success' ? 'check-circle' : 'exclamation-triangle' ?> mr-3 text-lg"></i>
+                    <div><?= $message ?></div>
+                </div>
             </div>
         <?php endif; ?>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <!-- Add New Team Form -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="p-4 bg-gray-800 text-white">
-                    <h2 class="text-xl font-bold">Add New Team</h2>
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <i class="fas fa-plus-circle mr-3"></i>Add New Team
+                    </h2>
                 </div>
-                <div class="p-4">
-                    <form method="POST" enctype="multipart/form-data" class="space-y-4" id="teamForm">
+                <div class="p-6">
+                    <form method="POST" enctype="multipart/form-data" class="space-y-6" id="teamForm">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1 required-field">Team Name</label>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2 required-field">
+                                <i class="fas fa-users mr-1 text-green-600"></i>Team Name
+                            </label>
                             <input type="text" name="team_name" required minlength="2" maxlength="255"
-                                   class="form-control" value="<?= htmlspecialchars($_POST['team_name'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
+                                   class="form-control" value="<?= htmlspecialchars($_POST['team_name'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                                   placeholder="Enter team name">
                         </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1 required-field">Competition</label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2 required-field">
+                                    <i class="fas fa-trophy mr-1 text-green-600"></i>Competition
+                                </label>
                                 <select name="competition_id" required class="form-control">
                                     <option value="">Select Competition</option>
                                     <?php foreach ($competitions as $comp): ?>
@@ -452,7 +633,9 @@ $conn->close();
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1 required-field">Season</label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2 required-field">
+                                    <i class="fas fa-calendar mr-1 text-green-600"></i>Season
+                                </label>
                                 <select name="season_id" required class="form-control">
                                     <option value="">Select Season</option>
                                     <?php foreach ($seasons as $season): ?>
@@ -463,7 +646,9 @@ $conn->close();
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1 required-field">Gender</label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2 required-field">
+                                    <i class="fas fa-venus-mars mr-1 text-green-600"></i>Gender
+                                </label>
                                 <select name="gender_id" required class="form-control">
                                     <option value="">Select Gender</option>
                                     <?php foreach ($genders as $gender): ?>
@@ -476,52 +661,81 @@ $conn->close();
                         </div>
                         
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Team Logo</label>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-image mr-1 text-green-600"></i>Team Logo
+                            </label>
                             <input type="file" name="team_logo" accept="image/jpeg, image/png" 
                                    class="form-control">
-                            <p class="mt-1 text-xs text-gray-500">PNG or JPG (max 2MB)</p>
+                            <p class="mt-2 text-xs text-gray-500">
+                                <i class="fas fa-info-circle mr-1"></i>PNG or JPG (max 2MB)
+                            </p>
                         </div>
                         
-                        <button type="submit" name="add_team" 
-                                class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+                        <button type="submit" name="add_team" class="btn-primary w-full">
                             <i class="fas fa-plus mr-2"></i> Add Team
                         </button>
                     </form>
                 </div>
             </div>
 
-            <!-- Quick Filters -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="p-4 bg-gray-800 text-white">
-                    <h2 class="text-xl font-bold">Available Filters</h2>
+            <!-- Quick Stats -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <i class="fas fa-chart-bar mr-3"></i>League Statistics
+                    </h2>
                 </div>
-                <div class="p-4">
-                    <div class="space-y-3">
+                <div class="p-6">
+                    <div class="space-y-6">
                         <div>
-                            <h3 class="font-medium text-gray-700">Competitions</h3>
-                            <div class="flex flex-wrap gap-2 mt-1">
+                            <h3 class="font-semibold text-gray-700 mb-3 flex items-center">
+                                <i class="fas fa-trophy mr-2 text-yellow-500"></i>Competitions
+                            </h3>
+                            <div class="flex flex-wrap gap-2">
                                 <?php foreach ($competitions as $comp): ?>
-                                    <span class="px-2 py-1 bg-gray-100 text-sm rounded"><?= htmlspecialchars($comp['name'], ENT_QUOTES, 'UTF-8') ?></span>
+                                    <span class="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full font-medium">
+                                        <?= htmlspecialchars($comp['name'], ENT_QUOTES, 'UTF-8') ?>
+                                    </span>
                                 <?php endforeach; ?>
                             </div>
                         </div>
                         
                         <div>
-                            <h3 class="font-medium text-gray-700">Seasons</h3>
-                            <div class="flex flex-wrap gap-2 mt-1">
+                            <h3 class="font-semibold text-gray-700 mb-3 flex items-center">
+                                <i class="fas fa-calendar mr-2 text-blue-500"></i>Seasons
+                            </h3>
+                            <div class="flex flex-wrap gap-2">
                                 <?php foreach ($seasons as $season): ?>
-                                    <span class="px-2 py-1 bg-gray-100 text-sm rounded"><?= htmlspecialchars($season['year'], ENT_QUOTES, 'UTF-8') ?></span>
+                                    <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full font-medium">
+                                        <?= htmlspecialchars($season['year'], ENT_QUOTES, 'UTF-8') ?>
+                                    </span>
                                 <?php endforeach; ?>
                             </div>
                         </div>
                         
                         <div>
-                            <h3 class="font-medium text-gray-700">Genders</h3>
-                            <div class="flex flex-wrap gap-2 mt-1">
+                            <h3 class="font-semibold text-gray-700 mb-3 flex items-center">
+                                <i class="fas fa-users mr-2 text-purple-500"></i>Genders
+                            </h3>
+                            <div class="flex flex-wrap gap-2">
                                 <?php foreach ($genders as $gender): ?>
-                                    <span class="px-2 py-1 bg-gray-100 text-sm rounded"><?= htmlspecialchars($gender['name'], ENT_QUOTES, 'UTF-8') ?></span>
+                                    <span class="px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full font-medium">
+                                        <?= htmlspecialchars($gender['name'], ENT_QUOTES, 'UTF-8') ?>
+                                    </span>
                                 <?php endforeach; ?>
                             </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-gray-700 mb-2 flex items-center">
+                                <i class="fas fa-info-circle mr-2 text-gray-500"></i>Quick Info
+                            </h3>
+                            <p class="text-sm text-gray-600">
+                                Total Teams: <span class="font-semibold text-green-600"><?= count($standings) ?></span>
+                            </p>
+                            <p class="text-sm text-gray-600">
+                                Last Updated: <span class="font-semibold text-green-600"><?= date('M j, Y H:i') ?></span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -529,44 +743,50 @@ $conn->close();
         </div>
 
         <!-- Edit Standings Form -->
-        <div class="mt-6 bg-white rounded-lg shadow-md overflow-hidden">
-            <div class="p-4 bg-gray-800 text-white">
-                <h2 class="text-xl font-bold">Edit League Standings</h2>
+        <div class="mt-8 card">
+            <div class="card-header">
+                <h2 class="text-xl font-bold flex items-center">
+                    <i class="fas fa-edit mr-3"></i>Edit League Standings
+                </h2>
             </div>
             
             <form method="POST" class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200 text-sm">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-4 py-3 text-left">Team</th>
-                            <th class="px-3 py-3 text-left">Comp</th>
-                            <th class="px-3 py-3 text-left">Season</th>
-                            <th class="px-3 py-3 text-left">Gender</th>
-                            <th class="px-3 py-3 text-center">Pld</th>
-                            <th class="px-3 py-3 text-center">W</th>
-                            <th class="px-3 py-3 text-center">D</th>
-                            <th class="px-3 py-3 text-center">L</th>
-                            <th class="px-3 py-3 text-center">T+</th>
-                            <th class="px-3 py-3 text-center">T-</th>
-                            <th class="px-3 py-3 text-center">PF</th>
-                            <th class="px-3 py-3 text-center">PA</th>
-                            <th class="px-3 py-3 text-center">Pts</th>
-                            <th class="px-3 py-3 text-center">Form</th>
-                            <th class="px-3 py-3 text-center">Change</th>
-                            <th class="px-3 py-3 text-center">Actions</th>
+                            <th class="px-4 py-4 text-left font-semibold text-gray-700">Team</th>
+                            <th class="px-3 py-4 text-left font-semibold text-gray-700">Comp</th>
+                            <th class="px-3 py-4 text-left font-semibold text-gray-700">Season</th>
+                            <th class="px-3 py-4 text-left font-semibold text-gray-700">Gender</th>
+                            <th class="px-3 py-4 text-center font-semibold text-gray-700">Pld</th>
+                            <th class="px-3 py-4 text-center font-semibold text-gray-700">W</th>
+                            <th class="px-3 py-4 text-center font-semibold text-gray-700">D</th>
+                            <th class="px-3 py-4 text-center font-semibold text-gray-700">L</th>
+                            <th class="px-3 py-4 text-center font-semibold text-gray-700">T+</th>
+                            <th class="px-3 py-4 text-center font-semibold text-gray-700">T-</th>
+                            <th class="px-3 py-4 text-center font-semibold text-gray-700">PF</th>
+                            <th class="px-3 py-4 text-center font-semibold text-gray-700">PA</th>
+                            <th class="px-3 py-4 text-center font-semibold text-gray-700">Pts</th>
+                            <th class="px-3 py-4 text-center font-semibold text-gray-700">Form</th>
+                            <th class="px-3 py-4 text-center font-semibold text-gray-700">Change</th>
+                            <th class="px-3 py-4 text-center font-semibold text-gray-700">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
                         <?php if (empty($standings)): ?>
                             <tr>
-                                <td colspan="16" class="px-4 py-4 text-center text-gray-500">
-                                    No teams found in league standings. Add your first team above.
+                                <td colspan="16" class="px-4 py-8 text-center text-gray-500">
+                                    <div class="flex flex-col items-center">
+                                        <i class="fas fa-users text-4xl text-gray-300 mb-3"></i>
+                                        <p class="text-lg font-medium">No teams found in league standings</p>
+                                        <p class="text-sm">Add your first team using the form above.</p>
+                                    </div>
                                 </td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($standings as $team): ?>
-                                <tr>
-                                    <td class="px-4 py-3">
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-4 py-4">
                                         <input type="hidden" name="teams[<?= (int)$team['id'] ?>][id]" value="<?= (int)$team['id'] ?>">
                                         <div class="flex items-center">
                                             <?php if ($team['team_logo']): ?>
@@ -576,63 +796,63 @@ $conn->close();
                                             <?php else: ?>
                                                 <div class="team-initial"><?= $team['first_letter'] ?></div>
                                             <?php endif; ?>
-                                            <span><?= htmlspecialchars($team['team_name'], ENT_QUOTES, 'UTF-8') ?></span>
+                                            <span class="font-medium text-gray-900"><?= htmlspecialchars($team['team_name'], ENT_QUOTES, 'UTF-8') ?></span>
                                         </div>
                                     </td>
-                                    <td class="px-3 py-3"><?= htmlspecialchars($team['competition_name'], ENT_QUOTES, 'UTF-8') ?></td>
-                                    <td class="px-3 py-3"><?= htmlspecialchars($team['season_year'], ENT_QUOTES, 'UTF-8') ?></td>
-                                    <td class="px-3 py-3"><?= htmlspecialchars($team['gender_name'], ENT_QUOTES, 'UTF-8') ?></td>
-                                    <td class="px-3 py-3">
+                                    <td class="px-3 py-4 text-sm text-gray-600"><?= htmlspecialchars($team['competition_name'], ENT_QUOTES, 'UTF-8') ?></td>
+                                    <td class="px-3 py-4 text-sm text-gray-600"><?= htmlspecialchars($team['season_year'], ENT_QUOTES, 'UTF-8') ?></td>
+                                    <td class="px-3 py-4 text-sm text-gray-600"><?= htmlspecialchars($team['gender_name'], ENT_QUOTES, 'UTF-8') ?></td>
+                                    <td class="px-3 py-4">
                                         <input type="number" name="teams[<?= (int)$team['id'] ?>][matches_played]" 
                                                value="<?= (int)$team['matches_played'] ?>" min="0" 
-                                               class="p-1 text-center border border-gray-300 rounded">
+                                               class="input-number">
                                     </td>
-                                    <td class="px-3 py-3">
+                                    <td class="px-3 py-4">
                                         <input type="number" name="teams[<?= (int)$team['id'] ?>][matches_won]" 
                                                value="<?= (int)$team['matches_won'] ?>" min="0" 
-                                               class="p-1 text-center border border-gray-300 rounded">
+                                               class="input-number">
                                     </td>
-                                    <td class="px-3 py-3">
+                                    <td class="px-3 py-4">
                                         <input type="number" name="teams[<?= (int)$team['id'] ?>][matches_drawn]" 
                                                value="<?= (int)$team['matches_drawn'] ?>" min="0" 
-                                               class="p-1 text-center border border-gray-300 rounded">
+                                               class="input-number">
                                     </td>
-                                    <td class="px-3 py-3">
+                                    <td class="px-3 py-4">
                                         <input type="number" name="teams[<?= (int)$team['id'] ?>][matches_lost]" 
                                                value="<?= (int)$team['matches_lost'] ?>" min="0" 
-                                               class="p-1 text-center border border-gray-300 rounded">
+                                               class="input-number">
                                     </td>
-                                    <td class="px-3 py-3">
+                                    <td class="px-3 py-4">
                                         <input type="number" name="teams[<?= (int)$team['id'] ?>][tries_for]" 
                                                value="<?= (int)$team['tries_for'] ?>" min="0" 
-                                               class="p-1 text-center border border-gray-300 rounded">
+                                               class="input-number">
                                     </td>
-                                    <td class="px-3 py-3">
+                                    <td class="px-3 py-4">
                                         <input type="number" name="teams[<?= (int)$team['id'] ?>][tries_against]" 
                                                value="<?= (int)$team['tries_against'] ?>" min="0" 
-                                               class="p-1 text-center border border-gray-300 rounded">
+                                               class="input-number">
                                     </td>
-                                    <td class="px-3 py-3">
+                                    <td class="px-3 py-4">
                                         <input type="number" name="teams[<?= (int)$team['id'] ?>][points_for]" 
                                                value="<?= (int)$team['points_for'] ?>" min="0" 
-                                               class="p-1 text-center border border-gray-300 rounded">
+                                               class="input-number">
                                     </td>
-                                    <td class="px-3 py-3">
+                                    <td class="px-3 py-4">
                                         <input type="number" name="teams[<?= (int)$team['id'] ?>][points_against]" 
                                                value="<?= (int)$team['points_against'] ?>" min="0" 
-                                               class="p-1 text-center border border-gray-300 rounded">
+                                               class="input-number">
                                     </td>
-                                    <td class="px-3 py-3">
+                                    <td class="px-3 py-4">
                                         <input type="number" name="teams[<?= (int)$team['id'] ?>][league_points]" 
                                                value="<?= (int)$team['league_points'] ?>" min="0" 
-                                               class="p-1 text-center border border-gray-300 rounded">
+                                               class="input-number">
                                     </td>
-                                    <td class="px-3 py-3">
+                                    <td class="px-3 py-4">
                                         <input type="number" step="0.01" name="teams[<?= (int)$team['id'] ?>][form_score]" 
                                                value="<?= (float)$team['form_score'] ?>" min="0" max="1" 
-                                               class="w-16 p-1 text-center border border-gray-300 rounded">
+                                               class="w-16 input-number">
                                     </td>
-                                    <td class="px-3 py-3 text-center">
+                                    <td class="px-3 py-4 text-center">
                                         <?php if ($team['position_change'] > 0): ?>
                                             <span class="position-up">
                                                 <i class="fas fa-arrow-up"></i> <?= abs($team['position_change']) ?>
@@ -647,10 +867,10 @@ $conn->close();
                                             </span>
                                         <?php endif; ?>
                                     </td>
-                                    <td class="px-3 py-3 text-center">
+                                    <td class="px-3 py-4 text-center">
                                         <a href="deleteteam.php?id=<?= (int)$team['team_id'] ?>" 
-                                           class="text-red-600 hover:text-red-800 transition-colors"
-                                           onclick="return confirm('Are you sure you want to delete this team?')">
+                                           class="btn-danger"
+                                           onclick="return confirm('Are you sure you want to delete <?= htmlspecialchars($team['team_name'], ENT_QUOTES, 'UTF-8') ?>? This action cannot be undone.')">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </td>
@@ -661,9 +881,8 @@ $conn->close();
                 </table>
                 
                 <?php if (!empty($standings)): ?>
-                    <div class="p-4 bg-gray-50 border-t">
-                        <button type="submit" name="update_standings" 
-                                class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
+                    <div class="p-6 bg-gray-50 border-t border-gray-200">
+                        <button type="submit" name="update_standings" class="btn-primary">
                             <i class="fas fa-save mr-2"></i> Save Changes
                         </button>
                     </div>
@@ -673,36 +892,42 @@ $conn->close();
     </main>
 
     <script>
-        // Form validation
+        // Form validation with enhanced UX
         document.getElementById('teamForm').addEventListener('submit', function(e) {
             const teamName = this.querySelector('[name="team_name"]').value.trim();
             const competition = this.querySelector('[name="competition_id"]').value;
             const season = this.querySelector('[name="season_id"]').value;
             const gender = this.querySelector('[name="gender_id"]').value;
             
+            let errors = [];
+            
             if (!teamName) {
-                alert('Team name is required');
-                e.preventDefault();
-                return false;
+                errors.push('Team name is required');
             }
             
             if (!competition) {
-                alert('Please select a competition');
-                e.preventDefault();
-                return false;
+                errors.push('Please select a competition');
             }
             
             if (!season) {
-                alert('Please select a season');
-                e.preventDefault();
-                return false;
+                errors.push('Please select a season');
             }
             
             if (!gender) {
-                alert('Please select a gender');
+                errors.push('Please select a gender');
+            }
+            
+            if (errors.length > 0) {
                 e.preventDefault();
+                alert('Please fix the following errors:\n\n' + errors.join('\n'));
                 return false;
             }
+            
+            // Show loading state
+            const button = this.querySelector('button[type="submit"]');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Adding Team...';
+            button.disabled = true;
             
             return true;
         });
@@ -716,7 +941,28 @@ $conn->close();
                 const pd = pf - pa;
                 
                 // You could update a points difference display here if you add one
-                console.log(`Points difference for ${row.querySelector('td:first-child').textContent}: ${pd}`);
+                console.log(`Points difference: ${pd}`);
+            });
+        });
+
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Add smooth animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate cards on load
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
             });
         });
     </script>
