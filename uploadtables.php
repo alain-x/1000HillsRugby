@@ -15,7 +15,7 @@ if (!file_exists(LOGO_DIR)) {
 
 // Error reporting
 error_reporting(E_ALL);
-ini_set('display_errors', 0);
+ini_set('display_errors', 1); // Enable display errors for debugging
 ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/error.log');
 
@@ -45,9 +45,18 @@ try {
         throw new Exception("Database connection failed: " . $conn->connect_error);
     }
     $conn->set_charset("utf8mb4");
+    
+    // Check if required tables exist
+    $required_tables = ['teams', 'competitions', 'seasons', 'genders', 'league_standings'];
+    foreach ($required_tables as $table) {
+        $result = $conn->query("SHOW TABLES LIKE '$table'");
+        if ($result->num_rows == 0) {
+            throw new Exception("Required table '$table' doesn't exist. Please run setup_database.php first.");
+        }
+    }
 } catch (Exception $e) {
     error_log($e->getMessage());
-    die("Database connection error. Please try again later.");
+    die("Database error: " . $e->getMessage() . "<br><a href='setup_database.php'>Run Database Setup</a>");
 }
 
 // Handle delete team request
@@ -99,6 +108,9 @@ if (isset($_GET['delete_team']) && is_numeric($_GET['delete_team'])) {
 
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Debug: Log POST data
+    error_log("POST data received: " . print_r($_POST, true));
+    
     if (isset($_POST['add_team'])) {
         try {
             // Validate and sanitize input
@@ -183,10 +195,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 // Insert team
                 $stmt = $conn->prepare("INSERT INTO teams (name, logo) VALUES (?, ?)");
+                if (!$stmt) {
+                    throw new Exception("Failed to prepare team insert: " . $conn->error);
+                }
                 $stmt->bind_param("ss", $team_name, $team_logo);
                 
                 if (!$stmt->execute()) {
-                    throw new Exception("Failed to add team: " . $conn->error);
+                    throw new Exception("Failed to add team: " . $stmt->error);
                 }
                 
                 $team_id = $stmt->insert_id;
@@ -198,10 +213,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         team_id, competition_id, season_id, gender_id
                     ) VALUES (?, ?, ?, ?)
                 ");
+                if (!$stmt) {
+                    throw new Exception("Failed to prepare standings insert: " . $conn->error);
+                }
                 $stmt->bind_param("iiii", $team_id, $competition_id, $season_id, $gender_id);
                 
                 if (!$stmt->execute()) {
-                    throw new Exception("Failed to add team to standings: " . $conn->error);
+                    throw new Exception("Failed to add team to standings: " . $stmt->error);
                 }
                 
                 $conn->commit();
