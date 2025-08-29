@@ -264,7 +264,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $points_for = filter_var($data['points_for'] ?? 0, FILTER_VALIDATE_INT);
                 $points_against = filter_var($data['points_against'] ?? 0, FILTER_VALIDATE_INT);
                 $league_points = filter_var($data['league_points'] ?? 0, FILTER_VALIDATE_INT);
-                $form_score = filter_var($data['form_score'] ?? 0, FILTER_VALIDATE_FLOAT);
+                $bonus_points = filter_var($data['bonus_points'] ?? 0, FILTER_VALIDATE_INT);
                 
                 $points_difference = $points_for - $points_against;
                 
@@ -280,11 +280,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         points_against = ?,
                         points_difference = ?,
                         league_points = ?,
-                        form_score = ?
+                        bonus_points = ?
                     WHERE id = ?
                 ");
                 $stmt->bind_param(
-                    "iiiiiiiiidii",
+                    "iiiiiiiiiiii",
                     $matches_played,
                     $matches_won,
                     $matches_drawn,
@@ -295,7 +295,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $points_against,
                     $points_difference,
                     $league_points,
-                    $form_score,
+                    $bonus_points,
                     $id
                 );
                 
@@ -427,7 +427,7 @@ try {
                c.name as competition_name, s.year as season_year, g.name as gender_name,
                ls.matches_played, ls.matches_won, ls.matches_drawn, ls.matches_lost,
                ls.tries_for, ls.tries_against, ls.points_for, ls.points_against,
-               ls.points_difference, ls.league_points, ls.form_score
+               ls.points_difference, ls.league_points, ls.bonus_points
         FROM league_standings ls
         JOIN teams t ON ls.team_id = t.id
         JOIN competitions c ON ls.competition_id = c.id
@@ -469,7 +469,7 @@ try {
                 'points_against' => (int)$row['points_against'],
                 'points_difference' => (int)$row['points_difference'],
                 'league_points' => (int)$row['league_points'],
-                'form_score' => (float)$row['form_score'],
+                'bonus_points' => (int)$row['bonus_points'],
                 'position_change' => $position_change
             ];
         }
@@ -880,7 +880,7 @@ $conn->close();
                             <th class="px-3 py-4 text-center font-semibold text-gray-700">PF</th>
                             <th class="px-3 py-4 text-center font-semibold text-gray-700">PA</th>
                             <th class="px-3 py-4 text-center font-semibold text-gray-700">Pts</th>
-                            <th class="px-3 py-4 text-center font-semibold text-gray-700">Form</th>
+                            <th class="px-3 py-4 text-center font-semibold text-gray-700">BP</th>
                             <th class="px-3 py-4 text-center font-semibold text-gray-700">Change</th>
                             <th class="px-3 py-4 text-center font-semibold text-gray-700">Actions</th>
                         </tr>
@@ -961,8 +961,8 @@ $conn->close();
                                                class="input-number">
                                     </td>
                                     <td class="px-3 py-4">
-                                        <input type="number" step="0.01" name="teams[<?= (int)$team['id'] ?>][form_score]" 
-                                               value="<?= (float)$team['form_score'] ?>" min="0" max="1" 
+                                        <input type="number" step="1" name="teams[<?= (int)$team['id'] ?>][bonus_points]" 
+                                               value="<?= (int)$team['bonus_points'] ?>" min="0" max="100" 
                                                class="w-16 input-number">
                                     </td>
                                     <td class="px-3 py-4 text-center">

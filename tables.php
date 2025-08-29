@@ -202,7 +202,7 @@ try {
             'points_against' => (int)$row['points_against'],
             'points_difference' => (int)$row['points_difference'],
             'league_points' => $current_points,
-            'form_score' => (float)$row['form_score'],
+            'bonus_points' => (int)$row['bonus_points'],
             'team_logo' => $row['team_logo']
         ];
         
@@ -527,7 +527,7 @@ try {
                             <th scope="col" class="px-3 py-4 text-center text-xs font-medium uppercase tracking-wider">PA</th>
                             <th scope="col" class="px-3 py-4 text-center text-xs font-medium uppercase tracking-wider">PD</th>
                             <th scope="col" class="px-3 py-4 text-center text-xs font-medium uppercase tracking-wider">Pts</th>
-                            <th scope="col" class="px-3 py-4 text-center text-xs font-medium uppercase tracking-wider">Form</th>
+                            <th scope="col" class="px-3 py-4 text-center text-xs font-medium uppercase tracking-wider">BP</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -585,15 +585,7 @@ try {
                                         <?= $team['points_difference'] > 0 ? '+' : '' ?><?= $team['points_difference'] ?>
                                     </td>
                                     <td class="px-3 py-4 whitespace-nowrap text-sm text-center font-bold text-gray-900"><?= $team['league_points'] ?></td>
-                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-center">
-                                        <?php 
-                                            // Simulate form indicators (would normally come from database)
-                                            $form = ['W', 'W', 'D', 'L', 'W'];
-                                            foreach ($form as $result): 
-                                        ?>
-                                            <span class="form-indicator form-<?= strtolower($result) ?>" title="<?= $result ?>"></span>
-                                        <?php endforeach; ?>
-                                    </td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-center font-bold text-gray-900"><?= (int)$team['bonus_points'] ?></td>
                                 </tr>
                                 <?php $previous_position = $team['position']; ?>
                             <?php endforeach; ?>
