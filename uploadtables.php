@@ -4,27 +4,29 @@ define('DB_HOST', 'localhost');
 define('DB_USER', 'hillsrug_hillsrug');
 define('DB_PASS', 'M00dle??');
 define('DB_NAME', 'hillsrug_1000hills_rugby_db');
-define('LOGO_DIR', 'logo_/');
-define('DEFAULT_LOGO', 'default.png');
-define('MAX_FILE_SIZE', 2 * 1024 * 1024); // 2MB
 
-// Set more generous PHP settings for file uploads
+define('UPLOAD_DIR', 'uploads/team_logos/');
+define('DEFAULT_LOGO', 'default_team.png');
+define('MAX_FILE_SIZE', 5 * 1024 * 1024); // 5MB
+
+// Set PHP settings for file uploads
 ini_set('max_execution_time', 300);
 ini_set('max_input_time', 300);
 ini_set('upload_max_filesize', '5M');
 ini_set('post_max_size', '10M');
-ini_set('memory_limit', '128M');
+ini_set('memory_limit', '256M');
 ini_set('file_uploads', 1);
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/error.log');
 
-// Ensure the logos directory exists and is writable
-if (!file_exists(LOGO_DIR)) {
-    if (!mkdir(LOGO_DIR, 0755, true)) {
-        error_log("Failed to create directory: " . LOGO_DIR);
+// Create upload directory if it doesn't exist
+if (!file_exists(UPLOAD_DIR)) {
+    if (!mkdir(UPLOAD_DIR, 0755, true)) {
         die("Failed to create upload directory. Please check permissions.");
     }
-} elseif (!is_writable(LOGO_DIR)) {
-    if (!chmod(LOGO_DIR, 0755)) {
-        error_log("Upload directory is not writable: " . LOGO_DIR);
+} elseif (!is_writable(UPLOAD_DIR)) {
+    if (!chmod(UPLOAD_DIR, 0755)) {
         die("Upload directory is not writable. Please check permissions.");
     }
 }
