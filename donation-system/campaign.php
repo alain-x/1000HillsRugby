@@ -11,6 +11,7 @@ if (!$campaign) {
 }
 
 $amounts = getDonationAmounts($campaign_id);
+$csrfToken = generateCsrfToken();
 ?>
 
 <div class="container campaign-page">
@@ -20,12 +21,12 @@ $amounts = getDonationAmounts($campaign_id);
         
         <div class="progress-container">
             <div class="progress-bar">
-                <div class="progress" style="width: <?= min(100, ($campaign['current_amount'] / $campaign['goal_amount']) * 100) ?>%"></div>
+                <div class="progress" style="width: <?= min(100, ($campaign['goal_amount'] > 0 ? ($campaign['current_amount'] / $campaign['goal_amount']) * 100 : 0)) ?>%"></div>
             </div>
             <div class="progress-stats">
                 <span>$<?= number_format($campaign['current_amount'], 2) ?> raised</span>
                 <span>$<?= number_format($campaign['goal_amount'], 2) ?> goal</span>
-                <span><?= round(($campaign['current_amount'] / $campaign['goal_amount']) * 100, 2) ?>% funded</span>
+                <span><?= $campaign['goal_amount'] > 0 ? round(($campaign['current_amount'] / $campaign['goal_amount']) * 100, 2) : 0 ?>% funded</span>
             </div>
         </div>
     </div>
@@ -35,6 +36,7 @@ $amounts = getDonationAmounts($campaign_id);
         
         <form action="donate.php" method="POST" class="donation-form">
             <input type="hidden" name="campaign_id" value="<?= $campaign['id'] ?>">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
             
             <div class="form-group">
                 <label>Donation Amount</label>
@@ -106,10 +108,9 @@ $amounts = getDonationAmounts($campaign_id);
     <div class="donor-testimonials">
         <h3>What donors are saying</h3>
         <?php
-        $testimonials = $pdo->query("SELECT donor_name, note, created_at FROM donations 
-                                    WHERE campaign_id = $campaign_id AND is_public = 1 AND note IS NOT NULL 
-                                    ORDER BY created_at DESC LIMIT 5")
-                            ->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $pdo->prepare("SELECT donor_name, note, created_at FROM donations WHERE campaign_id = ? AND is_public = 1 AND note IS NOT NULL ORDER BY created_at DESC LIMIT 5");
+        $stmt->execute([$campaign_id]);
+        $testimonials = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
         foreach ($testimonials as $testimonial): ?>
             <div class="testimonial">

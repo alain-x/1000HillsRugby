@@ -5,30 +5,38 @@ require_once '../includes/functions.php';
 
 adminAuthGuard();
 
+// Create CSRF token for forms
+$csrfToken = generateCsrfToken();
+
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['create_campaign'])) {
-        $data = [
-            'title' => $_POST['title'],
-            'description' => $_POST['description'],
-            'goal_amount' => $_POST['goal_amount'],
-            'start_date' => $_POST['start_date'],
-            'end_date' => $_POST['end_date'],
-            'donation_amounts' => $_POST['donation_amounts']
-        ];
-        
-        if (createCampaign($data)) {
-            $success = "Campaign created successfully!";
-        } else {
-            $error = "Failed to create campaign. Please try again.";
+    $token = $_POST['csrf_token'] ?? '';
+    if (!verifyCsrfToken($token)) {
+        $error = 'Invalid request. Please refresh and try again.';
+    } else {
+        if (isset($_POST['create_campaign'])) {
+            $data = [
+                'title' => $_POST['title'],
+                'description' => $_POST['description'],
+                'goal_amount' => $_POST['goal_amount'],
+                'start_date' => $_POST['start_date'],
+                'end_date' => $_POST['end_date'],
+                'donation_amounts' => $_POST['donation_amounts']
+            ];
+            
+            if (createCampaign($data)) {
+                $success = "Campaign created successfully!";
+            } else {
+                $error = "Failed to create campaign. Please try again.";
+            }
         }
-    }
-    
-    if (isset($_POST['update_goal'])) {
-        if (updateCampaignGoal($_POST['campaign_id'], $_POST['new_goal'])) {
-            $success = "Campaign goal updated successfully!";
-        } else {
-            $error = "Failed to update campaign goal.";
+        
+        if (isset($_POST['update_goal'])) {
+            if (updateCampaignGoal($_POST['campaign_id'], $_POST['new_goal'])) {
+                $success = "Campaign goal updated successfully!";
+            } else {
+                $error = "Failed to update campaign goal.";
+            }
         }
     }
 }
@@ -65,6 +73,7 @@ $campaigns = getAllCampaigns();
                 <h2>Create New Campaign</h2>
                 
                 <form method="POST">
+                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="title">Campaign Title</label>
@@ -136,9 +145,9 @@ $campaigns = getAllCampaigns();
                                 <td>
                                     <div class="progress-container">
                                         <div class="progress-bar">
-                                            <div class="progress" style="width: <?= min(100, ($campaign['current_amount'] / $campaign['goal_amount']) * 100) ?>%"></div>
+                                            <div class="progress" style="width: <?= min(100, ($campaign['goal_amount'] > 0 ? ($campaign['current_amount'] / $campaign['goal_amount']) * 100 : 0)) ?>%"></div>
                                         </div>
-                                        <span><?= round(($campaign['current_amount'] / $campaign['goal_amount']) * 100, 2) ?>%</span>
+                                        <span><?= $campaign['goal_amount'] > 0 ? round(($campaign['current_amount'] / $campaign['goal_amount']) * 100, 2) : 0 ?>%</span>
                                     </div>
                                 </td>
                                 <td>
@@ -152,6 +161,7 @@ $campaigns = getAllCampaigns();
                                     <div class="action-buttons">
                                         <a href="campaign-donations.php?id=<?= $campaign['id'] ?>" class="btn btn-sm btn-info">View Donations</a>
                                         <form method="POST" style="display: inline;">
+                                            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
                                             <input type="hidden" name="campaign_id" value="<?= $campaign['id'] ?>">
                                             <input type="number" name="new_goal" placeholder="New goal" step="0.01" min="0" style="width: 100px;">
                                             <button type="submit" name="update_goal" class="btn btn-sm btn-secondary">Update Goal</button>
@@ -169,4 +179,4 @@ $campaigns = getAllCampaigns();
     
     <script src="../assets/js/admin.js"></script>
 </body>
-</html>
+</html>

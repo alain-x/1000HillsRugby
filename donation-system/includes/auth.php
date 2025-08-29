@@ -8,6 +8,18 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// CSRF Protection Helpers
+function generateCsrfToken() {
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+
+function verifyCsrfToken($token) {
+    return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], (string)$token);
+}
+
 /**
  * USER AUTHENTICATION FUNCTIONS
  */
@@ -32,6 +44,39 @@ function loginUser($email, $password) {
     }
     
     return false;
+}
+
+function registerUser($name, $email, $password) {
+    global $pdo;
+    // Basic validation
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return 'Invalid email address';
+    }
+    if (strlen($password) < 8) {
+        return 'Password must be at least 8 characters';
+    }
+    try {
+        // Check if email exists
+        $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+        $stmt->execute([$email]);
+        if ($stmt->fetch()) {
+            return 'Email already registered';
+        }
+        // Create user
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $stmt = $pdo->prepare("INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)");
+        $stmt->execute([htmlspecialchars($name), $email, $hash]);
+        // Auto-login
+        $user_id = $pdo->lastInsertId();
+        $_SESSION['user_logged_in'] = true;
+        $_SESSION['user_id'] = $user_id;
+        $_SESSION['user_name'] = $name;
+        $_SESSION['user_email'] = $email;
+        return true;
+    } catch (PDOException $e) {
+        error_log('registerUser error: ' . $e->getMessage());
+        return 'Registration failed. Please try again later.';
+    }
 }
 
 /**

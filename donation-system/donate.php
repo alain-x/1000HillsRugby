@@ -1,5 +1,6 @@
 <?php
 require_once 'includes/config.php';
+require_once 'includes/auth.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: index.php');
@@ -15,6 +16,7 @@ $donor_name = trim($_POST['donor_name'] ?? '');
 $email = trim($_POST['email'] ?? '');
 $note = trim($_POST['note'] ?? '');
 $is_public = isset($_POST['is_public']) ? true : false;
+$csrf_token = $_POST['csrf_token'] ?? '';
 
 // Basic validation
 $errors = [];
@@ -24,6 +26,9 @@ if (empty($donor_name)) $errors[] = 'Name is required';
 if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Valid email is required';
 if (!in_array($payment_method, ['card', 'paypal', 'crypto', 'stocks', 'daf', 'venmo', 'gift_card', 'check', 'wire'])) {
     $errors[] = 'Invalid payment method';
+}
+if (!verifyCsrfToken($csrf_token)) {
+    $errors[] = 'Invalid request. Please refresh and try again.';
 }
 
 if (empty($errors)) {
@@ -41,7 +46,7 @@ if (empty($errors)) {
     $donation_id = createDonation($donation_data);
     
     if ($donation_id) {
-        header("Location: thank-you.php?id=$donation_id");
+        header("Location: thank_you.php?id=$donation_id");
         exit;
     } else {
         $errors[] = 'Failed to process donation. Please try again.';
