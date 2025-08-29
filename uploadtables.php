@@ -4,31 +4,13 @@ define('DB_HOST', 'localhost');
 define('DB_USER', 'hillsrug_hillsrug');
 define('DB_PASS', 'M00dle??');
 define('DB_NAME', 'hillsrug_1000hills_rugby_db');
+define('LOGO_DIR', 'logos_/');
+define('DEFAULT_LOGO', 'default.png');
+define('MAX_FILE_SIZE', 2 * 1024 * 1024); // 2MB
 
-define('UPLOAD_DIR', 'uploads/team_logos/');
-define('DEFAULT_LOGO', 'default_team.png');
-define('MAX_FILE_SIZE', 5 * 1024 * 1024); // 5MB
-
-// Set PHP settings for file uploads
-ini_set('max_execution_time', 300);
-ini_set('max_input_time', 300);
-ini_set('upload_max_filesize', '5M');
-ini_set('post_max_size', '10M');
-ini_set('memory_limit', '256M');
-ini_set('file_uploads', 1);
-ini_set('display_errors', 1);
-ini_set('log_errors', 1);
-ini_set('error_log', __DIR__ . '/error.log');
-
-// Create upload directory if it doesn't exist
-if (!file_exists(UPLOAD_DIR)) {
-    if (!mkdir(UPLOAD_DIR, 0755, true)) {
-        die("Failed to create upload directory. Please check permissions.");
-    }
-} elseif (!is_writable(UPLOAD_DIR)) {
-    if (!chmod(UPLOAD_DIR, 0755)) {
-        die("Upload directory is not writable. Please check permissions.");
-    }
+// Ensure the logos directory exists
+if (!file_exists(LOGO_DIR)) {
+    mkdir(LOGO_DIR, 0755, true);
 }
 
 // Error reporting
@@ -169,58 +151,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $file = $_FILES['team_logo'];
                 
                 // Validate file
-                $allowed_types = [
-                    'image/jpeg' => 'jpg',
-                    'image/png' => 'png',
-                    'image/gif' => 'gif',
-                    'image/webp' => 'webp'
-                ];
+                $allowed_types = ['image/jpeg', 'image/png'];
+                $max_size = MAX_FILE_SIZE;
+                $file_info = finfo_open(FILEINFO_MIME_TYPE);
+                $mime_type = finfo_file($file_info, $file['tmp_name']);
+                finfo_close($file_info);
                 
-                // Get file info
-                $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                $mime_type = finfo_file($finfo, $file['tmp_name']);
-                finfo_close($finfo);
-                
-                // Validate MIME type
-                if (!array_key_exists($mime_type, $allowed_types)) {
-                    throw new Exception("Invalid file type. Allowed types: " . implode(', ', array_values($allowed_types)));
+                if (!in_array($mime_type, $allowed_types)) {
+                    throw new Exception("Invalid file type. Only JPEG and PNG are allowed.");
                 }
                 
-                // Validate file size
-                $max_size = MAX_FILE_SIZE;
                 if ($file['size'] > $max_size) {
                     throw new Exception("File is too large. Maximum size is " . ($max_size / 1024 / 1024) . "MB");
                 }
                 
-                // Create upload directory if it doesn't exist
-                if (!is_dir(LOGO_DIR)) {
-                    if (!mkdir(LOGO_DIR, 0755, true)) {
-                        throw new Exception("Failed to create upload directory");
-                    }
-                }
-                
-                // Check if directory is writable
-                if (!is_writable(LOGO_DIR)) {
-                    throw new Exception("Upload directory is not writable. Please check permissions.");
-                }
-                
                 // Generate safe filename
-                $extension = $allowed_types[$mime_type];
-                $safe_name = preg_replace('/[^a-zA-Z0-9_-]/', '', $team_name);
-                $filename = uniqid('team_') . '_' . $safe_name . '.' . $extension;
-                $upload_path = rtrim(LOGO_DIR, '/') . '/' . $filename;
+                $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+                $safe_name = preg_replace('/[^a-zA-Z0-9]/', '', $team_name);
+                $filename = uniqid() . '_' . $safe_name . '.' . $extension;
+                $upload_path = LOGO_DIR . $filename;
                 
-                // Move uploaded file
                 if (move_uploaded_file($file['tmp_name'], $upload_path)) {
-                    // Verify the file was actually uploaded
-                    if (file_exists($upload_path)) {
-                        $team_logo = $filename;
-                    } else {
-                        throw new Exception("File upload verification failed");
-                    }
+                    $team_logo = $filename;
                 } else {
-                    $error = error_get_last();
-                    throw new Exception("Failed to move uploaded file: " . ($error['message'] ?? 'Unknown error'));
+                    throw new Exception("Failed to upload team logo");
                 }
             }
             
