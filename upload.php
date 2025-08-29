@@ -224,6 +224,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                 }
             }
 
+            // Handle media URLs added in the form (images or videos)
+            if (!empty($_POST["media_urls"][$index]) && is_array($_POST["media_urls"][$index])) {
+                $allowed_exts = ['jpg','jpeg','png','gif','webp','avif','svg','mp4','webm','ogg','mov'];
+                foreach ($_POST["media_urls"][$index] as $mediaUrl) {
+                    $mediaUrl = trim($mediaUrl);
+                    if (!$mediaUrl) continue;
+                    if (filter_var($mediaUrl, FILTER_VALIDATE_URL)) {
+                        $ext = strtolower(pathinfo(parse_url($mediaUrl, PHP_URL_PATH) ?? '', PATHINFO_EXTENSION));
+                        if (in_array($ext, $allowed_exts)) {
+                            $image_paths[] = $conn->real_escape_string($mediaUrl);
+                        }
+                    }
+                }
+            }
+
             // Remove any images marked for deletion
             if (!empty($_POST["removed_images"][$index])) {
                 foreach ($_POST["removed_images"][$index] as $removed_path) {
@@ -689,6 +704,11 @@ $conn->close();
                                                    accept="image/*,video/*" multiple 
                                                    class="w-full p-2 border rounded"
                                                    onchange="previewNewImages(this, <?php echo $index; ?>)">
+                                            <!-- Add media by URL -->
+                                            <div class="mt-2 flex gap-2">
+                                                <input type="url" placeholder="Paste image or video URL" class="w-full p-2 border rounded" id="media-url-input-<?php echo $index; ?>">
+                                                <button type="button" class="bg-blue-500 text-white px-3 py-2 rounded" onclick="addMediaUrl(<?php echo $index; ?>)">Add URL</button>
+                                            </div>
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
@@ -709,6 +729,11 @@ $conn->close();
                                         <input type="file" name="image[0][]" accept="image/*,video/*" multiple 
                                                class="w-full p-2 border rounded"
                                                onchange="previewNewImages(this, 0)">
+                                        <!-- Add media by URL -->
+                                        <div class="mt-2 flex gap-2">
+                                            <input type="url" placeholder="Paste image or video URL" class="w-full p-2 border rounded" id="media-url-input-0">
+                                            <button type="button" class="bg-blue-500 text-white px-3 py-2 rounded" onclick="addMediaUrl(0)">Add URL</button>
+                                        </div>
                                     </div>
                                 </div>
                             <?php endif; ?>
@@ -807,6 +832,11 @@ $conn->close();
                                    accept="image/*,video/*" multiple 
                                    class="w-full p-2 border rounded"
                                    onchange="previewNewImages(this, ${sectionCount - 1})">
+                            <!-- Add media by URL -->
+                            <div class="mt-2 flex gap-2">
+                                <input type="url" placeholder="Paste image or video URL" class="w-full p-2 border rounded" id="media-url-input-${sectionCount - 1}">
+                                <button type="button" class="bg-blue-500 text-white px-3 py-2 rounded" onclick="addMediaUrl(${sectionCount - 1})">Add URL</button>
+                            </div>
                         </div>
                     `;
                     container.appendChild(div);
@@ -913,6 +943,60 @@ $conn->close();
                         }
                         container.appendChild(wrap);
                     });
+                }
+
+                // Validate media URL (basic)
+                function isValidMediaUrl(url) {
+                    try { new URL(url); } catch (e) { return false; }
+                    const exts = ['jpg','jpeg','png','gif','webp','avif','svg','mp4','webm','ogg','mov'];
+                    const path = (new URL(url)).pathname.toLowerCase();
+                    return exts.some(ext => path.endsWith('.' + ext));
+                }
+
+                // Add media by URL to a section (image or video)
+                function addMediaUrl(sectionIndex) {
+                    const input = document.getElementById(`media-url-input-${sectionIndex}`);
+                    if (!input) return;
+                    const url = (input.value || '').trim();
+                    if (!url) return;
+                    if (!isValidMediaUrl(url)) {
+                        alert('Please paste a direct URL to an image or a short video (mp4/webm/ogg/mov).');
+                        return;
+                    }
+
+                    // create container if missing
+                    let container = document.getElementById(`section-images-${sectionIndex}`);
+                    if (!container) {
+                        container = document.createElement('div');
+                        container.id = `section-images-${sectionIndex}`;
+                        container.className = 'flex flex-wrap gap-2 mb-2';
+                        const parent = input.parentElement.parentElement; // image-upload-section
+                        parent.insertBefore(container, parent.querySelector('input[type="file"]'));
+                    }
+
+                    const wrap = document.createElement('div');
+                    wrap.className = 'image-thumbnail relative';
+
+                    const isVideo = /(\.mp4|\.webm|\.ogg|\.mov)(\?|#|$)/i.test(url);
+                    if (isVideo) {
+                        wrap.innerHTML = `
+                            <video src="${url}" class="h-24 object-cover" controls muted playsinline></video>
+                            <button type="button" onclick="this.parentElement.remove()" class="remove-image-btn opacity-0">
+                                <i class=\"fas fa-times\"></i>
+                            </button>
+                            <input type="hidden" name="media_urls[${sectionIndex}][]" value="${url}">
+                        `;
+                    } else {
+                        wrap.innerHTML = `
+                            <img src="${url}" class="h-24 object-cover">
+                            <button type="button" onclick="this.parentElement.remove()" class="remove-image-btn opacity-0">
+                                <i class=\"fas fa-times\"></i>
+                            </button>
+                            <input type="hidden" name="media_urls[${sectionIndex}][]" value="${url}">
+                        `;
+                    }
+                    container.appendChild(wrap);
+                    input.value = '';
                 }
                 
                 // Preview main image when selected
