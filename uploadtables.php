@@ -4,13 +4,16 @@ define('DB_HOST', 'localhost');
 define('DB_USER', 'hillsrug_hillsrug');
 define('DB_PASS', 'M00dle??');
 define('DB_NAME', 'hillsrug_1000hills_rugby_db');
-define('LOGO_DIR', 'logos_/');
+// Paths for team logos
+define('LOGO_DIR', 'logos_/'); // Web path
+define('LOGO_FS_DIR', __DIR__ . '/logos_/'); // Filesystem path
 define('DEFAULT_LOGO', 'default.png');
+
 define('MAX_FILE_SIZE', 2 * 1024 * 1024); // 2MB
 
 // Ensure the logos directory exists
-if (!file_exists(LOGO_DIR)) {
-    mkdir(LOGO_DIR, 0755, true);
+if (!file_exists(LOGO_FS_DIR)) {
+    mkdir(LOGO_FS_DIR, 0755, true);
 }
 
 // Error reporting
@@ -88,8 +91,8 @@ if (isset($_GET['delete_team']) && is_numeric($_GET['delete_team'])) {
             $stmt->close();
             
             // Delete logo file if it exists and is not default
-            if ($team['logo'] && $team['logo'] !== DEFAULT_LOGO && file_exists(LOGO_DIR . $team['logo'])) {
-                unlink(LOGO_DIR . $team['logo']);
+            if ($team['logo'] && $team['logo'] !== DEFAULT_LOGO && file_exists(LOGO_FS_DIR . $team['logo'])) {
+                unlink(LOGO_FS_DIR . $team['logo']);
             }
             
             $conn->commit();
@@ -169,7 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
                 $safe_name = preg_replace('/[^a-zA-Z0-9]/', '', $team_name);
                 $filename = uniqid() . '_' . $safe_name . '.' . $extension;
-                $upload_path = LOGO_DIR . $filename;
+                $upload_path = LOGO_FS_DIR . $filename;
                 
                 if (move_uploaded_file($file['tmp_name'], $upload_path)) {
                     $team_logo = $filename;
@@ -234,8 +237,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $conn->rollback();
                 
                 // Clean up uploaded file if exists
-                if (isset($filename) && file_exists(LOGO_DIR . $filename)) {
-                    unlink(LOGO_DIR . $filename);
+                if (isset($filename) && file_exists(LOGO_FS_DIR . $filename)) {
+                    unlink(LOGO_FS_DIR . $filename);
                 }
                 
                 throw $e;
@@ -355,7 +358,7 @@ try {
             $previous_position = $previous_positions[$team_id] ?? $current_position;
             $position_change = $previous_position - $current_position;
             
-            $logoPath = (!empty($row['team_logo']) && file_exists(LOGO_DIR . $row['team_logo'])) 
+            $logoPath = (!empty($row['team_logo']) && file_exists(LOGO_FS_DIR . $row['team_logo'])) 
                 ? LOGO_DIR . $row['team_logo'] 
                 : null;
             

@@ -4,7 +4,9 @@ define('DB_HOST', 'localhost');
 define('DB_USER', 'hillsrug_hillsrug');
 define('DB_PASS', 'M00dle??');
 define('DB_NAME', 'hillsrug_1000hills_rugby_db');
-define('LOGO_DIR', __DIR__ . '/logos_/');
+// Paths for team logos
+define('LOGO_DIR', 'logos_/'); // Web path for use in <img src>
+define('LOGO_FS_DIR', __DIR__ . '/logos_/'); // Filesystem path for existence checks
 define('DEFAULT_LOGO', 'default.png');
 
 // Error reporting
@@ -506,7 +508,7 @@ try {
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
-                                            <?php if (!empty($team['team_logo']) && file_exists(LOGO_DIR . $team['team_logo'])): ?>
+                                            <?php if (!empty($team['team_logo']) && file_exists(LOGO_FS_DIR . $team['team_logo'])): ?>
                                                 <img src="<?= LOGO_DIR . $team['team_logo'] ?>" alt="<?= $team['team_name'] ?>" class="team-logo">
                                             <?php else: ?>
                                                 <div class="team-initial"><?= $team['first_letter'] ?></div>
