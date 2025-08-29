@@ -2,7 +2,7 @@
 // Database configuration
 define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
 define('DB_USER', getenv('DB_USER') ?: 'hillsrug_hillsrug');
-define('DB_PASS', getenv('DB_PASS') ?: 'M00dle!!');
+define('DB_PASS', getenv('DB_PASS') ?: 'M00dle??');
 define('DB_NAME', getenv('DB_NAME') ?: 'hillsrug_donation_system');
 define('DB_PORT', getenv('DB_PORT') ?: '3306');
 
