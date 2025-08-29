@@ -52,6 +52,29 @@ try {
             ];
         }
         $compResult->free();
+        // Validate competition_id and set a sensible default if invalid
+        if (!empty($competitions)) {
+            $valid_comp_ids = array_column($competitions, 'id');
+            if (!in_array($competition_id, $valid_comp_ids, true)) {
+                $competition_id = $competitions[0]['id'];
+            }
+        }
+    }
+    // Fallback: if no active competitions found, derive from existing league standings
+    if (empty($competitions)) {
+        $compResult = $conn->query("SELECT DISTINCT c.id, c.name FROM league_standings ls JOIN competitions c ON ls.competition_id = c.id ORDER BY c.name");
+        if ($compResult) {
+            while ($row = $compResult->fetch_assoc()) {
+                $competitions[] = [
+                    'id' => (int)$row['id'],
+                    'name' => htmlspecialchars($row['name'])
+                ];
+            }
+            $compResult->free();
+            if (!empty($competitions)) {
+                $competition_id = $competitions[0]['id'];
+            }
+        }
     }
 
     // Get available seasons
@@ -66,9 +89,28 @@ try {
         }
         $seasonResult->free();
         
-        // Set default season to current if not specified
-        if ($season_id === null && !empty($seasons)) {
-            $season_id = $seasons[0]['id'];
+        // Set default season to current if not specified or invalid
+        if (!empty($seasons)) {
+            $valid_season_ids = array_column($seasons, 'id');
+            if ($season_id === null || !in_array($season_id, $valid_season_ids, true)) {
+                $season_id = $seasons[0]['id'];
+            }
+        }
+    }
+    // Fallback: if no seasons found, derive from existing league standings
+    if (empty($seasons)) {
+        $seasonResult = $conn->query("SELECT DISTINCT s.id, s.year FROM league_standings ls JOIN seasons s ON ls.season_id = s.id ORDER BY s.year DESC");
+        if ($seasonResult) {
+            while ($row = $seasonResult->fetch_assoc()) {
+                $seasons[] = [
+                    'id' => (int)$row['id'],
+                    'year' => htmlspecialchars($row['year'])
+                ];
+            }
+            $seasonResult->free();
+            if (!empty($seasons)) {
+                $season_id = $seasons[0]['id'];
+            }
         }
     }
 
@@ -87,6 +129,21 @@ try {
         $valid_gender_ids = array_column($genders, 'id');
         if (!in_array($gender_id, $valid_gender_ids)) {
             $gender_id = $valid_gender_ids[0];
+        }
+    }
+    // Fallback: if genders table is empty, derive from existing league standings
+    if (empty($genders)) {
+        $genderResult = $conn->query("SELECT DISTINCT g.id, g.name FROM league_standings ls JOIN genders g ON ls.gender_id = g.id ORDER BY g.id");
+        if ($genderResult) {
+            while ($row = $genderResult->fetch_assoc()) {
+                $genders[] = [
+                    'id' => (int)$row['id'],
+                    'name' => htmlspecialchars($row['name'])
+                ];
+            }
+            if (!empty($genders)) {
+                $gender_id = $genders[0]['id'];
+            }
         }
     }
 
