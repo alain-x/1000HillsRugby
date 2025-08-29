@@ -229,7 +229,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $conn->commit();
                 
                 // PRG: Redirect to show success message and avoid resubmission
-                header('Location: uploadtables?message=' . urlencode('Team added successfully!') . '&type=success');
+                header('Location: uploadtables.php?message=' . urlencode('Team added successfully!') . '&type=success');
                 exit;
                 
             } catch (Exception $e) {
@@ -308,7 +308,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             $conn->commit();
             // PRG: Redirect to show success message and avoid resubmission
-            header('Location: uploadtables?message=' . urlencode('Standings updated successfully!') . '&type=success');
+            header('Location: uploadtables.php?message=' . urlencode('Standings updated successfully!') . '&type=success');
             exit;
             
         } catch (Exception $e) {
@@ -397,7 +397,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $conn->commit();
-            header('Location: uploadtables?message=' . urlencode('Team updated successfully!') . '&type=success');
+            header('Location: uploadtables.php?message=' . urlencode('Team updated successfully!') . '&type=success');
             exit;
         } catch (Exception $e) {
             $conn->rollback();
@@ -687,10 +687,10 @@ $conn->close();
                 </div>
                 
                 <nav class="hidden md:flex items-center space-x-2">
-                    <a href="tables" class="nav-item font-medium text-sm uppercase tracking-wider">
+                    <a href="tables.php" class="nav-item font-medium text-sm uppercase tracking-wider">
                         <i class="fas fa-table mr-2"></i>League Table
                     </a>
-                    <a href="uploadtables" class="nav-item active font-medium text-sm uppercase tracking-wider">
+                    <a href="uploadtables.php" class="nav-item active font-medium text-sm uppercase tracking-wider">
                         <i class="fas fa-cog mr-2"></i>Manage Standings
                     </a>
                 </nav>
@@ -703,10 +703,10 @@ $conn->close();
         
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-green-800 py-2 px-4 shadow-lg">
-            <a href="tables" class="block py-3 px-4 text-white hover:bg-green-700 rounded-md">
+            <a href="tables.php" class="block py-3 px-4 text-white hover:bg-green-700 rounded-md">
                 <i class="fas fa-table mr-3"></i>League Table
             </a>
-            <a href="uploadtables" class="block py-3 px-4 text-white bg-green-700 rounded-md">
+            <a href="uploadtables.php" class="block py-3 px-4 text-white bg-green-700 rounded-md">
                 <i class="fas fa-cog mr-3"></i>Manage Standings
             </a>
         </div>
@@ -996,7 +996,7 @@ $conn->close();
                                     </td>
                                     <td class="px-3 py-4 text-center">
                                         <div class="flex items-center justify-center gap-2">
-                                            <a href="uploadtables?edit_team=<?= (int)$team['team_id'] ?>" 
+                                            <a href="uploadtables.php?edit_team=<?= (int)$team['team_id'] ?>" 
                                                class="btn-primary" title="Edit team">
                                                 <i class="fas fa-edit"></i>
                                             </a>

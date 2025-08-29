@@ -417,7 +417,7 @@ try {
                     <a href="fixtures?tab=results" class="nav-item font-medium text-sm uppercase tracking-wider">
                         <i class="fas fa-list-ol mr-2"></i>Results
                     </a>
-                    <a href="tables" class="nav-item active font-medium text-sm uppercase tracking-wider">
+                    <a href="tables.php" class="nav-item active font-medium text-sm uppercase tracking-wider">
                         <i class="fas fa-table mr-2"></i>League Tables
                     </a> 
                 </nav>
@@ -439,7 +439,7 @@ try {
             <a href="fixtures?tab=results" class="block mobile-nav-item rounded-md">
                 <i class="fas fa-list-ol mr-3"></i>Results
             </a>
-            <a href="tables" class="block mobile-nav-item active rounded-md">
+            <a href="tables.php" class="block mobile-nav-item active rounded-md">
                 <i class="fas fa-table mr-3"></i>League Tables
             </a> 
         </div>
@@ -635,7 +635,7 @@ try {
             
             // Navigate to new URL with filters
             setTimeout(() => {
-                window.location.href = `tables?competition_id=${competition_id}&season_id=${season_id}&gender_id=${gender_id}`;
+                window.location.href = `tables.php?competition_id=${competition_id}&season_id=${season_id}&gender_id=${gender_id}`;
             }, 500);
         });
         
