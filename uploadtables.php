@@ -113,8 +113,9 @@ if (isset($_GET['delete_team']) && is_numeric($_GET['delete_team'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Debug: Log POST data
     error_log("POST data received: " . print_r($_POST, true));
+    $action = $_POST['action'] ?? '';
     
-    if (isset($_POST['add_team'])) {
+    if ($action === 'add_team') {
         try {
             // Validate and sanitize input
             $team_name = trim($_POST['team_name'] ?? '');
@@ -227,11 +228,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 $conn->commit();
                 
-                $message = "Team added successfully!";
-                $messageType = "success";
-                
-                // Clear POST data
-                $_POST = [];
+                // PRG: Redirect to show success message and avoid resubmission
+                header('Location: uploadtables.php?message=' . urlencode('Team added successfully!') . '&type=success');
+                exit;
                 
             } catch (Exception $e) {
                 $conn->rollback();
@@ -249,7 +248,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $messageType = "error";
         }
         
-    } elseif (isset($_POST['update_standings'])) {
+    } elseif ($action === 'update_standings') {
         try {
             $conn->begin_transaction();
             
@@ -308,8 +307,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             
             $conn->commit();
-            $message = "Standings updated successfully!";
-            $messageType = "success";
+            // PRG: Redirect to show success message and avoid resubmission
+            header('Location: uploadtables.php?message=' . urlencode('Standings updated successfully!') . '&type=success');
+            exit;
             
         } catch (Exception $e) {
             $conn->rollback();
@@ -630,6 +630,8 @@ $conn->close();
                 </div>
                 <div class="p-6">
                     <form method="POST" enctype="multipart/form-data" class="space-y-6" id="teamForm">
+                        <input type="hidden" name="action" value="add_team">
+
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2 required-field">
                                 <i class="fas fa-users mr-1 text-green-600"></i>Team Name
@@ -772,6 +774,8 @@ $conn->close();
             </div>
             
             <form method="POST" class="overflow-x-auto">
+                <input type="hidden" name="action" value="update_standings">
+
                 <table class="min-w-full divide-y divide-gray-200 text-sm">
                     <thead class="bg-gray-50">
                         <tr>
