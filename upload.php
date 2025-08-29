@@ -478,186 +478,42 @@ $conn->close();
                         </div>
                     <?php endif; ?>
                     <input type="file" id="main_image" name="main_image" accept="image/*" class="w-full p-2 border rounded">
+                </div>
 
-        $conn->close();
-        ?>
-
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Rugby News Management</title>
-            <script src="https://cdn.tailwindcss.com"></script>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-            <style>
-                .alert {
-                    padding: 1rem;
-                    border-radius: 0.25rem;
-                    margin-bottom: 1.5rem;
-                }
-                .alert-success {
-                    background-color: #d4edda;
-                    color: #155724;
-                    border: 1px solid #c3e6cb;
-                }
-                .alert-error {
-                    background-color: #f8d7da;
-                    color: #721c24;
-                    border: 1px solid #f5c6cb;
-                }
-                .section-container {
-                    border: 1px solid #e2e8f0;
-                    border-radius: 0.5rem;
-                    padding: 1rem;
-                    margin-bottom: 1rem;
-                }
-                .image-preview {
-                    width: 200px;
-                    height: 150px;
-                    border-radius: 0.25rem;
-                    overflow: hidden;
-                    border: 1px solid #ddd;
-                    background-color: #f5f5f5;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    position: relative;
-                }
-                .image-preview img {
-                    max-width: 100%;
-                    max-height: 100%;
-                    object-fit: cover;
-                }
-                .image-preview-placeholder {
-                    color: #ccc;
-                    font-size: 3rem;
-                }
-                .remove-image-btn {
-                    position: absolute;
-                    top: 5px;
-                    right: 5px;
-                    background-color: rgba(220, 53, 69, 0.8);
-                    color: white;
-                    border: none;
-                    border-radius: 50%;
-                    width: 25px;
-                    height: 25px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    cursor: pointer;
-                    z-index: 10;
-                    transition: opacity 0.2s;
-                }
-                .remove-image-btn:hover {
-                    background-color: #dc3545;
-                }
-                .article-card {
-                    transition: all 0.3s ease;
-                }
-                .article-card:hover {
-                    transform: translateY(-2px);
-                    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-                }
-                .image-thumbnail {
-                    position: relative;
-                }
-                .image-thumbnail:hover .remove-image-btn {
-                    opacity: 1;
-                }
-                /* Style for clickable links in content */
-                .article-content a {
-                    color: #3b82f6;
-                    text-decoration: underline;
-                }
-                .article-content a:hover {
-                    color: #2563eb;
-                }
-            </style>
-        </head>
-        <body class="bg-gray-100 text-gray-900 p-6">
-            <div class="container mx-auto">
-                <h1 class="text-3xl font-bold mb-8">Rugby News Management</h1>
-                
-                <?php if (isset($_GET['success'])): ?>
-                    <div class="alert alert-success">
-                        Article saved successfully!
-                    </div>
-                <?php endif; ?>
-                
-                <?php if (isset($_GET['deleted'])): ?>
-                    <div class="alert alert-success">
-                        Article deleted successfully!
-                    </div>
-                <?php endif; ?>
-                
-                <?php if ($message): ?>
-                    <div class="alert <?php echo $messageClass; ?>">
-                        <?php echo $message; ?>
-                    </div>
-                <?php endif; ?>
-                
-                <!-- Article Form -->
-                <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
-                    <h2 class="text-2xl font-semibold mb-6"><?php echo $editMode ? 'Edit Article' : 'Add New Article'; ?></h2>
-                    
-                    <form action="" method="POST" enctype="multipart/form-data">
-                        <?php if ($editMode && isset($currentArticle['id'])): ?>
-                            <input type="hidden" name="article_id" value="<?php echo htmlspecialchars($currentArticle['id']); ?>">
-                            <input type="hidden" name="existing_main_image" value="<?php echo htmlspecialchars($currentArticle['main_image_path'] ?? ''); ?>">
-                        <?php endif; ?>
-                        
-                        <!-- Main Article Fields -->
-                        <div class="mb-6">
-                            <label class="block text-lg font-semibold mb-2">Title *</label>
-                            <input type="text" name="title" placeholder="Enter title" required 
-                                   value="<?php echo htmlspecialchars($currentArticle['title'] ?? ''); ?>" 
-                                   class="w-full p-2 border rounded">
-                        </div>
-                        
-                        <div class="mb-6">
-                            <label class="block text-lg font-semibold mb-2">Category *</label>
-                            <input type="text" name="category" placeholder="Enter category" required 
-                                   value="<?php echo htmlspecialchars($currentArticle['category'] ?? ''); ?>" 
-                                   class="w-full p-2 border rounded">
-                        </div>
-                        
-                        <div class="mb-6">
-                            <label class="block text-lg font-semibold mb-2">Date Published *</label>
-                            <input type="datetime-local" name="date_published" required 
-                                   value="<?php echo $editMode ? date('Y-m-d\TH:i', strtotime($currentArticle['date_published'])) : ''; ?>" 
-                                   class="w-full p-2 border rounded">
-                        </div>
-
-                        <!-- Main Image -->
-                        <div class="mb-6">
-                            <label class="block text-lg font-semibold mb-2">Main Image</label>
-                            <?php if ($editMode && !empty($currentArticle['main_image_path'])): ?>
-                                <div class="mb-4">
-                                    <div class="image-preview">
-                                        <img src="<?php echo htmlspecialchars($currentArticle['main_image_path']); ?>" alt="Current main image">
-                                        <button type="button" class="remove-image-btn" onclick="removeMainImage()">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </div>
-                                    <input type="hidden" id="remove_main_image" name="remove_main_image" value="0">
+                <!-- Sections -->
+                <div id="repeatable-fields" class="mb-6">
+                    <?php if ($editMode && !empty($currentArticleDetails)): ?>
+                        <?php foreach ($currentArticleDetails as $index => $detail): ?>
+                            <div class="section-container mb-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h3 class="text-xl font-semibold">Section <?php echo $index + 1; ?></h3>
+                                    <button type="button" onclick="removeSection(this)" class="text-red-500 hover:text-red-700">
+                                        <i class="fas fa-times"></i> Remove Section
+                                    </button>
                                 </div>
-                            <?php else: ?>
-                                <div class="image-preview mb-4">
-                                    <div class="image-preview-placeholder">
-                                        <i class="fas fa-image"></i>
-                                    </div>
-                                </div>
-                            <?php endif; ?>
-                            <input type="file" id="main_image" name="main_image" accept="image/*" class="w-full p-2 border rounded">
-                        </div>
-
-                        <!-- Sections -->
-                        <div id="repeatable-fields" class="mb-6">
-                            <?php if ($editMode && !empty($currentArticleDetails)): ?>
-                                <?php foreach ($currentArticleDetails as $index => $detail): ?>
-                                    <div class="section-container mb-4">
+                                <input type="hidden" name="existing_images[<?php echo $index; ?>]" value="<?php echo htmlspecialchars($detail['image_path'] ?? ''); ?>">
+                                <input type="text" name="subtitle[]" placeholder="Subtitle" 
+                                       value="<?php echo htmlspecialchars($detail['subtitle'] ?? ''); ?>" 
+                                       class="w-full p-2 border rounded mb-2">
+                                <textarea name="content[]" placeholder="Content" 
+                                          class="w-full p-2 border rounded mb-2"><?php echo htmlspecialchars($detail['content'] ?? ''); ?></textarea>
+                                <div class="image-upload-section mb-4">
+                                    <label class="block text-lg font-semibold mb-2">Media (Images or short videos)</label>
+                                    <?php if (!empty($detail['image_path'])): ?>
+                                        <div class="flex flex-wrap gap-2 mb-2" id="section-images-<?php echo $index; ?>">
+                                            <?php foreach (explode(",", $detail['image_path']) as $imgIdx => $imgPath): ?>
+                                                <?php if (!empty($imgPath)): ?>
+                                                    <?php 
+                                                        $ext = strtolower(pathinfo($imgPath, PATHINFO_EXTENSION));
+                                                        $isVideo = in_array($ext, ['mp4','webm','ogg','mov']);
+                                                    ?>
+                                                    <div class="image-thumbnail relative">
+                                                        <?php if ($isVideo): ?>
+                                                            <video class="h-24 object-cover" controls muted playsinline preload="metadata">
+                                                                <source src="<?php echo htmlspecialchars($imgPath); ?>" type="video/<?php echo $ext === 'mov' ? 'mp4' : $ext; ?>">
+                                                            </video>
+                                                        <?php else: ?>
+                                                            <img src="<?php echo htmlspecialchars($imgPath); ?>" alt="Section media" class="h-24 object-cover">
                                         <div class="flex justify-between items-center mb-2">
                                             <h3 class="text-xl font-semibold">Section <?php echo $index + 1; ?></h3>
                                             <button type="button" onclick="removeSection(this)" class="text-red-500 hover:text-red-700">
