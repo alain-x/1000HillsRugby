@@ -1,22 +1,13 @@
-RewriteEngine On
-
-# Redirect non-www to www
-RewriteCond %{HTTP_HOST} ^1000hillsrugby\.rw$ [NC]
-RewriteRule ^(.*)$ https://www.1000hillsrugby.rw/$1 [L,R=301]
-
 # Exclude robots.txt and sitemap.xml from rewrite rules
 RewriteCond %{REQUEST_URI} !^/robots\.txt$
 RewriteCond %{REQUEST_URI} !^/sitemap\.xml$
 
-# If the requested path is an existing file or directory, do nothing
-RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^ - [L]
-
-# Support extensionless URLs for PHP first (e.g., /uploadtables -> uploadtables.php)
-RewriteCond %{REQUEST_FILENAME}\.php -f
-RewriteRule ^(.+)$ $1.php [L]
-
-# Then support extensionless URLs for HTML (e.g., /about -> about.html)
+RewriteEngine on 
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.html -f
-RewriteRule ^(.+)$ $1.html [L]
+RewriteRule ^(.*)$ $1.html [NC,L]
+
+# Redirect non-www to www
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^1000hillsrugby\.rw$ [NC]
+RewriteRule ^(.*)$ https://www.1000hillsrugby.rw/$1 [L,R=301]
