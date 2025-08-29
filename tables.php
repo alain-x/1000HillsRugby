@@ -478,10 +478,7 @@ try {
                                     <div class="flex flex-col items-center">
                                         <i class="fas fa-table text-4xl text-gray-300 mb-3"></i>
                                         <p class="text-lg font-medium">No standings data available</p>
-                                        <p class="text-sm">Please select different filters or add teams to the league.</p>
-                                        <a href="uploadtables.php" class="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-                                            <i class="fas fa-plus mr-2"></i>Add Teams
-                                        </a>
+                                         
                                     </div>
                                 </td>
                             </tr>
