@@ -68,7 +68,7 @@ a:hover {
 /* Header */
 header.hero {
   text-align: center;
-  padding: 60px 0;
+  padding: 72px 0;
   background-color: var(--white);
   margin-bottom: 30px;
   border-radius: 8px;
@@ -667,6 +667,7 @@ header.hero h1 {
   position: sticky;
   top: 0;
   z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
 .header-content {
@@ -680,28 +681,35 @@ header.hero h1 {
 .logo a {
   font-weight: 700;
   font-size: 1.2rem;
-  color: var(--text-color);
+  color: #2c3e50;
 }
 
 .main-nav ul {
-  list-style: none;
+  list-style: none !important;
+  margin: 0;
+  padding: 0;
   display: flex;
   gap: 20px;
+  align-items: center;
 }
 
-.main-nav a {
+.main-nav ul li { list-style: none !important; }
+
+.main-header .main-nav a { display: inline-block; }
+
+.main-header .main-nav a {
   color: #444;
   font-weight: 500;
   padding: 8px 10px;
   border-radius: 4px;
 }
 
-.main-nav a:hover {
+.main-header .main-nav a:hover {
   background: #f5f5f5;
   text-decoration: none;
 }
 
-.main-nav a.active {
+.main-header .main-nav a.active {
   color: var(--primary-color);
   background: #e8f5e9;
 }
