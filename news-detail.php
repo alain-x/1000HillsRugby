@@ -572,20 +572,43 @@ if (!$share_image) {
                         
                         <?php if (!empty($section['image_path'])): ?>
                             <?php
-                            $images = array_filter(array_map('trim', explode(',', $section['image_path'])));
-                            $imageCount = count($images);
+                            $mediaItems = array_filter(array_map('trim', explode(',', $section['image_path'])));
+                            $mediaCount = count($mediaItems);
+                            $videoExts = ['mp4','webm','ogg','mov'];
                             ?>
-                            <?php if ($imageCount === 1): ?>
-                                <!-- Single Image -->
+                            <?php if ($mediaCount === 1): ?>
+                                <?php
+                                    $item = $mediaItems[0];
+                                    $ext = strtolower(pathinfo($item, PATHINFO_EXTENSION));
+                                    $isVideo = in_array($ext, $videoExts);
+                                ?>
                                 <figure class="my-6">
-                                    <img class="w-full h-auto max-h-[70vh] object-cover rounded-lg shadow-md" src="<?php echo htmlspecialchars($images[0], ENT_QUOTES, 'UTF-8'); ?>" alt="Article Image">
+                                    <?php if ($isVideo): ?>
+                                        <video class="w-full h-auto max-h-[70vh] object-cover rounded-lg shadow-md" controls playsinline preload="metadata">
+                                            <source src="<?php echo htmlspecialchars($item, ENT_QUOTES, 'UTF-8'); ?>" type="video/<?php echo $ext === 'mov' ? 'mp4' : $ext; ?>">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    <?php else: ?>
+                                        <img class="w-full h-auto max-h-[70vh] object-cover rounded-lg shadow-md" src="<?php echo htmlspecialchars($item, ENT_QUOTES, 'UTF-8'); ?>" alt="Article Media">
+                                    <?php endif; ?>
                                 </figure>
                             <?php else: ?>
-                                <!-- Image Gallery -->
+                                <!-- Mixed Media Gallery -->
                                 <div class="image-collage my-6">
-                                    <?php foreach ($images as $image): ?>
+                                    <?php foreach ($mediaItems as $item): ?>
+                                        <?php
+                                            $ext = strtolower(pathinfo($item, PATHINFO_EXTENSION));
+                                            $isVideo = in_array($ext, $videoExts);
+                                        ?>
                                         <figure class="overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-                                            <img class="w-full h-48 sm:h-56 md:h-64 object-cover" src="<?php echo htmlspecialchars($image, ENT_QUOTES, 'UTF-8'); ?>" alt="Article Image">
+                                            <?php if ($isVideo): ?>
+                                                <video class="w-full h-48 sm:h-56 md:h-64 object-cover" controls playsinline preload="metadata">
+                                                    <source src="<?php echo htmlspecialchars($item, ENT_QUOTES, 'UTF-8'); ?>" type="video/<?php echo $ext === 'mov' ? 'mp4' : $ext; ?>">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                            <?php else: ?>
+                                                <img class="w-full h-48 sm:h-56 md:h-64 object-cover" src="<?php echo htmlspecialchars($item, ENT_QUOTES, 'UTF-8'); ?>" alt="Article Media">
+                                            <?php endif; ?>
                                         </figure>
                                     <?php endforeach; ?>
                                 </div>
