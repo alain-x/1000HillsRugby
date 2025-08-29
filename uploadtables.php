@@ -723,26 +723,36 @@ $conn->close();
         <?php endif; ?>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- Add New Team Form -->
+            <!-- Add / Edit Team Form -->
             <div class="card">
                 <div class="card-header">
                     <h2 class="text-xl font-bold flex items-center">
-                        <i class="fas fa-plus-circle mr-3"></i>Add New Team
+                        <?php if (!empty($editTeam)): ?>
+                            <i class="fas fa-edit mr-3"></i>Edit Team
+                        <?php else: ?>
+                            <i class="fas fa-plus-circle mr-3"></i>Add New Team
+                        <?php endif; ?>
                     </h2>
                 </div>
                 <div class="p-6">
                     <form method="POST" enctype="multipart/form-data" class="space-y-6" id="teamForm">
-                        <input type="hidden" name="action" value="add_team">
+                        <?php if (!empty($editTeam)): ?>
+                            <input type="hidden" name="action" value="update_team">
+                            <input type="hidden" name="team_id" value="<?= (int)$editTeam['id'] ?>">
+                        <?php else: ?>
+                            <input type="hidden" name="action" value="add_team">
+                        <?php endif; ?>
 
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2 required-field">
                                 <i class="fas fa-users mr-1 text-green-600"></i>Team Name
                             </label>
                             <input type="text" name="team_name" required minlength="2" maxlength="255"
-                                   class="form-control" value="<?= htmlspecialchars($_POST['team_name'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                                   class="form-control" value="<?= !empty($editTeam) ? htmlspecialchars($editTeam['name'], ENT_QUOTES, 'UTF-8') : htmlspecialchars($_POST['team_name'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
                                    placeholder="Enter team name">
                         </div>
                         
+                        <?php if (empty($editTeam)): ?>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2 required-field">
@@ -784,11 +794,33 @@ $conn->close();
                                 </select>
                             </div>
                         </div>
+                        <?php else: ?>
+                        <div class="p-4 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-700">
+                            <i class="fas fa-info-circle mr-2 text-green-600"></i>
+                            You are editing the team details. Standings (competition/season/gender) remain unchanged.
+                        </div>
+                        <?php endif; ?>
                         
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                <i class="fas fa-image mr-1 text-green-600"></i>Team Logo
+                                <i class="fas fa-image mr-1 text-green-600"></i><?= !empty($editTeam) ? 'Current Logo' : 'Team Logo' ?>
                             </label>
+                            <?php if (!empty($editTeam)): ?>
+                                <div class="flex items-center gap-3 mb-3">
+                                    <?php 
+                                        $logo = $editTeam['logo'] ?? '';
+                                        $logoWeb = (!empty($logo) && file_exists(LOGO_FS_DIR . $logo)) ? LOGO_DIR . $logo : null;
+                                    ?>
+                                    <?php if ($logoWeb): ?>
+                                        <img src="<?= $logoWeb ?>" alt="Logo" class="team-logo" style="width:48px;height:48px;">
+                                    <?php else: ?>
+                                        <div class="team-initial" style="width:48px;height:48px;">
+                                            <?= strtoupper(substr($editTeam['name'], 0, 1)) ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Change Logo</label>
+                            <?php endif; ?>
                             <input type="file" name="team_logo" accept="image/jpeg, image/png" 
                                    class="form-control">
                             <p class="mt-2 text-xs text-gray-500">
@@ -796,9 +828,18 @@ $conn->close();
                             </p>
                         </div>
                         
-                        <button type="submit" name="add_team" class="btn-primary w-full">
-                            <i class="fas fa-plus mr-2"></i> Add Team
-                        </button>
+                        <?php if (!empty($editTeam)): ?>
+                            <div class="flex gap-3">
+                                <button type="submit" class="btn-primary">
+                                    <i class="fas fa-save mr-2"></i> Update Team
+                                </button>
+                                <a href="uploadtables.php" class="btn-danger"><i class="fas fa-times mr-2"></i>Cancel</a>
+                            </div>
+                        <?php else: ?>
+                            <button type="submit" name="add_team" class="btn-primary w-full">
+                                <i class="fas fa-plus mr-2"></i> Add Team
+                            </button>
+                        <?php endif; ?>
                     </form>
                 </div>
             </div>
