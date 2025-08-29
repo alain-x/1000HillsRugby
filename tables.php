@@ -459,13 +459,13 @@ try {
             <!-- Filters -->
             <div class="p-6 filter-card">
                 <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
-                    <i class="fas fa-filter mr-3 text-green-600"></i>
+                    
                     League Table Filters
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                     <div>
                         <label for="competitionFilter" class="block text-sm font-semibold text-gray-700 mb-2">
-                            <i class="fas fa-trophy mr-1 text-green-600"></i>Competition
+                            Competition
                         </label>
                         <select id="competitionFilter" class="w-full p-3 text-sm filter-select focus:outline-none">
                             <?php foreach ($competitions as $comp): ?>
@@ -478,7 +478,7 @@ try {
                     
                     <div>
                         <label for="seasonFilter" class="block text-sm font-semibold text-gray-700 mb-2">
-                            <i class="fas fa-calendar mr-1 text-green-600"></i>Season
+                            Season
                         </label>
                         <select id="seasonFilter" class="w-full p-3 text-sm filter-select focus:outline-none">
                             <?php foreach ($seasons as $s): ?>
@@ -491,7 +491,7 @@ try {
                     
                     <div>
                         <label for="genderFilter" class="block text-sm font-semibold text-gray-700 mb-2">
-                            <i class="fas fa-users mr-1 text-green-600"></i>Gender
+                            Gender
                         </label>
                         <select id="genderFilter" class="w-full p-3 text-sm filter-select focus:outline-none">
                             <?php foreach ($genders as $g): ?>
@@ -504,7 +504,7 @@ try {
                     
                     <div class="flex items-end">
                         <button id="applyFilters" class="w-full update-btn text-white font-bold py-3 px-6 rounded-lg transition duration-300">
-                            <i class="fas fa-sync-alt mr-2"></i>Update Table
+                            Update Table
                         </button>
                     </div>
                 </div>
