@@ -360,10 +360,7 @@ try {
                     </a>
                     <a href="tables.php" class="nav-item active font-medium text-sm uppercase tracking-wider">
                         <i class="fas fa-table mr-2"></i>League Tables
-                    </a>
-                    <a href="uploadtables.php" class="nav-item font-medium text-sm uppercase tracking-wider">
-                        <i class="fas fa-cog mr-2"></i>Manage
-                    </a>
+                    </a> 
                 </nav>
                 
                 <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
@@ -385,10 +382,7 @@ try {
             </a>
             <a href="tables.php" class="block mobile-nav-item active rounded-md">
                 <i class="fas fa-table mr-3"></i>League Tables
-            </a>
-            <a href="uploadtables.php" class="block mobile-nav-item rounded-md">
-                <i class="fas fa-cog mr-3"></i>Manage
-            </a>
+            </a> 
         </div>
     </header>
 
