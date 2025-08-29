@@ -212,10 +212,10 @@ try {
         </h3>
         <p class='text-green-700 mb-4'>All required tables have been created and populated with default data.</p>
         <div class='flex flex-wrap gap-4'>
-            <a href='uploadtables.php' class='px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors'>
+            <a href='uploadtables' class='px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors'>
                 <i class='fas fa-cog mr-2'></i>Manage Standings
             </a>
-            <a href='tables.php' class='px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors'>
+            <a href='tables' class='px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors'>
                 <i class='fas fa-table mr-2'></i>View League Tables
             </a>
         </div>

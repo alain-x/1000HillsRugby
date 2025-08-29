@@ -117,7 +117,7 @@ echo "<div class='mt-8 p-4 bg-gray-50 rounded-lg'>
     <div class='flex gap-4'>
         <a href='setup_database.php' class='px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700'>Setup Database</a>
         <a href='debug_upload.php' class='px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700'>Debug Upload</a>
-        <a href='uploadtables.php' class='px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700'>Main Upload Page</a>
+        <a href='uploadtables' class='px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700'>Main Upload Page</a>
     </div>
 </div>";
 

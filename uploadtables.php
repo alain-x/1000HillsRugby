@@ -229,7 +229,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $conn->commit();
                 
                 // PRG: Redirect to show success message and avoid resubmission
-                header('Location: uploadtables.php?message=' . urlencode('Team added successfully!') . '&type=success');
+                header('Location: uploadtables?message=' . urlencode('Team added successfully!') . '&type=success');
                 exit;
                 
             } catch (Exception $e) {
@@ -308,7 +308,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             $conn->commit();
             // PRG: Redirect to show success message and avoid resubmission
-            header('Location: uploadtables.php?message=' . urlencode('Standings updated successfully!') . '&type=success');
+            header('Location: uploadtables?message=' . urlencode('Standings updated successfully!') . '&type=success');
             exit;
             
         } catch (Exception $e) {
@@ -397,7 +397,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $conn->commit();
-            header('Location: uploadtables.php?message=' . urlencode('Team updated successfully!') . '&type=success');
+            header('Location: uploadtables?message=' . urlencode('Team updated successfully!') . '&type=success');
             exit;
         } catch (Exception $e) {
             $conn->rollback();
@@ -480,6 +480,20 @@ try {
     $competitions = $conn->query("SELECT id, name FROM competitions WHERE is_active = TRUE ORDER BY name")->fetch_all(MYSQLI_ASSOC);
     $seasons = $conn->query("SELECT id, year FROM seasons ORDER BY year DESC")->fetch_all(MYSQLI_ASSOC);
     $genders = $conn->query("SELECT id, name FROM genders ORDER BY id")->fetch_all(MYSQLI_ASSOC);
+    
+    // Optional: load team for edit panel
+    $editTeam = null;
+    if (isset($_GET['edit_team']) && ctype_digit($_GET['edit_team'])) {
+        $edit_id = (int)$_GET['edit_team'];
+        $stmt = $conn->prepare("SELECT id, name, logo FROM teams WHERE id = ?");
+        if ($stmt) {
+            $stmt->bind_param("i", $edit_id);
+            $stmt->execute();
+            $res = $stmt->get_result();
+            $editTeam = $res->fetch_assoc() ?: null;
+            $stmt->close();
+        }
+    }
     
 } catch (Exception $e) {
     error_log($e->getMessage());
@@ -673,10 +687,10 @@ $conn->close();
                 </div>
                 
                 <nav class="hidden md:flex items-center space-x-2">
-                    <a href="tables.php" class="nav-item font-medium text-sm uppercase tracking-wider">
+                    <a href="tables" class="nav-item font-medium text-sm uppercase tracking-wider">
                         <i class="fas fa-table mr-2"></i>League Table
                     </a>
-                    <a href="uploadtables.php" class="nav-item active font-medium text-sm uppercase tracking-wider">
+                    <a href="uploadtables" class="nav-item active font-medium text-sm uppercase tracking-wider">
                         <i class="fas fa-cog mr-2"></i>Manage Standings
                     </a>
                 </nav>
@@ -689,10 +703,10 @@ $conn->close();
         
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-green-800 py-2 px-4 shadow-lg">
-            <a href="tables.php" class="block py-3 px-4 text-white hover:bg-green-700 rounded-md">
+            <a href="tables" class="block py-3 px-4 text-white hover:bg-green-700 rounded-md">
                 <i class="fas fa-table mr-3"></i>League Table
             </a>
-            <a href="uploadtables.php" class="block py-3 px-4 text-white bg-green-700 rounded-md">
+            <a href="uploadtables" class="block py-3 px-4 text-white bg-green-700 rounded-md">
                 <i class="fas fa-cog mr-3"></i>Manage Standings
             </a>
         </div>
@@ -981,11 +995,17 @@ $conn->close();
                                         <?php endif; ?>
                                     </td>
                                     <td class="px-3 py-4 text-center">
-                                        <a href="deleteteam.php?id=<?= (int)$team['team_id'] ?>" 
-                                           class="btn-danger"
-                                           onclick="return confirm('Are you sure you want to delete <?= htmlspecialchars($team['team_name'], ENT_QUOTES, 'UTF-8') ?>? This action cannot be undone.')">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
+                                        <div class="flex items-center justify-center gap-2">
+                                            <a href="uploadtables?edit_team=<?= (int)$team['team_id'] ?>" 
+                                               class="btn-primary" title="Edit team">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="deleteteam.php?id=<?= (int)$team['team_id'] ?>" 
+                                               class="btn-danger"
+                                               onclick="return confirm('Are you sure you want to delete <?= htmlspecialchars($team['team_name'], ENT_QUOTES, 'UTF-8') ?>? This action cannot be undone.')">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

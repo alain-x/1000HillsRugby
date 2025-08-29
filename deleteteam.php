@@ -15,7 +15,7 @@ ini_set('error_log', __DIR__ . '/error.log');
 
 // Check if team ID is provided
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    header('Location: uploadtables.php?error=Invalid team ID');
+    header('Location: uploadtables?error=Invalid team ID');
     exit;
 }
 
@@ -68,7 +68,7 @@ try {
         $conn->commit();
         
         // Redirect with success message
-        header('Location: uploadtables.php?message=Team "' . urlencode($team['name']) . '" deleted successfully&type=success');
+        header('Location: uploadtables?message=Team "' . urlencode($team['name']) . '" deleted successfully&type=success');
         exit;
         
     } catch (Exception $e) {
@@ -79,7 +79,7 @@ try {
     
 } catch (Exception $e) {
     error_log($e->getMessage());
-    header('Location: uploadtables.php?error=Failed to delete team: ' . urlencode($e->getMessage()) . '&type=error');
+    header('Location: uploadtables?error=Failed to delete team: ' . urlencode($e->getMessage()) . '&type=error');
     exit;
 } finally {
     if (isset($conn)) {
