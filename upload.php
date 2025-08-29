@@ -904,21 +904,3 @@ $conn->close();
             </script>
         </body>
         </html>
-                reader.onload = function(event) {
-                    const preview = document.querySelector('.image-preview');
-                    preview.innerHTML = `
-                        <img src="${event.target.result}" alt="Preview">
-                        <button type="button" onclick="removeMainImage()"
-                                class="remove-image-btn">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    `;
-                    // Reset remove flag if new image is selected
-                    document.getElementById('remove_main_image').value = '0';
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-    </script>
-</body>
-</html>
