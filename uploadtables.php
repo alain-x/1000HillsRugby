@@ -980,14 +980,7 @@ $conn->close();
                                             </span>
                                         <?php endif; ?>
                                     </td>
-                                    <td class="px-3 py-4 text-center space-y-2">
-                                        <form method="POST" enctype="multipart/form-data" class="flex items-center justify-center gap-2">
-                                            <input type="hidden" name="action" value="update_team">
-                                            <input type="hidden" name="team_id" value="<?= (int)$team['team_id'] ?>">
-                                            <input type="text" name="team_name" value="<?= htmlspecialchars($team['team_name'], ENT_QUOTES, 'UTF-8') ?>" class="input-number" style="width: 140px; text-align: left;" required maxlength="255">
-                                            <input type="file" name="team_logo" accept="image/jpeg, image/png" class="hidden md:block" style="width: 180px;">
-                                            <button type="submit" class="btn-primary" title="Save team changes"><i class="fas fa-save"></i></button>
-                                        </form>
+                                    <td class="px-3 py-4 text-center">
                                         <a href="deleteteam.php?id=<?= (int)$team['team_id'] ?>" 
                                            class="btn-danger"
                                            onclick="return confirm('Are you sure you want to delete <?= htmlspecialchars($team['team_name'], ENT_QUOTES, 'UTF-8') ?>? This action cannot be undone.')">
