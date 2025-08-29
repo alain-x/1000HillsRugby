@@ -316,6 +316,94 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $message = $e->getMessage();
             $messageType = "error";
         }
+    } elseif ($action === 'update_team') {
+        try {
+            // Validate inputs
+            $team_id = filter_input(INPUT_POST, 'team_id', FILTER_VALIDATE_INT);
+            $new_name = trim($_POST['team_name'] ?? '');
+            if (!$team_id) {
+                throw new Exception('Invalid team.');
+            }
+            if ($new_name === '' || strlen($new_name) > 255) {
+                throw new Exception('Please provide a valid team name (1-255 characters).');
+            }
+
+            $conn->begin_transaction();
+
+            // Get current team data
+            $stmt = $conn->prepare("SELECT logo FROM teams WHERE id = ?");
+            $stmt->bind_param("i", $team_id);
+            $stmt->execute();
+            $current = $stmt->get_result()->fetch_assoc();
+            $stmt->close();
+            if (!$current) {
+                throw new Exception('Team not found.');
+            }
+
+            // Ensure name uniqueness (excluding self)
+            $stmt = $conn->prepare("SELECT id FROM teams WHERE name = ? AND id <> ?");
+            $stmt->bind_param("si", $new_name, $team_id);
+            $stmt->execute();
+            $stmt->store_result();
+            if ($stmt->num_rows > 0) {
+                $stmt->close();
+                throw new Exception('Another team with this name already exists.');
+            }
+            $stmt->close();
+
+            $new_logo_filename = null;
+            if (isset($_FILES['team_logo']) && $_FILES['team_logo']['error'] === UPLOAD_ERR_OK) {
+                $file = $_FILES['team_logo'];
+                // Validate file
+                $allowed_types = ['image/jpeg', 'image/png'];
+                $file_info = finfo_open(FILEINFO_MIME_TYPE);
+                $mime_type = finfo_file($file_info, $file['tmp_name']);
+                finfo_close($file_info);
+                if (!in_array($mime_type, $allowed_types)) {
+                    throw new Exception('Invalid file type. Only JPEG and PNG are allowed.');
+                }
+                if ($file['size'] > MAX_FILE_SIZE) {
+                    throw new Exception('File is too large. Maximum size is ' . (MAX_FILE_SIZE / 1024 / 1024) . 'MB');
+                }
+                $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+                $safe_name = preg_replace('/[^a-zA-Z0-9]/', '', $new_name);
+                $new_logo_filename = uniqid() . '_' . $safe_name . '.' . $extension;
+                $upload_path = LOGO_FS_DIR . $new_logo_filename;
+                if (!move_uploaded_file($file['tmp_name'], $upload_path)) {
+                    throw new Exception('Failed to upload new logo.');
+                }
+            }
+
+            if ($new_logo_filename) {
+                // Update name and logo
+                $stmt = $conn->prepare("UPDATE teams SET name = ?, logo = ? WHERE id = ?");
+                $stmt->bind_param("ssi", $new_name, $new_logo_filename, $team_id);
+            } else {
+                // Update name only
+                $stmt = $conn->prepare("UPDATE teams SET name = ? WHERE id = ?");
+                $stmt->bind_param("si", $new_name, $team_id);
+            }
+            if (!$stmt->execute()) {
+                throw new Exception('Failed to update team.');
+            }
+            $stmt->close();
+
+            // Remove old logo if replaced and not default
+            if ($new_logo_filename && !empty($current['logo']) && $current['logo'] !== DEFAULT_LOGO) {
+                $old_path = LOGO_FS_DIR . $current['logo'];
+                if (file_exists($old_path)) {
+                    @unlink($old_path);
+                }
+            }
+
+            $conn->commit();
+            header('Location: uploadtables.php?message=' . urlencode('Team updated successfully!') . '&type=success');
+            exit;
+        } catch (Exception $e) {
+            $conn->rollback();
+            $message = $e->getMessage();
+            $messageType = 'error';
+        }
     }
 }
 
@@ -892,7 +980,14 @@ $conn->close();
                                             </span>
                                         <?php endif; ?>
                                     </td>
-                                    <td class="px-3 py-4 text-center">
+                                    <td class="px-3 py-4 text-center space-y-2">
+                                        <form method="POST" enctype="multipart/form-data" class="flex items-center justify-center gap-2">
+                                            <input type="hidden" name="action" value="update_team">
+                                            <input type="hidden" name="team_id" value="<?= (int)$team['team_id'] ?>">
+                                            <input type="text" name="team_name" value="<?= htmlspecialchars($team['team_name'], ENT_QUOTES, 'UTF-8') ?>" class="input-number" style="width: 140px; text-align: left;" required maxlength="255">
+                                            <input type="file" name="team_logo" accept="image/jpeg, image/png" class="hidden md:block" style="width: 180px;">
+                                            <button type="submit" class="btn-primary" title="Save team changes"><i class="fas fa-save"></i></button>
+                                        </form>
                                         <a href="deleteteam.php?id=<?= (int)$team['team_id'] ?>" 
                                            class="btn-danger"
                                            onclick="return confirm('Are you sure you want to delete <?= htmlspecialchars($team['team_name'], ENT_QUOTES, 'UTF-8') ?>? This action cannot be undone.')">
