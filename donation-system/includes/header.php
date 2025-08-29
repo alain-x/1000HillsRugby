@@ -4,6 +4,7 @@
  */
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/auth.php';
+$current = basename($_SERVER['PHP_SELF']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,12 +22,15 @@ require_once __DIR__ . '/auth.php';
             <div class="logo">
                 <a href="index.php"><?= SITE_NAME ?></a>
             </div>
-            <nav class="main-nav">
+            <button class="mobile-menu-toggle" aria-controls="primary-navigation" aria-expanded="false" aria-label="Toggle main navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="main-nav" id="primary-navigation" role="navigation" aria-label="Main">
                 <ul>
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="campaigns.php">Campaigns</a></li>
-                    <li><a href="about.php">About</a></li>
-                    <li><a href="contact.php">Contact</a></li>
+                    <li><a href="index.php" class="<?= ($current === 'index.php') ? 'active' : '' ?>">Home</a></li>
+                    <li><a href="campaigns.php" class="<?= ($current === 'campaigns.php' || $current === 'campaign.php') ? 'active' : '' ?>">Campaigns</a></li>
+                    <li><a href="about.php" class="<?= ($current === 'about.php') ? 'active' : '' ?>">About</a></li>
+                    <li><a href="contact.php" class="<?= ($current === 'contact.php') ? 'active' : '' ?>">Contact</a></li>
                 </ul>
             </nav>
             <div class="auth-buttons">
@@ -52,4 +56,4 @@ require_once __DIR__ . '/auth.php';
             </div>
         </div>
     </div>
-</header>
+</header>

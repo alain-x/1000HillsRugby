@@ -5,7 +5,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (mobileMenuToggle && mainNav) {
     mobileMenuToggle.addEventListener("click", function () {
-      mainNav.classList.toggle("active");
+      const isActive = mainNav.classList.toggle("active");
+      mobileMenuToggle.setAttribute("aria-expanded", isActive ? "true" : "false");
+    });
+
+    // Close menu when a nav link is clicked (on mobile)
+    mainNav.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        if (mainNav.classList.contains("active")) {
+          mainNav.classList.remove("active");
+          mobileMenuToggle.setAttribute("aria-expanded", "false");
+        }
+      });
     });
   }
 
