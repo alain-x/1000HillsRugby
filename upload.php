@@ -224,15 +224,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                 }
             }
 
-            // Handle media URLs added in the form (images or videos)
+            // Handle media URLs added in the form (images, videos, YouTube links)
             if (!empty($_POST["media_urls"][$index]) && is_array($_POST["media_urls"][$index])) {
                 $allowed_exts = ['jpg','jpeg','png','gif','webp','avif','svg','mp4','webm','ogg','mov'];
                 foreach ($_POST["media_urls"][$index] as $mediaUrl) {
                     $mediaUrl = trim($mediaUrl);
                     if (!$mediaUrl) continue;
                     if (filter_var($mediaUrl, FILTER_VALIDATE_URL)) {
-                        $ext = strtolower(pathinfo(parse_url($mediaUrl, PHP_URL_PATH) ?? '', PATHINFO_EXTENSION));
-                        if (in_array($ext, $allowed_exts)) {
+                        $urlParts = parse_url($mediaUrl);
+                        $host = strtolower($urlParts['host'] ?? '');
+                        $isYouTube = (strpos($host, 'youtube.com') !== false) || (strpos($host, 'youtu.be') !== false) || (strpos($host, 'youtube-nocookie.com') !== false);
+                        $ext = strtolower(pathinfo($urlParts['path'] ?? '', PATHINFO_EXTENSION));
+                        if ($isYouTube || in_array($ext, $allowed_exts)) {
                             $image_paths[] = $conn->real_escape_string($mediaUrl);
                         }
                     }
@@ -524,37 +527,18 @@ $conn->close();
                                         <input type="text" name="subtitle[]" placeholder="Subtitle" 
                                                value="<?php echo htmlspecialchars($detail['subtitle'] ?? ''); ?>" 
                                                class="w-full p-2 border rounded mb-2">
-                                        <textarea name="content[]" placeholder="Content" 
-                                                  class="w-full p-2 border rounded mb-2"><?php echo htmlspecialchars($detail['content'] ?? ''); ?></textarea>
-                                        <div class="image-upload-section mb-4">
-                                            <label class="block text-lg font-semibold mb-2">Media (Images or short videos)</label>
-                                            <?php if (!empty($detail['image_path'])): ?>
-                                                <div class="flex flex-wrap gap-2 mb-2" id="section-images-<?php echo $index; ?>">
-                                                    <?php foreach (explode(",", $detail['image_path']) as $imgIdx => $imgPath): ?>
-                                                        <?php if (!empty($imgPath)): ?>
-                                                            <?php 
-                                                                $ext = strtolower(pathinfo($imgPath, PATHINFO_EXTENSION));
-                                                                $isVideo = in_array($ext, ['mp4','webm','ogg','mov']);
-                                                            ?>
-                                                            <div class="image-thumbnail relative">
-                                                                <?php if ($isVideo): ?>
-                                                                    <video class="h-24 object-cover" controls muted playsinline preload="metadata">
-                                                                        <source src="<?php echo htmlspecialchars($imgPath); ?>" type="video/<?php echo $ext === 'mov' ? 'mp4' : $ext; ?>">
-                                                                    </video>
-                                                                <?php else: ?>
-                                                                    <img src="<?php echo htmlspecialchars($imgPath); ?>" alt="Section media" class="h-24 object-cover">
-                                                                <?php endif; ?>
-                                                                <button type="button" 
-                                                                        onclick="removeImage(this, '<?php echo htmlspecialchars($imgPath); ?>', <?php echo $index; ?>)" 
-                                                                        class="remove-image-btn opacity-0">
-                                                                    <i class="fas fa-times"></i>
-                                                                </button>
-                                                                <input type="hidden" name="existing_images[<?php echo $index; ?>][]" value="<?php echo htmlspecialchars($imgPath); ?>">
-                                                            </div>
                                                         <?php endif; ?>
-                                                    <?php endforeach; ?>
-                                                </div>
-                                            <?php endif; ?>
+                                                        <button type="button" 
+                                                                onclick="removeImage(this, '<?php echo htmlspecialchars($imgPath); ?>', <?php echo $index; ?>)" 
+                                                                class="remove-image-btn opacity-0">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                        <input type="hidden" name="existing_images[<?php echo $index; ?>][]" value="<?php echo htmlspecialchars($imgPath); ?>">
+                                                    </div>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    <?php endif; ?>
                                             
                                             <input type="file" name="image[<?php echo $index; ?>][]" 
                                                    accept="image/*,video/*" multiple 
@@ -804,9 +788,13 @@ $conn->close();
                 // Validate media URL (basic)
                 function isValidMediaUrl(url) {
                     try { new URL(url); } catch (e) { return false; }
+                    const u = new URL(url);
+                    const path = u.pathname.toLowerCase();
+                    const host = u.hostname.toLowerCase();
                     const exts = ['jpg','jpeg','png','gif','webp','avif','svg','mp4','webm','ogg','mov'];
-                    const path = (new URL(url)).pathname.toLowerCase();
-                    return exts.some(ext => path.endsWith('.' + ext));
+                    const isExt = exts.some(ext => path.endsWith('.' + ext));
+                    const isYouTube = host.includes('youtube.com') || host.includes('youtu.be') || host.includes('youtube-nocookie.com');
+                    return isExt || isYouTube;
                 }
 
                 // Add media by URL to a section (image or video)
@@ -833,8 +821,21 @@ $conn->close();
                     const wrap = document.createElement('div');
                     wrap.className = 'image-thumbnail relative';
 
+                    const u = new URL(url);
+                    const host = u.hostname.toLowerCase();
+                    const isYouTube = host.includes('youtube.com') || host.includes('youtu.be') || host.includes('youtube-nocookie.com');
                     const isVideo = /(\.mp4|\.webm|\.ogg|\.mov)(\?|#|$)/i.test(url);
-                    if (isVideo) {
+                    if (isYouTube) {
+                        const vid = extractYouTubeId(url);
+                        const embed = vid ? `https://www.youtube-nocookie.com/embed/${vid}` : '';
+                        wrap.innerHTML = `
+                            <iframe src="${embed}" class="h-24 w-40 object-cover" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                            <button type="button" onclick="this.parentElement.remove()" class="remove-image-btn opacity-0">
+                                <i class=\"fas fa-times\"></i>
+                            </button>
+                            <input type="hidden" name="media_urls[${sectionIndex}][]" value="${url}">
+                        `;
+                    } else if (isVideo) {
                         wrap.innerHTML = `
                             <video src="${url}" class="h-24 object-cover" controls muted playsinline></video>
                             <button type="button" onclick="this.parentElement.remove()" class="remove-image-btn opacity-0">
@@ -853,6 +854,31 @@ $conn->close();
                     }
                     container.appendChild(wrap);
                     input.value = '';
+                }
+
+                // Extract YouTube video ID from various URL formats
+                function extractYouTubeId(url) {
+                    try {
+                        const u = new URL(url);
+                        if (u.hostname.includes('youtu.be')) {
+                            return u.pathname.split('/')[1] || '';
+                        }
+                        if (u.searchParams.get('v')) {
+                            return u.searchParams.get('v');
+                        }
+                        // Shorts format: /shorts/{id}
+                        const parts = u.pathname.split('/').filter(Boolean);
+                        const shortsIdx = parts.indexOf('shorts');
+                        if (shortsIdx !== -1 && parts[shortsIdx + 1]) {
+                            return parts[shortsIdx + 1];
+                        }
+                        // Embed format: /embed/{id}
+                        const embedIdx = parts.indexOf('embed');
+                        if (embedIdx !== -1 && parts[embedIdx + 1]) {
+                            return parts[embedIdx + 1];
+                        }
+                    } catch (e) { return ''; }
+                    return '';
                 }
                 
                 // Preview main image when selected

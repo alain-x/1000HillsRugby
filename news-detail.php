@@ -581,9 +581,35 @@ if (!$share_image) {
                                     $item = $mediaItems[0];
                                     $ext = strtolower(pathinfo($item, PATHINFO_EXTENSION));
                                     $isVideo = in_array($ext, $videoExts);
+                                    // Detect YouTube
+                                    $urlParts = parse_url($item);
+                                    $host = strtolower($urlParts['host'] ?? '');
+                                    $isYouTube = (strpos($host, 'youtube.com') !== false) || (strpos($host, 'youtu.be') !== false) || (strpos($host, 'youtube-nocookie.com') !== false);
+                                    $youtubeEmbed = '';
+                                    if ($isYouTube) {
+                                        $youtubeId = '';
+                                        if (!empty($urlParts['host']) && strpos($host, 'youtu.be') !== false) {
+                                            $pathParts = array_values(array_filter(explode('/', $urlParts['path'] ?? '')));
+                                            $youtubeId = $pathParts[0] ?? '';
+                                        }
+                                        parse_str($urlParts['query'] ?? '', $q);
+                                        if (!$youtubeId && !empty($q['v'])) { $youtubeId = $q['v']; }
+                                        $pathParts = array_values(array_filter(explode('/', $urlParts['path'] ?? '')));
+                                        $shortsIdx = array_search('shorts', $pathParts);
+                                        if (!$youtubeId && $shortsIdx !== false && isset($pathParts[$shortsIdx + 1])) { $youtubeId = $pathParts[$shortsIdx + 1]; }
+                                        $embedIdx = array_search('embed', $pathParts);
+                                        if (!$youtubeId && $embedIdx !== false && isset($pathParts[$embedIdx + 1])) { $youtubeId = $pathParts[$embedIdx + 1]; }
+                                        if ($youtubeId) {
+                                            $youtubeEmbed = 'https://www.youtube-nocookie.com/embed/' . htmlspecialchars($youtubeId, ENT_QUOTES, 'UTF-8');
+                                        }
+                                    }
                                 ?>
                                 <figure class="my-6">
-                                    <?php if ($isVideo): ?>
+                                    <?php if ($isYouTube && $youtubeEmbed): ?>
+                                        <div class="relative w-full" style="padding-top: 56.25%;">
+                                            <iframe src="<?php echo $youtubeEmbed; ?>" class="absolute top-0 left-0 w-full h-full rounded-lg shadow-md" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                                        </div>
+                                    <?php elseif ($isVideo): ?>
                                         <video class="w-full h-auto max-h-[70vh] object-cover rounded-lg shadow-md" controls playsinline preload="metadata">
                                             <source src="<?php echo htmlspecialchars($item, ENT_QUOTES, 'UTF-8'); ?>" type="video/<?php echo $ext === 'mov' ? 'mp4' : $ext; ?>">
                                             Your browser does not support the video tag.
@@ -599,9 +625,35 @@ if (!$share_image) {
                                         <?php
                                             $ext = strtolower(pathinfo($item, PATHINFO_EXTENSION));
                                             $isVideo = in_array($ext, $videoExts);
+                                            // Detect YouTube
+                                            $urlParts = parse_url($item);
+                                            $host = strtolower($urlParts['host'] ?? '');
+                                            $isYouTube = (strpos($host, 'youtube.com') !== false) || (strpos($host, 'youtu.be') !== false) || (strpos($host, 'youtube-nocookie.com') !== false);
+                                            $youtubeEmbed = '';
+                                            if ($isYouTube) {
+                                                $youtubeId = '';
+                                                if (!empty($urlParts['host']) && strpos($host, 'youtu.be') !== false) {
+                                                    $pathParts = array_values(array_filter(explode('/', $urlParts['path'] ?? '')));
+                                                    $youtubeId = $pathParts[0] ?? '';
+                                                }
+                                                parse_str($urlParts['query'] ?? '', $q);
+                                                if (!$youtubeId && !empty($q['v'])) { $youtubeId = $q['v']; }
+                                                $pathParts = array_values(array_filter(explode('/', $urlParts['path'] ?? '')));
+                                                $shortsIdx = array_search('shorts', $pathParts);
+                                                if (!$youtubeId && $shortsIdx !== false && isset($pathParts[$shortsIdx + 1])) { $youtubeId = $pathParts[$shortsIdx + 1]; }
+                                                $embedIdx = array_search('embed', $pathParts);
+                                                if (!$youtubeId && $embedIdx !== false && isset($pathParts[$embedIdx + 1])) { $youtubeId = $pathParts[$embedIdx + 1]; }
+                                                if ($youtubeId) {
+                                                    $youtubeEmbed = 'https://www.youtube-nocookie.com/embed/' . htmlspecialchars($youtubeId, ENT_QUOTES, 'UTF-8');
+                                                }
+                                            }
                                         ?>
                                         <figure class="overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-                                            <?php if ($isVideo): ?>
+                                            <?php if ($isYouTube && $youtubeEmbed): ?>
+                                                <div class="relative w-full h-48 sm:h-56 md:h-64">
+                                                    <iframe src="<?php echo $youtubeEmbed; ?>" class="absolute top-0 left-0 w-full h-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                                                </div>
+                                            <?php elseif ($isVideo): ?>
                                                 <video class="w-full h-48 sm:h-56 md:h-64 object-cover" controls playsinline preload="metadata">
                                                     <source src="<?php echo htmlspecialchars($item, ENT_QUOTES, 'UTF-8'); ?>" type="video/<?php echo $ext === 'mov' ? 'mp4' : $ext; ?>">
                                                     Your browser does not support the video tag.
