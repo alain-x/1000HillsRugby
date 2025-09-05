@@ -414,7 +414,7 @@ try {
                     <a href="fixtures?tab=fixtures" class="nav-item font-medium text-sm uppercase tracking-wider">
                         <i class="fas fa-calendar-alt mr-2"></i>Fixtures
                     </a>
-                    <a href="results.html" class="nav-item font-medium text-sm uppercase tracking-wider">
+                    <a href="results" class="nav-item font-medium text-sm uppercase tracking-wider">
                         <i class="fas fa-list-ol mr-2"></i>Results
                     </a>
                     <a href="tables.php" class="nav-item active font-medium text-sm uppercase tracking-wider">
@@ -436,7 +436,7 @@ try {
             <a href="fixtures?tab=fixtures" class="block mobile-nav-item rounded-md">
                 <i class="fas fa-calendar-alt mr-3"></i>Fixtures
             </a>
-            <a href="results.html" class="block mobile-nav-item rounded-md">
+            <a href="results" class="block mobile-nav-item rounded-md">
                 <i class="fas fa-list-ol mr-3"></i>Results
             </a>
             <a href="tables.php" class="block mobile-nav-item active rounded-md">
