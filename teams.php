@@ -1373,7 +1373,7 @@ $conn->close();
           <div id="desktop-academy-menu" class="absolute top-full left-0 bg-white text-gray-800 w-40 mt-2 rounded-md shadow-lg invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200">
             <a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-200" href="?team=academy_u18_boys">U18 Boys</a>
             <a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-200" href="?team=academy_u18_girls">U18 Girls</a>
-                <a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-200" href="?team=academy_u16_boys">U16 Boys</a>
+            <a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-200" href="?team=academy_u16_boys">U16 Boys</a>
             <a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-200" href="?team=academy_u16_girls">U16 Girls</a>
           </div>
         </li>
