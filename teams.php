@@ -1349,7 +1349,7 @@ $conn->close();
     <nav class="w-full px-2 flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300">
       <div class="navbar-logo w-2/12">
         <a href="./">
-          <img class="w-[40px] h-[40px]" src="./images/1000-hills-logo.png" alt="1000 Hills Rugby" />
+          <img style="width:40px;height:40px;object-fit:contain;display:block;" src="./images/1000-hills-logo.png" alt="1000 Hills Rugby" />
         </a>
       </div>
 
@@ -1364,10 +1364,13 @@ $conn->close();
         <li>
           <a class="transition-all duration-300 <?php echo $currentTeam == 'women' ? 'text-green-600 border-b-2 border-green-600' : 'hover:text-green-600 hover:border-b-2 hover:border-green-600'; ?>" href="?team=women">Women's Squad</a>
         </li>
-        <li class="relative group">
-          <span class="cursor-pointer transition-all duration-300 <?php echo strpos($currentTeam, 'academy_') !== false ? 'text-green-600 border-b-2 border-green-600' : 'hover:text-green-600 hover:border-b-2 hover:border-green-600'; ?>">Academy</span>
+        <li class="relative group" id="desktop-academy-li">
+          <button type="button" class="academy-trigger cursor-pointer transition-all duration-300 flex items-center gap-1 <?php echo strpos($currentTeam, 'academy_') !== false ? 'text-green-600 border-b-2 border-green-600' : 'hover:text-green-600 hover:border-b-2 hover:border-green-600'; ?>">
+            Academy
+            <span class="text-xs">▾</span>
+          </button>
           <!-- Simple dropdown -->
-          <div class="absolute top-full left-0 bg-white text-gray-800 w-40 mt-2 rounded-md shadow-lg invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200">
+          <div id="desktop-academy-menu" class="absolute top-full left-0 bg-white text-gray-800 w-40 mt-2 rounded-md shadow-lg invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200">
             <a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-200" href="?team=academy_u18_boys">U18 Boys</a>
             <a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-200" href="?team=academy_u18_girls">U18 Girls</a>
                 <a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-200" href="?team=academy_u16_boys">U16 Boys</a>
@@ -1392,11 +1395,18 @@ $conn->close();
             <li><a class="block px-4 py-2 transition-all duration-300 <?php echo $currentTeam == 'men' ? 'text-green-600' : 'hover:text-green-600 hover:bg-gray-100'; ?>" href="?team=men">Men's Squad</a></li>
             <li><a class="block px-4 py-2 transition-all duration-300 <?php echo $currentTeam == 'women' ? 'text-green-600' : 'hover:text-green-600 hover:bg-gray-100'; ?>" href="?team=women">Women's Squad</a></li>
             <li class="border-t my-1"></li>
-            <li><span class="block px-4 py-2 text-gray-500">Academy</span></li>
-            <li><a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300" href="?team=academy_u18_boys">U18 Boys</a></li>
-            <li><a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300" href="?team=academy_u18_girls">U18 Girls</a></li>
-            <li><a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300" href="?team=academy_u16_boys">U16 Boys</a></li>
-            <li><a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300" href="?team=academy_u16_girls">U16 Girls</a></li>
+            <li>
+              <button type="button" id="mobile-academy-trigger" class="w-full text-left block px-4 py-2 text-gray-700 hover:text-green-600 hover:bg-gray-100 transition-all duration-300 flex items-center justify-between">
+                <span>Academy</span>
+                <span class="text-xs">▾</span>
+              </button>
+              <div id="mobile-academy-menu" class="hidden">
+                <a class="block px-6 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-200" href="?team=academy_u18_boys">U18 Boys</a>
+                <a class="block px-6 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-200" href="?team=academy_u18_girls">U18 Girls</a>
+                <a class="block px-6 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-200" href="?team=academy_u16_boys">U16 Boys</a>
+                <a class="block px-6 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-200" href="?team=academy_u16_girls">U16 Girls</a>
+              </div>
+            </li>
             <li class="border-t my-1"></li>
             <li><a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300" href="./fixtures">Fixtures</a></li>
           </ul>
@@ -1664,6 +1674,41 @@ $conn->close();
                     }
                 });
                 syncMenu();
+            }
+
+            // Desktop Academy dropdown click-to-toggle (also works with hover)
+            const desktopAcademyLi = document.getElementById('desktop-academy-li');
+            const desktopAcademyTrigger = desktopAcademyLi ? desktopAcademyLi.querySelector('.academy-trigger') : null;
+            const desktopAcademyMenu = document.getElementById('desktop-academy-menu');
+            if (desktopAcademyTrigger && desktopAcademyMenu) {
+                desktopAcademyTrigger.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const isHidden = desktopAcademyMenu.classList.contains('invisible');
+                    if (isHidden) {
+                        desktopAcademyMenu.classList.remove('invisible', 'opacity-0');
+                        desktopAcademyMenu.classList.add('visible', 'opacity-100');
+                    } else {
+                        desktopAcademyMenu.classList.add('invisible', 'opacity-0');
+                        desktopAcademyMenu.classList.remove('visible', 'opacity-100');
+                    }
+                });
+                // Close when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (desktopAcademyMenu.classList.contains('visible') && !desktopAcademyLi.contains(e.target)) {
+                        desktopAcademyMenu.classList.add('invisible', 'opacity-0');
+                        desktopAcademyMenu.classList.remove('visible', 'opacity-100');
+                    }
+                });
+            }
+
+            // Mobile Academy dropdown collapse/expand
+            const mobileAcademyTrigger = document.getElementById('mobile-academy-trigger');
+            const mobileAcademyMenu = document.getElementById('mobile-academy-menu');
+            if (mobileAcademyTrigger && mobileAcademyMenu) {
+                mobileAcademyTrigger.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    mobileAcademyMenu.classList.toggle('hidden');
+                });
             }
 
             // Filter tabs visual state
