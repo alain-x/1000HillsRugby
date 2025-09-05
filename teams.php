@@ -159,7 +159,6 @@ function calculateTeamStats($conn, $team) {
 
 $teamStats = calculateTeamStats($conn, $currentTeam);
 $conn->close();
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -167,6 +166,7 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $selectedPlayer ? htmlspecialchars($selectedPlayer['name']) : '1000 Hills Rugby Club - ' . ucfirst(str_replace('_', ' ', $currentTeam)); ?></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         :root {
             --primary-color: #0a9113;
@@ -1344,63 +1344,67 @@ $conn->close();
     elseif (strpos($currentTeam, 'academy_u16') !== false) echo 'academy-u16';
     else echo $currentTeam;
 ?>">
-    <!-- Header -->
-    <header class="header <?php 
-        if (strpos($currentTeam, 'academy_u18') !== false) echo 'academy-u18';
-        elseif (strpos($currentTeam, 'academy_u16') !== false) echo 'academy-u16';
-        else echo $currentTeam;
-    ?>">
-        <div class="container">
-            <div class="logo-container">
-                <a href="./" class="logo">
-                    <img src="./logos_/logoT.jpg" alt="Club Logo" />
-                </a>
-                
-                <button class="mobile-menu-btn" id="mobileMenuBtn">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
+    <!-- Minimal Navbar (fixed) -->
+    <nav class="fixed top-0 left-0 w-full px-2 z-20 h-[10vh] flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300">
+      <div class="navbar-logo w-2/12">
+        <a href="./">
+          <img class="w-[60px] hover:w-[70px] transition-transform duration-300" src="./images/1000-hills-logo.png" alt="1000 Hills Rugby" />
+        </a>
+      </div>
 
-            <div class="header-content">
-                <nav class="nav-links" id="navLinks">
-                    <button class="mobile-menu-close" id="mobileMenuClose">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    <a href="./">Home</a>
-                    <a href="?team=men" class="<?php echo $currentTeam == 'men' ? 'active' : ''; ?>">Men's Squad</a>
-                    <a href="?team=women" class="<?php echo $currentTeam == 'women' ? 'active' : ''; ?>">Women's Squad</a>
-                    <div class="academy-dropdown" id="academyDropdown">
-                        <div class="academy-dropdown-toggle">
-                            <a href="#" class="<?php echo strpos($currentTeam, 'academy_') !== false ? 'active' : ''; ?>">Academy</a>
-                        </div>
-                        <div class="academy-dropdown-content">
-                            <a href="?team=academy_u18_boys">U18 Boys</a>
-                            <a href="?team=academy_u18_girls">U18 Girls</a>
-                            <a href="?team=academy_u16_boys">U16 Boys</a>
-                            <a href="?team=academy_u16_girls">U16 Girls</a>
-                        </div>
-                    </div>
-                    <a href="./fixtures">Fixtures</a>
-                </nav>
+      <!-- Desktop menu -->
+      <ul class="hidden lg:flex lg:space-x-8 font-600 text-gray-800 text-sm tracking-wider">
+        <li>
+          <a class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300" href="./">Home</a>
+        </li>
+        <li>
+          <a class="transition-all duration-300 <?php echo $currentTeam == 'men' ? 'text-green-600 border-b-2 border-green-600' : 'hover:text-green-600 hover:border-b-2 hover:border-green-600'; ?>" href="?team=men">Men's Squad</a>
+        </li>
+        <li>
+          <a class="transition-all duration-300 <?php echo $currentTeam == 'women' ? 'text-green-600 border-b-2 border-green-600' : 'hover:text-green-600 hover:border-b-2 hover:border-green-600'; ?>" href="?team=women">Women's Squad</a>
+        </li>
+        <li class="relative group">
+          <span class="cursor-pointer transition-all duration-300 <?php echo strpos($currentTeam, 'academy_') !== false ? 'text-green-600 border-b-2 border-green-600' : 'hover:text-green-600 hover:border-b-2 hover:border-green-600'; ?>">Academy</span>
+          <!-- Simple dropdown -->
+          <div class="absolute top-full left-0 bg-white text-gray-800 w-40 mt-2 rounded-md shadow-lg invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200">
+            <a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-200" href="?team=academy_u18_boys">U18 Boys</a>
+            <a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-200" href="?team=academy_u18_girls">U18 Girls</a>
+                <a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-200" href="?team=academy_u16_boys">U16 Boys</a>
+            <a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-200" href="?team=academy_u16_girls">U16 Girls</a>
+          </div>
+        </li>
+        <li>
+          <a class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300" href="./fixtures">Fixtures</a>
+        </li>
+      </ul>
 
-                <div class="search-bar">
-                    <form method="get" action="">
-                        <input
-                            type="text"
-                            name="search"
-                            placeholder="Search players..."
-                            value="<?php echo htmlspecialchars($search); ?>"
-                        />
-                        <button type="submit" class="search-btn">
-                            <i class="fas fa-search"></i>
-                        </button>
-                        <input type="hidden" name="filter" value="<?php echo htmlspecialchars($filter); ?>">
-                        <input type="hidden" name="team" value="<?php echo $currentTeam; ?>">
-                    </form>
-                </div>
-            </div>
+      <!-- Mobile menu toggle -->
+      <div class="relative lg:hidden flex flex-wrap items-center">
+        <input type="checkbox" id="menu-toggle" class="hidden" />
+        <label for="menu-toggle" class="cursor-pointer text-2xl text-black">
+          <i class="fa-solid fa-bars" id="menu-open-icon"></i>
+          <i class="fa-solid fa-times hidden" id="menu-close-icon"></i>
+        </label>
+        <div id="menu" class="absolute top-full right-0 bg-white text-gray-800 w-56 mt-2 rounded-md shadow-lg hidden transition-all duration-300">
+          <ul class="flex flex-col text-left space-y-1">
+            <li><a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300" href="./">Home</a></li>
+            <li><a class="block px-4 py-2 transition-all duration-300 <?php echo $currentTeam == 'men' ? 'text-green-600' : 'hover:text-green-600 hover:bg-gray-100'; ?>" href="?team=men">Men's Squad</a></li>
+            <li><a class="block px-4 py-2 transition-all duration-300 <?php echo $currentTeam == 'women' ? 'text-green-600' : 'hover:text-green-600 hover:bg-gray-100'; ?>" href="?team=women">Women's Squad</a></li>
+            <li class="border-t my-1"></li>
+            <li><span class="block px-4 py-2 text-gray-500">Academy</span></li>
+            <li><a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300" href="?team=academy_u18_boys">U18 Boys</a></li>
+            <li><a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300" href="?team=academy_u18_girls">U18 Girls</a></li>
+            <li><a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300" href="?team=academy_u16_boys">U16 Boys</a></li>
+            <li><a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300" href="?team=academy_u16_girls">U16 Girls</a></li>
+            <li class="border-t my-1"></li>
+            <li><a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300" href="./fixtures">Fixtures</a></li>
+          </ul>
         </div>
-    </header>
+      </div>
+    </nav>
+
+    <!-- Spacer for fixed navbar -->
+    <div class="h-[10vh]"></div>
 
     <!-- Filter Bar -->
     <div class="filter-bar">
