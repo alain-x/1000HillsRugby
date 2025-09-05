@@ -1345,11 +1345,11 @@ $conn->close();
     elseif (strpos($currentTeam, 'academy_u16') !== false) echo 'academy-u16';
     else echo $currentTeam;
 ?>">
-    <!-- Minimal Navbar (fixed) -->
-    <nav class="fixed top-0 left-0 w-full px-2 z-20 h-[10vh] flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300">
+    <!-- Minimal Navbar (non-fixed) -->
+    <nav class="w-full px-2 flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300">
       <div class="navbar-logo w-2/12">
         <a href="./">
-          <img class="w-[60px] hover:w-[70px] transition-transform duration-300" src="./images/1000-hills-logo.png" alt="1000 Hills Rugby" />
+          <img class="w-[60px] h-auto" src="./images/1000-hills-logo.png" alt="1000 Hills Rugby" />
         </a>
       </div>
 
@@ -1404,8 +1404,7 @@ $conn->close();
       </div>
     </nav>
 
-    <!-- Spacer for fixed navbar -->
-    <div class="h-[10vh]"></div>
+    
 
     <!-- Filter Bar -->
     <div class="filter-bar">
