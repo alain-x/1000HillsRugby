@@ -279,53 +279,42 @@ try {
             background: linear-gradient(90deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
             border-left: 4px solid #F59E0B;
         }
-        /* Navigation styles */
+        /* Navigation styles - align with index.html (no gradients) */
         .nav-container {
-            background: linear-gradient(135deg, #065f46 0%, #047857 50%, #065f46 100%);
+            background: #ffffff;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .nav-item {
             position: relative;
-            color: white;
+            color: #1f2937; /* text-gray-800 */
             transition: all 0.3s ease;
             padding: 12px 16px;
             border-radius: 8px;
         }
         .nav-item:hover {
-            color: #d1fae5;
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-1px);
+            color: #16a34a; /* text-green-600 */
+            background-color: transparent;
+            transform: none;
         }
         .nav-item.active {
-            color: white;
-            background-color: rgba(52, 211, 153, 0.2);
-        }
-        .nav-item.active::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 24px;
-            height: 3px;
-            background: linear-gradient(90deg, #34d399, #10b981);
-            border-radius: 3px;
+            color: #16a34a; /* green text for active */
+            background-color: transparent;
         }
         .mobile-nav {
-            background: linear-gradient(135deg, #065f46 0%, #047857 50%, #065f46 100%);
+            background: #ffffff;
         }
         .mobile-nav-item {
-            color: white;
+            color: #1f2937; /* text-gray-800 */
             transition: all 0.2s ease;
             padding: 12px 16px;
             border-radius: 8px;
         }
         .mobile-nav-item:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: #f3f4f6; /* bg-gray-100 */
         }
         .mobile-nav-item.active {
-            background-color: rgba(52, 211, 153, 0.2);
-            color: white;
+            background-color: #f3f4f6;
+            color: #1f2937;
         }
         /* Table styles */
         .table-header {
@@ -403,7 +392,7 @@ try {
                 <div class="flex items-center space-x-4">
                     <a href="./" class="flex items-center">
                         <img src="./logos_/logoT.jpg" alt="Club Logo" class="h-12 rounded-full border-2 border-white shadow-md">
-                        <span class="ml-3 text-xl font-bold text-white">1000 Hills Rugby</span>
+                        <span class="ml-3 text-xl font-bold text-gray-800">1000 Hills Rugby</span>
                     </a>
                 </div>
                 
@@ -422,7 +411,7 @@ try {
                     </a> 
                 </nav>
                 
-                <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+                <button id="mobile-menu-button" class="md:hidden text-black focus:outline-none">
                     <i class="fas fa-bars text-2xl"></i>
                 </button>
             </div>
