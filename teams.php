@@ -1389,7 +1389,7 @@ $conn->close();
           <i class="fa-solid fa-bars" id="menu-open-icon"></i>
           <i class="fa-solid fa-times hidden" id="menu-close-icon"></i>
         </label>
-        <div id="menu" class="absolute top-full right-0 bg-white text-gray-800 w-56 mt-2 rounded-md shadow-lg hidden transition-all duration-300">
+        <div id="menu" class="absolute top-full right-0 bg-white text-gray-800 w-56 mt-2 rounded-md shadow-lg hidden transition-all duration-300 z-50">
           <ul class="flex flex-col text-left space-y-1">
             <li><a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300" href="./">Home</a></li>
             <li><a class="block px-4 py-2 transition-all duration-300 <?php echo $currentTeam == 'men' ? 'text-green-600' : 'hover:text-green-600 hover:bg-gray-100'; ?>" href="?team=men">Men's Squad</a></li>
@@ -1648,6 +1648,7 @@ $conn->close();
             const menu = document.getElementById('menu');
             const openIcon = document.getElementById('menu-open-icon');
             const closeIcon = document.getElementById('menu-close-icon');
+            const menuLabel = document.querySelector('label[for="menu-toggle"]');
 
             function syncMenu() {
                 if (!menuToggle) return;
@@ -1664,6 +1665,15 @@ $conn->close();
 
             if (menuToggle) {
                 menuToggle.addEventListener('change', syncMenu);
+                if (menuLabel) {
+                    menuLabel.addEventListener('click', function(e) {
+                        // On some mobile browsers, hidden checkbox may not toggle via label reliably.
+                        e.preventDefault();
+                        e.stopPropagation();
+                        menuToggle.checked = !menuToggle.checked;
+                        syncMenu();
+                    });
+                }
                 // Close menu when clicking outside
                 document.addEventListener('click', function(e) {
                     const label = document.querySelector('label[for="menu-toggle"]');
@@ -1674,6 +1684,18 @@ $conn->close();
                     }
                 });
                 syncMenu();
+            }
+
+            // Close mobile menu when a link is clicked
+            if (menu) {
+                menu.querySelectorAll('a').forEach(a => {
+                    a.addEventListener('click', function() {
+                        if (menuToggle && menuToggle.checked) {
+                            menuToggle.checked = false;
+                            syncMenu();
+                        }
+                    });
+                });
             }
 
             // Desktop Academy dropdown click-to-toggle (also works with hover)
