@@ -253,16 +253,16 @@ try {
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-4">
                     <a href="./" class="flex items-center">
-                        <img src="./logos_/logoT.jpg" alt="Club Logo" class="h-12 border-2 border-white shadow-md">
-                        <span class="ml-3 text-xl font-bold text-white"></span>
+                        <img src="./images/1000-hills-logo.png" alt="1000 Hills Rugby" class="w-[60px]">
+                        <span class="ml-3 text-xl font-bold text-gray-800"></span>
                     </a>
                 </div>
                 
-                <nav class="hidden md:flex items-center space-x-8">
-                    <a href="/" class="nav-item font-medium text-sm tracking-wider py-4">Home</a>
-                    <a href="fixtures?tab=fixtures" class="nav-item <?php echo $active_tab === 'fixtures' ? 'active' : ''; ?> font-medium text-sm tracking-wider py-4">Fixtures</a>
-                    <a href="results" class="nav-item <?php echo $active_tab === 'results' ? 'active' : ''; ?> font-medium text-sm tracking-wider py-4">Results</a>
-                    <a href="tables" class="nav-item font-medium text-sm tracking-wider py-4">League Tables</a>
+                <nav class="hidden md:flex items-center space-x-8 font-600 text-gray-800 text-sm tracking-wider">
+                    <a href="/" class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 py-4">Home</a>
+                    <a href="fixtures?tab=fixtures" class="<?php echo $active_tab === 'fixtures' ? 'text-green-600 border-b-2 border-green-600' : ''; ?> hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 py-4">Fixtures</a>
+                    <a href="results" class="<?php echo $active_tab === 'results' ? 'text-green-600 border-b-2 border-green-600' : ''; ?> hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 py-4">Results</a>
+                    <a href="tables" class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 py-4">League Tables</a>
                 </nav>
                 
                 <button id="mobile-menu-button" class="md:hidden text-black focus:outline-none">
@@ -273,10 +273,10 @@ try {
         
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden mobile-nav py-2 px-4 shadow-lg">
-            <a href="/" class="block py-3 px-4 mobile-nav-item rounded-md">Home</a>
-            <a href="fixtures?tab=fixtures" class="block py-3 px-4 mobile-nav-item <?php echo $active_tab === 'fixtures' ? 'active' : ''; ?> rounded-md">Fixtures</a>
-            <a href="results" class="block py-3 px-4 mobile-nav-item <?php echo $active_tab === 'results' ? 'active' : ''; ?> rounded-md">Results</a>
-            <a href="tables" class="block py-3 px-4 mobile-nav-item rounded-md">League Tables</a>
+            <a href="/" class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300 rounded-md">Home</a>
+            <a href="fixtures?tab=fixtures" class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300 rounded-md">Fixtures</a>
+            <a href="results" class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300 rounded-md">Results</a>
+            <a href="tables" class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300 rounded-md">League Tables</a>
         </div>
     </header>
 
