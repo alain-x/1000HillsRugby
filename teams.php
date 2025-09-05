@@ -1349,7 +1349,7 @@ $conn->close();
     <nav class="w-full px-2 flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300">
       <div class="navbar-logo w-2/12">
         <a href="./">
-          <img class="w-[60px] h-auto" src="./images/1000-hills-logo.png" alt="1000 Hills Rugby" />
+          <img class="w-[40px] h-[40px]" src="./images/1000-hills-logo.png" alt="1000 Hills Rugby" />
         </a>
       </div>
 
