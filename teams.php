@@ -159,6 +159,7 @@ function calculateTeamStats($conn, $team) {
 
 $teamStats = calculateTeamStats($conn, $currentTeam);
 $conn->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1633,77 +1634,49 @@ $conn->close();
     </main>
 
      <script>
-        // Mobile menu toggle
         document.addEventListener('DOMContentLoaded', function() {
-            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-            const mobileMenuClose = document.getElementById('mobileMenuClose');
-            const navLinks = document.getElementById('navLinks');
-            const academyDropdown = document.getElementById('academyDropdown');
+            const menuToggle = document.getElementById('menu-toggle');
+            const menu = document.getElementById('menu');
+            const openIcon = document.getElementById('menu-open-icon');
+            const closeIcon = document.getElementById('menu-close-icon');
 
-            // Toggle mobile menu
-            mobileMenuBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                navLinks.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
-
-            // Close mobile menu
-            mobileMenuClose.addEventListener('click', function(e) {
-                e.stopPropagation();
-                navLinks.classList.remove('active');
-                document.body.style.overflow = '';
-            });
-
-            // Close menu when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!navLinks.contains(e.target) && e.target !== mobileMenuBtn) {
-                    navLinks.classList.remove('active');
-                    document.body.style.overflow = '';
+            function syncMenu() {
+                if (!menuToggle) return;
+                if (menuToggle.checked) {
+                    menu.classList.remove('hidden');
+                    openIcon.classList.add('hidden');
+                    closeIcon.classList.remove('hidden');
+                } else {
+                    menu.classList.add('hidden');
+                    openIcon.classList.remove('hidden');
+                    closeIcon.classList.add('hidden');
                 }
-            });
+            }
 
-            // Academy dropdown toggle for mobile
-            academyDropdown.addEventListener('click', function(e) {
-                // Only prevent default if we're on mobile and clicking the toggle
-                if (window.innerWidth <= 768 && e.target.closest('.academy-dropdown-toggle')) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this.classList.toggle('active');
-                }
-            });
-
-            // Close dropdown when clicking a link inside it
-            document.querySelectorAll('.academy-dropdown-content a').forEach(link => {
-                link.addEventListener('click', () => {
-                    if (window.innerWidth <= 768) {
-                        academyDropdown.classList.remove('active');
-                        navLinks.classList.remove('active');
-                        document.body.style.overflow = '';
+            if (menuToggle) {
+                menuToggle.addEventListener('change', syncMenu);
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    const label = document.querySelector('label[for="menu-toggle"]');
+                    const clickedInside = menu.contains(e.target) || (label && label.contains(e.target));
+                    if (!clickedInside && menuToggle.checked) {
+                        menuToggle.checked = false;
+                        syncMenu();
                     }
                 });
-            });
+                syncMenu();
+            }
 
-            // Handle window resize to reset dropdown state
-            window.addEventListener('resize', function() {
-                if (window.innerWidth > 768) {
-                    academyDropdown.classList.remove('active');
-                    navLinks.classList.remove('active');
-                    document.body.style.overflow = '';
-                }
-            });
-
-            // Tab functionality
+            // Filter tabs visual state
             const filterTabs = document.querySelectorAll('.filter-tab');
             filterTabs.forEach(tab => {
-                tab.addEventListener('click', function(e) {
-                    // Remove active class from all tabs
+                tab.addEventListener('click', function() {
                     filterTabs.forEach(t => t.classList.remove('active'));
-                    
-                    // Add active class to clicked tab
                     this.classList.add('active');
                 });
             });
         });
     </script>
+
 </body>
 </html>
