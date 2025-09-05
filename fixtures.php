@@ -259,19 +259,10 @@ try {
                 </div>
                 
                 <nav class="hidden md:flex items-center space-x-8">
-                    
-                <a href="/" class="nav-item font-medium text-sm uppercase tracking-wider py-4">
-                        <i class="fas fa-home mr-2"></i>Home
-                    </a>
-                    <a href="fixtures?tab=fixtures" class="nav-item <?php echo $active_tab === 'fixtures' ? 'active' : ''; ?> font-medium text-sm uppercase tracking-wider py-4">
-                        <i class="fas fa-calendar-alt mr-2"></i>Fixtures
-                    </a>
-                    <a href="results" class="nav-item <?php echo $active_tab === 'results' ? 'active' : ''; ?> font-medium text-sm uppercase tracking-wider py-4">
-                        <i class="fas fa-list-ol mr-2"></i>Results
-                    </a>
-                    <a href="tables" class="nav-item font-medium text-sm uppercase tracking-wider py-4">
-                        <i class="fas fa-table mr-2"></i>League Tables
-                    </a>
+                    <a href="/" class="nav-item font-medium text-sm tracking-wider py-4">home</a>
+                    <a href="fixtures?tab=fixtures" class="nav-item <?php echo $active_tab === 'fixtures' ? 'active' : ''; ?> font-medium text-sm tracking-wider py-4">fixtures</a>
+                    <a href="results" class="nav-item <?php echo $active_tab === 'results' ? 'active' : ''; ?> font-medium text-sm tracking-wider py-4">results</a>
+                    <a href="tables" class="nav-item font-medium text-sm tracking-wider py-4">league tables</a>
                 </nav>
                 
                 <button id="mobile-menu-button" class="md:hidden text-black focus:outline-none">
@@ -282,19 +273,10 @@ try {
         
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden mobile-nav py-2 px-4 shadow-lg">
-            
-        <a href="/" class="block py-3 px-4 mobile-nav-item rounded-md">
-                <i class="fas fa-home mr-3"></i>Home
-            </a>
-            <a href="fixtures?tab=fixtures" class="block py-3 px-4 mobile-nav-item <?php echo $active_tab === 'fixtures' ? 'active' : ''; ?> rounded-md">
-                <i class="fas fa-calendar-alt mr-3"></i>Fixtures
-            </a>
-            <a href="results" class="block py-3 px-4 mobile-nav-item <?php echo $active_tab === 'results' ? 'active' : ''; ?> rounded-md">
-                <i class="fas fa-list-ol mr-3"></i>Results
-            </a>
-            <a href="tables" class="block py-3 px-4 mobile-nav-item rounded-md">
-                <i class="fas fa-table mr-3"></i>League Tables
-            </a>
+            <a href="/" class="block py-3 px-4 mobile-nav-item rounded-md">home</a>
+            <a href="fixtures?tab=fixtures" class="block py-3 px-4 mobile-nav-item <?php echo $active_tab === 'fixtures' ? 'active' : ''; ?> rounded-md">fixtures</a>
+            <a href="results" class="block py-3 px-4 mobile-nav-item <?php echo $active_tab === 'results' ? 'active' : ''; ?> rounded-md">results</a>
+            <a href="tables" class="block py-3 px-4 mobile-nav-item rounded-md">league tables</a>
         </div>
     </header>
 
