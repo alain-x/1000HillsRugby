@@ -391,16 +391,16 @@ try {
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-4">
                     <a href="./" class="flex items-center">
-                        <img src="./logos_/logoT.jpg" alt="Club Logo" class="h-12 rounded-full border-2 border-white shadow-md">
+                        <img src="./logos_/logoT.jpg" alt="Club Logo" class="h-12 border-2 border-white shadow-md">
                         <span class="ml-3 text-xl font-bold text-gray-800">1000 Hills Rugby</span>
                     </a>
                 </div>
                 
                 <nav class="hidden md:flex items-center space-x-2">
-                    <a href="/" class="nav-item font-medium text-sm tracking-wider">home</a>
-                    <a href="fixtures?tab=fixtures" class="nav-item font-medium text-sm tracking-wider">fixtures</a>
-                    <a href="results" class="nav-item font-medium text-sm tracking-wider">results</a>
-                    <a href="tables.php" class="nav-item active font-medium text-sm tracking-wider">league tables</a> 
+                    <a href="/" class="nav-item font-medium text-sm tracking-wider">Home</a>
+                    <a href="fixtures?tab=fixtures" class="nav-item font-medium text-sm tracking-wider">Fixtures</a>
+                    <a href="results" class="nav-item font-medium text-sm tracking-wider">Results</a>
+                    <a href="tables.php" class="nav-item active font-medium text-sm tracking-wider">League Tables</a> 
                 </nav>
                 
                 <button id="mobile-menu-button" class="md:hidden text-black focus:outline-none">
@@ -411,10 +411,10 @@ try {
         
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden mobile-nav py-2 px-4 shadow-lg">
-            <a href="/" class="block mobile-nav-item rounded-md">home</a>
-            <a href="fixtures?tab=fixtures" class="block mobile-nav-item rounded-md">fixtures</a>
-            <a href="results" class="block mobile-nav-item rounded-md">results</a>
-            <a href="tables.php" class="block mobile-nav-item active rounded-md">league tables</a> 
+            <a href="/" class="block mobile-nav-item rounded-md">Home</a>
+            <a href="fixtures?tab=fixtures" class="block mobile-nav-item rounded-md">Fixtures</a>
+            <a href="results" class="block mobile-nav-item rounded-md">Results</a>
+            <a href="tables.php" class="block mobile-nav-item active rounded-md">League Tables</a> 
         </div>
     </header>
 

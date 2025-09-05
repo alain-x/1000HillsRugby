@@ -253,16 +253,16 @@ try {
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-4">
                     <a href="./" class="flex items-center">
-                        <img src="./logos_/logoT.jpg" alt="Club Logo" class="h-12 rounded-full border-2 border-white shadow-md">
+                        <img src="./logos_/logoT.jpg" alt="Club Logo" class="h-12 border-2 border-white shadow-md">
                         <span class="ml-3 text-xl font-bold text-white"></span>
                     </a>
                 </div>
                 
                 <nav class="hidden md:flex items-center space-x-8">
-                    <a href="/" class="nav-item font-medium text-sm tracking-wider py-4">home</a>
-                    <a href="fixtures?tab=fixtures" class="nav-item <?php echo $active_tab === 'fixtures' ? 'active' : ''; ?> font-medium text-sm tracking-wider py-4">fixtures</a>
-                    <a href="results" class="nav-item <?php echo $active_tab === 'results' ? 'active' : ''; ?> font-medium text-sm tracking-wider py-4">results</a>
-                    <a href="tables" class="nav-item font-medium text-sm tracking-wider py-4">league tables</a>
+                    <a href="/" class="nav-item font-medium text-sm tracking-wider py-4">Home</a>
+                    <a href="fixtures?tab=fixtures" class="nav-item <?php echo $active_tab === 'fixtures' ? 'active' : ''; ?> font-medium text-sm tracking-wider py-4">Fixtures</a>
+                    <a href="results" class="nav-item <?php echo $active_tab === 'results' ? 'active' : ''; ?> font-medium text-sm tracking-wider py-4">Results</a>
+                    <a href="tables" class="nav-item font-medium text-sm tracking-wider py-4">League Tables</a>
                 </nav>
                 
                 <button id="mobile-menu-button" class="md:hidden text-black focus:outline-none">
@@ -273,10 +273,10 @@ try {
         
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden mobile-nav py-2 px-4 shadow-lg">
-            <a href="/" class="block py-3 px-4 mobile-nav-item rounded-md">home</a>
-            <a href="fixtures?tab=fixtures" class="block py-3 px-4 mobile-nav-item <?php echo $active_tab === 'fixtures' ? 'active' : ''; ?> rounded-md">fixtures</a>
-            <a href="results" class="block py-3 px-4 mobile-nav-item <?php echo $active_tab === 'results' ? 'active' : ''; ?> rounded-md">results</a>
-            <a href="tables" class="block py-3 px-4 mobile-nav-item rounded-md">league tables</a>
+            <a href="/" class="block py-3 px-4 mobile-nav-item rounded-md">Home</a>
+            <a href="fixtures?tab=fixtures" class="block py-3 px-4 mobile-nav-item <?php echo $active_tab === 'fixtures' ? 'active' : ''; ?> rounded-md">Fixtures</a>
+            <a href="results" class="block py-3 px-4 mobile-nav-item <?php echo $active_tab === 'results' ? 'active' : ''; ?> rounded-md">Results</a>
+            <a href="tables" class="block py-3 px-4 mobile-nav-item rounded-md">League Tables</a>
         </div>
     </header>
 
@@ -424,14 +424,14 @@ try {
                                     <div class="teams-horizontal">
                                         <!-- Home Team -->
                                         <div class="team-container">
-                                            <?php if (!empty($fixture['home_logo'])): ?>
-                                                <img src="logos_/<?php echo htmlspecialchars($fixture['home_logo']); ?>" alt="<?php echo htmlspecialchars($fixture['home_team']); ?>" class="team-logo">
+                                            <?php if (!empty($fixture['Home_logo'])): ?>
+                                                <img src="logos_/<?php echo htmlspecialchars($fixture['Home_logo']); ?>" alt="<?php echo htmlspecialchars($fixture['Home_team']); ?>" class="team-logo">
                                             <?php else: ?>
                                                 <div class="default-logo">
-                                                    <?php echo substr($fixture['home_team'], 0, 1); ?>
+                                                    <?php echo substr($fixture['Home_team'], 0, 1); ?>
                                                 </div>
                                             <?php endif; ?>
-                                            <span class="team-name"><?php echo htmlspecialchars($fixture['home_team']); ?></span>
+                                            <span class="team-name"><?php echo htmlspecialchars($fixture['Home_team']); ?></span>
                                         </div>
                                         
                                         <!-- VS Divider -->
@@ -516,15 +516,15 @@ try {
                                                 <div class="flex items-center justify-between">
                                                     <div class="flex items-center">
                                                         <div class="flex-shrink-0 h-10 w-10 mr-3">
-                                                            <?php if (!empty($fixture['home_logo'])): ?>
-                                                                <img src="logos_/<?php echo htmlspecialchars($fixture['home_logo']); ?>" alt="<?php echo htmlspecialchars($fixture['home_team']); ?>" class="h-10 w-10 rounded-lg">
+                                                            <?php if (!empty($fixture['Home_logo'])): ?>
+                                                                <img src="logos_/<?php echo htmlspecialchars($fixture['Home_logo']); ?>" alt="<?php echo htmlspecialchars($fixture['Home_team']); ?>" class="h-10 w-10 rounded-lg">
                                                             <?php else: ?>
                                                                 <div class="h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center font-medium">
-                                                                    <?php echo substr($fixture['home_team'], 0, 1); ?>
+                                                                    <?php echo substr($fixture['Home_team'], 0, 1); ?>
                                                                 </div>
                                                             <?php endif; ?>
                                                         </div>
-                                                        <div class="text-sm font-medium text-gray-900"><?php echo htmlspecialchars($fixture['home_team']); ?></div>
+                                                        <div class="text-sm font-medium text-gray-900"><?php echo htmlspecialchars($fixture['Home_team']); ?></div>
                                                     </div>
                                                     <span class="mx-2 text-gray-400">vs</span>
                                                     <div class="flex items-center">
@@ -545,15 +545,15 @@ try {
                                             <!-- Score -->
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="text-2xl font-bold text-gray-900 text-center">
-                                                    <?php echo $fixture['home_score']; ?> - <?php echo $fixture['away_score']; ?>
+                                                    <?php echo $fixture['Home_score']; ?> - <?php echo $fixture['away_score']; ?>
                                                 </div>
                                                 <div class="text-xs text-center mt-1">
                                                     <?php 
-                                                        $home_score = intval($fixture['home_score']);
+                                                        $Home_score = intval($fixture['Home_score']);
                                                         $away_score = intval($fixture['away_score']);
-                                                        if ($home_score > $away_score) {
+                                                        if ($Home_score > $away_score) {
                                                             echo '<span class="text-green-600 font-medium">Home Win</span>';
-                                                        } elseif ($away_score > $home_score) {
+                                                        } elseif ($away_score > $Home_score) {
                                                             echo '<span class="text-red-600 font-medium">Away Win</span>';
                                                         } else {
                                                             echo '<span class="text-yellow-600 font-medium">Draw</span>';
