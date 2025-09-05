@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Results | 1000 Hills Rugby Club</title>
+  <meta name="description" content="View match results for 1000 Hills Rugby Club teams" />
+  <link rel="icon" type="image/png" href="/assets/favicon.png" />
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #f9fafb;
+    }
+    .frame-container {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #fff;
+    }
+    iframe {
+      border: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="frame-container">
+    <iframe id="resultsFrame" title="Match Results" loading="eager" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+
+  <script>
+    // Build iframe src = fixtures?tab=results + any existing query params (season, competition, gender)
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      // Force tab=results regardless of incoming tab
+      params.set('tab', 'results');
+      // Default: keep other params (season, competition, gender) as-is
+      var src = 'fixtures?'+ params.toString();
+      // Fallback if server expects .php explicitly
+      var frame = document.getElementById('resultsFrame');
+      frame.src = src;
+    })();
+  </script>
+</body>
+</html>

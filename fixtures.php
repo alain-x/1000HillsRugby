@@ -277,7 +277,7 @@ try {
                     <a href="fixtures?tab=fixtures" class="nav-item <?php echo $active_tab === 'fixtures' ? 'active' : ''; ?> font-medium text-sm uppercase tracking-wider py-4">
                         <i class="fas fa-calendar-alt mr-2"></i>Fixtures
                     </a>
-                    <a href="fixtures?tab=results" class="nav-item <?php echo $active_tab === 'results' ? 'active' : ''; ?> font-medium text-sm uppercase tracking-wider py-4">
+                    <a href="results.html" class="nav-item <?php echo $active_tab === 'results' ? 'active' : ''; ?> font-medium text-sm uppercase tracking-wider py-4">
                         <i class="fas fa-list-ol mr-2"></i>Results
                     </a>
                     <a href="tables" class="nav-item font-medium text-sm uppercase tracking-wider py-4">
@@ -300,7 +300,7 @@ try {
             <a href="fixtures?tab=fixtures" class="block py-3 px-4 mobile-nav-item <?php echo $active_tab === 'fixtures' ? 'active' : ''; ?> rounded-md">
                 <i class="fas fa-calendar-alt mr-3"></i>Fixtures
             </a>
-            <a href="fixtures?tab=results" class="block py-3 px-4 mobile-nav-item <?php echo $active_tab === 'results' ? 'active' : ''; ?> rounded-md">
+            <a href="results.html" class="block py-3 px-4 mobile-nav-item <?php echo $active_tab === 'results' ? 'active' : ''; ?> rounded-md">
                 <i class="fas fa-list-ol mr-3"></i>Results
             </a>
             <a href="tables" class="block py-3 px-4 mobile-nav-item rounded-md">
@@ -399,7 +399,7 @@ try {
                 <a href="?tab=fixtures&season=<?php echo $selected_season; ?>&competition=<?php echo urlencode($selected_competition); ?>&gender=<?php echo urlencode($selected_gender); ?>" class="tab-button px-6 py-3 font-medium <?php echo $active_tab === 'fixtures' ? 'text-green-700 border-b-2 border-green-600' : 'text-gray-500 hover:text-green-600'; ?> transition-colors mr-1">
                     <i class="far fa-calendar-alt mr-2"></i>Upcoming Fixtures
                 </a>
-                <a href="?tab=results&season=<?php echo $selected_season; ?>&competition=<?php echo urlencode($selected_competition); ?>&gender=<?php echo urlencode($selected_gender); ?>" class="tab-button px-6 py-3 font-medium <?php echo $active_tab === 'results' ? 'text-green-700 border-b-2 border-green-600' : 'text-gray-500 hover:text-green-600'; ?> transition-colors">
+                <a href="results.html?season=<?php echo $selected_season; ?>&competition=<?php echo urlencode($selected_competition); ?>&gender=<?php echo urlencode($selected_gender); ?>" class="tab-button px-6 py-3 font-medium <?php echo $active_tab === 'results' ? 'text-green-700 border-b-2 border-green-600' : 'text-gray-500 hover:text-green-600'; ?> transition-colors">
                     <i class="far fa-list-alt mr-2"></i>Match Results
                 </a>
             </div>
