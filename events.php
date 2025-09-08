@@ -1029,7 +1029,7 @@ $conn->close();
               class="flex items-center hover:text-[#dcbb26] transition-colors duration-300"
             >
               <i class="text-[#006838] mr-2 fa-solid fa-envelope"></i
-              >thillsrugby@gmail.com
+              >info@1000hillsrugby.rw
             </li>
             <li
               class="flex items-center hover:text-[#dcbb26] transition-colors duration-300"
