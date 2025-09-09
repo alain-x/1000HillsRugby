@@ -34,6 +34,12 @@ $currentArticle = null;
 $currentArticleDetails = [];
 $articles = [];
 
+// Detect cases where post_max_size is exceeded (PHP drops POST/FILES silently)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($_POST) && empty($_FILES)) {
+    $message = 'Upload failed: The total size of files and form data exceeded the server limit. Please upload fewer files at once or reduce file sizes. If this persists, increase post_max_size on the server.';
+    $messageClass = 'alert-error';
+}
+
 // Handle delete action
 if (isset($_GET['delete'])) {
     $article_id = $conn->real_escape_string($_GET['delete']);
@@ -185,8 +191,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
             
             // Start with existing images if editing
             $image_paths = [];
-            if ($is_edit && !empty($_POST["existing_images"][$index])) {
-                $image_paths = explode(",", $_POST["existing_images"][$index]);
+            if ($is_edit && isset($_POST["existing_images"][$index])) {
+                // Support both CSV string and array inputs
+                if (is_array($_POST["existing_images"][$index])) {
+                    $image_paths = array_values(array_filter(array_map('trim', $_POST["existing_images"][$index])));
+                } else {
+                    $image_paths = array_values(array_filter(array_map('trim', explode(",", $_POST["existing_images"][$index]))));
+                }
             }
 
             // Handle newly uploaded images (add to existing ones)
@@ -247,8 +258,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                 foreach ($_POST["removed_images"][$index] as $removed_path) {
                     $key = array_search($removed_path, $image_paths);
                     if ($key !== false) {
-                        // Delete the file
-                        if (file_exists($removed_path)) {
+                        // Delete the file only if it's a local file path
+                        if (!filter_var($removed_path, FILTER_VALIDATE_URL) && file_exists($removed_path)) {
                             unlink($removed_path);
                         }
                         // Remove from array
@@ -517,16 +528,6 @@ $conn->close();
                                                             </video>
                                                         <?php else: ?>
                                                             <img src="<?php echo htmlspecialchars($imgPath); ?>" alt="Section media" class="h-24 object-cover">
-                                        <div class="flex justify-between items-center mb-2">
-                                            <h3 class="text-xl font-semibold">Section <?php echo $index + 1; ?></h3>
-                                            <button type="button" onclick="removeSection(this)" class="text-red-500 hover:text-red-700">
-                                                <i class="fas fa-times"></i> Remove Section
-                                            </button>
-                                        </div>
-                                        <input type="hidden" name="existing_images[<?php echo $index; ?>]" value="<?php echo htmlspecialchars($detail['image_path'] ?? ''); ?>">
-                                        <input type="text" name="subtitle[]" placeholder="Subtitle" 
-                                               value="<?php echo htmlspecialchars($detail['subtitle'] ?? ''); ?>" 
-                                               class="w-full p-2 border rounded mb-2">
                                                         <?php endif; ?>
                                                         <button type="button" 
                                                                 onclick="removeImage(this, '<?php echo htmlspecialchars($imgPath); ?>', <?php echo $index; ?>)" 
@@ -896,7 +897,8 @@ $conn->close();
                                 </button>
                             `;
                             // Reset remove flag if new image is selected
-                            document.getElementById('remove_main_image').value = '0';
+                            const rm = document.getElementById('remove_main_image');
+                            if (rm) { rm.value = '0'; }
                         };
                         reader.readAsDataURL(file);
                     }
