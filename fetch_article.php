@@ -1,5 +1,5 @@
 <?php
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 // Database connection
     
 $servername = "localhost";
@@ -12,6 +12,8 @@ $conn = new mysqli($servername, $username, $password, $dbname, $port);
 if ($conn->connect_error) {
     die(json_encode(["error" => "Database connection failed"]));
 }
+// Use UTF-8 to avoid mojibake in JSON payloads
+$conn->set_charset('utf8mb4');
 
 if (isset($_GET["id"])) {
     $articleId = intval($_GET["id"]);

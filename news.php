@@ -1,7 +1,11 @@
 <?php
+// Ensure UTF-8 output
+header('Content-Type: text/html; charset=utf-8');
 // Database connection
 $conn = new mysqli("localhost", "hillsrug_gasore", "M00dle??", "hillsrug_db", 3306);
 if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
+// Use UTF-8 for MySQL
+$conn->set_charset('utf8mb4');
 
 // Fetch articles
 $sql = "SELECT id, title, category, date_published, main_image_path FROM articles ORDER BY date_published DESC";

@@ -1,4 +1,6 @@
 <?php
+// Ensure UTF-8 output
+header('Content-Type: text/html; charset=utf-8');
 // Set larger file size limits for handling 30 images of 31MB each
 ini_set('max_execution_time', 300);  // 5 minutes
 ini_set('max_input_time', 300);     // 5 minutes
@@ -19,6 +21,8 @@ $conn = new mysqli($servername, $username, $password, $dbname, $port);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+// Use UTF-8 for MySQL connection to prevent mojibake on curly quotes, etc.
+$conn->set_charset('utf8mb4');
 
 // Function to make URLs clickable
 function makeLinksClickable($text) {
@@ -443,7 +447,7 @@ $conn->close();
         <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
             <h2 class="text-2xl font-semibold mb-6"><?php echo $editMode ? 'Edit Article' : 'Add New Article'; ?></h2>
             
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form action="" method="POST" enctype="multipart/form-data" accept-charset="UTF-8">
                 <?php if ($editMode && isset($currentArticle['id'])): ?>
                     <input type="hidden" name="article_id" value="<?php echo htmlspecialchars($currentArticle['id']); ?>">
                     <input type="hidden" name="existing_main_image" value="<?php echo htmlspecialchars($currentArticle['main_image_path'] ?? ''); ?>">
