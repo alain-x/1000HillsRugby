@@ -129,12 +129,12 @@ const matches = [
   {
     date: { day: "02", month: "Aug" },
     
-    team2: {
+    team1: {
       name: "Resilience RFC",
       logo: "./logos_/resilience.jpg",
       score: "10",
     },
-    team1: {
+    team2: {
       name: "1000 Hills Rugby RFC",
       logo: "./logos_/logoT.jpg",
       score: "19",
