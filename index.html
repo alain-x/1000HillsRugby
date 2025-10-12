@@ -17,8 +17,8 @@
     <meta property="og:image" content="https://www.1000hillsrugby.rw/images/logo.png" />
     <meta property="og:url" content="https://www.1000hillsrugby.rw" />
     <meta property="og:type" content="website" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
 
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4R4W5PDJ93"></script>
@@ -44,6 +44,12 @@
     <title>1000 Hills Rugby</title>
     <link rel="icon" href="https://www.1000hillsrugby.rw/images/favicon.ico" type="image/x-icon" />
     <link rel="canonical" href="https://www.1000hillsrugby.rw/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://ajax.googleapis.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="./uploads/1740072895_fans.JPG" imagesrcset="./uploads/1740072895_fans.JPG 1920w" imagesizes="100vw" fetchpriority="high">
     
     <!-- External Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -87,6 +93,7 @@
                     class="rounded-xl h-[250px] md:h-[350px] lg:h-[400px] w-full object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-110"
                     src="${news[0].main_image_path}"
                     alt="${news[0].title}"
+                    loading="lazy" decoding="async" width="1200" height="800"
                   />
                 </a>
                 <div class="absolute bottom-4 left-4 bg-black/70 text-white p-2 md:p-4 rounded-lg">
@@ -120,6 +127,7 @@
                     class="rounded-xl h-[220px] md:h-[230px] lg:h-[240px] w-full object-cover transition-transform duration-500 ease-in-out transform hover:scale-110"
                     src="${news[i].main_image_path}"
                     alt="${news[i].title}"
+                    loading="lazy" decoding="async" width="800" height="533"
                   />
                 </div>
                 <div class="text-center">
@@ -590,16 +598,6 @@
         
        
       
-        <!-- Scroll-to-Top Button -->
-        <a href="#top" class="fixed bottom-20 border border-white right-2 z-50 bg-[#006838] hover:bg-[#00562c] transition-all duration-300 text-white px-4 py-2 rounded-full shadow-lg text-lg flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M19 15l-7-7-7 7" />
-          </svg>
-        </a>
-      </section>
-      
-      
-        <!-- Scroll-to-Top Button -->
         <a href="#top" class="fixed bottom-20 border border-white right-2 z-50 bg-[#006838] hover:bg-[#00562c] transition-all duration-300 text-white px-4 py-2 rounded-full shadow-lg text-lg flex items-center justify-center">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M19 15l-7-7-7 7" />
@@ -609,7 +607,6 @@
       
       
 
-      <!-- Add Animate.css for animation effects -->
       <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
@@ -1077,14 +1074,14 @@
             <div class="slider-container">
               <div class="slider-track">
 
-                <img src="images/rqt.jpg" alt="logo" class="partner-logo h-48 object-cover" />
-                <img src="./images/LSFG+PartnerLogos-Colour-horizontal.jpg" alt="logo" class="partner-logo h-40 object-cover" />
-                <img src="images/anymore.jpg" alt="logo" class="partner-logo h-40 object-cover" /> 
-                <img src="images/pwr.png" alt="logo" class="partner-logo h-40 object-cover" />  
-                <img src="images/rqt.jpg" alt="logo" class="partner-logo h-40 object-cover" />
-                <img src="./images/LSFG+PartnerLogos-Colour-horizontal.jpg" alt="logo" class="partner-logo h-40 object-cover" />
-                <img src="images/anymore.jpg" alt="logo" class="partner-logo h-40 object-cover" /> 
-                <img src="images/pwr.png" alt="logo" class="partner-logo h-40 object-cover" /> 
+                <img src="images/rqt.jpg" alt="logo" class="partner-logo h-48 object-cover" loading="lazy" decoding="async" width="240" height="120" />
+                <img src="./images/LSFG+PartnerLogos-Colour-horizontal.jpg" alt="logo" class="partner-logo h-40 object-cover" loading="lazy" decoding="async" width="240" height="120" />
+                <img src="images/anymore.jpg" alt="logo" class="partner-logo h-40 object-cover" loading="lazy" decoding="async" width="240" height="120" /> 
+                <img src="images/pwr.png" alt="logo" class="partner-logo h-40 object-cover" loading="lazy" decoding="async" width="240" height="120" />  
+                <img src="images/rqt.jpg" alt="logo" class="partner-logo h-40 object-cover" loading="lazy" decoding="async" width="240" height="120" />
+                <img src="./images/LSFG+PartnerLogos-Colour-horizontal.jpg" alt="logo" class="partner-logo h-40 object-cover" loading="lazy" decoding="async" width="240" height="120" />
+                <img src="images/anymore.jpg" alt="logo" class="partner-logo h-40 object-cover" loading="lazy" decoding="async" width="240" height="120" /> 
+                <img src="images/pwr.png" alt="logo" class="partner-logo h-40 object-cover" loading="lazy" decoding="async" width="240" height="120" /> 
                  <!-- Duplicate slides for smooth loop -->
                 
                 <img src="images/rqt.jpg" alt="logo" class="partner-logo h-40 object-cover" />
@@ -1099,8 +1096,9 @@
         </section>
 
         <script>
-          $(document).ready(function () {
-            $(".customer-logos").slick({
+          window.addEventListener('load', function () {
+            if (window.jQuery && $('.customer-logos').length) {
+              $(".customer-logos").slick({
               slidesToShow: 6,
               slidesToScroll: 1,
               autoplay: true,
@@ -1131,7 +1129,8 @@
                   },
                 },
               ],
-            });
+              });
+            }
           });
         </script>
         <div
@@ -1469,6 +1468,6 @@
   </p>
 </section>
 
-    <script src="./index.js"></script>
+    <script defer src="./index.js"></script>
   </body>
 </html>
