@@ -424,14 +424,14 @@ try {
                                     <div class="teams-horizontal">
                                         <!-- Home Team -->
                                         <div class="team-container">
-                                            <?php if (!empty($fixture['Home_logo'])): ?>
-                                                <img src="logos_/<?php echo htmlspecialchars($fixture['Home_logo']); ?>" alt="<?php echo htmlspecialchars($fixture['Home_team']); ?>" class="team-logo">
+                                            <?php if (!empty($fixture['home_logo'])): ?>
+                                                <img src="logos_/<?php echo htmlspecialchars($fixture['home_logo']); ?>" alt="<?php echo htmlspecialchars($fixture['home_team']); ?>" class="team-logo">
                                             <?php else: ?>
                                                 <div class="default-logo">
-                                                    <?php echo substr($fixture['Home_team'], 0, 1); ?>
+                                                    <?php echo substr($fixture['home_team'], 0, 1); ?>
                                                 </div>
                                             <?php endif; ?>
-                                            <span class="team-name"><?php echo htmlspecialchars($fixture['Home_team']); ?></span>
+                                            <span class="team-name"><?php echo htmlspecialchars($fixture['home_team']); ?></span>
                                         </div>
                                         
                                         <!-- VS Divider -->
@@ -516,15 +516,15 @@ try {
                                                 <div class="flex items-center justify-between">
                                                     <div class="flex items-center">
                                                         <div class="flex-shrink-0 h-10 w-10 mr-3">
-                                                            <?php if (!empty($fixture['Home_logo'])): ?>
-                                                                <img src="logos_/<?php echo htmlspecialchars($fixture['Home_logo']); ?>" alt="<?php echo htmlspecialchars($fixture['Home_team']); ?>" class="h-10 w-10 rounded-lg">
+                                                            <?php if (!empty($fixture['home_logo'])): ?>
+                                                                <img src="logos_/<?php echo htmlspecialchars($fixture['home_logo']); ?>" alt="<?php echo htmlspecialchars($fixture['home_team']); ?>" class="h-10 w-10 rounded-lg">
                                                             <?php else: ?>
                                                                 <div class="h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center font-medium">
-                                                                    <?php echo substr($fixture['Home_team'], 0, 1); ?>
+                                                                    <?php echo substr($fixture['home_team'], 0, 1); ?>
                                                                 </div>
                                                             <?php endif; ?>
                                                         </div>
-                                                        <div class="text-sm font-medium text-gray-900"><?php echo htmlspecialchars($fixture['Home_team']); ?></div>
+                                                        <div class="text-sm font-medium text-gray-900"><?php echo htmlspecialchars($fixture['home_team']); ?></div>
                                                     </div>
                                                     <span class="mx-2 text-gray-400">vs</span>
                                                     <div class="flex items-center">
@@ -545,15 +545,15 @@ try {
                                             <!-- Score -->
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="text-2xl font-bold text-gray-900 text-center">
-                                                    <?php echo $fixture['Home_score']; ?> - <?php echo $fixture['away_score']; ?>
+                                                    <?php echo $fixture['home_score']; ?> - <?php echo $fixture['away_score']; ?>
                                                 </div>
                                                 <div class="text-xs text-center mt-1">
                                                     <?php 
-                                                        $Home_score = intval($fixture['Home_score']);
+                                                        $home_score = intval($fixture['home_score']);
                                                         $away_score = intval($fixture['away_score']);
-                                                        if ($Home_score > $away_score) {
+                                                        if ($home_score > $away_score) {
                                                             echo '<span class="text-green-600 font-medium">Home Win</span>';
-                                                        } elseif ($away_score > $Home_score) {
+                                                        } elseif ($away_score > $home_score) {
                                                             echo '<span class="text-red-600 font-medium">Away Win</span>';
                                                         } else {
                                                             echo '<span class="text-yellow-600 font-medium">Draw</span>';
