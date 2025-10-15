@@ -2,3 +2,6 @@ User-agent: *
 Allow: /
 Sitemap: https://www.1000hillsrugby.rw/sitemap.xml
 User-agent: *
+Disallow: /uploads/
+Disallow: /images/
+Disallow: /logos/
