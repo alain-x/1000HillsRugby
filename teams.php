@@ -167,7 +167,7 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $selectedPlayer ? htmlspecialchars($selectedPlayer['name']) : '1000 Hills Rugby Club - ' . ucfirst(str_replace('_', ' ', $currentTeam)); ?></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./style.css" />
     <style>
         :root {
@@ -1355,7 +1355,7 @@ $conn->close();
       </div>
 
       <!-- Desktop menu -->
-      <ul class="hidden lg:flex lg:space-x-8 font-600 text-gray-800 text-sm tracking-wider">
+      <ul class="hidden lg:flex lg:space-x-8 font-semibold text-gray-800 text-sm tracking-wider">
         <li>
           <a class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300" href="./">Home</a>
         </li>
