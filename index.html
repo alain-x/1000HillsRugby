@@ -1,183 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="google-site-verification" content="8SOR6dVm39ODe53xIrZDka6VNyboS1L29ZF3vq3ueoI" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="1000 Hills Rugby - Official website of the 1000 Hills Rugby Club in Kigali, Rwanda. Stay updated with the latest news, matches, and events." />
-    <meta name="keywords" content="1000 Hills Rugby, rugby club, Kigali, Rwanda rugby, sports, matches, rugby events" />
-    <meta name="author" content="1000 Hills Rugby Club" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="robots" content="index, follow" />
-    <meta name="theme-color" content="#1a202c" />
+  <meta charset="UTF-8" />
+  <meta name="google-site-verification" content="8SOR6dVm39ODe53xIrZDka6VNyboS1L29ZF3vq3ueoI" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="1000 Hills Rugby - Official website of the 1000 Hills Rugby Club in Kigali, Rwanda. Stay updated with the latest news, matches, and events." />
+  <meta name="keywords" content="1000 Hills Rugby, rugby club, Kigali, Rwanda rugby, sports, matches, rugby events" />
+  <meta name="author" content="1000 Hills Rugby Club" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#1a202c" />
 
-    <!-- Open Graph Metadata -->
-    <meta property="og:title" content="1000 Hills Rugby" />
-    <meta property="og:description" content="Official website of the 1000 Hills Rugby Club in Kigali, Rwanda." />
-    <meta property="og:image" content="https://www.1000hillsrugby.rw/images/logo.png" />
-    <meta property="og:url" content="https://www.1000hillsrugby.rw" />
-    <meta property="og:type" content="website" />
-    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+  <!-- Open Graph Metadata -->
+  <meta property="og:title" content="1000 Hills Rugby" />
+  <meta property="og:description" content="Official website of the 1000 Hills Rugby Club in Kigali, Rwanda." />
+  <meta property="og:image" content="https://www.1000hillsrugby.rw/images/logo.png" />
+  <meta property="og:url" content="https://www.1000hillsrugby.rw" />
+  <meta property="og:type" content="website" />
 
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4R4W5PDJ93"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-4R4W5PDJ93');
-</script>
-    <!-- Structured Data (Schema.org) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "1000 Hills Rugby",
-      "url": "https://www.1000hillsrugby.rw",
-      "logo": "https://www.1000hillsrugby.rw/images/logo.png"
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4R4W5PDJ93"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
     }
-    </script>
+    gtag('js', new Date());
+    gtag('config', 'G-4R4W5PDJ93');
+  </script>
 
-    <!-- Title and Favicon -->
-    <title>1000 Hills Rugby</title>
-    <link rel="icon" href="https://www.1000hillsrugby.rw/images/favicon.ico" type="image/x-icon" />
-    <link rel="canonical" href="https://www.1000hillsrugby.rw/" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <link rel="preconnect" href="https://ajax.googleapis.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="preload" as="image" href="./uploads/1740072895_fans.JPG" imagesrcset="./uploads/1740072895_fans.JPG 1920w" imagesizes="100vw" fetchpriority="high">
-    
-    <!-- External Libraries -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" sizes="32x32" href="https://www.1000hillsrugby.rw/images/favicon.ico" />
-    <link rel="icon" sizes="192x192" href="https://www.1000hillsrugby.rw/images/android-chrome-192x192.png" />
-    <link rel="apple-touch-icon" href="https://www.1000hillsrugby.rw/images/favicon.ico" />
+  <!-- Structured Data (Schema.org) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "1000 Hills Rugby",
+    "url": "https://www.1000hillsrugby.rw",
+    "logo": "https://www.1000hillsrugby.rw/images/logo.png"
+  }
+  </script>
 
-    <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <link rel="stylesheet" href="./style.css" />
-    <script>
-      async function fetchLatestNews() {
-        try {
-          const response = await fetch("get_latest_news.php");
-          const news = await response.json();
-          displayLatestNews(news);
-        } catch (error) {
-          console.error("Error fetching latest news:", error);
-        }
+  <!-- Title and Favicon -->
+  <title>1000 Hills Rugby</title>
+  <link rel="icon" href="https://www.1000hillsrugby.rw/images/favicon.ico" type="image/x-icon" />
+  <link rel="canonical" href="https://www.1000hillsrugby.rw/" />
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com" crossorigin>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet" />
+
+  <!-- Preload image -->
+  <link rel="preload" as="image" href="./uploads/1740072895_fans.JPG"
+        imagesrcset="./uploads/1740072895_fans.JPG 1920w"
+        imagesizes="100vw" fetchpriority="high">
+
+  <!-- Favicon variations -->
+  <link rel="icon" sizes="32x32" href="https://www.1000hillsrugby.rw/images/favicon.ico" />
+  <link rel="icon" sizes="192x192" href="https://www.1000hillsrugby.rw/images/android-chrome-192x192.png" />
+  <link rel="apple-touch-icon" href="https://www.1000hillsrugby.rw/images/favicon.ico" />
+
+  <!-- CSS Libraries -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link rel="stylesheet" href="./style.css" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- External JS Libraries -->
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+
+  <!-- Custom JS -->
+  <script>
+    async function fetchLatestNews() {
+      try {
+        const response = await fetch("get_latest_news.php");
+        const news = await response.json();
+        displayLatestNews(news);
+      } catch (error) {
+        console.error("Error fetching latest news:", error);
       }
-    
-      function truncateText(text, maxLength = 50) {
-        return text.length > maxLength
-          ? text.substring(0, maxLength) + "..."
-          : text;
-      }
-    
-      function displayLatestNews(news) {
-        const newsContainer = document.querySelector(".news-container");
-        if (!newsContainer || news.length === 0) return;
-    
-        newsContainer.innerHTML = "";
-    
-        const largeCard = `
-          <div class="w-full lg:w-[50%]">
-            <div class="relative flex flex-col gap-4 p-2 lg:p-6 rounded-xl transition-all duration-300">
-              <div class="relative group w-full">
-                <a href="news-detail?id=${news[0].id}">
-                  <img
-                    class="rounded-xl h-[250px] md:h-[350px] lg:h-[400px] w-full object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-110"
-                    src="${news[0].main_image_path}"
-                    alt="${news[0].title}"
-                    loading="lazy" decoding="async" width="1200" height="800"
-                  />
-                </a>
-                <div class="absolute bottom-4 left-4 bg-black/70 text-white p-2 md:p-4 rounded-lg">
-                  <span class="font-medium text-sm md:text-lg">Now</span>
-                  <h3 class="font-semibold text-xl md:text-2xl mt-2">
-                    ${truncateText(news[0].title, 50)}
-                  </h3>
-                </div>
-              </div>
-              <div class="flex justify-between items-center bg-white p-4 mt-4 rounded-lg shadow-md">
-                <div class="flex gap-2">
-                  <a href="#" class="text-gray-600 hover:text-[#dcbb26]"><i class="fab fa-facebook-square"></i></a>
-                  <a href="#" class="text-gray-600 hover:text-[#dcbb26]"><i class="fab fa-twitter-square"></i></a>
-                  <a href="#" class="text-gray-600 hover:text-[#dcbb26]"><i class="fab fa-linkedin"></i></a>
-                </div>
-                <a href="news" class="text-[#dcbb26] font-semibold hover:text-black transition-all duration-300">
-                  Read More <i class="fas fa-arrow-right ml-2"></i>
-                </a>
+    }
+
+    function truncateText(text, maxLength = 50) {
+      return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+    }
+
+    function displayLatestNews(news) {
+      const newsContainer = document.querySelector(".news-container");
+      if (!newsContainer || news.length === 0) return;
+
+      newsContainer.innerHTML = "";
+
+      const largeCard = `
+        <div class="w-full lg:w-[50%]">
+          <div class="relative flex flex-col gap-4 p-2 lg:p-6 rounded-xl transition-all duration-300">
+            <div class="relative group w-full">
+              <a href="news-detail?id=${news[0].id}">
+                <img
+                  class="rounded-xl h-[250px] md:h-[350px] lg:h-[400px] w-full object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-110"
+                  src="${news[0].main_image_path}"
+                  alt="${news[0].title}"
+                  loading="lazy" decoding="async" width="1200" height="800"
+                />
+              </a>
+              <div class="absolute bottom-4 left-4 bg-black/70 text-white p-2 md:p-4 rounded-lg">
+                <span class="font-medium text-sm md:text-lg">Now</span>
+                <h3 class="font-semibold text-xl md:text-2xl mt-2">
+                  ${truncateText(news[0].title, 50)}
+                </h3>
               </div>
             </div>
-          </div>
-        `;
-    
-        let mediumCards = `<div class="w-full lg:w-[50%] grid grid-cols-1 md:grid-cols-2 gap-4">`;
-        for (let i = 1; i < Math.min(news.length, 5); i++) {
-          mediumCards += `
-            <a href="news-detail?id=${news[i].id}">
-              <div class="bg-white p-4 w-full rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:-translate-y-2 flex flex-col gap-2">
-                <div class="relative">
-                  <img
-                    class="rounded-xl h-[220px] md:h-[230px] lg:h-[240px] w-full object-cover transition-transform duration-500 ease-in-out transform hover:scale-110"
-                    src="${news[i].main_image_path}"
-                    alt="${news[i].title}"
-                    loading="lazy" decoding="async" width="800" height="533"
-                  />
-                </div>
-                <div class="text-center">
-                  <span class="text-sm md:text-md text-gray-600">${new Date(
-                    news[i].date_published
-                  ).toLocaleDateString()}</span>
-                  <h3 class="font-bold text-base md:text-lg mt-1">
-                    ${truncateText(news[i].title, 40)}
-                  </h3>
-                </div>
-                
+            <div class="flex justify-between items-center bg-white p-4 mt-4 rounded-lg shadow-md">
+              <div class="flex gap-2">
+                <a href="#" class="text-gray-600 hover:text-[#dcbb26]"><i class="fab fa-facebook-square"></i></a>
+                <a href="#" class="text-gray-600 hover:text-[#dcbb26]"><i class="fab fa-twitter-square"></i></a>
+                <a href="#" class="text-gray-600 hover:text-[#dcbb26]"><i class="fab fa-linkedin"></i></a>
               </div>
-            </a>
-          `;
-        }
-        mediumCards += `</div>`;
-    
-        newsContainer.innerHTML = `<div class="flex flex-col lg:flex-row gap-6">${largeCard}${mediumCards}</div>`;
-      }
-    
-      document.addEventListener("DOMContentLoaded", fetchLatestNews);
-    </script>
-    <style>
-      .slider-container {
-        overflow: hidden;
-        white-space: nowrap;
-        position: relative;
-      }
-      .slider-track {
-        display: flex;
-        gap: 20px;
-        width: max-content;
-        animation: scroll 30s linear infinite;
-      }
+              <a href="news" class="text-[#dcbb26] font-semibold hover:text-black transition-all duration-300">
+                Read More <i class="fas fa-arrow-right ml-2"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      `;
 
-      .partner-logo {
-        height: 120px;
-        width: auto;
-        flex-shrink: 0;
+      let mediumCards = `<div class="w-full lg:w-[50%] grid grid-cols-1 md:grid-cols-2 gap-4">`;
+      for (let i = 1; i < Math.min(news.length, 5); i++) {
+        mediumCards += `
+          <a href="news-detail?id=${news[i].id}">
+            <div class="bg-white p-4 w-full rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:-translate-y-2 flex flex-col gap-2">
+              <div class="relative">
+                <img
+                  class="rounded-xl h-[220px] md:h-[230px] lg:h-[240px] w-full object-cover transition-transform duration-500 ease-in-out transform hover:scale-110"
+                  src="${news[i].main_image_path}"
+                  alt="${news[i].title}"
+                  loading="lazy" decoding="async" width="800" height="533"
+                />
+              </div>
+              <div class="text-center">
+                <span class="text-sm md:text-md text-gray-600">${new Date(news[i].date_published).toLocaleDateString()}</span>
+                <h3 class="font-bold text-base md:text-lg mt-1">${truncateText(news[i].title, 40)}</h3>
+              </div>
+            </div>
+          </a>
+        `;
       }
+      mediumCards += `</div>`;
 
-      @keyframes scroll {
-        from {
-          transform: translateX(0);
-        }
-        to {
-          transform: translateX(-50%);
-        }
+      newsContainer.innerHTML = `<div class="flex flex-col lg:flex-row gap-6">${largeCard}${mediumCards}</div>`;
+    }
+
+    document.addEventListener("DOMContentLoaded", fetchLatestNews);
+  </script>
+
+  <!-- Slider Animation Styles -->
+  <style>
+    .slider-container {
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+    }
+    .slider-track {
+      display: flex;
+      gap: 20px;
+      width: max-content;
+      animation: scroll 30s linear infinite;
+    }
+    .partner-logo {
+      height: 120px;
+      width: auto;
+      flex-shrink: 0;
+    }
+    @keyframes scroll {
+      from {
+        transform: translateX(0);
       }
-    </style>
+      to {
+        transform: translateX(-50%);
+      }
+    }
+  </style>
 </head>
 
 
