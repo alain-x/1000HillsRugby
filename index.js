@@ -135,7 +135,7 @@ const matches = [
       score: "10",
     },
     team2: {
-      name: "1000 Hills Rugby RFC",
+      name: "1000 Hills Rugby",
       logo: "./logos_/logoT.jpg",
       score: "19",
     },
