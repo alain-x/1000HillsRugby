@@ -142,7 +142,7 @@ const matches = [
     tournamentInfo: "Rwanda National Leaguel 15s Men",
   },
   {
-    date: { day: "02", month: "Aug" },
+    date: { day: "19", month: "Oct" },
     team2: {
       name: "1000 Hills Rugby WRFC",
       logo: "./logos_/logoT.jpg",
