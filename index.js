@@ -127,11 +127,11 @@ function toggleDropdown(menuId) {
 // Match Data******************************************************************************************
 const matches = [
   {
-    date: { day: "04", month: "Oct" },
+    date: { day: "19", month: "Oct" },
     
     team1: {
-      name: "Resilience RFC",
-      logo: "./logos_/resilience.jpg",
+      name: "Gitisi RFC",
+      logo: "./logos_/Gitisi.jpeg",
       score: "10",
     },
     team2: {
@@ -143,17 +143,17 @@ const matches = [
   },
   {
     date: { day: "02", month: "Aug" },
-    team1: {
-      name: "1000 Hills Rugby RFC",
+    team2: {
+      name: "1000 Hills Rugby WRFC",
       logo: "./logos_/logoT.jpg",
       score: "52",
     },
-    team2: {
-      name: "Resilience WRFC",
-      logo: "./logos_/resilience.jpg", // Empty logo to trigger fallback
+    team1: {
+      name: "Ruhango Zebra WRFC",
+      logo: "./logos_/Gitisi.jpeg", // Empty logo to trigger fallback
       score: "07",
     },
-    tournamentInfo: "Rwanda National Leaguel 15s Men",
+    tournamentInfo: "Rwanda National Leaguel 15s Women",
   },
 ];
 
