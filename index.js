@@ -144,14 +144,14 @@ const matches = [
   {
     date: { day: "19", month: "Oct" },
     team2: {
-      name: "1000 Hills Rugby WRFC",
+      name: "1000 Hills Rugby Queens",
       logo: "./logos_/logoT.jpg",
-      score: "52",
+      score: "15",
     },
     team1: {
       name: "Ruhango Zebra WRFC",
       logo: "./logos_/Gitisi.jpeg", // Empty logo to trigger fallback
-      score: "07",
+      score: "14",
     },
     tournamentInfo: "Rwanda National Leaguel 15s Women",
   },
