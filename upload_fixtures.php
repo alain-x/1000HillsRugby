@@ -5,6 +5,18 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Ensure upload directory exists and is protected
+$upload_dir = __DIR__ . DIRECTORY_SEPARATOR . 'logos_' . DIRECTORY_SEPARATOR;
+if (!is_dir($upload_dir)) {
+    @mkdir($upload_dir, 0755, true);
+}
+
+// Upload security constraints
+$allowed_exts = ['png','jpg','jpeg','webp','gif'];
+$allowed_mimes = ['image/png','image/jpeg','image/webp','image/gif'];
+$max_bytes = 2 * 1024 * 1024; // 2MB per logo
+$finfo = function_exists('finfo_open') ? finfo_open(FILEINFO_MIME_TYPE) : false;
+
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Handle delete action
@@ -35,27 +47,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Handle file uploads
         $home_logo = '';
         if (isset($_FILES['home_logo']) && $_FILES['home_logo']['error'] === UPLOAD_ERR_OK) {
-            $upload_dir = 'logos_/';
+            $file_tmp = $_FILES['home_logo']['tmp_name'];
             $file_name = basename($_FILES['home_logo']['name']);
             $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
-            $new_name = 'home_' . uniqid() . '.' . $file_ext;
-            $target_path = $upload_dir . $new_name;
-            
-            if (move_uploaded_file($_FILES['home_logo']['tmp_name'], $target_path)) {
-                $home_logo = $conn->real_escape_string($new_name);
+            $file_size = (int)$_FILES['home_logo']['size'];
+            $mime = $finfo ? finfo_file($finfo, $file_tmp) : mime_content_type($file_tmp);
+
+            if (in_array($file_ext, $allowed_exts, true) && in_array($mime, $allowed_mimes, true) && $file_size <= $max_bytes) {
+                $new_name = 'home_' . uniqid('', true) . '.' . $file_ext;
+                $target_path = $upload_dir . $new_name;
+                if (move_uploaded_file($file_tmp, $target_path)) {
+                    $home_logo = $conn->real_escape_string($new_name);
+                }
             }
         }
         
         $away_logo = '';
         if (isset($_FILES['away_logo']) && $_FILES['away_logo']['error'] === UPLOAD_ERR_OK) {
-            $upload_dir = 'logos_/';
+            $file_tmp = $_FILES['away_logo']['tmp_name'];
             $file_name = basename($_FILES['away_logo']['name']);
             $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
-            $new_name = 'away_' . uniqid() . '.' . $file_ext;
-            $target_path = $upload_dir . $new_name;
-            
-            if (move_uploaded_file($_FILES['away_logo']['tmp_name'], $target_path)) {
-                $away_logo = $conn->real_escape_string($new_name);
+            $file_size = (int)$_FILES['away_logo']['size'];
+            $mime = $finfo ? finfo_file($finfo, $file_tmp) : mime_content_type($file_tmp);
+
+            if (in_array($file_ext, $allowed_exts, true) && in_array($mime, $allowed_mimes, true) && $file_size <= $max_bytes) {
+                $new_name = 'away_' . uniqid('', true) . '.' . $file_ext;
+                $target_path = $upload_dir . $new_name;
+                if (move_uploaded_file($file_tmp, $target_path)) {
+                    $away_logo = $conn->real_escape_string($new_name);
+                }
             }
         }
         

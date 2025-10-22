@@ -7,9 +7,18 @@ define('DB_NAME', 'hillsrug_1000hills_rugby_db');
 define('LOGO_DIR', __DIR__ . '/logos_/');
 define('DEFAULT_LOGO', 'default.png');
 
-// Error reporting
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// Error reporting and access control (restrict to localhost)
+$__remote = $_SERVER['REMOTE_ADDR'] ?? '';
+$__isLocal = in_array($__remote, ['127.0.0.1', '::1']);
+if ($__isLocal) {
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+} else {
+    error_reporting(0);
+    ini_set('display_errors', 0);
+    header('HTTP/1.1 403 Forbidden');
+    exit('Forbidden');
+}
 
 echo "<!DOCTYPE html>
 <html lang='en'>

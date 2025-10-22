@@ -1,0 +1,12 @@
+# Prevent script execution in logos_ directory
+Options -ExecCGI
+<FilesMatch "\.(php|phtml|php5|php7|php8|phar|cgi|pl|py|asp|aspx)$">
+  Require all denied
+</FilesMatch>
+# Disable PHP engine if enabled
+<IfModule mod_php.c>
+  php_flag engine off
+</IfModule>
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+</IfModule>

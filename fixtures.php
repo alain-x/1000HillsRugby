@@ -95,6 +95,17 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fixtures & Results | 1000 Hills Rugby Club</title>
     <meta name="description" content="View upcoming matches and results for 1000 Hills Rugby Club teams">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.1000hillsrugby.rw/fixtures">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Fixtures & Results | 1000 Hills Rugby Club">
+    <meta property="og:description" content="View upcoming matches and results for 1000 Hills Rugby Club teams.">
+    <meta property="og:url" content="https://www.1000hillsrugby.rw/fixtures">
+    <meta property="og:image" content="https://www.1000hillsrugby.rw/images/1000-hills-logo.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Fixtures & Results | 1000 Hills Rugby Club">
+    <meta name="twitter:description" content="View upcoming matches and results for 1000 Hills Rugby Club teams.">
+    <meta name="twitter:image" content="https://www.1000hillsrugby.rw/images/1000-hills-logo.png">
     <link rel="icon" type="image/png" href="/assets/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
