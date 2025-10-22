@@ -132,12 +132,12 @@ const matches = [
     team1: {
       name: "Gitisi RFC",
       logo: "./logos_/Gitisi.jpeg",
-      score: "10",
+      score: "08",
     },
     team2: {
       name: "1000 Hills Rugby",
       logo: "./logos_/logoT.jpg",
-      score: "19",
+      score: "26",
     },
     tournamentInfo: "Rwanda National Leaguel 15s Men",
   },
