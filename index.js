@@ -130,6 +130,20 @@ const matches = [
     date: { day: "19", month: "Oct" },
     
     team1: {
+      name: "1000 Hills Rugby",
+      logo: "./logos_/logoT.jpg",
+      score: "73",
+    },
+    team2: {
+      name: "Puma RFC",
+      logo: "",
+      score: "03",
+    },
+    tournamentInfo: "Rwanda National Leaguel 15s Men",
+  },{
+    date: { day: "19", month: "Oct" },
+    
+    team1: {
       name: "Gitisi TSS RFC",
       logo: "./logos_/Gitisi.jpeg",
       score: "08",
