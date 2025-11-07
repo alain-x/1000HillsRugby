@@ -140,35 +140,7 @@ const matches = [
       score: "03",
     },
     tournamentInfo: "Rwanda National Leaguel 15s Men",
-  },{
-    date: { day: "19", month: "Oct" },
-    
-    team1: {
-      name: "Gitisi TSS RFC",
-      logo: "./logos_/Gitisi.jpeg",
-      score: "08",
-    },
-    team2: {
-      name: "1000 Hills Rugby",
-      logo: "./logos_/logoT.jpg",
-      score: "26",
-    },
-    tournamentInfo: "Rwanda National Leaguel 15s Men",
-  },
-  {
-    date: { day: "19", month: "Oct" },
-    team2: {
-      name: "1000 Hills Rugby Queens",
-      logo: "./logos_/logoT.jpg",
-      score: "15",
-    },
-    team1: {
-      name: "Ruhango Zebra WRFC",
-      logo: "./logos_/Gitisi.jpeg", // Empty logo to trigger fallback
-      score: "14",
-    },
-    tournamentInfo: "Rwanda National Leaguel 15s Women",
-  },
+  }
 ];
 
 // Function to create a match card
