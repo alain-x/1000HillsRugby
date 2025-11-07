@@ -127,14 +127,29 @@ function toggleDropdown(menuId) {
 // Match Data******************************************************************************************
 const matches = [
   {
+    date: { day: "02", month: "Nov" },
+    
+    team2: {
+      name: "1000 Hills Rugby",
+      logo: "./logos_/logoT.jpg",
+      score: "69",
+    },
+    team1: {
+      name: "UR RFC",
+      logo: "",
+      score: "00",
+    },
+    tournamentInfo: "Rwanda National Leaguel 15s Men",
+  },
+  {
     date: { day: "19", month: "Oct" },
     
-    team1: {
+    team2: {
       name: "1000 Hills Rugby",
       logo: "./logos_/logoT.jpg",
       score: "73",
     },
-    team2: {
+    team1: {
       name: "Puma RFC",
       logo: "",
       score: "03",
