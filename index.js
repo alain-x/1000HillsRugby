@@ -136,7 +136,7 @@ const matches = [
     },
     team1: {
       name: "UR RFC",
-      logo: "./ogos_/ur.jpg",
+      logo: "./logos_/ur.jpg",
       score: "00",
     },
     tournamentInfo: "Rwanda National Leaguel 15s Men",
