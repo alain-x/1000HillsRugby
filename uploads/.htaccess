@@ -3,10 +3,44 @@ Options -ExecCGI
 <FilesMatch "\.(php|phtml|php5|php7|php8|phar|cgi|pl|py|asp|aspx)$">
   Require all denied
 </FilesMatch>
+
 # Disable PHP engine if enabled
 <IfModule mod_php.c>
   php_flag engine off
 </IfModule>
+
+# Block access to the uploads folder index and control subfolder access
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  
+  # Block access to /uploads/ (root directory listing)
+  RewriteCond %{REQUEST_URI} /uploads/?$ [NC]
+  RewriteRule ^ - [F]
+  
+  # Block HTTP/WebDAV methods that could create or modify resources
+  RewriteCond %{REQUEST_METHOD} ^(PUT|DELETE|MKCOL|MOVE|COPY|PROPFIND|PROPPATCH|LOCK|UNLOCK)$ [NC]
+  RewriteRule ^ - [R=404,L]
+  
+  # Allow only these specific subfolders (case-insensitive)
+  # Block any other subfolder access with 404
+  RewriteCond %{REQUEST_URI} !^/uploads/(GMT|logos|NRC25|players|SAFEGUARDING%20TRAINING%20250524|team_logos)(/|$) [NC]
+  RewriteRule .*/ - [R=404,L]
+</IfModule>
+
+# Disable directory listing
+Options -Indexes
+
+# Allow only safe file types (images, docs)
+<FilesMatch "\.(jpg|jpeg|png|gif|webp|pdf|doc|docx|txt|csv)$">
+  Require all granted
+</FilesMatch>
+
+# No script overrides allowed
+RemoveHandler .php .phtml .php5 .php7
+RemoveType .php .phtml .php5 .php7
+
+# Force safe download headers
 <IfModule mod_headers.c>
+  Header set Content-Disposition "inline"
   Header set X-Content-Type-Options "nosniff"
 </IfModule>
