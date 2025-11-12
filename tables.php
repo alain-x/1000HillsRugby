@@ -169,8 +169,24 @@ try {
         }
     }
 
-    // Get standings data with prepared statement
-    $query = $conn->prepare("
+    // First, check if is_deleted columns exist in the tables
+    $checkColumnsQuery = "
+        SELECT 
+            (SELECT COUNT(*) FROM information_schema.COLUMNS 
+             WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'teams' AND COLUMN_NAME = 'is_deleted') as has_teams_deleted,
+            (SELECT COUNT(*) FROM information_schema.COLUMNS 
+             WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'competitions' AND COLUMN_NAME = 'is_deleted') as has_competitions_deleted,
+            (SELECT COUNT(*) FROM information_schema.COLUMNS 
+             WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'seasons' AND COLUMN_NAME = 'is_deleted') as has_seasons_deleted,
+            (SELECT COUNT(*) FROM information_schema.COLUMNS 
+             WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'genders' AND COLUMN_NAME = 'is_deleted') as has_genders_deleted
+    ";
+    
+    $result = $conn->query($checkColumnsQuery);
+    $columnsExist = $result->fetch_assoc();
+    
+    // Build the query based on which columns exist
+    $sql = "
         SELECT 
             ls.*, 
             t.name as team_name, 
@@ -179,15 +195,21 @@ try {
             s.year as season_year,
             g.name as gender_name
         FROM league_standings ls
-        JOIN teams t ON ls.team_id = t.id AND (t.is_deleted = 0 OR t.is_deleted IS NULL)
-        JOIN competitions c ON ls.competition_id = c.id AND (c.is_deleted = 0 OR c.is_deleted IS NULL)
-        JOIN seasons s ON ls.season_id = s.id AND (s.is_deleted = 0 OR s.is_deleted IS NULL)
-        JOIN genders g ON ls.gender_id = g.id AND (g.is_deleted = 0 OR g.is_deleted IS NULL)
-        WHERE ls.competition_id = ? 
+        JOIN teams t ON ls.team_id = t.id " . 
+        ($columnsExist['has_teams_deleted'] ? "AND (t.is_deleted = 0 OR t.is_deleted IS NULL) " : "") . 
+        " JOIN competitions c ON ls.competition_id = c.id " . 
+        ($columnsExist['has_competitions_deleted'] ? "AND (c.is_deleted = 0 OR c.is_deleted IS NULL) " : "") . 
+        " JOIN seasons s ON ls.season_id = s.id " . 
+        ($columnsExist['has_seasons_deleted'] ? "AND (s.is_deleted = 0 OR s.is_deleted IS NULL) " : "") . 
+        " JOIN genders g ON ls.gender_id = g.id " . 
+        ($columnsExist['has_genders_deleted'] ? "AND (g.is_deleted = 0 OR g.is_deleted IS NULL) " : "") . 
+        " WHERE ls.competition_id = ? 
           AND ls.season_id = ? 
           AND ls.gender_id = ?
         ORDER BY ls.league_points DESC, ls.points_difference DESC, ls.tries_for DESC, t.name ASC
-    ");
+    ";
+    
+    $query = $conn->prepare($sql);
     
     if ($query === false) {
         throw new Exception("Prepare failed: " . $conn->error);
