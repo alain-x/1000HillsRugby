@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4R4W5PDJ93"></script>
-  <script>
-    // Load gtag with CSP-compatible approach
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-4R4W5PDJ93');
-  </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
@@ -30,24 +21,9 @@
     <meta property="og:url" content="https://www.1000hillsrugby.rw/results.html" />
     <title>Match Results - 1000 Hills Rugby</title>
     <link rel="icon" href="./images/t_icon.png" type="image/png" />
+    <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Preload critical CSS -->
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"></noscript>
-    
-    <!-- Add Content Security Policy -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; 
-      script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://cdn.jsdelivr.net; 
-      style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; 
-      img-src 'self' data: https:; 
-      font-src 'self' https: data:; 
-      frame-src 'self' https:;
-      connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com;
-      object-src 'none';
-      base-uri 'self';
-      form-action 'self';">
-    
-    <style>
+  <style>
     html, body {
       height: 100%;
       margin: 0;
@@ -78,84 +54,16 @@
 
   <script>
     // Build iframe src = fixtures?tab=results + any existing query params (season, competition, gender)
-    document.addEventListener('DOMContentLoaded', function() {
-      try {
-        var params = new URLSearchParams(window.location.search);
-        // Force tab=results regardless of incoming tab
-        params.set('tab', 'results');
-        
-        // Default: keep other params (season, competition, gender) as-is
-        var src = 'fixtures?' + params.toString();
-        
-        // Set iframe source
-        var frame = document.getElementById('resultsFrame');
-        if (frame) {
-          frame.src = src;
-          
-          // Add error handling for iframe
-          frame.onerror = function() {
-            console.error('Failed to load the results iframe');
-            frame.srcdoc = `
-              <!DOCTYPE html>
-              <html>
-                <head>
-                  <style>
-                    body { 
-                      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-                      display: flex; 
-                      justify-content: center; 
-                      align-items: center; 
-                      height: 100vh; 
-                      margin: 0; 
-                      background: #f8fafc;
-                      color: #1e293b;
-                    }
-                    .error-container {
-                      text-align: center;
-                      padding: 2rem;
-                      max-width: 500px;
-                    }
-                    .error-title {
-                      font-size: 1.5rem;
-                      font-weight: 600;
-                      margin-bottom: 1rem;
-                      color: #dc2626;
-                    }
-                    .error-message {
-                      margin-bottom: 1.5rem;
-                      line-height: 1.6;
-                    }
-                    .refresh-btn {
-                      background: #2563eb;
-                      color: white;
-                      border: none;
-                      padding: 0.75rem 1.5rem;
-                      border-radius: 0.375rem;
-                      font-weight: 500;
-                      cursor: pointer;
-                      transition: background-color 0.2s;
-                    }
-                    .refresh-btn:hover {
-                      background: #1d4ed8;
-                    }
-                  </style>
-                </head>
-                <body>
-                  <div class="error-container">
-                    <div class="error-title">Unable to Load Results</div>
-                    <div class="error-message">
-                      We're having trouble loading the match results. This might be due to a network issue or the page may have been moved.
-                    </div>
-                    <button class="refresh-btn" onclick="window.location.reload()">Try Again</button>
-                  </div>
-                </body>
-              </html>`;
-          };
-        }
-      } catch (error) {
-        console.error('Error initializing results page:', error);
-      }
-    });
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      // Force tab=results regardless of incoming tab
+      params.set('tab', 'results');
+      // Default: keep other params (season, competition, gender) as-is
+      var src = 'fixtures?'+ params.toString();
+      // Fallback if server expects .php explicitly
+      var frame = document.getElementById('resultsFrame');
+      frame.src = src;
+    })();
   </script>
 </body>
 </html>
