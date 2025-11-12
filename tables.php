@@ -179,14 +179,13 @@ try {
             s.year as season_year,
             g.name as gender_name
         FROM league_standings ls
-        JOIN teams t ON ls.team_id = t.id AND t.is_deleted = 0
-        JOIN competitions c ON ls.competition_id = c.id AND c.is_deleted = 0
-        JOIN seasons s ON ls.season_id = s.id AND s.is_deleted = 0
-        JOIN genders g ON ls.gender_id = g.id AND g.is_deleted = 0
+        JOIN teams t ON ls.team_id = t.id AND (t.is_deleted = 0 OR t.is_deleted IS NULL)
+        JOIN competitions c ON ls.competition_id = c.id AND (c.is_deleted = 0 OR c.is_deleted IS NULL)
+        JOIN seasons s ON ls.season_id = s.id AND (s.is_deleted = 0 OR s.is_deleted IS NULL)
+        JOIN genders g ON ls.gender_id = g.id AND (g.is_deleted = 0 OR g.is_deleted IS NULL)
         WHERE ls.competition_id = ? 
           AND ls.season_id = ? 
           AND ls.gender_id = ?
-          AND ls.is_deleted = 0
         ORDER BY ls.league_points DESC, ls.points_difference DESC, ls.tries_for DESC, t.name ASC
     ");
     
