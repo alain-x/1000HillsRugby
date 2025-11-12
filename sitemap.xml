@@ -9,198 +9,503 @@
 
 <url>
   <loc>https://www.1000hillsrugby.rw/</loc>
-  <lastmod>2025-01-01T17:30:05+00:00</lastmod>
+  <lastmod>2025-10-27T07:53:12+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://www.1000hillsrugby.rw/index.html</loc>
-  <lastmod>2025-01-01T17:30:05+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.1000hillsrugby.rw/about.html</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.1000hillsrugby.rw/services.html</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.1000hillsrugby.rw/community.html</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.1000hillsrugby.rw/education.html</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.1000hillsrugby.rw/Foundation.html</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.1000hillsrugby.rw/events.php</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.1000hillsrugby.rw/news.html</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.1000hillsrugby.rw/fixtures.html</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.1000hillsrugby.rw/menprofiles.html</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.1000hillsrugby.rw/staff.html</loc>
-  <lastmod>2025-01-02T18:25:26+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.1000hillsrugby.rw/contact.html</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.1000hillsrugby.rw/register.html</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.1000hillsrugby.rw/results.html</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.1000hillsrugby.rw/news_.html</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.1000hillsrugby.rw/program.html</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
+  <loc>https://www.1000hillsrugby.rw/about</loc>
+  <lastmod>2025-10-24T10:35:56+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.1000hillsrugby.rw/program</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
+  <lastmod>2025-09-08T19:33:38+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://www.1000hillsrugby.rw/staff</loc>
-  <lastmod>2025-01-02T18:25:26+00:00</lastmod>
+  <loc>https://www.1000hillsrugby.rw/community</loc>
+  <lastmod>2025-10-24T10:35:56+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://www.1000hillsrugby.rw/about</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
+  <loc>https://www.1000hillsrugby.rw/shop</loc>
+  <lastmod>2025-03-16T15:11:25+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://www.1000hillsrugby.rw/services</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
+  <loc>https://www.1000hillsrugby.rw/teams</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/education</loc>
+  <lastmod>2025-10-12T11:27:31+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/Foundation</loc>
+  <lastmod>2025-10-12T11:27:31+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/events</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.1000hillsrugby.rw/news</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/staff</loc>
+  <lastmod>2025-10-24T10:35:56+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.1000hillsrugby.rw/contact</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
+  <lastmod>2025-10-12T11:27:31+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/register</loc>
+  <lastmod>2025-10-24T10:35:56+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/calendar</loc>
+  <lastmod>2025-10-24T10:35:56+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/events.php</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/register.html</loc>
+  <lastmod>2025-10-24T10:35:56+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/program.html</loc>
+  <lastmod>2025-09-08T19:33:38+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/about.html</loc>
+  <lastmod>2025-10-24T10:35:56+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.1000hillsrugby.rw/privacy.html</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
+  <lastmod>2025-01-04T18:21:34+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://www.1000hillsrugby.rw/index</loc>
-  <lastmod>2025-01-01T17:30:05+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://www.1000hillsrugby.rw/community</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://www.1000hillsrugby.rw/education</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://www.1000hillsrugby.rw/Foundation</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://www.1000hillsrugby.rw/events</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://www.1000hillsrugby.rw/fixtures</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://www.1000hillsrugby.rw/menprofiles</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://www.1000hillsrugby.rw/register</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://www.1000hillsrugby.rw/results</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
+  <loc>https://www.1000hillsrugby.rw/community.html</loc>
+  <lastmod>2025-10-24T10:35:56+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://www.1000hillsrugby.rw/privacy</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
+  <lastmod>2025-01-04T18:21:34+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://www.1000hillsrugby.rw/tables.html</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
+  <loc>https://www.1000hillsrugby.rw/teams?team=men</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://www.1000hillsrugby.rw/status.html</loc>
-  <lastmod>2025-01-01T11:13:47+00:00</lastmod>
+  <loc>https://www.1000hillsrugby.rw/teams?team=women</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?team=academy_u18_boys</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?team=academy_u18_girls</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?team=academy_u16_boys</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?team=academy_u16_girls</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/fixtures</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=all&amp;search=&amp;team=men</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Backs&amp;search=&amp;team=men</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Forwards&amp;search=&amp;team=men</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Captain&amp;search=&amp;team=men</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Vice-Captain&amp;search=&amp;team=men</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=68ea2c0112e5e</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=68e8a95b427e6</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=68bb25e64022c</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=68b008baae151</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=68909f8a410eb</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=6890af000cc72</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=6859b796a85ee</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=685509d537215</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=6846cb37dab3c</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=6838667b79c5f</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=68340038685dc</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=682309043bcad</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=680f75e82e103</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=6806995d12e0e</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=680677e632b77</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=67e3ad82e8977</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=67e23fc9c63f1</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=67e3b9856132a</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=67cfe5192e02d</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=67c976b306270</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=67c9699742104</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=67c1a755cd5bd</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=67bdd6c841cad</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=8</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=10</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=f170eed2-a014-4597-ab73-a5e6cdab5924</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/news-detail?id=68c007178dd5d</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://www.1000hillsrugby.rw/staffdetails.html?name=Jimmy</loc>
-  <lastmod>2025-01-03T09:04:16+00:00</lastmod>
+  <lastmod>2025-02-27T20:04:09+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://www.1000hillsrugby.rw/staffdetails.html?name=Jd</loc>
-  <lastmod>2025-01-03T09:04:16+00:00</lastmod>
+  <lastmod>2025-02-27T20:04:09+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://www.1000hillsrugby.rw/staffdetails.html?name=berno</loc>
-  <lastmod>2025-01-03T09:04:16+00:00</lastmod>
+  <lastmod>2025-02-27T20:04:09+00:00</lastmod>
   <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/staffdetails.html?name=Serge</loc>
+  <lastmod>2025-02-27T20:04:09+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/staffdetails.html?name=Sauveur</loc>
+  <lastmod>2025-02-27T20:04:09+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/staffdetails.html?name=Jacqueline</loc>
+  <lastmod>2025-02-27T20:04:09+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/staffdetails.html?name=Sholom</loc>
+  <lastmod>2025-02-27T20:04:09+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/staffdetails.html?name=Savio</loc>
+  <lastmod>2025-02-27T20:04:09+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=all&amp;search=&amp;team=women</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Backs&amp;search=&amp;team=women</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Forwards&amp;search=&amp;team=women</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Captain&amp;search=&amp;team=women</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Vice-Captain&amp;search=&amp;team=women</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=all&amp;search=&amp;team=academy_u18_boys</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Backs&amp;search=&amp;team=academy_u18_boys</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Forwards&amp;search=&amp;team=academy_u18_boys</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Captain&amp;search=&amp;team=academy_u18_boys</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Vice-Captain&amp;search=&amp;team=academy_u18_boys</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=all&amp;search=&amp;team=academy_u18_girls</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Backs&amp;search=&amp;team=academy_u18_girls</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Forwards&amp;search=&amp;team=academy_u18_girls</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Captain&amp;search=&amp;team=academy_u18_girls</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Vice-Captain&amp;search=&amp;team=academy_u18_girls</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=all&amp;search=&amp;team=academy_u16_boys</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Backs&amp;search=&amp;team=academy_u16_boys</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Forwards&amp;search=&amp;team=academy_u16_boys</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Captain&amp;search=&amp;team=academy_u16_boys</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Vice-Captain&amp;search=&amp;team=academy_u16_boys</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=all&amp;search=&amp;team=academy_u16_girls</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Backs&amp;search=&amp;team=academy_u16_girls</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Forwards&amp;search=&amp;team=academy_u16_girls</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Captain&amp;search=&amp;team=academy_u16_girls</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/teams?filter=Vice-Captain&amp;search=&amp;team=academy_u16_girls</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/fixtures?tab=fixtures</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/results.html</loc>
+  <lastmod>2025-11-12T12:34:54+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/tables</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/fixtures?tab=fixtures&amp;season=2025&amp;competition=&amp;gender=</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/results.html?season=2025&amp;competition=&amp;gender=</loc>
+  <lastmod>2025-11-12T12:34:54+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/staff.html</loc>
+  <lastmod>2025-10-24T10:35:56+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://www.1000hillsrugby.rw/tables.php</loc>
+  <lastmod>2025-11-12T13:20:43+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 
 
