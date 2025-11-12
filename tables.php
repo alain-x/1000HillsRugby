@@ -15,6 +15,28 @@ ini_set('display_errors', 1); // Enable for debugging
 ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/error.log');
 
+// Set error handler to catch all errors
+set_error_handler(function($errno, $errstr, $errfile, $errline) {
+    error_log("Error [$errno] $errstr in $errfile on line $errline");
+    if (ini_get('display_errors')) {
+        echo "<div class='p-4 mb-4 text-red-800 bg-red-100 rounded-lg'>
+                <strong>Error:</strong> [$errno] $errstr in $errfile on line $errline
+              </div>";
+    }
+    return true;
+});
+
+// Enable exception handling
+set_exception_handler(function($e) {
+    error_log("Uncaught exception: " . $e->getMessage());
+    if (ini_get('display_errors')) {
+        echo "<div class='p-4 mb-4 text-red-800 bg-red-100 rounded-lg'>
+                <strong>Uncaught exception:</strong> " . htmlspecialchars($e->getMessage()) . "
+                <pre class='mt-2 text-xs overflow-auto'>" . htmlspecialchars($e->getTraceAsString()) . "</pre>
+              </div>";
+    }
+});
+
 // Initialize variables
 $gender_id = isset($_GET['gender_id']) && is_numeric($_GET['gender_id']) ? (int)$_GET['gender_id'] : 1;
 $competition_id = isset($_GET['competition_id']) && is_numeric($_GET['competition_id']) ? (int)$_GET['competition_id'] : 1;
@@ -42,8 +64,8 @@ try {
         }
     }
 
-    // Get available competitions
-    $compResult = $conn->query("SELECT id, name FROM competitions WHERE is_active = TRUE ORDER BY name");
+    // Get available competitions (only non-deleted ones)
+    $compResult = $conn->query("SELECT id, name FROM competitions WHERE is_active = TRUE AND is_deleted = 0 ORDER BY name");
     if ($compResult) {
         while ($row = $compResult->fetch_assoc()) {
             $competitions[] = [
@@ -77,8 +99,8 @@ try {
         }
     }
 
-    // Get available seasons
-    $seasonQuery = "SELECT id, year FROM seasons ORDER BY year DESC";
+    // Get available seasons (only non-deleted ones)
+    $seasonQuery = "SELECT id, year FROM seasons WHERE is_deleted = 0 ORDER BY year DESC";
     $seasonResult = $conn->query($seasonQuery);
     if ($seasonResult) {
         while ($row = $seasonResult->fetch_assoc()) {
@@ -114,8 +136,8 @@ try {
         }
     }
 
-    // Get available genders
-    $genderResult = $conn->query("SELECT id, name FROM genders ORDER BY id");
+    // Get available genders (only non-deleted ones)
+    $genderResult = $conn->query("SELECT id, name FROM genders WHERE is_deleted = 0 ORDER BY id");
     if ($genderResult && $genderResult->num_rows > 0) {
         $genders = [];
         while ($row = $genderResult->fetch_assoc()) {
@@ -149,10 +171,22 @@ try {
 
     // Get standings data with prepared statement
     $query = $conn->prepare("
-        SELECT ls.*, t.name as team_name, t.logo as team_logo
+        SELECT 
+            ls.*, 
+            t.name as team_name, 
+            t.logo as team_logo,
+            c.name as competition_name,
+            s.year as season_year,
+            g.name as gender_name
         FROM league_standings ls
-        JOIN teams t ON ls.team_id = t.id
-        WHERE ls.competition_id = ? AND ls.season_id = ? AND ls.gender_id = ?
+        JOIN teams t ON ls.team_id = t.id AND t.is_deleted = 0
+        JOIN competitions c ON ls.competition_id = c.id AND c.is_deleted = 0
+        JOIN seasons s ON ls.season_id = s.id AND s.is_deleted = 0
+        JOIN genders g ON ls.gender_id = g.id AND g.is_deleted = 0
+        WHERE ls.competition_id = ? 
+          AND ls.season_id = ? 
+          AND ls.gender_id = ?
+          AND ls.is_deleted = 0
         ORDER BY ls.league_points DESC, ls.points_difference DESC, ls.tries_for DESC, t.name ASC
     ");
     
@@ -218,6 +252,10 @@ try {
 } catch (Exception $e) {
     error_log($e->getMessage());
     $error = "An error occurred while fetching league data: " . $e->getMessage();
+    // Log the full stack trace for debugging
+    error_log("Stack trace: " . $e->getTraceAsString());
+    // Also log the query parameters for debugging
+    error_log("Query params - competition_id: $competition_id, season_id: $season_id, gender_id: $gender_id");
 }
 ?>
 <!DOCTYPE html>
