@@ -376,13 +376,6 @@ try {
                                 Apply Filters
                             </button>
                         </div>
-
-                        <!-- Reset -->
-                        <div class="flex items-end">
-                            <a href="?tab=<?php echo urlencode($active_tab); ?>" class="w-full px-4 py-3 border border-gray-300 text-gray-600 font-medium rounded-lg hover:bg-gray-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 text-center inline-flex items-center justify-center">
-                                <i class="fas fa-undo"></i>
-                            </a>
-                        </div>
                     </div>
                 </form>
             </div>
