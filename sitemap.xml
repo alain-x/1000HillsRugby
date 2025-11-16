@@ -478,7 +478,7 @@
   <priority>0.51</priority>
 </url>
 <url>
-  <loc>https://www.1000hillsrugby.rw/results.html</loc>
+  <loc>https://www.1000hillsrugby.rw/fixtures?tab=results</loc>
   <lastmod>2025-11-12T12:34:54+00:00</lastmod>
   <priority>0.51</priority>
 </url>
@@ -493,7 +493,7 @@
   <priority>0.51</priority>
 </url>
 <url>
-  <loc>https://www.1000hillsrugby.rw/results.html?season=2025&amp;competition=&amp;gender=</loc>
+  <loc>https://www.1000hillsrugby.rw/fixtures?tab=results?season=2025&amp;competition=&amp;gender=</loc>
   <lastmod>2025-11-12T12:34:54+00:00</lastmod>
   <priority>0.51</priority>
 </url>

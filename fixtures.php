@@ -295,7 +295,7 @@ try {
         <div id="mobile-menu" class="hidden md:hidden mobile-nav py-2 px-4 shadow-lg">
             <a href="/" class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300 rounded-md">Home</a>
             <a href="fixtures?tab=fixtures" class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300 rounded-md">Fixtures</a>
-            <a href="results.html" class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300 rounded-md">Results</a>
+            <a href="fixtures?tab=results" class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300 rounded-md">Results</a>
             <a href="tables" class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300 rounded-md">League Tables</a>
         </div>
     </header>
@@ -392,7 +392,7 @@ try {
                 <a href="?tab=fixtures&season=<?php echo $selected_season; ?>&competition=<?php echo urlencode($selected_competition); ?>&gender=<?php echo urlencode($selected_gender); ?>" class="tab-button px-6 py-3 font-medium <?php echo $active_tab === 'fixtures' ? 'text-green-700 border-b-2 border-green-600' : 'text-gray-500 hover:text-green-600'; ?> transition-colors mr-1">
                     <i class="far fa-calendar-alt mr-2"></i>Upcoming Fixtures
                 </a>
-                <a href="results.html?season=<?php echo $selected_season; ?>&competition=<?php echo urlencode($selected_competition); ?>&gender=<?php echo urlencode($selected_gender); ?>" class="tab-button px-6 py-3 font-medium <?php echo $active_tab === 'results' ? 'text-green-700 border-b-2 border-green-600' : 'text-gray-500 hover:text-green-600'; ?> transition-colors">
+                <a href="fixtures?tab=results?season=<?php echo $selected_season; ?>&competition=<?php echo urlencode($selected_competition); ?>&gender=<?php echo urlencode($selected_gender); ?>" class="tab-button px-6 py-3 font-medium <?php echo $active_tab === 'results' ? 'text-green-700 border-b-2 border-green-600' : 'text-gray-500 hover:text-green-600'; ?> transition-colors">
                     <i class="far fa-list-alt mr-2"></i>Match Results
                 </a>
             </div>
