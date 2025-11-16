@@ -281,7 +281,7 @@ try {
                 <nav class="hidden md:flex items-center space-x-8 font-600 text-gray-800 text-sm tracking-wider">
                     <a href="/" class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 py-4">Home</a>
                     <a href="fixtures?tab=fixtures" class="<?php echo $active_tab === 'fixtures' ? 'text-green-600 border-b-2 border-green-600' : ''; ?> hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 py-4">Fixtures</a>
-                    <a href="results.html" class="<?php echo $active_tab === 'results' ? 'text-green-600 border-b-2 border-green-600' : ''; ?> hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 py-4">Results</a>
+                    <a href="fixtures?tab=results" class="<?php echo $active_tab === 'results' ? 'text-green-600 border-b-2 border-green-600' : ''; ?> hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 py-4">Results</a>
                     <a href="tables" class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 py-4">League Tables</a>
                 </nav>
                 
