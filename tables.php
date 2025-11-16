@@ -458,7 +458,7 @@ try {
                 <nav class="hidden md:flex items-center space-x-8 font-600 text-gray-800 text-sm tracking-wider">
                     <a href="/" class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 py-4">Home</a>
                     <a href="fixtures?tab=fixtures" class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 py-4">Fixtures</a>
-                    <a href="results.html" class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 py-4">Results</a>
+                    <a href="fixtures" class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 py-4">Results</a>
                     <a href="tables.php" class="text-green-600 border-b-2 border-green-600 py-4">League Tables</a> 
                 </nav>
                 
@@ -472,7 +472,7 @@ try {
         <div id="mobile-menu" class="hidden md:hidden mobile-nav py-2 px-4 shadow-lg">
             <a href="/" class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300 rounded-md">Home</a>
             <a href="fixtures?tab=fixtures" class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300 rounded-md">Fixtures</a>
-            <a href="results.html" class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300 rounded-md">Results</a>
+            <a href="fixtures" class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300 rounded-md">Results</a>
             <a href="tables.php" class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300 rounded-md">League Tables</a> 
         </div>
     </header>
