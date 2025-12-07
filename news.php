@@ -330,8 +330,10 @@ $result = $conn->query($sql);
                 <?php while ($row = $result->fetch_assoc()): ?>
                     <div class="article-card bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
                         <?php if (!empty($row['main_image_path'])): ?>
-                            <!-- Display the main image if available -->
-                            <img src="<?php echo htmlspecialchars($row['main_image_path']); ?>" class="w-full h-48 object-cover" alt="<?php echo htmlspecialchars($row['title']); ?>">
+                            <!-- Display the main image if available (support portrait/landscape) -->
+                            <div class="w-full bg-black/5 flex items-center justify-center">
+                                <img src="<?php echo htmlspecialchars($row['main_image_path']); ?>" class="w-full max-h-64 object-contain" alt="<?php echo htmlspecialchars($row['title']); ?>">
+                            </div>
                         <?php endif; ?>
                         <div class="p-4">
                             <h3 class="text-xl font-semibold">

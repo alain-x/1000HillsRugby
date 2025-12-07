@@ -27,7 +27,7 @@ function displayLatestNews(news) {
         <div class="relative group w-full">
           <a href="news-detail?id=${news[0].id}">
             <img
-              class="rounded-xl h-[250px] md:h-[350px] lg:h-[400px] w-full object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-110"
+              class="rounded-xl w-full max-h-[400px] md:max-h-[450px] lg:max-h-[500px] object-contain bg-black/5 transition-transform duration-500 ease-in-out transform group-hover:scale-105"
               src="${news[0].main_image_path}"
               alt="${news[0].title}"
               loading="lazy" decoding="async" width="1200" height="800"
@@ -61,7 +61,7 @@ function displayLatestNews(news) {
         <div class="bg-white p-4 w-full rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:-translate-y-2 flex flex-col gap-2">
           <div class="relative">
             <img
-              class="rounded-xl h-[220px] md:h-[230px] lg:h-[240px] w-full object-cover transition-transform duration-500 ease-in-out transform hover:scale-110"
+              class="rounded-xl w-full max-h-[260px] md:max-h-[280px] lg:max-h-[300px] object-contain bg-black/5 transition-transform duration-500 ease-in-out transform hover:scale-105"
               src="${news[i].main_image_path}"
               alt="${news[i].title}"
               loading="lazy" decoding="async" width="800" height="533"
