@@ -30,6 +30,13 @@ function makeLinksClickable($text) {
     return preg_replace($pattern, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>', $text);
 }
 
+// Function to extract YouTube ID from URL
+function extractYouTubeIdFromUrl($url) {
+    $pattern = '/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i';
+    preg_match($pattern, $url, $matches);
+    return isset($matches[1]) ? $matches[1] : '';
+}
+
 // Initialize variables
 $message = '';
 $messageClass = '';
@@ -508,7 +515,7 @@ $conn->close();
                 <div id="repeatable-fields" class="mb-6">
                     <?php if ($editMode && !empty($currentArticleDetails)): ?>
                         <?php foreach ($currentArticleDetails as $index => $detail): ?>
-                            <div class="section-container mb-4">
+                            <div class="section-container mb-4" data-section-index="<?php echo $index; ?>">
                                 <div class="flex justify-between items-center mb-2">
                                     <h3 class="text-xl font-semibold">Section <?php echo $index + 1; ?></h3>
                                     <button type="button" onclick="removeSection(this)" class="text-red-500 hover:text-red-700">
@@ -580,7 +587,7 @@ $conn->close();
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <div class="section-container mb-4">
+                        <div class="section-container mb-4" data-section-index="0">
                             <div class="flex justify-between items-center mb-2">
                                 <h3 class="text-xl font-semibold">Section 1</h3>
                                 <button type="button" onclick="removeSection(this)" class="text-red-500 hover:text-red-700">
@@ -607,7 +614,7 @@ $conn->close();
                 </div>
 
                 <!-- Add More Sections Button -->
-                <button type="button" onclick="addFields()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-6">
+                <button type="button" id="add-more-sections" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-6">
                     <i class="fas fa-plus"></i> Add More Sections
                 </button>
 
@@ -671,46 +678,25 @@ $conn->close();
             <?php endif; ?>
         </div>
     </div>
- <!-- Previous PHP and HTML code remains the same until the JavaScript section -->
 
     <script>
+        // Initialize section count
         let sectionCount = <?php echo $editMode ? count($currentArticleDetails) : 1; ?>;
         
-        // Helper function to extract YouTube ID from URL
-        function extractYouTubeIdFromUrl(url) {
-            try {
-                const u = new URL(url);
-                if (u.hostname.includes('youtu.be')) {
-                    return u.pathname.split('/')[1] || '';
-                }
-                if (u.searchParams.get('v')) {
-                    return u.searchParams.get('v');
-                }
-                // Shorts format: /shorts/{id}
-                const parts = u.pathname.split('/').filter(Boolean);
-                const shortsIdx = parts.indexOf('shorts');
-                if (shortsIdx !== -1 && parts[shortsIdx + 1]) {
-                    return parts[shortsIdx + 1];
-                }
-                // Embed format: /embed/{id}
-                const embedIdx = parts.indexOf('embed');
-                if (embedIdx !== -1 && parts[embedIdx + 1]) {
-                    return parts[embedIdx + 1];
-                }
-            } catch (e) { 
-                return ''; 
-            }
-            return '';
-        }
+        // Add event listener to the button
+        document.getElementById('add-more-sections').addEventListener('click', addFields);
         
-        // Add new section - FIXED VERSION
+        // Add new section
         function addFields() {
+            console.log('addFields called, current sectionCount:', sectionCount);
+            
             sectionCount++;
             const newIndex = sectionCount - 1;
             let container = document.getElementById("repeatable-fields");
             
             let div = document.createElement("div");
             div.className = "section-container mb-4";
+            div.setAttribute('data-section-index', newIndex);
             div.innerHTML = `
                 <div class="flex justify-between items-center mb-2">
                     <h3 class="text-xl font-semibold">Section ${sectionCount}</h3>
@@ -736,9 +722,11 @@ $conn->close();
                 </div>
             `;
             container.appendChild(div);
+            
+            console.log('New section added with index:', newIndex);
         }
         
-        // Remove section - FIXED VERSION
+        // Remove section
         function removeSection(button) {
             const sections = document.querySelectorAll('.section-container');
             if (sections.length > 1) {
@@ -746,73 +734,100 @@ $conn->close();
                     const sectionToRemove = button.closest('.section-container');
                     sectionToRemove.remove();
                     
-                    // Reindex remaining sections
-                    const remainingSections = document.querySelectorAll('.section-container');
-                    sectionCount = remainingSections.length;
-                    
-                    remainingSections.forEach((section, index) => {
-                        // Update the file input name and onchange
-                        const fileInput = section.querySelector('input[type="file"]');
-                        if (fileInput) {
-                            fileInput.name = `image[${index}][]`;
-                            fileInput.setAttribute('onchange', `previewNewImages(this, ${index})`);
-                        }
-                        
-                        // Update the existing images input name
-                        const existingImagesInput = section.querySelector('input[name^="existing_images"]');
-                        if (existingImagesInput) {
-                            existingImagesInput.name = `existing_images[${index}]`;
-                        }
-                        
-                        // Update the images container ID
-                        const imagesContainer = section.querySelector('div[id^="section-images-"]');
-                        if (imagesContainer) {
-                            imagesContainer.id = `section-images-${index}`;
-                        }
-                        
-                        // Update the media URL input ID and onclick
-                        const mediaUrlInput = section.querySelector('input[id^="media-url-input-"]');
-                        if (mediaUrlInput) {
-                            mediaUrlInput.id = `media-url-input-${index}`;
-                            const urlButton = mediaUrlInput.nextElementSibling;
-                            if (urlButton && urlButton.tagName === 'BUTTON') {
-                                urlButton.setAttribute('onclick', `addMediaUrl(${index})`);
-                            }
-                        }
-                        
-                        // Update the section title
-                        const sectionTitle = section.querySelector('h3');
-                        if (sectionTitle) {
-                            sectionTitle.textContent = `Section ${index + 1}`;
-                        }
-                        
-                        // Update any existing image buttons
-                        const imageButtons = section.querySelectorAll('button[onclick^="removeImage"]');
-                        imageButtons.forEach(btn => {
-                            const onclickAttr = btn.getAttribute('onclick');
-                            if (onclickAttr) {
-                                // Extract the image path and update the section index
-                                const match = onclickAttr.match(/removeImage\(this,\s*'([^']+)',\s*(\d+)\)/);
-                                if (match) {
-                                    const imgPath = match[1];
-                                    btn.setAttribute('onclick', `removeImage(this, '${imgPath}', ${index})`);
-                                }
-                            }
-                        });
-                        
-                        // Update any media URL hidden inputs
-                        const mediaUrlInputs = section.querySelectorAll('input[name^="media_urls"]');
-                        mediaUrlInputs.forEach(input => {
-                            const nameMatch = input.name.match(/media_urls\[(\d+)\]/);
-                            if (nameMatch) {
-                                input.name = input.name.replace(/media_urls\[\d+\]/, `media_urls[${index}]`);
-                            }
-                        });
-                    });
+                    // Update all sections
+                    updateSectionIndexes();
                 }
             } else {
                 alert("You must have at least one section.");
             }
+        }
+        
+        // Update all section indexes after removal
+        function updateSectionIndexes() {
+            const sections = document.querySelectorAll('.section-container');
+            sectionCount = sections.length;
+            
+            sections.forEach((section, index) => {
+                // Update data attribute
+                section.setAttribute('data-section-index', index);
+                
+                // Update section title
+                const title = section.querySelector('h3');
+                if (title) {
+                    title.textContent = `Section ${index + 1}`;
+                }
+                
+                // Update existing images input
+                const existingImagesInput = section.querySelector('input[name^="existing_images"]');
+                if (existingImagesInput) {
+                    // Check if it's an array input (from existing images in thumbnails)
+                    if (existingImagesInput.name.includes('[]')) {
+                        // This is an array input from thumbnails, find the parent name
+                        const parentName = existingImagesInput.name.match(/existing_images\[(\d+)\]/);
+                        if (parentName) {
+                            existingImagesInput.name = `existing_images[${index}]`;
+                        }
+                    } else {
+                        existingImagesInput.name = `existing_images[${index}]`;
+                    }
+                }
+                
+                // Update all existing image thumbnail inputs
+                const thumbnailInputs = section.querySelectorAll('input[name^="existing_images["][name$="][]"]');
+                thumbnailInputs.forEach(input => {
+                    input.name = input.name.replace(/existing_images\[\d+\]/, `existing_images[${index}]`);
+                });
+                
+                // Update file input
+                const fileInput = section.querySelector('input[type="file"]');
+                if (fileInput) {
+                    fileInput.name = `image[${index}][]`;
+                    fileInput.setAttribute('onchange', `previewNewImages(this, ${index})`);
+                }
+                
+                // Update images container ID
+                const imagesContainer = section.querySelector('div[id^="section-images-"]');
+                if (imagesContainer) {
+                    imagesContainer.id = `section-images-${index}`;
+                }
+                
+                // Update media URL input
+                const mediaUrlInput = section.querySelector('input[id^="media-url-input-"]');
+                if (mediaUrlInput) {
+                    mediaUrlInput.id = `media-url-input-${index}`;
+                    const urlButton = mediaUrlInput.nextElementSibling;
+                    if (urlButton && urlButton.tagName === 'BUTTON') {
+                        urlButton.setAttribute('onclick', `addMediaUrl(${index})`);
+                    }
+                }
+                
+                // Update media URLs hidden inputs
+                const mediaUrlHiddenInputs = section.querySelectorAll('input[name^="media_urls["][name$="][]"]');
+                mediaUrlHiddenInputs.forEach(input => {
+                    input.name = input.name.replace(/media_urls\[\d+\]/, `media_urls[${index}]`);
+                });
+                
+                // Update remove image buttons
+                const removeButtons = section.querySelectorAll('button[onclick^="removeImage"]');
+                removeButtons.forEach(btn => {
+                    const onclickAttr = btn.getAttribute('onclick');
+                    if (onclickAttr) {
+                        const match = onclickAttr.match(/removeImage\(this,\s*'([^']+)',\s*(\d+)\)/);
+                        if (match) {
+                            const imgPath = match[1];
+                            btn.setAttribute('onclick', `removeImage(this, '${imgPath}', ${index})`);
+                        }
+                    }
+                });
+                
+                // Update removed images hidden inputs
+                const removedInputs = section.querySelectorAll('input[name^="removed_images["][name$="][]"]');
+                removedInputs.forEach(input => {
+                    input.name = input.name.replace(/removed_images\[\d+\]/, `removed_images[${index}]`);
+                });
+            });
+            
+            console.log('Sections reindexed, new count:', sectionCount);
         }
         
         // Remove individual image
@@ -849,8 +864,7 @@ $conn->close();
                 container = document.createElement('div');
                 container.id = `section-images-${sectionIndex}`;
                 container.className = 'flex flex-wrap gap-2 mb-2';
-                const imageUploadSection = input.closest('.image-upload-section');
-                imageUploadSection.insertBefore(container, input);
+                input.parentNode.insertBefore(container, input);
             }
 
             Array.from(input.files).forEach(file => {
@@ -881,7 +895,7 @@ $conn->close();
             input.value = '';
         }
 
-        // Validate media URL (basic)
+        // Validate media URL
         function isValidMediaUrl(url) {
             try { 
                 new URL(url); 
@@ -897,7 +911,7 @@ $conn->close();
             return isExt || isYouTube;
         }
 
-        // Add media by URL to a section (image or video)
+        // Add media by URL to a section
         function addMediaUrl(sectionIndex) {
             const input = document.getElementById(`media-url-input-${sectionIndex}`);
             if (!input) return;
@@ -911,15 +925,16 @@ $conn->close();
                 return;
             }
 
-            // create container if missing
+            // Get or create container
             let container = document.getElementById(`section-images-${sectionIndex}`);
             if (!container) {
                 container = document.createElement('div');
                 container.id = `section-images-${sectionIndex}`;
                 container.className = 'flex flex-wrap gap-2 mb-2';
-                const imageUploadSection = input.closest('.image-upload-section');
-                const fileInput = imageUploadSection.querySelector('input[type="file"]');
-                imageUploadSection.insertBefore(container, fileInput);
+                const fileInput = document.querySelector(`input[name="image[${sectionIndex}][]"]`);
+                if (fileInput && fileInput.parentNode) {
+                    fileInput.parentNode.insertBefore(container, fileInput);
+                }
             }
 
             const wrap = document.createElement('div');
@@ -929,7 +944,9 @@ $conn->close();
             const isVideo = /(\.mp4|\.webm|\.ogg|\.mov)(\?|#|$)/i.test(url);
             
             if (isYouTube) {
-                const vidId = extractYouTubeIdFromUrl(url);
+                // Extract YouTube ID
+                const videoId = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
+                const vidId = videoId ? videoId[1] : '';
                 if (vidId) {
                     wrap.innerHTML = `
                         <iframe src="https://www.youtube-nocookie.com/embed/${vidId}" 
@@ -991,10 +1008,10 @@ $conn->close();
             });
         }
         
-        // Debug helper - check if function is being called
-        console.log("JavaScript loaded successfully");
-        console.log("Section count initialized to:", sectionCount);
+        // Log initialization
+        console.log('Script loaded successfully');
+        console.log('Initial section count:', sectionCount);
+        console.log('"Add More Sections" button is ready');
     </script>
-
 </body>
 </html>
