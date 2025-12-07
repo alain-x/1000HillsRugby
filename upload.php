@@ -683,8 +683,16 @@ $conn->close();
         // Initialize section count
         let sectionCount = <?php echo $editMode ? count($currentArticleDetails) : 1; ?>;
         
-        // Add event listener to the button
-        document.getElementById('add-more-sections').addEventListener('click', addFields);
+        // Attach event listener to the "Add More Sections" button once DOM is ready
+        document.addEventListener('DOMContentLoaded', function () {
+            const addMoreBtn = document.getElementById('add-more-sections');
+            if (addMoreBtn) {
+                addMoreBtn.addEventListener('click', addFields);
+                console.log('"Add More Sections" button listener attached');
+            } else {
+                console.warn('"Add More Sections" button not found in DOM');
+            }
+        });
         
         // Add new section
         function addFields() {
