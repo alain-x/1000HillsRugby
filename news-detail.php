@@ -522,20 +522,36 @@ if (!$share_image) {
             <!-- Social Sharing -->
             <div class="flex flex-wrap gap-4 sm:gap-6 my-6 social-share">
                 <span class="text-gray-700 text-sm sm:text-base self-center">Share:</span>
-                <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode($page_url); ?>" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 text-xl sm:text-2xl transition-colors focus:outline-none" aria-label="Share on Facebook">
-                    <i class="fab fa-facebook"></i>
+                <!-- Facebook -->
+                <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode($page_url); ?>" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 transition-colors focus:outline-none" aria-label="Share on Facebook">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 sm:w-7 sm:h-7 fill-current">
+                        <path d="M22.675 0H1.325C.593 0 0 .593 0 1.326v21.348C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24h-1.918c-1.504 0-1.796.715-1.796 1.765v2.316h3.59l-.467 3.622h-3.123V24h6.116C23.407 24 24 23.407 24 22.674V1.326C24 .593 23.407 0 22.675 0z"/>
+                    </svg>
                 </a>
-                <a href="https://twitter.com/intent/tweet?url=<?php echo urlencode($page_url); ?>&text=<?php echo urlencode($article['title']); ?>" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-600 text-xl sm:text-2xl transition-colors focus:outline-none" aria-label="Share on Twitter">
-                    <i class="fab fa-twitter"></i>
+                <!-- Twitter/X -->
+                <a href="https://twitter.com/intent/tweet?url=<?php echo urlencode($page_url); ?>&text=<?php echo urlencode($article['title']); ?>" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-600 transition-colors focus:outline-none" aria-label="Share on Twitter">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 sm:w-7 sm:h-7 fill-current">
+                        <path d="M19.633 7.997c.013.18.013.36.013.54 0 5.508-4.192 11.856-11.856 11.856-2.357 0-4.547-.69-6.392-1.878.33.039.647.052.99.052a8.38 8.38 0 0 0 5.188-1.788 4.19 4.19 0 0 1-3.907-2.9c.253.039.506.065.772.065.372 0 .746-.052 1.094-.143A4.182 4.182 0 0 1 2.9 9.43v-.052c.546.304 1.184.49 1.857.517A4.178 4.178 0 0 1 1.43 6.17c0-.78.208-1.493.572-2.115a11.9 11.9 0 0 0 8.642 4.38 4.72 4.72 0 0 1-.104-.958A4.185 4.185 0 0 1 17.724 4.5a8.23 8.23 0 0 0 2.654-1.01 4.17 4.17 0 0 1-1.84 2.307 8.34 8.34 0 0 0 2.41-.647 8.94 8.94 0 0 1-2.315 2.847z"/>
+                    </svg>
                 </a>
-                <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo urlencode($page_url); ?>" target="_blank" rel="noopener noreferrer" class="text-blue-700 hover:text-blue-900 text-xl sm:text-2xl transition-colors focus:outline-none" aria-label="Share on LinkedIn">
-                    <i class="fab fa-linkedin"></i>
+                <!-- LinkedIn -->
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo urlencode($page_url); ?>" target="_blank" rel="noopener noreferrer" class="text-blue-700 hover:text-blue-900 transition-colors focus:outline-none" aria-label="Share on LinkedIn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 sm:w-7 sm:h-7 fill-current">
+                        <path d="M20.447 20.452H17.21v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.447-2.136 2.942v5.664H9.0V9.0h3.112v1.561h.045c.434-.822 1.494-1.69 3.073-1.69 3.287 0 3.894 2.164 3.894 4.977v6.604zM5.337 7.433a1.81 1.81 0 1 1 0-3.62 1.81 1.81 0 0 1 0 3.62zM6.777 20.452H3.893V9.0h2.884v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.225.792 24 1.771 24h20.451C23.2 24 24 23.225 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
                 </a>
-                <a href="whatsapp://send?text=<?php echo urlencode($article['title'] . ' ' . $page_url); ?>" target="_blank" rel="noopener noreferrer" class="text-green-500 hover:text-green-700 text-xl sm:text-2xl transition-colors focus:outline-none" aria-label="Share on WhatsApp">
-                    <i class="fab fa-whatsapp"></i>
+                <!-- WhatsApp -->
+                <a href="whatsapp://send?text=<?php echo urlencode($article['title'] . ' ' . $page_url); ?>" target="_blank" rel="noopener noreferrer" class="text-green-500 hover:text-green-700 transition-colors focus:outline-none" aria-label="Share on WhatsApp">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 sm:w-7 sm:h-7 fill-current">
+                        <path d="M20.52 3.484A11.82 11.82 0 0 0 12.012 0C5.74 0 .74 4.999.74 11.27c0 1.989.52 3.93 1.51 5.647L0 24l7.26-2.222a11.29 11.29 0 0 0 4.75 1.058h.005c6.27 0 11.27-4.999 11.27-11.27a11.19 11.19 0 0 0-3.765-8.082zM12.015 21.22h-.004a9.43 9.43 0 0 1-4.79-1.312l-.343-.204-4.309 1.319 1.382-4.203-.224-.343a9.43 9.43 0 0 1-1.45-5.024c0-5.205 4.238-9.443 9.447-9.443 2.522 0 4.89.983 6.675 2.77a9.39 9.39 0 0 1 2.77 6.673c0 5.205-4.238 9.443-9.454 9.443zm5.17-7.118c-.283-.141-1.676-.828-1.936-.922-.26-.096-.45-.141-.64.141-.19.283-.734.922-.9 1.112-.166.19-.333.21-.616.07-.283-.141-1.193-.44-2.27-1.404-.84-.75-1.404-1.676-1.57-1.959-.166-.283-.018-.437.124-.578.127-.127.283-.333.424-.5.141-.166.188-.283.283-.472.094-.19.047-.355-.024-.497-.07-.141-.64-1.541-.878-2.112-.23-.553-.465-.478-.64-.487l-.547-.01c-.19 0-.497.07-.758.355-.26.283-1.0.977-1.0 2.383 0 1.406 1.03 2.763 1.175 2.955.141.19 2.03 3.1 4.92 4.34.688.297 1.224.474 1.642.607.69.22 1.318.189 1.816.115.554-.082 1.676-.684 1.914-1.343.237-.658.237-1.223.166-1.343-.07-.119-.26-.188-.543-.329z"/>
+                    </svg>
                 </a>
-                <button onclick="copyToClipboard('<?php echo $page_url; ?>')" class="text-gray-600 hover:text-gray-800 text-xl sm:text-2xl transition-colors focus:outline-none" aria-label="Copy link">
-                    <i class="fas fa-link"></i>
+                <!-- Copy link -->
+                <button onclick="copyToClipboard('<?php echo $page_url; ?>')" class="text-gray-600 hover:text-gray-800 transition-colors focus:outline-none" aria-label="Copy link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 sm:w-7 sm:h-7 fill-current">
+                        <path d="M16 1H4C2.897 1 2 1.897 2 3v14h2V3h12V1z"/>
+                        <path d="M19 5H8C6.897 5 6 5.897 6 7v14c0 1.103.897 2 2 2h11c1.103 0 2-.897 2-2V7c0-1.103-.897-2-2-2zm0 16H8V7h11v14z"/>
+                    </svg>
                 </button>
             </div>
             
