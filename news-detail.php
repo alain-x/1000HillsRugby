@@ -541,8 +541,8 @@ if (!$share_image) {
             
             <!-- Main Image -->
             <?php if (!empty($article['main_image_path'])): ?>
-                <figure class="my-8">
-                    <img class="w-full h-auto max-h-[70vh] object-cover rounded-lg shadow-md" src="<?php echo htmlspecialchars($article['main_image_path'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?>">
+                <figure class="my-8 flex justify-center">
+                    <img class="w-full md:w-auto max-w-full max-h-[80vh] object-contain rounded-lg shadow-md" src="<?php echo htmlspecialchars($article['main_image_path'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?>">
                     <?php if (!empty($article['image_caption'])): ?>
                         <figcaption class="text-center text-sm text-gray-500 mt-2"><?php echo htmlspecialchars($article['image_caption'], ENT_QUOTES, 'UTF-8'); ?></figcaption>
                     <?php endif; ?>
@@ -610,12 +610,12 @@ if (!$share_image) {
                                             <iframe src="<?php echo $youtubeEmbed; ?>" class="absolute top-0 left-0 w-full h-full rounded-lg shadow-md" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                                         </div>
                                     <?php elseif ($isVideo): ?>
-                                        <video class="w-full h-auto max-h-[70vh] object-cover rounded-lg shadow-md" controls playsinline preload="metadata">
+                                        <video class="w-full md:w-auto max-w-full max-h-[80vh] object-contain rounded-lg shadow-md" controls playsinline preload="metadata">
                                             <source src="<?php echo htmlspecialchars($item, ENT_QUOTES, 'UTF-8'); ?>" type="video/<?php echo $ext === 'mov' ? 'mp4' : $ext; ?>">
                                             Your browser does not support the video tag.
                                         </video>
                                     <?php else: ?>
-                                        <img class="w-full h-auto max-h-[70vh] object-cover rounded-lg shadow-md" src="<?php echo htmlspecialchars($item, ENT_QUOTES, 'UTF-8'); ?>" alt="Article Media">
+                                        <img class="w-full md:w-auto max-w-full max-h-[80vh] object-contain rounded-lg shadow-md" src="<?php echo htmlspecialchars($item, ENT_QUOTES, 'UTF-8'); ?>" alt="Article Media">
                                     <?php endif; ?>
                                 </figure>
                             <?php else: ?>
@@ -648,18 +648,18 @@ if (!$share_image) {
                                                 }
                                             }
                                         ?>
-                                        <figure class="overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                                        <figure class="overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex items-center justify-center bg-black/5">
                                             <?php if ($isYouTube && $youtubeEmbed): ?>
-                                                <div class="relative w-full h-48 sm:h-56 md:h-64">
-                                                    <iframe src="<?php echo $youtubeEmbed; ?>" class="absolute top-0 left-0 w-full h-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                                                <div class="relative w-full" style="padding-top: 56.25%;">
+                                                    <iframe src="<?php echo $youtubeEmbed; ?>" class="absolute top-0 left-0 w-full h-full rounded-lg" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                                                 </div>
                                             <?php elseif ($isVideo): ?>
-                                                <video class="w-full h-48 sm:h-56 md:h-64 object-cover" controls playsinline preload="metadata">
+                                                <video class="w-full max-h-80 object-contain" controls playsinline preload="metadata">
                                                     <source src="<?php echo htmlspecialchars($item, ENT_QUOTES, 'UTF-8'); ?>" type="video/<?php echo $ext === 'mov' ? 'mp4' : $ext; ?>">
                                                     Your browser does not support the video tag.
                                                 </video>
                                             <?php else: ?>
-                                                <img class="w-full h-48 sm:h-56 md:h-64 object-cover" src="<?php echo htmlspecialchars($item, ENT_QUOTES, 'UTF-8'); ?>" alt="Article Media">
+                                                <img class="w-full max-h-80 object-contain" src="<?php echo htmlspecialchars($item, ENT_QUOTES, 'UTF-8'); ?>" alt="Article Media">
                                             <?php endif; ?>
                                         </figure>
                                     <?php endforeach; ?>
