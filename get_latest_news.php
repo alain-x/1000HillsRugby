@@ -2,12 +2,12 @@
 header('Content-Type: application/json');
 
 
-// Database connection
-    
-$servername = "localhost:3306";
-$username = "hillsrug_gasore";
-$password = "M00dle??";
-$dbname = "hillsrug_db";
+// Database connection (keep consistent with upload.php)
+$servername = "localhost";
+$username   = "hillsrug_gasore";
+$password   = "M00dle??";
+$dbname     = "hillsrug_db";
+$port       = 3306;
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname, $port);
