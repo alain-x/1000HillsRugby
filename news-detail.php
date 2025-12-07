@@ -529,9 +529,9 @@ if (!$share_image) {
                     </svg>
                 </a>
                 <!-- Twitter/X -->
-                <a href="https://twitter.com/intent/tweet?url=<?php echo urlencode($page_url); ?>&text=<?php echo urlencode($article['title']); ?>" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-600 transition-colors focus:outline-none" aria-label="Share on Twitter">
+                <a href="https://twitter.com/intent/tweet?url=<?php echo urlencode($page_url); ?>&text=<?php echo urlencode($article['title']); ?>" target="_blank" rel="noopener noreferrer" class="text-gray-900 hover:text-black transition-colors focus:outline-none" aria-label="Share on X (Twitter)">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 sm:w-7 sm:h-7 fill-current">
-                        <path d="M19.633 7.997c.013.18.013.36.013.54 0 5.508-4.192 11.856-11.856 11.856-2.357 0-4.547-.69-6.392-1.878.33.039.647.052.99.052a8.38 8.38 0 0 0 5.188-1.788 4.19 4.19 0 0 1-3.907-2.9c.253.039.506.065.772.065.372 0 .746-.052 1.094-.143A4.182 4.182 0 0 1 2.9 9.43v-.052c.546.304 1.184.49 1.857.517A4.178 4.178 0 0 1 1.43 6.17c0-.78.208-1.493.572-2.115a11.9 11.9 0 0 0 8.642 4.38 4.72 4.72 0 0 1-.104-.958A4.185 4.185 0 0 1 17.724 4.5a8.23 8.23 0 0 0 2.654-1.01 4.17 4.17 0 0 1-1.84 2.307 8.34 8.34 0 0 0 2.41-.647 8.94 8.94 0 0 1-2.315 2.847z"/>
+                        <path d="M18.154 2H21L14.25 10.01L22 22H15.828L11.11 14.94L5.7 22H3L10.18 13.39L2.75 2H9.078L13.355 8.46L18.154 2ZM17.074 20.08H18.78L7.78 3.83H5.94L17.074 20.08Z"/>
                     </svg>
                 </a>
                 <!-- LinkedIn -->
@@ -547,7 +547,7 @@ if (!$share_image) {
                     </svg>
                 </a>
                 <!-- Copy link -->
-                <button onclick="copyToClipboard('<?php echo $page_url; ?>')" class="text-gray-600 hover:text-gray-800 transition-colors focus:outline-none" aria-label="Copy link">
+                <button class="copy-link-btn text-gray-600 hover:text-gray-800 transition-colors focus:outline-none" data-url="<?php echo htmlspecialchars($page_url, ENT_QUOTES, 'UTF-8'); ?>" aria-label="Copy link">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 sm:w-7 sm:h-7 fill-current">
                         <path d="M16 1H4C2.897 1 2 1.897 2 3v14h2V3h12V1z"/>
                         <path d="M19 5H8C6.897 5 6 5.897 6 7v14c0 1.103.897 2 2 2h11c1.103 0 2-.897 2-2V7c0-1.103-.897-2-2-2zm0 16H8V7h11v14z"/>
@@ -707,13 +707,8 @@ if (!$share_image) {
         </div>
     </footer>
 
-    <script>
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const menuIcon = document.getElementById('menu-icon');
-        
-        mobileMenuButton.addEventListener('click', () => {
+    <script src="news-detail.js"></script>
+
             const isOpen = mobileMenu.classList.toggle('translate-x-full');
             menuIcon.className = isOpen ? 'fas fa-bars text-xl' : 'fas fa-times text-xl';
             document.body.style.overflow = isOpen ? 'auto' : 'hidden';
