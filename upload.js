@@ -21,29 +21,16 @@ function initAddMoreSectionsButton() {
     }
 }
 
-// Delegate clicks on "Remove Section" buttons so we don't rely on inline onclick
+// Delegate clicks on "Remove Section" buttons at the document level
 function initSectionRemoveHandler() {
-    const container = document.getElementById('repeatable-fields');
-    if (!container) return;
-
-    // Direct listeners for all existing remove buttons (robust even if delegation fails)
-    const buttons = container.querySelectorAll('.remove-section-btn');
-    buttons.forEach(btn => {
-        if (!btn.__hasRemoveSectionListener) {
-            btn.addEventListener('click', function (e) {
-                e.preventDefault();
-                console.log('Remove Section button clicked (direct listener)');
-                removeSection(btn);
-            });
-            btn.__hasRemoveSectionListener = true;
-        }
-    });
-
-    // Delegated handler for any buttons added later (via addFields)
-    container.addEventListener('click', function (e) {
+    document.addEventListener('click', function (e) {
         const btn = e.target.closest('.remove-section-btn');
-        if (btn && container.contains(btn)) {
-            console.log('Remove Section button clicked (delegated handler)');
+        if (!btn) return;
+        // Ensure the button is inside our form/sections area
+        const container = document.getElementById('repeatable-fields');
+        if (container && container.contains(btn)) {
+            e.preventDefault();
+            console.log('Remove Section button clicked');
             removeSection(btn);
         }
     });
@@ -105,6 +92,7 @@ function addFields() {
 
 // Remove section
 function removeSection(button) {
+    console.log('removeSection() called');
     const sections = document.querySelectorAll('.section-container');
     if (sections.length > 1) {
         if (confirm('Are you sure you want to remove this section?')) {
