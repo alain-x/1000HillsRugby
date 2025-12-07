@@ -708,50 +708,5 @@ if (!$share_image) {
     </footer>
 
     <script src="news-detail.js"></script>
-
-            const isOpen = mobileMenu.classList.toggle('translate-x-full');
-            menuIcon.className = isOpen ? 'fas fa-bars text-xl' : 'fas fa-times text-xl';
-            document.body.style.overflow = isOpen ? 'auto' : 'hidden';
-        });
-        
-        // Mobile dropdown toggles
-        document.querySelectorAll('.mobile-dropdown-toggle').forEach(button => {
-            button.addEventListener('click', () => {
-                const content = button.nextElementSibling;
-                const icon = button.querySelector('i');
-                
-                content.classList.toggle('hidden');
-                icon.className = content.classList.contains('hidden') ? 
-                    'fas fa-chevron-down text-sm' : 'fas fa-chevron-up text-sm';
-            });
-        });
-        
-        // Copy URL to clipboard
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Link copied to clipboard!');
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-            });
-        }
-        
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('#mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('translate-x-full');
-                menuIcon.className = 'fas fa-bars text-xl';
-                document.body.style.overflow = 'auto';
-            });
-        });
-        
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
-                mobileMenu.classList.add('translate-x-full');
-                menuIcon.className = 'fas fa-bars text-xl';
-                document.body.style.overflow = 'auto';
-            }
-        });
-    </script>
 </body>
 </html>
