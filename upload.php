@@ -671,6 +671,7 @@ $conn->close();
             <?php endif; ?>
         </div>
     </div>
+ <!-- Previous PHP and HTML code remains the same until the JavaScript section -->
 
     <script>
         let sectionCount = <?php echo $editMode ? count($currentArticleDetails) : 1; ?>;
@@ -702,9 +703,10 @@ $conn->close();
             return '';
         }
         
-        // Add new section
+        // Add new section - FIXED VERSION
         function addFields() {
             sectionCount++;
+            const newIndex = sectionCount - 1;
             let container = document.getElementById("repeatable-fields");
             
             let div = document.createElement("div");
@@ -716,73 +718,98 @@ $conn->close();
                         <i class="fas fa-times"></i> Remove Section
                     </button>
                 </div>
-                <input type="hidden" name="existing_images[${sectionCount - 1}]" value="">
+                <input type="hidden" name="existing_images[${newIndex}]" value="">
                 <input type="text" name="subtitle[]" placeholder="Subtitle" class="w-full p-2 border rounded mb-2">
                 <textarea name="content[]" placeholder="Content" class="w-full p-2 border rounded mb-2"></textarea>
                 <div class="image-upload-section mb-4">
                     <label class="block text-lg font-semibold mb-2">Media (Images or short videos)</label>
-                    <div class="flex flex-wrap gap-2 mb-2" id="section-images-${sectionCount - 1}"></div>
-                    <input type="file" name="image[${sectionCount - 1}][]" 
+                    <div class="flex flex-wrap gap-2 mb-2" id="section-images-${newIndex}"></div>
+                    <input type="file" name="image[${newIndex}][]" 
                            accept="image/*,video/*" multiple 
                            class="w-full p-2 border rounded"
-                           onchange="previewNewImages(this, ${sectionCount - 1})">
+                           onchange="previewNewImages(this, ${newIndex})">
                     <!-- Add media by URL -->
                     <div class="mt-2 flex gap-2">
-                        <input type="url" placeholder="Paste image or video URL" class="w-full p-2 border rounded" id="media-url-input-${sectionCount - 1}">
-                        <button type="button" class="bg-blue-500 text-white px-3 py-2 rounded" onclick="addMediaUrl(${sectionCount - 1})">Add URL</button>
+                        <input type="url" placeholder="Paste image or video URL" class="w-full p-2 border rounded" id="media-url-input-${newIndex}">
+                        <button type="button" class="bg-blue-500 text-white px-3 py-2 rounded" onclick="addMediaUrl(${newIndex})">Add URL</button>
                     </div>
                 </div>
             `;
             container.appendChild(div);
         }
         
-        // Remove section
+        // Remove section - FIXED VERSION
         function removeSection(button) {
             const sections = document.querySelectorAll('.section-container');
             if (sections.length > 1) {
-                const sectionToRemove = button.closest('.section-container');
-                sectionToRemove.remove();
-                
-                // Reindex remaining sections
-                const remainingSections = document.querySelectorAll('.section-container');
-                remainingSections.forEach((section, index) => {
-                    // Update the file input name
-                    const fileInput = section.querySelector('input[type="file"]');
-                    if (fileInput) {
-                        fileInput.name = `image[${index}][]`;
-                        fileInput.setAttribute('onchange', `previewNewImages(this, ${index})`);
-                    }
+                if (confirm('Are you sure you want to remove this section?')) {
+                    const sectionToRemove = button.closest('.section-container');
+                    sectionToRemove.remove();
                     
-                    // Update the existing images input name
-                    const existingImagesInput = section.querySelector('input[name^="existing_images"]');
-                    if (existingImagesInput) {
-                        existingImagesInput.name = `existing_images[${index}]`;
-                    }
+                    // Reindex remaining sections
+                    const remainingSections = document.querySelectorAll('.section-container');
+                    sectionCount = remainingSections.length;
                     
-                    // Update the images container ID
-                    const imagesContainer = section.querySelector('div[id^="section-images-"]');
-                    if (imagesContainer) {
-                        imagesContainer.id = `section-images-${index}`;
-                    }
-                    
-                    // Update the media URL input ID
-                    const mediaUrlInput = section.querySelector('input[id^="media-url-input-"]');
-                    if (mediaUrlInput) {
-                        mediaUrlInput.id = `media-url-input-${index}`;
-                        const button = mediaUrlInput.nextElementSibling;
-                        if (button) {
-                            button.setAttribute('onclick', `addMediaUrl(${index})`);
+                    remainingSections.forEach((section, index) => {
+                        // Update the file input name and onchange
+                        const fileInput = section.querySelector('input[type="file"]');
+                        if (fileInput) {
+                            fileInput.name = `image[${index}][]`;
+                            fileInput.setAttribute('onchange', `previewNewImages(this, ${index})`);
                         }
-                    }
-                    
-                    // Update the section title
-                    const sectionTitle = section.querySelector('h3');
-                    if (sectionTitle) {
-                        sectionTitle.textContent = `Section ${index + 1}`;
-                    }
-                });
-                
-                sectionCount = remainingSections.length;
+                        
+                        // Update the existing images input name
+                        const existingImagesInput = section.querySelector('input[name^="existing_images"]');
+                        if (existingImagesInput) {
+                            existingImagesInput.name = `existing_images[${index}]`;
+                        }
+                        
+                        // Update the images container ID
+                        const imagesContainer = section.querySelector('div[id^="section-images-"]');
+                        if (imagesContainer) {
+                            imagesContainer.id = `section-images-${index}`;
+                        }
+                        
+                        // Update the media URL input ID and onclick
+                        const mediaUrlInput = section.querySelector('input[id^="media-url-input-"]');
+                        if (mediaUrlInput) {
+                            mediaUrlInput.id = `media-url-input-${index}`;
+                            const urlButton = mediaUrlInput.nextElementSibling;
+                            if (urlButton && urlButton.tagName === 'BUTTON') {
+                                urlButton.setAttribute('onclick', `addMediaUrl(${index})`);
+                            }
+                        }
+                        
+                        // Update the section title
+                        const sectionTitle = section.querySelector('h3');
+                        if (sectionTitle) {
+                            sectionTitle.textContent = `Section ${index + 1}`;
+                        }
+                        
+                        // Update any existing image buttons
+                        const imageButtons = section.querySelectorAll('button[onclick^="removeImage"]');
+                        imageButtons.forEach(btn => {
+                            const onclickAttr = btn.getAttribute('onclick');
+                            if (onclickAttr) {
+                                // Extract the image path and update the section index
+                                const match = onclickAttr.match(/removeImage\(this,\s*'([^']+)',\s*(\d+)\)/);
+                                if (match) {
+                                    const imgPath = match[1];
+                                    btn.setAttribute('onclick', `removeImage(this, '${imgPath}', ${index})`);
+                                }
+                            }
+                        });
+                        
+                        // Update any media URL hidden inputs
+                        const mediaUrlInputs = section.querySelectorAll('input[name^="media_urls"]');
+                        mediaUrlInputs.forEach(input => {
+                            const nameMatch = input.name.match(/media_urls\[(\d+)\]/);
+                            if (nameMatch) {
+                                input.name = input.name.replace(/media_urls\[\d+\]/, `media_urls[${index}]`);
+                            }
+                        });
+                    });
+                }
             } else {
                 alert("You must have at least one section.");
             }
@@ -792,12 +819,13 @@ $conn->close();
         function removeImage(button, imagePath, sectionIndex) {
             if (confirm('Remove this image?')) {
                 // Create hidden input to track removed images
+                const form = document.querySelector('form');
                 const removedInput = document.createElement('input');
                 removedInput.type = 'hidden';
                 removedInput.name = `removed_images[${sectionIndex}][]`;
                 removedInput.value = imagePath;
                 removedInput.className = 'hidden-removed-image';
-                document.querySelector('form').appendChild(removedInput);
+                form.appendChild(removedInput);
                 
                 // Remove the image element
                 button.closest('.image-thumbnail').remove();
@@ -816,13 +844,13 @@ $conn->close();
         
         // Preview newly added images before upload
         function previewNewImages(input, sectionIndex) {
-            const container = document.getElementById(`section-images-${sectionIndex}`) || 
-                             document.createElement('div');
-            container.className = 'flex flex-wrap gap-2 mb-2';
-            
-            if (!container.id) {
+            let container = document.getElementById(`section-images-${sectionIndex}`);
+            if (!container) {
+                container = document.createElement('div');
                 container.id = `section-images-${sectionIndex}`;
-                input.parentElement.insertBefore(container, input);
+                container.className = 'flex flex-wrap gap-2 mb-2';
+                const imageUploadSection = input.closest('.image-upload-section');
+                imageUploadSection.insertBefore(container, input);
             }
 
             Array.from(input.files).forEach(file => {
@@ -848,6 +876,9 @@ $conn->close();
                 }
                 container.appendChild(wrap);
             });
+            
+            // Clear the file input
+            input.value = '';
         }
 
         // Validate media URL (basic)
@@ -871,7 +902,10 @@ $conn->close();
             const input = document.getElementById(`media-url-input-${sectionIndex}`);
             if (!input) return;
             const url = (input.value || '').trim();
-            if (!url) return;
+            if (!url) {
+                alert('Please enter a URL');
+                return;
+            }
             if (!isValidMediaUrl(url)) {
                 alert('Please paste a direct URL to an image or a short video (mp4/webm/ogg/mov) or a YouTube link.');
                 return;
@@ -883,8 +917,9 @@ $conn->close();
                 container = document.createElement('div');
                 container.id = `section-images-${sectionIndex}`;
                 container.className = 'flex flex-wrap gap-2 mb-2';
-                const parent = input.parentElement.parentElement; // image-upload-section
-                parent.insertBefore(container, parent.querySelector('input[type="file"]'));
+                const imageUploadSection = input.closest('.image-upload-section');
+                const fileInput = imageUploadSection.querySelector('input[type="file"]');
+                imageUploadSection.insertBefore(container, fileInput);
             }
 
             const wrap = document.createElement('div');
@@ -955,6 +990,11 @@ $conn->close();
                 }
             });
         }
+        
+        // Debug helper - check if function is being called
+        console.log("JavaScript loaded successfully");
+        console.log("Section count initialized to:", sectionCount);
     </script>
+
 </body>
 </html>
