@@ -21,9 +21,23 @@ function initAddMoreSectionsButton() {
     }
 }
 
+// Delegate clicks on "Remove Section" buttons so we don't rely on inline onclick
+function initSectionRemoveHandler() {
+    const container = document.getElementById('repeatable-fields');
+    if (!container) return;
+
+    container.addEventListener('click', function (e) {
+        const btn = e.target.closest('.remove-section-btn');
+        if (btn && container.contains(btn)) {
+            removeSection(btn);
+        }
+    });
+}
+
 function initUploadPage() {
     initSectionCount();
     initAddMoreSectionsButton();
+    initSectionRemoveHandler();
     initMainImagePreview();
     console.log('Script loaded successfully');
 }

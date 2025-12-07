@@ -518,7 +518,7 @@ $conn->close();
                             <div class="section-container mb-4" data-section-index="<?php echo $index; ?>">
                                 <div class="flex justify-between items-center mb-2">
                                     <h3 class="text-xl font-semibold">Section <?php echo $index + 1; ?></h3>
-                                    <button type="button" onclick="removeSection(this)" class="text-red-500 hover:text-red-700">
+                                    <button type="button" class="remove-section-btn text-red-500 hover:text-red-700">
                                         <i class="fas fa-times"></i> Remove Section
                                     </button>
                                 </div>
@@ -590,7 +590,7 @@ $conn->close();
                         <div class="section-container mb-4" data-section-index="0">
                             <div class="flex justify-between items-center mb-2">
                                 <h3 class="text-xl font-semibold">Section 1</h3>
-                                <button type="button" onclick="removeSection(this)" class="text-red-500 hover:text-red-700">
+                                <button type="button" class="remove-section-btn text-red-500 hover:text-red-700">
                                     <i class="fas fa-times"></i> Remove Section
                                 </button>
                             </div>
