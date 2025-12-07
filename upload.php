@@ -419,6 +419,12 @@ $conn->close();
         .article-content a:hover {
             color: #2563eb;
         }
+        .media-urls-container {
+            margin-top: 0.5rem;
+        }
+        .hidden-removed-image {
+            display: none;
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-900 p-6">
@@ -519,394 +525,436 @@ $conn->close();
                                     <label class="block text-lg font-semibold mb-2">Media (Images or short videos)</label>
                                     <?php if (!empty($detail['image_path'])): ?>
                                         <div class="flex flex-wrap gap-2 mb-2" id="section-images-<?php echo $index; ?>">
-                                            <?php foreach (explode(",", $detail['image_path']) as $imgIdx => $imgPath): ?>
-                                                <?php if (!empty($imgPath)): ?>
-                                                    <?php 
-                                                        $ext = strtolower(pathinfo($imgPath, PATHINFO_EXTENSION));
-                                                        $isVideo = in_array($ext, ['mp4','webm','ogg','mov']);
-                                                    ?>
-                                                    <div class="image-thumbnail relative">
-                                                        <?php if ($isVideo): ?>
-                                                            <video class="h-24 object-cover" controls muted playsinline preload="metadata">
-                                                                <source src="<?php echo htmlspecialchars($imgPath); ?>" type="video/<?php echo $ext === 'mov' ? 'mp4' : $ext; ?>">
-                                                            </video>
+                                            <?php 
+                                            $imagePaths = explode(",", $detail['image_path']);
+                                            foreach ($imagePaths as $imgIdx => $imgPath): 
+                                                if (!empty($imgPath)):
+                                                    $ext = strtolower(pathinfo($imgPath, PATHINFO_EXTENSION));
+                                                    $isVideo = in_array($ext, ['mp4','webm','ogg','mov']);
+                                                    $isYouTube = strpos($imgPath, 'youtube.com') !== false || 
+                                                                strpos($imgPath, 'youtu.be') !== false ||
+                                                                strpos($imgPath, 'youtube-nocookie.com') !== false;
+                                            ?>
+                                                <div class="image-thumbnail relative">
+                                                    <?php if ($isYouTube): ?>
+                                                        <?php $vidId = extractYouTubeIdFromUrl($imgPath); ?>
+                                                        <?php if ($vidId): ?>
+                                                            <iframe src="https://www.youtube-nocookie.com/embed/<?php echo $vidId; ?>" 
+                                                                    class="h-24 w-40 object-cover" 
+                                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                                                    allowfullscreen loading="lazy"></iframe>
                                                         <?php else: ?>
-                                                            <img src="<?php echo htmlspecialchars($imgPath); ?>" alt="Section media" class="h-24 object-cover">
+                                                            <div class="h-24 w-40 bg-gray-200 flex items-center justify-center">
+                                                                <i class="fas fa-play text-gray-400"></i>
+                                                            </div>
                                                         <?php endif; ?>
-                                                        <button type="button" 
-                                                                onclick="removeImage(this, '<?php echo htmlspecialchars($imgPath); ?>', <?php echo $index; ?>)" 
-                                                                class="remove-image-btn opacity-0">
-                                                            <i class="fas fa-times"></i>
-                                                        </button>
-                                                        <input type="hidden" name="existing_images[<?php echo $index; ?>][]" value="<?php echo htmlspecialchars($imgPath); ?>">
-                                                    </div>
-                                                <?php endif; ?>
+                                                    <?php elseif ($isVideo): ?>
+                                                        <video class="h-24 w-40 object-cover" controls muted playsinline preload="metadata">
+                                                            <source src="<?php echo htmlspecialchars($imgPath); ?>" type="video/<?php echo $ext === 'mov' ? 'mp4' : $ext; ?>">
+                                                        </video>
+                                                    <?php else: ?>
+                                                        <img src="<?php echo htmlspecialchars($imgPath); ?>" alt="Section media" class="h-24 w-40 object-cover">
+                                                    <?php endif; ?>
+                                                    <button type="button" 
+                                                            onclick="removeImage(this, '<?php echo htmlspecialchars($imgPath); ?>', <?php echo $index; ?>)" 
+                                                            class="remove-image-btn opacity-0">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                    <input type="hidden" name="existing_images[<?php echo $index; ?>][]" value="<?php echo htmlspecialchars($imgPath); ?>">
+                                                </div>
+                                            <?php endif; ?>
                                             <?php endforeach; ?>
                                         </div>
                                     <?php endif; ?>
-                                            
-                                            <input type="file" name="image[<?php echo $index; ?>][]" 
-                                                   accept="image/*,video/*" multiple 
-                                                   class="w-full p-2 border rounded"
-                                                   onchange="previewNewImages(this, <?php echo $index; ?>)">
-                                            <!-- Add media by URL -->
-                                            <div class="mt-2 flex gap-2">
-                                                <input type="url" placeholder="Paste image or video URL" class="w-full p-2 border rounded" id="media-url-input-<?php echo $index; ?>">
-                                                <button type="button" class="bg-blue-500 text-white px-3 py-2 rounded" onclick="addMediaUrl(<?php echo $index; ?>)">Add URL</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <div class="section-container mb-4">
-                                    <div class="flex justify-between items-center mb-2">
-                                        <h3 class="text-xl font-semibold">Section 1</h3>
-                                        <button type="button" onclick="removeSection(this)" class="text-red-500 hover:text-red-700">
-                                            <i class="fas fa-times"></i> Remove Section
-                                        </button>
-                                    </div>
-                                    <input type="hidden" name="existing_images[0]" value="">
-                                    <input type="text" name="subtitle[]" placeholder="Subtitle" class="w-full p-2 border rounded mb-2">
-                                    <textarea name="content[]" placeholder="Content" class="w-full p-2 border rounded mb-2"></textarea>
-                                    <div class="image-upload-section mb-4">
-                                        <label class="block text-lg font-semibold mb-2">Media (Images or short videos)</label>
-                                        <div class="flex flex-wrap gap-2 mb-2" id="section-images-0"></div>
-                                        <input type="file" name="image[0][]" accept="image/*,video/*" multiple 
-                                               class="w-full p-2 border rounded"
-                                               onchange="previewNewImages(this, 0)">
-                                        <!-- Add media by URL -->
-                                        <div class="mt-2 flex gap-2">
-                                            <input type="url" placeholder="Paste image or video URL" class="w-full p-2 border rounded" id="media-url-input-0">
-                                            <button type="button" class="bg-blue-500 text-white px-3 py-2 rounded" onclick="addMediaUrl(0)">Add URL</button>
-                                        </div>
+                                    
+                                    <input type="file" name="image[<?php echo $index; ?>][]" 
+                                           accept="image/*,video/*" multiple 
+                                           class="w-full p-2 border rounded"
+                                           onchange="previewNewImages(this, <?php echo $index; ?>)">
+                                    <!-- Add media by URL -->
+                                    <div class="mt-2 flex gap-2">
+                                        <input type="url" placeholder="Paste image or video URL" class="w-full p-2 border rounded" id="media-url-input-<?php echo $index; ?>">
+                                        <button type="button" class="bg-blue-500 text-white px-3 py-2 rounded" onclick="addMediaUrl(<?php echo $index; ?>)">Add URL</button>
                                     </div>
                                 </div>
-                            <?php endif; ?>
-                        </div>
-
-                        <!-- Add More Sections Button -->
-                        <button type="button" onclick="addFields()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-6">
-                            <i class="fas fa-plus"></i> Add More Sections
-                        </button>
-
-                        <!-- Form Actions -->
-                        <div class="flex items-center">
-                            <?php if ($editMode): ?>
-                                <a href="<?php echo $_SERVER['PHP_SELF']; ?>" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 mr-4">
-                                    <i class="fas fa-times"></i> Cancel
-                                </a>
-                            <?php else: ?>
-                                <button type="reset" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 mr-4">
-                                    <i class="fas fa-undo"></i> Reset
-                                </button>
-                            <?php endif; ?>
-                            <button type="submit" name="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-                                <i class="fas fa-save"></i> <?php echo $editMode ? 'Update Article' : 'Save Article'; ?>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Articles List -->
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h2 class="text-2xl font-semibold mb-6">Articles</h2>
-                    
-                    <?php if (empty($articles)): ?>
-                        <div class="alert alert-info">
-                            No articles found. Add your first article above.
-                        </div>
+                            </div>
+                        <?php endforeach; ?>
                     <?php else: ?>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            <?php foreach ($articles as $article): ?>
-                                <div class="article-card bg-white rounded-lg shadow overflow-hidden">
-                                    <?php if (!empty($article['main_image_path'])): ?>
-                                        <div class="h-48 overflow-hidden">
-                                            <img src="<?php echo htmlspecialchars($article['main_image_path']); ?>" alt="<?php echo htmlspecialchars($article['title']); ?>" class="w-full h-full object-cover">
-                                        </div>
-                                    <?php else: ?>
-                                        <div class="h-48 bg-gray-200 flex items-center justify-center">
-                                            <i class="fas fa-image text-4xl text-gray-400"></i>
-                                        </div>
-                                    <?php endif; ?>
-                                    <div class="p-4">
-                                        <div class="flex justify-between items-start mb-2">
-                                            <h3 class="text-xl font-semibold"><?php echo htmlspecialchars($article['title']); ?></h3>
-                                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded"><?php echo htmlspecialchars($article['category']); ?></span>
-                                        </div>
-                                        <p class="text-gray-600 text-sm mb-4"><?php echo date('M j, Y H:i', strtotime($article['date_published'])); ?></p>
-                                        <div class="flex justify-between">
-                                            <a href="?edit=<?php echo $article['id']; ?>" class="text-blue-500 hover:text-blue-700">
-                                                <i class="fas fa-edit"></i> Edit
-                                            </a>
-                                            <a href="?delete=<?php echo $article['id']; ?>" class="text-red-500 hover:text-red-700" onclick="return confirm('Are you sure you want to delete this article?')">
-                                                <i class="fas fa-trash"></i> Delete
-                                            </a>
-                                        </div>
-                                    </div>
+                        <div class="section-container mb-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="text-xl font-semibold">Section 1</h3>
+                                <button type="button" onclick="removeSection(this)" class="text-red-500 hover:text-red-700">
+                                    <i class="fas fa-times"></i> Remove Section
+                                </button>
+                            </div>
+                            <input type="hidden" name="existing_images[0]" value="">
+                            <input type="text" name="subtitle[]" placeholder="Subtitle" class="w-full p-2 border rounded mb-2">
+                            <textarea name="content[]" placeholder="Content" class="w-full p-2 border rounded mb-2"></textarea>
+                            <div class="image-upload-section mb-4">
+                                <label class="block text-lg font-semibold mb-2">Media (Images or short videos)</label>
+                                <div class="flex flex-wrap gap-2 mb-2" id="section-images-0"></div>
+                                <input type="file" name="image[0][]" accept="image/*,video/*" multiple 
+                                       class="w-full p-2 border rounded"
+                                       onchange="previewNewImages(this, 0)">
+                                <!-- Add media by URL -->
+                                <div class="mt-2 flex gap-2">
+                                    <input type="url" placeholder="Paste image or video URL" class="w-full p-2 border rounded" id="media-url-input-0">
+                                    <button type="button" class="bg-blue-500 text-white px-3 py-2 rounded" onclick="addMediaUrl(0)">Add URL</button>
                                 </div>
-                            <?php endforeach; ?>
+                            </div>
                         </div>
                     <?php endif; ?>
                 </div>
-            </div>
 
-            <script>
-                let sectionCount = <?php echo $editMode ? count($currentArticleDetails) : 1; ?>;
-                
-                // Add new section
-                function addFields() {
-                    sectionCount++;
-                    let container = document.getElementById("repeatable-fields");
-                    
-                    let div = document.createElement("div");
-                    div.className = "section-container mb-4";
-                    div.innerHTML = `
-                        <div class="flex justify-between items-center mb-2">
-                            <h3 class="text-xl font-semibold">Section ${sectionCount}</h3>
-                            <button type="button" onclick="removeSection(this)" class="text-red-500 hover:text-red-700">
-                                <i class="fas fa-times"></i> Remove Section
-                            </button>
-                        </div>
-                        <input type="hidden" name="existing_images[${sectionCount - 1}]" value="">
-                        <input type="text" name="subtitle[]" placeholder="Subtitle" class="w-full p-2 border rounded mb-2">
-                        <textarea name="content[]" placeholder="Content" class="w-full p-2 border rounded mb-2"></textarea>
-                        <div class="image-upload-section mb-4">
-                            <label class="block text-lg font-semibold mb-2">Media (Images or short videos)</label>
-                            <div class="flex flex-wrap gap-2 mb-2" id="section-images-${sectionCount - 1}"></div>
-                            <input type="file" name="image[${sectionCount - 1}][]" 
-                                   accept="image/*,video/*" multiple 
-                                   class="w-full p-2 border rounded"
-                                   onchange="previewNewImages(this, ${sectionCount - 1})">
-                            <!-- Add media by URL -->
-                            <div class="mt-2 flex gap-2">
-                                <input type="url" placeholder="Paste image or video URL" class="w-full p-2 border rounded" id="media-url-input-${sectionCount - 1}">
-                                <button type="button" class="bg-blue-500 text-white px-3 py-2 rounded" onclick="addMediaUrl(${sectionCount - 1})">Add URL</button>
+                <!-- Add More Sections Button -->
+                <button type="button" onclick="addFields()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-6">
+                    <i class="fas fa-plus"></i> Add More Sections
+                </button>
+
+                <!-- Form Actions -->
+                <div class="flex items-center">
+                    <?php if ($editMode): ?>
+                        <a href="<?php echo $_SERVER['PHP_SELF']; ?>" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 mr-4">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                    <?php else: ?>
+                        <button type="reset" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 mr-4">
+                            <i class="fas fa-undo"></i> Reset
+                        </button>
+                    <?php endif; ?>
+                    <button type="submit" name="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                        <i class="fas fa-save"></i> <?php echo $editMode ? 'Update Article' : 'Save Article'; ?>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Articles List -->
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-semibold mb-6">Articles</h2>
+            
+            <?php if (empty($articles)): ?>
+                <div class="alert alert-info">
+                    No articles found. Add your first article above.
+                </div>
+            <?php else: ?>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <?php foreach ($articles as $article): ?>
+                        <div class="article-card bg-white rounded-lg shadow overflow-hidden">
+                            <?php if (!empty($article['main_image_path'])): ?>
+                                <div class="h-48 overflow-hidden">
+                                    <img src="<?php echo htmlspecialchars($article['main_image_path']); ?>" alt="<?php echo htmlspecialchars($article['title']); ?>" class="w-full h-full object-cover">
+                                </div>
+                            <?php else: ?>
+                                <div class="h-48 bg-gray-200 flex items-center justify-center">
+                                    <i class="fas fa-image text-4xl text-gray-400"></i>
+                                </div>
+                            <?php endif; ?>
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="text-xl font-semibold"><?php echo htmlspecialchars($article['title']); ?></h3>
+                                    <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded"><?php echo htmlspecialchars($article['category']); ?></span>
+                                </div>
+                                <p class="text-gray-600 text-sm mb-4"><?php echo date('M j, Y H:i', strtotime($article['date_published'])); ?></p>
+                                <div class="flex justify-between">
+                                    <a href="?edit=<?php echo $article['id']; ?>" class="text-blue-500 hover:text-blue-700">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    <a href="?delete=<?php echo $article['id']; ?>" class="text-red-500 hover:text-red-700" onclick="return confirm('Are you sure you want to delete this article?')">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    `;
-                    container.appendChild(div);
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <script>
+        let sectionCount = <?php echo $editMode ? count($currentArticleDetails) : 1; ?>;
+        
+        // Helper function to extract YouTube ID from URL
+        function extractYouTubeIdFromUrl(url) {
+            try {
+                const u = new URL(url);
+                if (u.hostname.includes('youtu.be')) {
+                    return u.pathname.split('/')[1] || '';
                 }
+                if (u.searchParams.get('v')) {
+                    return u.searchParams.get('v');
+                }
+                // Shorts format: /shorts/{id}
+                const parts = u.pathname.split('/').filter(Boolean);
+                const shortsIdx = parts.indexOf('shorts');
+                if (shortsIdx !== -1 && parts[shortsIdx + 1]) {
+                    return parts[shortsIdx + 1];
+                }
+                // Embed format: /embed/{id}
+                const embedIdx = parts.indexOf('embed');
+                if (embedIdx !== -1 && parts[embedIdx + 1]) {
+                    return parts[embedIdx + 1];
+                }
+            } catch (e) { 
+                return ''; 
+            }
+            return '';
+        }
+        
+        // Add new section
+        function addFields() {
+            sectionCount++;
+            let container = document.getElementById("repeatable-fields");
+            
+            let div = document.createElement("div");
+            div.className = "section-container mb-4";
+            div.innerHTML = `
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="text-xl font-semibold">Section ${sectionCount}</h3>
+                    <button type="button" onclick="removeSection(this)" class="text-red-500 hover:text-red-700">
+                        <i class="fas fa-times"></i> Remove Section
+                    </button>
+                </div>
+                <input type="hidden" name="existing_images[${sectionCount - 1}]" value="">
+                <input type="text" name="subtitle[]" placeholder="Subtitle" class="w-full p-2 border rounded mb-2">
+                <textarea name="content[]" placeholder="Content" class="w-full p-2 border rounded mb-2"></textarea>
+                <div class="image-upload-section mb-4">
+                    <label class="block text-lg font-semibold mb-2">Media (Images or short videos)</label>
+                    <div class="flex flex-wrap gap-2 mb-2" id="section-images-${sectionCount - 1}"></div>
+                    <input type="file" name="image[${sectionCount - 1}][]" 
+                           accept="image/*,video/*" multiple 
+                           class="w-full p-2 border rounded"
+                           onchange="previewNewImages(this, ${sectionCount - 1})">
+                    <!-- Add media by URL -->
+                    <div class="mt-2 flex gap-2">
+                        <input type="url" placeholder="Paste image or video URL" class="w-full p-2 border rounded" id="media-url-input-${sectionCount - 1}">
+                        <button type="button" class="bg-blue-500 text-white px-3 py-2 rounded" onclick="addMediaUrl(${sectionCount - 1})">Add URL</button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+        
+        // Remove section
+        function removeSection(button) {
+            const sections = document.querySelectorAll('.section-container');
+            if (sections.length > 1) {
+                const sectionToRemove = button.closest('.section-container');
+                sectionToRemove.remove();
                 
-                // Remove section
-                function removeSection(button) {
-                    const sections = document.querySelectorAll('.section-container');
-                    if (sections.length > 1) {
-                        const sectionToRemove = button.closest('.section-container');
-                        sectionToRemove.remove();
-                        
-                        // Reindex remaining sections
-                        const remainingSections = document.querySelectorAll('.section-container');
-                        remainingSections.forEach((section, index) => {
-                            // Update the file input name
-                            const fileInput = section.querySelector('input[type="file"]');
-                            if (fileInput) {
-                                fileInput.name = `image[${index}][]`;
-                                fileInput.setAttribute('onchange', `previewNewImages(this, ${index})`);
-                            }
-                            
-                            // Update the existing images input name
-                            const existingImagesInput = section.querySelector('input[name^="existing_images"]');
-                            if (existingImagesInput) {
-                                existingImagesInput.name = `existing_images[${index}]`;
-                            }
-                            
-                            // Update the images container ID
-                            const imagesContainer = section.querySelector('div[id^="section-images-"]');
-                            if (imagesContainer) {
-                                imagesContainer.id = `section-images-${index}`;
-                            }
-                            
-                            // Update the section title
-                            const sectionTitle = section.querySelector('h3');
-                            if (sectionTitle) {
-                                sectionTitle.textContent = `Section ${index + 1}`;
-                            }
-                        });
-                        
-                        sectionCount = remainingSections.length;
-                    } else {
-                        alert("You must have at least one section.");
+                // Reindex remaining sections
+                const remainingSections = document.querySelectorAll('.section-container');
+                remainingSections.forEach((section, index) => {
+                    // Update the file input name
+                    const fileInput = section.querySelector('input[type="file"]');
+                    if (fileInput) {
+                        fileInput.name = `image[${index}][]`;
+                        fileInput.setAttribute('onchange', `previewNewImages(this, ${index})`);
                     }
-                }
-                
-                // Remove individual image
-                function removeImage(button, imagePath, sectionIndex) {
-                    if (confirm('Remove this image?')) {
-                        // Create hidden input to track removed images
-                        const removedInput = document.createElement('input');
-                        removedInput.type = 'hidden';
-                        removedInput.name = `removed_images[${sectionIndex}][]`;
-                        removedInput.value = imagePath;
-                        document.querySelector('form').appendChild(removedInput);
-                        
-                        // Remove the image element
-                        button.closest('.image-thumbnail').remove();
-                    }
-                }
-                
-                // Remove main image
-                function removeMainImage() {
-                    if (confirm('Remove the main image?')) {
-                        document.getElementById('remove_main_image').value = '1';
-                        const preview = document.querySelector('.image-preview');
-                        preview.innerHTML = '<div class="image-preview-placeholder"><i class="fas fa-image"></i></div>';
-                        document.getElementById('main_image').value = '';
-                    }
-                }
-                
-                // Preview newly added images before upload
-                function previewNewImages(input, sectionIndex) {
-                    const container = document.getElementById(`section-images-${sectionIndex}`) || 
-                                     document.createElement('div');
-                    container.className = 'flex flex-wrap gap-2 mb-2';
                     
-                    if (!container.id) {
-                        container.id = `section-images-${sectionIndex}`;
-                        input.parentElement.insertBefore(container, input);
+                    // Update the existing images input name
+                    const existingImagesInput = section.querySelector('input[name^="existing_images"]');
+                    if (existingImagesInput) {
+                        existingImagesInput.name = `existing_images[${index}]`;
                     }
-
-                    Array.from(input.files).forEach(file => {
-                        const url = URL.createObjectURL(file);
-                        const wrap = document.createElement('div');
-                        wrap.className = 'image-thumbnail relative';
-                        if (file.type.startsWith('video/')) {
-                            wrap.innerHTML = `
-                                <video src="${url}" class="h-24 object-cover" controls muted playsinline></video>
-                                <button type="button" onclick="this.parentElement.remove()" 
-                                        class="remove-image-btn opacity-0">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            `;
-                        } else {
-                            wrap.innerHTML = `
-                                <img src="${url}" class="h-24 object-cover">
-                                <button type="button" onclick="this.parentElement.remove()" 
-                                        class="remove-image-btn opacity-0">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            `;
-                        }
-                        container.appendChild(wrap);
-                    });
-                }
-
-                // Validate media URL (basic)
-                function isValidMediaUrl(url) {
-                    try { new URL(url); } catch (e) { return false; }
-                    const u = new URL(url);
-                    const path = u.pathname.toLowerCase();
-                    const host = u.hostname.toLowerCase();
-                    const exts = ['jpg','jpeg','png','gif','webp','avif','svg','mp4','webm','ogg','mov'];
-                    const isExt = exts.some(ext => path.endsWith('.' + ext));
-                    const isYouTube = host.includes('youtube.com') || host.includes('youtu.be') || host.includes('youtube-nocookie.com');
-                    return isExt || isYouTube;
-                }
-
-                // Add media by URL to a section (image or video)
-                function addMediaUrl(sectionIndex) {
-                    const input = document.getElementById(`media-url-input-${sectionIndex}`);
-                    if (!input) return;
-                    const url = (input.value || '').trim();
-                    if (!url) return;
-                    if (!isValidMediaUrl(url)) {
-                        alert('Please paste a direct URL to an image or a short video (mp4/webm/ogg/mov).');
-                        return;
+                    
+                    // Update the images container ID
+                    const imagesContainer = section.querySelector('div[id^="section-images-"]');
+                    if (imagesContainer) {
+                        imagesContainer.id = `section-images-${index}`;
                     }
-
-                    // create container if missing
-                    let container = document.getElementById(`section-images-${sectionIndex}`);
-                    if (!container) {
-                        container = document.createElement('div');
-                        container.id = `section-images-${sectionIndex}`;
-                        container.className = 'flex flex-wrap gap-2 mb-2';
-                        const parent = input.parentElement.parentElement; // image-upload-section
-                        parent.insertBefore(container, parent.querySelector('input[type="file"]'));
+                    
+                    // Update the media URL input ID
+                    const mediaUrlInput = section.querySelector('input[id^="media-url-input-"]');
+                    if (mediaUrlInput) {
+                        mediaUrlInput.id = `media-url-input-${index}`;
+                        const button = mediaUrlInput.nextElementSibling;
+                        if (button) {
+                            button.setAttribute('onclick', `addMediaUrl(${index})`);
+                        }
                     }
-
-                    const wrap = document.createElement('div');
-                    wrap.className = 'image-thumbnail relative';
-
-                    const u = new URL(url);
-                    const host = u.hostname.toLowerCase();
-                    const isYouTube = host.includes('youtube.com') || host.includes('youtu.be') || host.includes('youtube-nocookie.com');
-                    const isVideo = /(\.mp4|\.webm|\.ogg|\.mov)(\?|#|$)/i.test(url);
-                    if (isYouTube) {
-                        const vid = extractYouTubeId(url);
-                        const embed = vid ? `https://www.youtube-nocookie.com/embed/${vid}` : '';
-                        wrap.innerHTML = `
-                            <iframe src="${embed}" class="h-24 w-40 object-cover" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-                            <button type="button" onclick="this.parentElement.remove()" class="remove-image-btn opacity-0">
-                                <i class=\"fas fa-times\"></i>
-                            </button>
-                            <input type="hidden" name="media_urls[${sectionIndex}][]" value="${url}">
-                        `;
-                    } else if (isVideo) {
-                        wrap.innerHTML = `
-                            <video src="${url}" class="h-24 object-cover" controls muted playsinline></video>
-                            <button type="button" onclick="this.parentElement.remove()" class="remove-image-btn opacity-0">
-                                <i class=\"fas fa-times\"></i>
-                            </button>
-                            <input type="hidden" name="media_urls[${sectionIndex}][]" value="${url}">
-                        `;
-                    } else {
-                        wrap.innerHTML = `
-                            <img src="${url}" class="h-24 object-cover">
-                            <button type="button" onclick="this.parentElement.remove()" class="remove-image-btn opacity-0">
-                                <i class=\"fas fa-times\"></i>
-                            </button>
-                            <input type="hidden" name="media_urls[${sectionIndex}][]" value="${url}">
-                        `;
-                    }
-                    container.appendChild(wrap);
-                    input.value = '';
-                }
-
-                // Extract YouTube video ID from various URL formats
-                function extractYouTubeId(url) {
-                    try {
-                        const u = new URL(url);
-                        if (u.hostname.includes('youtu.be')) {
-                            return u.pathname.split('/')[1] || '';
-                        }
-                        if (u.searchParams.get('v')) {
-                            return u.searchParams.get('v');
-                        }
-                        // Shorts format: /shorts/{id}
-                        const parts = u.pathname.split('/').filter(Boolean);
-                        const shortsIdx = parts.indexOf('shorts');
-                        if (shortsIdx !== -1 && parts[shortsIdx + 1]) {
-                            return parts[shortsIdx + 1];
-                        }
-                        // Embed format: /embed/{id}
-                        const embedIdx = parts.indexOf('embed');
-                        if (embedIdx !== -1 && parts[embedIdx + 1]) {
-                            return parts[embedIdx + 1];
-                        }
-                    } catch (e) { return ''; }
-                    return '';
-                }
-                
-                // Preview main image when selected
-                document.getElementById('main_image').addEventListener('change', function(e) {
-                    const file = e.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function(event) {
-                            const preview = document.querySelector('.image-preview');
-                            preview.innerHTML = `
-                                <img src="${event.target.result}" alt="Preview">
-                                <button type="button" onclick="removeMainImage()"
-                                        class="remove-image-btn">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            `;
-                            // Reset remove flag if new image is selected
-                            const rm = document.getElementById('remove_main_image');
-                            if (rm) { rm.value = '0'; }
-                        };
-                        reader.readAsDataURL(file);
+                    
+                    // Update the section title
+                    const sectionTitle = section.querySelector('h3');
+                    if (sectionTitle) {
+                        sectionTitle.textContent = `Section ${index + 1}`;
                     }
                 });
-            </script>
-        </body>
-        </html>
+                
+                sectionCount = remainingSections.length;
+            } else {
+                alert("You must have at least one section.");
+            }
+        }
+        
+        // Remove individual image
+        function removeImage(button, imagePath, sectionIndex) {
+            if (confirm('Remove this image?')) {
+                // Create hidden input to track removed images
+                const removedInput = document.createElement('input');
+                removedInput.type = 'hidden';
+                removedInput.name = `removed_images[${sectionIndex}][]`;
+                removedInput.value = imagePath;
+                removedInput.className = 'hidden-removed-image';
+                document.querySelector('form').appendChild(removedInput);
+                
+                // Remove the image element
+                button.closest('.image-thumbnail').remove();
+            }
+        }
+        
+        // Remove main image
+        function removeMainImage() {
+            if (confirm('Remove the main image?')) {
+                document.getElementById('remove_main_image').value = '1';
+                const preview = document.querySelector('.image-preview');
+                preview.innerHTML = '<div class="image-preview-placeholder"><i class="fas fa-image"></i></div>';
+                document.getElementById('main_image').value = '';
+            }
+        }
+        
+        // Preview newly added images before upload
+        function previewNewImages(input, sectionIndex) {
+            const container = document.getElementById(`section-images-${sectionIndex}`) || 
+                             document.createElement('div');
+            container.className = 'flex flex-wrap gap-2 mb-2';
+            
+            if (!container.id) {
+                container.id = `section-images-${sectionIndex}`;
+                input.parentElement.insertBefore(container, input);
+            }
+
+            Array.from(input.files).forEach(file => {
+                const url = URL.createObjectURL(file);
+                const wrap = document.createElement('div');
+                wrap.className = 'image-thumbnail relative';
+                if (file.type.startsWith('video/')) {
+                    wrap.innerHTML = `
+                        <video src="${url}" class="h-24 w-40 object-cover" controls muted playsinline></video>
+                        <button type="button" onclick="this.parentElement.remove()" 
+                                class="remove-image-btn opacity-0">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                } else {
+                    wrap.innerHTML = `
+                        <img src="${url}" class="h-24 w-40 object-cover">
+                        <button type="button" onclick="this.parentElement.remove()" 
+                                class="remove-image-btn opacity-0">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                }
+                container.appendChild(wrap);
+            });
+        }
+
+        // Validate media URL (basic)
+        function isValidMediaUrl(url) {
+            try { 
+                new URL(url); 
+            } catch (e) { 
+                return false; 
+            }
+            const u = new URL(url);
+            const path = u.pathname.toLowerCase();
+            const host = u.hostname.toLowerCase();
+            const exts = ['jpg','jpeg','png','gif','webp','avif','svg','mp4','webm','ogg','mov'];
+            const isExt = exts.some(ext => path.endsWith('.' + ext));
+            const isYouTube = host.includes('youtube.com') || host.includes('youtu.be') || host.includes('youtube-nocookie.com');
+            return isExt || isYouTube;
+        }
+
+        // Add media by URL to a section (image or video)
+        function addMediaUrl(sectionIndex) {
+            const input = document.getElementById(`media-url-input-${sectionIndex}`);
+            if (!input) return;
+            const url = (input.value || '').trim();
+            if (!url) return;
+            if (!isValidMediaUrl(url)) {
+                alert('Please paste a direct URL to an image or a short video (mp4/webm/ogg/mov) or a YouTube link.');
+                return;
+            }
+
+            // create container if missing
+            let container = document.getElementById(`section-images-${sectionIndex}`);
+            if (!container) {
+                container = document.createElement('div');
+                container.id = `section-images-${sectionIndex}`;
+                container.className = 'flex flex-wrap gap-2 mb-2';
+                const parent = input.parentElement.parentElement; // image-upload-section
+                parent.insertBefore(container, parent.querySelector('input[type="file"]'));
+            }
+
+            const wrap = document.createElement('div');
+            wrap.className = 'image-thumbnail relative';
+
+            const isYouTube = url.includes('youtube.com') || url.includes('youtu.be') || url.includes('youtube-nocookie.com');
+            const isVideo = /(\.mp4|\.webm|\.ogg|\.mov)(\?|#|$)/i.test(url);
+            
+            if (isYouTube) {
+                const vidId = extractYouTubeIdFromUrl(url);
+                if (vidId) {
+                    wrap.innerHTML = `
+                        <iframe src="https://www.youtube-nocookie.com/embed/${vidId}" 
+                                class="h-24 w-40 object-cover" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen loading="lazy"></iframe>
+                        <button type="button" onclick="this.parentElement.remove()" class="remove-image-btn opacity-0">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <input type="hidden" name="media_urls[${sectionIndex}][]" value="${url}">
+                    `;
+                } else {
+                    alert('Invalid YouTube URL');
+                    return;
+                }
+            } else if (isVideo) {
+                wrap.innerHTML = `
+                    <video src="${url}" class="h-24 w-40 object-cover" controls muted playsinline></video>
+                    <button type="button" onclick="this.parentElement.remove()" class="remove-image-btn opacity-0">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <input type="hidden" name="media_urls[${sectionIndex}][]" value="${url}">
+                `;
+            } else {
+                wrap.innerHTML = `
+                    <img src="${url}" class="h-24 w-40 object-cover">
+                    <button type="button" onclick="this.parentElement.remove()" class="remove-image-btn opacity-0">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <input type="hidden" name="media_urls[${sectionIndex}][]" value="${url}">
+                `;
+            }
+            container.appendChild(wrap);
+            input.value = '';
+        }
+                
+        // Preview main image when selected
+        const mainImageInput = document.getElementById('main_image');
+        if (mainImageInput) {
+            mainImageInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const preview = document.querySelector('.image-preview');
+                        preview.innerHTML = `
+                            <img src="${event.target.result}" alt="Preview">
+                            <button type="button" onclick="removeMainImage()"
+                                    class="remove-image-btn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        `;
+                        // Reset remove flag if new image is selected
+                        const rm = document.getElementById('remove_main_image');
+                        if (rm) { rm.value = '0'; }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
