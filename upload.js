@@ -26,9 +26,24 @@ function initSectionRemoveHandler() {
     const container = document.getElementById('repeatable-fields');
     if (!container) return;
 
+    // Direct listeners for all existing remove buttons (robust even if delegation fails)
+    const buttons = container.querySelectorAll('.remove-section-btn');
+    buttons.forEach(btn => {
+        if (!btn.__hasRemoveSectionListener) {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                console.log('Remove Section button clicked (direct listener)');
+                removeSection(btn);
+            });
+            btn.__hasRemoveSectionListener = true;
+        }
+    });
+
+    // Delegated handler for any buttons added later (via addFields)
     container.addEventListener('click', function (e) {
         const btn = e.target.closest('.remove-section-btn');
         if (btn && container.contains(btn)) {
+            console.log('Remove Section button clicked (delegated handler)');
             removeSection(btn);
         }
     });
