@@ -33,7 +33,7 @@ class Auth {
             if ($adminCount === 0) {
                 // Create a default admin account only once
                 $defaultUsername = 'admin';
-                $defaultEmail = 'admin@1000hillsrugby.rw';
+                $defaultEmail = 'gasore@1000hillsrugby.rw';
                 $defaultPasswordHash = password_hash('Back123!!', PASSWORD_DEFAULT);
 
                 $insert = $this->db->prepare("INSERT INTO users (username, email, password_hash, role) VALUES (?, ?, ?, 'admin')");
