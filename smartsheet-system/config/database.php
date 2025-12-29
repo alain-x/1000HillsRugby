@@ -1,9 +1,9 @@
 <?php
 class Database {
     private $host = 'localhost';
-    private $db_name = 'hillsrug_form_management_system';
-    private $username = 'hillsrug_hillsrug';
-    private $password = 'M00dle!!';
+    private $db_name = 'hillsrug_db';
+    private $username = 'hillsrug_gasore';
+    private $password = 'M00dle??';
     private $conn;
 
     public function connect() {
