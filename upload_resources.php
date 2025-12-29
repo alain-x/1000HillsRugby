@@ -1,5 +1,11 @@
 
 <?php
+session_start();
+if (empty($_SESSION['is_admin'])) {
+    header('Location: Controll_admin.php?redirect=upload_resources.php');
+    exit;
+}
+
 // Ensure UTF-8 output
 header('Content-Type: text/html; charset=utf-8');
 
