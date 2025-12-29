@@ -389,7 +389,7 @@ if ($result && $result->num_rows > 0) {
           <p class="uppercase tracking-[0.18em] text-[0.65rem] md:text-[0.7rem] text-emerald-100 mb-1">Club Library</p>
           <h1 class="text-xl md:text-2xl lg:text-3xl font-extrabold text-white flex items-center gap-3">
             <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/10">
-              <i class="fas fa-folder-open"></i>
+              <i class="fa-solid fa-folder-open text-lg"></i>
             </span>
             <span>Resources & Reports</span>
           </h1>
