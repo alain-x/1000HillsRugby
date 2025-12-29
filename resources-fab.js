@@ -15,8 +15,10 @@ document.addEventListener('DOMContentLoaded', function () {
   fab.style.display = 'inline-flex';
   fab.style.alignItems = 'center';
   fab.style.justifyContent = 'center';
-  fab.style.width = '54px';
-  fab.style.height = '54px';
+  // Make it a pill/rounded-rectangle instead of a perfect circle
+  fab.style.padding = '0 16px';
+  fab.style.minWidth = '120px';
+  fab.style.height = '46px';
   fab.style.borderRadius = '9999px';
   fab.style.background = 'linear-gradient(135deg, #006838, #0b8748, #dcbb26)';
   fab.style.boxShadow = '0 10px 18px rgba(0,0,0,0.25)';
@@ -44,18 +46,6 @@ document.addEventListener('DOMContentLoaded', function () {
   var label = document.createElement('span');
   label.textContent = 'Resources';
   fab.appendChild(label);
-
-  // Optional small badge icon
-  var dot = document.createElement('span');
-  dot.style.position = 'absolute';
-  dot.style.top = '8px';
-  dot.style.right = '8px';
-  dot.style.width = '7px';
-  dot.style.height = '7px';
-  dot.style.borderRadius = '9999px';
-  dot.style.backgroundColor = '#ffffff';
-  dot.style.opacity = '0.9';
-  fab.appendChild(dot);
 
   document.body.appendChild(fab);
 });
