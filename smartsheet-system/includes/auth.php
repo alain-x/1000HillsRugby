@@ -8,6 +8,41 @@ class Auth {
         $database = new Database();
         $this->db = $database->connect();
         session_start();
+
+        // Ensure the users table and at least one admin user exist
+        $this->initializeSchema();
+    }
+
+    private function initializeSchema() {
+        try {
+            // Create users table if it does not exist yet
+            $this->db->exec("CREATE TABLE IF NOT EXISTS users (
+                id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                username VARCHAR(100) NOT NULL UNIQUE,
+                email VARCHAR(191) NOT NULL UNIQUE,
+                password_hash VARCHAR(255) NOT NULL,
+                role VARCHAR(50) NOT NULL DEFAULT 'user',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+            // Check if there is already any admin user
+            $stmt = $this->db->query("SELECT COUNT(*) AS cnt FROM users WHERE role = 'admin'");
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $adminCount = isset($row['cnt']) ? (int)$row['cnt'] : 0;
+
+            if ($adminCount === 0) {
+                // Create a default admin account only once
+                $defaultUsername = 'admin';
+                $defaultEmail = 'admin@1000hillsrugby.rw';
+                $defaultPasswordHash = password_hash('Back123!!', PASSWORD_DEFAULT);
+
+                $insert = $this->db->prepare("INSERT INTO users (username, email, password_hash, role) VALUES (?, ?, ?, 'admin')");
+                $insert->execute([$defaultUsername, $defaultEmail, $defaultPasswordHash]);
+            }
+        } catch (Exception $e) {
+            // In production you might log this instead of echoing
+            // For safety, do not break the whole app if this fails
+        }
     }
     
     public function register($username, $email, $password, $role = 'user') {
