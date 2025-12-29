@@ -47,15 +47,17 @@ class Auth {
         }
     }
     
-    public function login($username, $password) {
-        $stmt = $this->db->prepare("SELECT * FROM users WHERE username = ?");
-        $stmt->execute([$username]);
+    public function login($identifier, $password) {
+        // Allow login using either username or email
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE username = ? OR email = ?");
+        $stmt->execute([$identifier, $identifier]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         
         if ($user && password_verify($password, $user['password_hash'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_role'] = $user['role'];
             $_SESSION['username'] = $user['username'];
+            $_SESSION['user_email'] = $user['email'];
             return ['success' => true];
         }
         return ['success' => false, 'message' => 'Invalid username or password'];
