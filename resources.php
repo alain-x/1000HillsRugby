@@ -464,13 +464,10 @@ if ($result && $result->num_rows > 0) {
             <?php foreach ($resources as $res): ?>
               <article class="group relative bg-white rounded-lg shadow-sm hover:shadow-md border border-gray-100 hover:border-[#dcbb26]/60 transition-all duration-200 flex flex-col">
                 <div class="p-3 sm:p-4 flex-1 flex flex-col">
-                  <div class="flex items-start justify-between gap-3 mb-2">
+                  <div class="mb-2">
                     <h2 class="font-semibold text-sm md:text-base text-gray-900 leading-snug">
                       <?php echo htmlspecialchars($res['title']); ?>
                     </h2>
-                    <div class="shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-emerald-50 text-emerald-700 group-hover:bg-emerald-100">
-                      <i class="fas fa-file-alt text-xs"></i>
-                    </div>
                   </div>
 
                   <div class="flex flex-wrap items-center gap-1.5 text-[0.65rem] md:text-[0.7rem] text-gray-500 mb-2">
