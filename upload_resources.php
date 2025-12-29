@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 if (empty($_SESSION['is_admin'])) {
@@ -103,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         $originalName = basename($_FILES['pdf']['name']);
         $extension    = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
 
-        // Allow common document formats
+        // Allow common document format
         $allowedExtensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx'];
 
         if (!in_array($extension, $allowedExtensions, true)) {
