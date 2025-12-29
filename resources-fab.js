@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var fab = document.createElement('a');
   fab.id = 'resources-fab-button';
-  fab.href = 'resources.php';
+  fab.href = 'resources';
   fab.setAttribute('aria-label', 'Club resources');
 
   // Basic styles (no Tailwind dependency)

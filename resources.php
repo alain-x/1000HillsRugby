@@ -8,7 +8,7 @@ $conn = new mysqli("localhost", "hillsrug_gasore", "M00dle??", "hillsrug_db", 33
 if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
 $conn->set_charset('utf8mb4');
 
-// Ensure resources table exists (in case upload_resources.php has not been run yet)
+// Ensure resources table exists (in case upload_resources has not been run yet)
 $createTableSql = "CREATE TABLE IF NOT EXISTS resources (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -414,7 +414,7 @@ if ($result && $result->num_rows > 0) {
       <!-- Content area -->
       <div class="px-4 sm:px-6 md:px-8 py-5 md:py-6 bg-gray-50/80">
         <!-- Filters -->
-        <form method="GET" action="resources.php" class="mb-6 bg-white/80 border border-gray-200 rounded-xl px-4 sm:px-5 py-4 flex flex-col md:flex-row gap-4 md:items-end md:justify-between">
+        <form method="GET" action="resources" class="mb-6 bg-white/80 border border-gray-200 rounded-xl px-4 sm:px-5 py-4 flex flex-col md:flex-row gap-4 md:items-end md:justify-between">
           <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-semibold text-gray-600 tracking-wide mb-1">Year</label>
@@ -445,7 +445,7 @@ if ($result && $result->num_rows > 0) {
               <span>Apply filters</span>
             </button>
             <?php if ($filterYear !== null || $filterCategory !== ''): ?>
-              <a href="resources.php" class="text-xs text-gray-500 hover:text-gray-700 underline">Clear</a>
+              <a href="resources" class="text-xs text-gray-500 hover:text-gray-700 underline">Clear</a>
             <?php endif; ?>
           </div>
         </form>

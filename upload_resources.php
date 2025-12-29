@@ -187,7 +187,7 @@ if ($result && $result->num_rows > 0) {
 
         <p class="mb-6 text-gray-600">
             Upload official documents such as annual reports, policies, and other PDF resources.
-            These will be displayed on the public <code>resources.php</code> page for visitors to view and download.
+            These will be displayed on the public <code>resources</code> page for visitors to view and download.
         </p>
 
         <?php if ($message): ?>
