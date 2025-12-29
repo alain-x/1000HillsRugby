@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (empty($_SESSION['is_admin'])) {
+    header('Location: Controll_admin.php?redirect=upload.php');
+    exit;
+}
+ 
 // Ensure UTF-8 output
 header('Content-Type: text/html; charset=utf-8');
 // Set larger file size limits for handling 30 images of 31MB each

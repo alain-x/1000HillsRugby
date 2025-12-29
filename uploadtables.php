@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (empty($_SESSION['is_admin'])) {
+    header('Location: Controll_admin.php?redirect=uploadtables.php');
+    exit;
+}
+
 // Database configuration
 define('DB_HOST', 'localhost');
 define('DB_USER', 'hillsrug_hillsrug');

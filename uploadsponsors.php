@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (empty($_SESSION['is_admin'])) {
+    header('Location: Controll_admin.php?redirect=uploadsponsors.php');
+    exit;
+}
+
 $conn = new mysqli('localhost', 'root', '1234', '1000hills_rugby');
 
 if ($conn->connect_error) {

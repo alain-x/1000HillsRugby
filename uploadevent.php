@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (empty($_SESSION['is_admin'])) {
+    header('Location: Controll_admin.php?redirect=uploadevent.php');
+    exit;
+}
+
 // Database connection
 $conn = new mysqli('localhost', 'hillsrug_hillsrug', 'M00dle??', 'hillsrug_1000hills_rugby_db');
 if ($conn->connect_error) {
