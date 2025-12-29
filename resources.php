@@ -360,8 +360,8 @@ if ($result && $result->num_rows > 0) {
           </p>
         </div>
         <div class="flex items-center gap-3 text-sm text-gray-500">
-          <i class="fas fa-file-pdf text-red-500 text-xl"></i>
-          <span>All documents are provided in PDF format.</span>
+          <i class="fas fa-file-alt text-blue-500 text-xl"></i>
+          <span>Documents may be in PDF, Word, Excel, or PowerPoint format.</span>
         </div>
       </div>
 

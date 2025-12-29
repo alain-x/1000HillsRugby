@@ -97,8 +97,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         $originalName = basename($_FILES['pdf']['name']);
         $extension    = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
 
-        if ($extension !== 'pdf') {
-            $message      = 'Only PDF files are allowed.';
+        // Allow common document formats
+        $allowedExtensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx'];
+
+        if (!in_array($extension, $allowedExtensions, true)) {
+            $message      = 'Invalid file type. Allowed: PDF, Word, Excel, PowerPoint.';
             $messageClass = 'alert-error';
         } else {
             $safeName   = preg_replace('/[^A-Za-z0-9_\.-]/', '_', $originalName);
@@ -222,9 +225,9 @@ if ($result && $result->num_rows > 0) {
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium mb-1">PDF File *</label>
-                    <input type="file" name="pdf" accept="application/pdf" required class="w-full p-2 border rounded">
-                    <p class="text-xs text-gray-500 mt-1">Only PDF files are allowed. Max size ~20MB.</p>
+                    <label class="block text-sm font-medium mb-1">Document File *</label>
+                    <input type="file" name="pdf" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" required class="w-full p-2 border rounded">
+                    <p class="text-xs text-gray-500 mt-1">Allowed formats: PDF, Word (.doc, .docx), Excel (.xls, .xlsx), PowerPoint (.ppt, .pptx). Max size ~20MB.</p>
                 </div>
 
                 <div class="flex justify-end">

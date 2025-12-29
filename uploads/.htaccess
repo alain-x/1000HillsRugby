@@ -23,7 +23,7 @@ Options -ExecCGI
   
   # Allow only these specific subfolders (case-insensitive)
   # Block any other subfolder access with 404
-  RewriteCond %{REQUEST_URI} !^/uploads/(GMT|logos|NRC25|players|SAFEGUARDING%20TRAINING%20250524|team_logos)(/|$) [NC]
+  RewriteCond %{REQUEST_URI} !^/uploads/(GMT|logos|NRC25|players|SAFEGUARDING%20TRAINING%20250524|team_logos|resources)(/|$) [NC]
   RewriteRule .*/ - [R=404,L]
 </IfModule>
 
