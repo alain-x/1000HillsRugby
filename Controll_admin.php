@@ -175,6 +175,14 @@ $currentAdmin = $isAdmin ? ($_SESSION['admin_identifier'] ?? ($_SESSION['usernam
                             </div>
                             <p class="text-xs text-gray-500">Maintain standings and team information for competitions.</p>
                         </a>
+
+                        <a href="upload_resources.php" class="block bg-white rounded-xl shadow p-4 hover:shadow-md hover:-translate-y-0.5 transition">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="font-semibold text-sm text-gray-800">Resources & Documents</h3>
+                                <span class="text-green-600 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-50">upload_resources.php</span>
+                            </div>
+                            <p class="text-xs text-gray-500">Upload PDFs and learning resources for the community.</p>
+                        </a>
                     </div>
                 </div>
             <?php endif; ?>
