@@ -115,38 +115,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             $targetPath = $uploadDir . $uniqueName;
 
             if (move_uploaded_file($_FILES['pdf']['tmp_name'], $targetPath)) {
+                // Insert resource using a single prepared statement
                 $sql  = "INSERT INTO resources (title, description, category, year, file_path) VALUES (?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($sql);
+
                 if ($stmt) {
-                    // For year, use i or null binding
-                    if ($year === null) {
-                        $nullYear = null;
-                        $stmt->bind_param('sssis', $title, $description, $category, $nullYear, $targetPath);
-                    } else {
-                        $stmt->bind_param('sssIs', $title, $description, $category, $year, $targetPath);
-                    }
+                    // Bind all as strings; MySQL will cast year appropriately
+                    $yearStr = $year === null ? null : (string) $year;
+                    $stmt->bind_param('sssss', $title, $description, $category, $yearStr, $targetPath);
 
-                    // Simpler: always bind as string for year to avoid format mismatch
-                }
-
-                // Rebuild statement cleanly using string year to avoid driver issues
-                if (isset($stmt)) {
-                    $stmt->close();
-                }
-
-                $yearStr = $year === null ? null : (string) $year;
-                $sql2    = "INSERT INTO resources (title, description, category, year, file_path) VALUES (?, ?, ?, ?, ?)";
-                $stmt2   = $conn->prepare($sql2);
-                if ($stmt2) {
-                    $stmt2->bind_param('sssss', $title, $description, $category, $yearStr, $targetPath);
-                    if ($stmt2->execute()) {
+                    if ($stmt->execute()) {
                         $message      = 'Resource uploaded successfully.';
                         $messageClass = 'alert-success';
                     } else {
                         $message      = 'Failed to save resource in database: ' . $conn->error;
                         $messageClass = 'alert-error';
                     }
-                    $stmt2->close();
+                    $stmt->close();
                 } else {
                     $message      = 'Database error preparing statement: ' . $conn->error;
                     $messageClass = 'alert-error';
