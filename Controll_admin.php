@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$ADMIN_EMAIL = 'gasore@1000hillsrugby,rw';
+$ADMIN_EMAIL = 'gasore@1000hillsrugby.rw';
 $ADMIN_PASSWORD = 'Back123!!';
 
 if (isset($_GET['logout'])) {
