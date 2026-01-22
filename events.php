@@ -41,7 +41,25 @@ $conn->close();
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Our - Events</title>
+    <title>Our Events - 1000 Hills Rugby</title>
+    <meta
+      name="description"
+      content="Explore upcoming 1000 Hills Rugby events, fixtures, and training sessions at Don Bosco Gatenga and other venues."
+    />
+    <meta property="og:title" content="Our Events - 1000 Hills Rugby" />
+    <meta
+      property="og:description"
+      content="Stay updated with the latest 1000 Hills Rugby events, weekly schedules, and club highlights."
+    />
+    <meta
+      property="og:image"
+      content="https://www.1000hillsrugby.rw/images/1000-hills-logo.png"
+    />
+    <meta
+      property="og:url"
+      content="https://www.1000hillsrugby.rw/events"
+    />
+    <meta property="og:type" content="website" />
     <link rel="icon" href="./images/t_icon.png" type="image/png" />
     <link rel="stylesheet" href="./style.css" />
     <script src="https://cdn.tailwindcss.com"></script>
