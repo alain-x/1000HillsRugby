@@ -50,7 +50,7 @@ function startCountdown(eventDate) {
     }
   }, 1000);
 }
-startCountdown(new Date("Feb 15, 2026 14:00:00").getTime());
+startCountdown(new Date("Feb 14, 2026 15:00:00").getTime());
 //********************* *
 //***************** *
 
