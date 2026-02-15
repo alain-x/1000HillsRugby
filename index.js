@@ -127,34 +127,34 @@ function toggleDropdown(menuId) {
 // Match Data******************************************************************************************
 const matches = [
   {
-    date: { day: "18", month: "Jan" },
+    date: { day: "14", month: "Feb" },
     
     team2: {
       name: "1000 Hills Rugby",
       logo: "./logos_/logoT.jpg",
-      score: "46",
+      score: "20",
     },
     team1: {
-      name: "Kigali Sharks",
-      logo: "./logos_/sharks.jpg",
-      score: "03",
+      name: "Lions De Fer",
+      logo: "./logos_/lions.jpg",
+      score: "15",
     },
-    tournamentInfo: "Rwanda National Leaguel 15s Men",
+    tournamentInfo: "Rwanda National Leaguel 15s Men - Final ",
   },
   {
-    date: { day: "17", month: "Jan" },
+    date: { day: "14", month: "Feb" },
     
     team2: {
       name: "1000 Hills Rugby Queens",
       logo: "./logos_/logoT.jpg",
-      score: "28",
+      score: "41",
     },
     team1: {
-      name: "Burera Tigers RFC",
+      name: "Ruhango Zebras WRFC",
       logo: "",
-      score: "00",
+      score: "18",
     },
-    tournamentInfo: "Rwanda National Leaguel 15s women",
+    tournamentInfo: "Rwanda National Leaguel 15s women - Final",
   }
 ];
 
