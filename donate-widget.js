@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
       individual: [
         {
           id: 'flutterwave',
-          title: 'Card / Mobile Money (Flutterwave)',
+          title: 'Card / Mobile Money',
           description: 'Pay securely using card or mobile money.',
           type: 'link',
           href: './checkouts.html'
