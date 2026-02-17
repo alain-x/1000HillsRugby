@@ -25,8 +25,8 @@ document.addEventListener('DOMContentLoaded', function () {
             '<div style="display:grid;gap:10px">' +
             '<div style="display:grid;grid-template-columns:140px 1fr;gap:8px">' +
             '<div style="color:#6b7280">Account name</div><div style="font-weight:600">1000 Hills Rugby</div>' +
-            '<div style="color:#6b7280">Bank</div><div style="font-weight:600">(Add bank name)</div>' +
-            '<div style="color:#6b7280">Account number</div><div style="font-weight:600">(Add account number)</div>' +
+            '<div style="color:#6b7280">Bank</div><div style="font-weight:600"> </div>' +
+            '<div style="color:#6b7280">Account number</div><div style="font-weight:600">  </div>' +
             '<div style="color:#6b7280">Reference</div><div style="font-weight:600">Donation</div>' +
             '</div>' +
             '<div style="font-size:12px;color:#6b7280">After paying, you can email proof to <strong>info@1000hillsrugby.rw</strong>.</div>' +
@@ -57,8 +57,8 @@ document.addEventListener('DOMContentLoaded', function () {
             '<div style="display:grid;gap:10px">' +
             '<div style="display:grid;grid-template-columns:140px 1fr;gap:8px">' +
             '<div style="color:#6b7280">Account name</div><div style="font-weight:600">1000 Hills Rugby</div>' +
-            '<div style="color:#6b7280">Bank</div><div style="font-weight:600">(Add bank name)</div>' +
-            '<div style="color:#6b7280">Account number</div><div style="font-weight:600">(Add account number)</div>' +
+            '<div style="color:#6b7280">Bank</div><div style="font-weight:600">      </div>' +
+            '<div style="color:#6b7280">Account number</div><div style="font-weight:600">      </div>' +
             '<div style="color:#6b7280">Reference</div><div style="font-weight:600">Corporate donation</div>' +
             '</div>' +
             '</div>'
