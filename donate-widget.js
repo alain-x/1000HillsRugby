@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
             '<div style="display:grid;gap:12px">' +
             '<div style="display:grid;gap:8px">' +
             '<div style="font-weight:900;color:#111827">USD - Rwanda Account</div>' +
-            '<div style="display:grid;grid-template-columns:140px 1fr;gap:8px">' +
+            '<div class="donate-kv-grid">' +
             '<div style="color:#6b7280">Account name</div><div style="font-weight:600">Thousand Hills Rugby Football Club</div>' +
             '<div style="color:#6b7280">Account number</div><div style="font-weight:600">100011747258</div>' +
             '<div style="color:#6b7280">Bank name</div><div style="font-weight:600">Bank of Kigali, Rwanda</div>' +
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
             '<div style="height:1px;background:#eef2f7"></div>' +
             '<div style="display:grid;gap:8px">' +
             '<div style="font-weight:900;color:#111827">RWF - Rwanda Account</div>' +
-            '<div style="display:grid;grid-template-columns:140px 1fr;gap:8px">' +
+            '<div class="donate-kv-grid">' +
             '<div style="color:#6b7280">Account name</div><div style="font-weight:600">Thousand Hills Rugby Football Club</div>' +
             '<div style="color:#6b7280">Account number</div><div style="font-weight:600">100011747177</div>' +
             '<div style="color:#6b7280">Bank name</div><div style="font-weight:600">Bank of Kigali, Rwanda</div>' +
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
             '<div style="display:grid;gap:12px">' +
             '<div style="display:grid;gap:8px">' +
             '<div style="font-weight:900;color:#111827">USD - Rwanda Account</div>' +
-            '<div style="display:grid;grid-template-columns:140px 1fr;gap:8px">' +
+            '<div class="donate-kv-grid">' +
             '<div style="color:#6b7280">Account name</div><div style="font-weight:600">Thousand Hills Rugby Football Club</div>' +
             '<div style="color:#6b7280">Account number</div><div style="font-weight:600">100011747258</div>' +
             '<div style="color:#6b7280">Bank name</div><div style="font-weight:600">Bank of Kigali, Rwanda</div>' +
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
             '<div style="height:1px;background:#eef2f7"></div>' +
             '<div style="display:grid;gap:8px">' +
             '<div style="font-weight:900;color:#111827">RWF - Rwanda Account</div>' +
-            '<div style="display:grid;grid-template-columns:140px 1fr;gap:8px">' +
+            '<div class="donate-kv-grid">' +
             '<div style="color:#6b7280">Account name</div><div style="font-weight:600">Thousand Hills Rugby Football Club</div>' +
             '<div style="color:#6b7280">Account number</div><div style="font-weight:600">100011747177</div>' +
             '<div style="color:#6b7280">Bank name</div><div style="font-weight:600">Bank of Kigali, Rwanda</div>' +
@@ -120,13 +120,16 @@ document.addEventListener('DOMContentLoaded', function () {
       '#donate-fab-button:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 14px 22px rgba(0,0,0,.32)}' +
       '#donate-fab-icon{width:18px;height:18px;display:inline-block}' +
       '#donate-modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.62);backdrop-filter:blur(3px);z-index:10000;display:none;align-items:center;justify-content:center;padding:18px}' +
-      '#donate-modal{width:min(860px,100%);background:#fff;border-radius:16px;box-shadow:0 25px 60px rgba(0,0,0,.35);overflow:hidden}' +
-      '#donate-modal header{display:flex;align-items:center;justify-content:space-between;padding:18px 18px 12px 18px;border-bottom:1px solid #eef2f7}' +
+      '@media(max-width:520px){#donate-modal-backdrop{padding:12px}}' +
+      '#donate-modal{width:min(860px,100%);max-height:calc(100vh - 32px);background:#fff;border-radius:16px;box-shadow:0 25px 60px rgba(0,0,0,.35);overflow:hidden;display:flex;flex-direction:column}' +
+      '@media(max-width:520px){#donate-modal{max-height:calc(100vh - 24px);border-radius:14px}}' +
+      '#donate-modal header{display:flex;align-items:flex-start;justify-content:space-between;padding:18px 18px 12px 18px;border-bottom:1px solid #eef2f7;gap:14px}' +
       '#donate-modal-title{font-size:18px;font-weight:800;color:#111827}' +
       '#donate-modal-subtitle{font-size:13px;color:#6b7280;margin-top:2px}' +
       '#donate-modal-close{border:none;background:transparent;font-size:18px;line-height:1;cursor:pointer;color:#6b7280;padding:8px;border-radius:10px}' +
       '#donate-modal-close:hover{background:#f3f4f6;color:#111827}' +
-      '#donate-modal-body{padding:18px}' +
+      '#donate-modal-body{padding:18px;overflow:auto;-webkit-overflow-scrolling:touch}' +
+      '@media(max-width:520px){#donate-modal-body{padding:14px}}' +
       '.donate-step{display:none}' +
       '.donate-step[data-active="true"]{display:block}' +
       '.donate-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}' +
@@ -153,7 +156,9 @@ document.addEventListener('DOMContentLoaded', function () {
       '.donate-details{border:1px solid #e5e7eb;border-radius:14px;padding:14px;background:#fff}' +
       '.donate-details h3{margin:0 0 6px 0;font-size:14px;font-weight:900;color:#111827}' +
       '.donate-details .donate-details-body{font-size:13px;color:#111827;line-height:1.5}' +
-      '.donate-kicker{font-size:12px;color:#6b7280;margin:0 0 10px 0}';
+      '.donate-kicker{font-size:12px;color:#6b7280;margin:0 0 10px 0}' +
+      '.donate-kv-grid{display:grid;grid-template-columns:140px 1fr;gap:8px}' +
+      '@media(max-width:520px){.donate-kv-grid{grid-template-columns:1fr;gap:6px}.donate-kv-grid > div:nth-child(odd){font-size:12px}}';
 
     var style = document.createElement('style');
     style.id = 'donate-widget-styles';
