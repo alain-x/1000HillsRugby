@@ -124,8 +124,21 @@ body {
   width: 590px;
 }
 .slideshow-container {
-  transition: background-image 1s ease-in-out;
+  position: relative;
 }
+ .slideshow-bg {
+  pointer-events: none;
+  z-index: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  will-change: opacity;
+  opacity: 0;
+  transition: opacity 900ms ease-in-out;
+ }
+ .slideshow-bg.is-visible {
+  opacity: 1;
+ }
 .cycle-button {
   margin-bottom: 70px;
   cursor: pointer;

@@ -64,12 +64,44 @@ const slideshowImages = [
 ];
 let currentSlideshowIndex = 0; // Keep track of the current image index
 let slideshowInterval; // Store the interval reference
+let slideshowReady = false;
+let activeBgLayer = "a";
 
 // Function to change the background image
 function changeBackgroundImage() {
   const container = document.querySelector(".slideshow-container");
-  container.style.backgroundImage = `url(${slideshowImages[currentSlideshowIndex]})`;
+  if (!container) return;
+
+  const layerA = container.querySelector(".slideshow-bg-a");
+  const layerB = container.querySelector(".slideshow-bg-b");
+  if (!layerA || !layerB) return;
+
+  const nextUrl = slideshowImages[currentSlideshowIndex];
+  const incoming = activeBgLayer === "a" ? layerB : layerA;
+  const outgoing = activeBgLayer === "a" ? layerA : layerB;
+
+  incoming.style.backgroundImage = `url(${nextUrl})`;
+
+  requestAnimationFrame(() => {
+    outgoing.classList.remove("is-visible");
+    incoming.classList.add("is-visible");
+    activeBgLayer = activeBgLayer === "a" ? "b" : "a";
+  });
+
   updateCycleButtons();
+}
+
+function preloadSlideshowImages(urls) {
+  const preloadPromises = urls.map((url) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve({ url, ok: true });
+      img.onerror = () => resolve({ url, ok: false });
+      img.src = url;
+    });
+  });
+
+  return Promise.all(preloadPromises);
 }
 
 // Function to create cycle buttons dynamically
@@ -98,12 +130,11 @@ function updateCycleButtons() {
 
 // Function to start the slideshow
 function startSlideshow() {
-  changeBackgroundImage(); // Show the initial image
   slideshowInterval = setInterval(() => {
     currentSlideshowIndex =
       (currentSlideshowIndex + 1) % slideshowImages.length; // Cycle through images
     changeBackgroundImage();
-  }, 2000); // Change every 2 seconds
+  }, 6500); // Change every 6.5 seconds
 }
 
 // Function to reset the slideshow interval when user interacts
@@ -115,7 +146,23 @@ function resetSlideshowInterval() {
 // Initialize the slideshow when the page loads
 document.addEventListener("DOMContentLoaded", function () {
   createCycleButtons(); // Create navigation buttons
-  startSlideshow(); // Start automatic slideshow
+
+  const container = document.querySelector(".slideshow-container");
+  const layerA = container ? container.querySelector(".slideshow-bg-a") : null;
+  const layerB = container ? container.querySelector(".slideshow-bg-b") : null;
+
+  if (layerA) {
+    layerA.style.backgroundImage = `url(${slideshowImages[currentSlideshowIndex]})`;
+    layerA.classList.add("is-visible");
+  }
+  if (layerB) layerB.classList.remove("is-visible");
+  activeBgLayer = "a";
+  updateCycleButtons();
+
+  preloadSlideshowImages(slideshowImages).then(() => {
+    slideshowReady = true;
+    startSlideshow(); // Start automatic slideshow after preload
+  });
 });
 
 // Toggle Dropdown
