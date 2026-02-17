@@ -22,14 +22,29 @@ document.addEventListener('DOMContentLoaded', function () {
           description: 'Use your bank app to transfer directly.',
           type: 'details',
           detailsHtml:
-            '<div style="display:grid;gap:10px">' +
+            '<div style="display:grid;gap:12px">' +
+            '<div style="display:grid;gap:8px">' +
+            '<div style="font-weight:900;color:#111827">USD - Rwanda Account</div>' +
             '<div style="display:grid;grid-template-columns:140px 1fr;gap:8px">' +
-            '<div style="color:#6b7280">Account name</div><div style="font-weight:600">1000 Hills Rugby</div>' +
-            '<div style="color:#6b7280">Bank</div><div style="font-weight:600"> </div>' +
-            '<div style="color:#6b7280">Account number</div><div style="font-weight:600">  </div>' +
-            '<div style="color:#6b7280">Reference</div><div style="font-weight:600">Donation</div>' +
+            '<div style="color:#6b7280">Account name</div><div style="font-weight:600">Thousand Hills Rugby Football Club</div>' +
+            '<div style="color:#6b7280">Account number</div><div style="font-weight:600">100011747258</div>' +
+            '<div style="color:#6b7280">Bank name</div><div style="font-weight:600">Bank of Kigali, Rwanda</div>' +
+            '<div style="color:#6b7280">BIC/Swift</div><div style="font-weight:600">BKIGRWRW</div>' +
+            '<div style="color:#6b7280">Bank address</div><div style="font-weight:600">Bank of Kigali, Kimironko, Kigali, Rwanda</div>' +
             '</div>' +
-            '<div style="font-size:12px;color:#6b7280">After paying, you can email proof to <strong>info@1000hillsrugby.rw</strong>.</div>' +
+            '</div>' +
+            '<div style="height:1px;background:#eef2f7"></div>' +
+            '<div style="display:grid;gap:8px">' +
+            '<div style="font-weight:900;color:#111827">RWF - Rwanda Account</div>' +
+            '<div style="display:grid;grid-template-columns:140px 1fr;gap:8px">' +
+            '<div style="color:#6b7280">Account name</div><div style="font-weight:600">Thousand Hills Rugby Football Club</div>' +
+            '<div style="color:#6b7280">Account number</div><div style="font-weight:600">100011747177</div>' +
+            '<div style="color:#6b7280">Bank name</div><div style="font-weight:600">Bank of Kigali, Rwanda</div>' +
+            '<div style="color:#6b7280">BIC/Swift</div><div style="font-weight:600">BKIGRWRW</div>' +
+            '<div style="color:#6b7280">Bank address</div><div style="font-weight:600">Bank of Kigali, Kimironko, Kigali, Rwanda</div>' +
+            '</div>' +
+            '</div>' +
+            '<div style="font-size:12px;color:#6b7280">Reference: <strong>Donation</strong>. After paying, you can email proof to <strong>info@1000hillsrugby.rw</strong>.</div>' +
             '</div>'
         }
       ],
@@ -54,13 +69,29 @@ document.addEventListener('DOMContentLoaded', function () {
           description: 'Transfer from your company account.',
           type: 'details',
           detailsHtml:
-            '<div style="display:grid;gap:10px">' +
+            '<div style="display:grid;gap:12px">' +
+            '<div style="display:grid;gap:8px">' +
+            '<div style="font-weight:900;color:#111827">USD - Rwanda Account</div>' +
             '<div style="display:grid;grid-template-columns:140px 1fr;gap:8px">' +
-            '<div style="color:#6b7280">Account name</div><div style="font-weight:600">1000 Hills Rugby</div>' +
-            '<div style="color:#6b7280">Bank</div><div style="font-weight:600">      </div>' +
-            '<div style="color:#6b7280">Account number</div><div style="font-weight:600">      </div>' +
-            '<div style="color:#6b7280">Reference</div><div style="font-weight:600">Corporate donation</div>' +
+            '<div style="color:#6b7280">Account name</div><div style="font-weight:600">Thousand Hills Rugby Football Club</div>' +
+            '<div style="color:#6b7280">Account number</div><div style="font-weight:600">100011747258</div>' +
+            '<div style="color:#6b7280">Bank name</div><div style="font-weight:600">Bank of Kigali, Rwanda</div>' +
+            '<div style="color:#6b7280">BIC/Swift</div><div style="font-weight:600">BKIGRWRW</div>' +
+            '<div style="color:#6b7280">Bank address</div><div style="font-weight:600">Bank of Kigali, Kimironko, Kigali, Rwanda</div>' +
             '</div>' +
+            '</div>' +
+            '<div style="height:1px;background:#eef2f7"></div>' +
+            '<div style="display:grid;gap:8px">' +
+            '<div style="font-weight:900;color:#111827">RWF - Rwanda Account</div>' +
+            '<div style="display:grid;grid-template-columns:140px 1fr;gap:8px">' +
+            '<div style="color:#6b7280">Account name</div><div style="font-weight:600">Thousand Hills Rugby Football Club</div>' +
+            '<div style="color:#6b7280">Account number</div><div style="font-weight:600">100011747177</div>' +
+            '<div style="color:#6b7280">Bank name</div><div style="font-weight:600">Bank of Kigali, Rwanda</div>' +
+            '<div style="color:#6b7280">BIC/Swift</div><div style="font-weight:600">BKIGRWRW</div>' +
+            '<div style="color:#6b7280">Bank address</div><div style="font-weight:600">Bank of Kigali, Kimironko, Kigali, Rwanda</div>' +
+            '</div>' +
+            '</div>' +
+            '<div style="font-size:12px;color:#6b7280">Reference: <strong>Corporate donation</strong>.</div>' +
             '</div>'
         }
       ]
