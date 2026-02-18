@@ -460,96 +460,128 @@
 
           <!-- Contact Information Section -->
           <div class="flex flex-col mt-12">
-            <h2 class="text-2xl font-bold text-[#006838] mb-6">
-              <i class="fas fa-address-book mr-2"></i>Contact Our Staff
-            </h2>
+            <div class="flex flex-col gap-2">
+              <h2 class="text-2xl font-bold text-[#006838]">
+                <i class="fas fa-address-book mr-2"></i>Contact Our Staff
+              </h2>
+              <p class="text-sm text-gray-600 lg:w-[85%]">
+                Need help registering, joining a program, or finding the right team?
+                Reach out to the relevant staff member below.
+              </p>
+              <div class="flex flex-wrap gap-3 mt-2">
+                <a
+                  href="./staff"
+                  class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-[#006838] shadow-sm ring-1 ring-[#006838]/20 hover:bg-[#006838]/5 transition-colors"
+                >
+                  <i class="fas fa-users"></i>
+                  View all staff
+                </a>
+                <a
+                  href="./contact"
+                  class="inline-flex items-center gap-2 rounded-full bg-[#006838] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#00562c] transition-colors"
+                >
+                  <i class="fas fa-paper-plane"></i>
+                  Contact us
+                </a>
+              </div>
+            </div>
 
-            <!-- Adjusted to display three columns on medium screens and above -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <!-- President -->
-              <div
-                class="flex flex-col bg-white p-4 rounded-lg shadow-md items-center"
-              >
-                <img
-                  src="./images/serge.jpeg"
-                  alt="President"
-                  class="w-24 h-24 rounded-full border-2 border-[#006838] mb-4 object-cover"
-                />
-                <h3 class="font-semibold text-lg flex items-center mb-2">
-                  <i class="fas fa-user-tie mr-2 text-[#006838]"></i>President -
-                  Serge
-                </h3>
-                <p class="text-sm text-gray-600 mb-4">
-                  Serge has over 15 years of experience in coaching rugby and is
-                  dedicated to nurturing young talent. Feel free to contact him
-                  for any inquiries about our training programs.
-                </p>
-                <div class="flex items-center gap-4">
-                  <i class="fas fa-phone-alt text-[#006838]"></i>
-                  <p class="font-medium">+250 788 261 386</p>
-                </div>
-                <div class="flex items-center gap-4 mt-2">
-                  <i class="fas fa-envelope text-[#006838]"></i>
-                  <p class="font-medium"></p>
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+              <div class="bg-white rounded-xl shadow-md ring-1 ring-black/5 overflow-hidden">
+                <div class="p-5 flex items-start gap-4">
+                  <img
+                    src="./images/serge.jpeg"
+                    alt="Serge, President"
+                    class="w-16 h-16 rounded-full border-2 border-[#006838] object-cover flex-shrink-0"
+                  />
+                  <div class="min-w-0">
+                    <p class="text-xs font-semibold tracking-wide text-[#006838] uppercase">
+                      President
+                    </p>
+                    <h3 class="text-lg font-semibold text-gray-900 truncate">Serge</h3>
+                    <p class="text-sm text-gray-600 mt-2">
+                      For general inquiries and club leadership.
+                    </p>
+                    <div class="mt-4 flex flex-wrap gap-3">
+                      <a
+                        href="tel:+250788261386"
+                        class="inline-flex items-center gap-2 rounded-md bg-[#006838] px-3 py-2 text-sm font-semibold text-white hover:bg-[#00562c] transition-colors"
+                      >
+                        <i class="fas fa-phone-alt"></i>
+                        Call
+                      </a>
+                      <span class="inline-flex items-center gap-2 rounded-md bg-gray-50 px-3 py-2 text-sm font-medium text-gray-700 ring-1 ring-gray-200">
+                        <i class="fas fa-phone-alt text-[#006838]"></i>
+                        +250 788 261 386
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <!-- Head Coach -->
-              <div
-                class="flex flex-col bg-white p-4 rounded-lg shadow-md items-center"
-              >
-                <img
-                  src="./images/jimy.jpeg"
-                  alt="Head Coach"
-                  class="w-24 h-24 rounded-full border-2 border-[#006838] mb-4 object-cover"
-                />
-                <h3 class="font-semibold text-lg flex items-center mb-2">
-                  <i class="fas fa-user-tie mr-2 text-[#006838]"></i> Director
-                  of Rugby & Community Engagement
-                </h3>
-                <p class="text-sm text-gray-600 mb-4">
-                  Jimy Mugabo is a dynamic leader in sports and social
-                  development, using rugby to promote education and
-                  employability among Rwandan youth. As Director of Rugby at
-                  1000 Hills Rugby, he focuses on skill development, job
-                  readiness, and well-being.
-                </p>
-                <div class="flex items-center gap-4">
-                  <i class="fas fa-phone-alt text-[#006838]"></i>
-                  <p class="font-medium">+44 7797 749134</p>
-                </div>
-                <div class="flex items-center gap-4 mt-2">
-                  <i class="fas fa-envelope text-[#006838]"></i>
-                  <p class="font-medium"></p>
+              <div class="bg-white rounded-xl shadow-md ring-1 ring-black/5 overflow-hidden">
+                <div class="p-5 flex items-start gap-4">
+                  <img
+                    src="./images/jimy.jpeg"
+                    alt="Jimy Mugabo, Director of Rugby & Community Engagement"
+                    class="w-16 h-16 rounded-full border-2 border-[#006838] object-cover flex-shrink-0"
+                  />
+                  <div class="min-w-0">
+                    <p class="text-xs font-semibold tracking-wide text-[#006838] uppercase">
+                      Director of Rugby & Community Engagement
+                    </p>
+                    <h3 class="text-lg font-semibold text-gray-900 truncate">Jimy Mugabo</h3>
+                    <p class="text-sm text-gray-600 mt-2">
+                      For rugby programs, community engagement, and player pathways.
+                    </p>
+                    <div class="mt-4 flex flex-wrap gap-3">
+                      <a
+                        href="tel:+447797749134"
+                        class="inline-flex items-center gap-2 rounded-md bg-[#006838] px-3 py-2 text-sm font-semibold text-white hover:bg-[#00562c] transition-colors"
+                      >
+                        <i class="fas fa-phone-alt"></i>
+                        Call
+                      </a>
+                      <span class="inline-flex items-center gap-2 rounded-md bg-gray-50 px-3 py-2 text-sm font-medium text-gray-700 ring-1 ring-gray-200">
+                        <i class="fas fa-phone-alt text-[#006838]"></i>
+                        +44 7797 749134
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <!-- Head Coach U18 -->
-              <div
-                class="flex flex-col bg-white p-4 rounded-lg shadow-md items-center"
-              >
-                <img
-                  src="./images/jd.jpeg"
-                  alt="Head Coach U18"
-                  class="w-24 h-24 rounded-full border-2 border-[#006838] mb-4 object-cover"
-                />
-                <h3 class="font-semibold text-lg flex items-center mb-2">
-                  <i class="fas fa-user-tie mr-2 text-[#006838]"></i>Co-Founder
-                  & Vice President - NSENGIMANA JEAN D'AMOUR
-                </h3>
-                <p class="text-sm text-gray-600 mb-4">
-                  JD, is a founder of 1000 Hills Rugby and serves as its general
-                  manager and head coach. A Level 2 Rugby XV coach, he promotes
-                  young talent and the club’s core values of discipline and
-                  sportsmanship.
-                </p>
-                <div class="flex items-center gap-4">
-                  <i class="fas fa-phone-alt text-[#006838]"></i>
-                  <p class="font-medium">+250 782 260 697</p>
-                </div>
-                <div class="flex items-center gap-4 mt-2">
-                  <i class="fas fa-envelope text-[#006838]"></i>
-                  <p class="font-medium"></p>
+              <div class="bg-white rounded-xl shadow-md ring-1 ring-black/5 overflow-hidden">
+                <div class="p-5 flex items-start gap-4">
+                  <img
+                    src="./images/jd.jpeg"
+                    alt="NSENGIMANA JEAN D'AMOUR, Co-Founder & Vice President"
+                    class="w-16 h-16 rounded-full border-2 border-[#006838] object-cover flex-shrink-0"
+                  />
+                  <div class="min-w-0">
+                    <p class="text-xs font-semibold tracking-wide text-[#006838] uppercase">
+                      Co-Founder & Vice President
+                    </p>
+                    <h3 class="text-lg font-semibold text-gray-900 truncate">
+                      NSENGIMANA JEAN D'AMOUR
+                    </h3>
+                    <p class="text-sm text-gray-600 mt-2">
+                      For operations and club management.
+                    </p>
+                    <div class="mt-4 flex flex-wrap gap-3">
+                      <a
+                        href="tel:+250782260697"
+                        class="inline-flex items-center gap-2 rounded-md bg-[#006838] px-3 py-2 text-sm font-semibold text-white hover:bg-[#00562c] transition-colors"
+                      >
+                        <i class="fas fa-phone-alt"></i>
+                        Call
+                      </a>
+                      <span class="inline-flex items-center gap-2 rounded-md bg-gray-50 px-3 py-2 text-sm font-medium text-gray-700 ring-1 ring-gray-200">
+                        <i class="fas fa-phone-alt text-[#006838]"></i>
+                        +250 782 260 697
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
