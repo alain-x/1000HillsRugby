@@ -266,31 +266,34 @@ try {
                 </div>
             <?php endif; ?>
             
-            <!-- Filter Section -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
-                <form method="GET" class="space-y-0">
+            <!-- Filter Section -->@@
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-6">
+                <form id="filtersForm" method="GET" class="space-y-0">
                     <input type="hidden" name="tab" value="<?php echo htmlspecialchars($active_tab); ?>">
                     
-                    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-3 items-end">
                         <!-- Season -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Season</label>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Season</label>
                             <div class="relative">
-                                <select name="season" class="w-full pl-3 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 appearance-none bg-white bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiAjdHJpbWJsZS1kYXJrLTYwMCIgc3Rya2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9Imx1Y2lkZSBsdWNpZGUtdmNoZXZyb24tZG93biI+PHBhdGggZD0ibTYgOSA2IDYgNi02Ii8+PC9zdmc+')] bg-no-repeat bg-[center_right_1rem]">
+                                <select name="season" class="w-full pl-3 pr-10 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 appearance-none bg-white">
                                     <?php for ($year = $current_season; $year >= 2014; $year--): ?>
                                         <option value="<?php echo $year; ?>" <?php echo $year == $selected_season ? 'selected' : ''; ?>>
                                             <?php echo $year; ?>
                                         </option>
                                     <?php endfor; ?>
                                 </select>
+                                <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                    <i class="fas fa-chevron-down text-xs"></i>
+                                </span>
                             </div>
                         </div>
 
                         <!-- Competition -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Competition</label>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Competition</label>
                             <div class="relative">
-                                <select name="competition" class="w-full pl-3 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 appearance-none bg-white bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiAjdHJpbWJsZS1kYXJrLTYwMCIgc3Rya2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9Imx1Y2lkZSBsdWNpZGUtdmNoZXZyb24tZG93biI+PHBhdGggZD0ibTYgOSA2IDYgNi02Ii8+PC9zdmc+')] bg-no-repeat bg-[center_right_1rem]">
+                                <select name="competition" class="w-full pl-3 pr-10 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 appearance-none bg-white">
                                     <option value="">All Competitions</option>
                                     <?php foreach ($competitions as $comp): ?>
                                         <option value="<?php echo htmlspecialchars($comp); ?>" <?php echo $comp == $selected_competition ? 'selected' : ''; ?>>
@@ -298,27 +301,25 @@ try {
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
+                                <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                    <i class="fas fa-chevron-down text-xs"></i>
+                                </span>
                             </div>
                         </div>
 
                         <!-- Gender -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Gender</label>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Gender</label>
                             <div class="relative">
-                                <select name="gender" class="w-full pl-3 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 appearance-none bg-white bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiAjdHJpbWJsZS1kYXJrLTYwMCIgc3Rya2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9Imx1Y2lkZSBsdWNpZGUtdmNoZXZyb24tZG93biI+PHBhdGggZD0ibTYgOSA2IDYgNi02Ii8+PC9zdmc+')] bg-no-repeat bg-[center_right_1rem]">
+                                <select name="gender" class="w-full pl-3 pr-10 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 appearance-none bg-white">
                                     <option value="">All Genders</option>
                                     <option value="MEN" <?php echo $selected_gender == 'MEN' ? 'selected' : ''; ?>>Men's</option>
                                     <option value="WOMEN" <?php echo $selected_gender == 'WOMEN' ? 'selected' : ''; ?>>Women's</option>
                                 </select>
+                                <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                    <i class="fas fa-chevron-down text-xs"></i>
+                                </span>
                             </div>
-                        </div>
-
-                        <!-- Apply -->
-                        <div class="flex items-end">
-                            <button type="submit" class="w-full px-4 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 flex items-center justify-center">
-                                <i class="fas fa-filter mr-2"></i>
-                                Apply Filters
-                            </button>
                         </div>
                     </div>
                 </form>
