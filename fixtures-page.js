@@ -42,12 +42,25 @@
         if (urlTab) tabInput.value = urlTab;
       }
 
-      var submitNow = debounce(function () {
-        form.submit();
+      var navigateWithFilters = debounce(function () {
+        var params = new URLSearchParams(window.location.search);
+
+        var tab = (tabInput && tabInput.value) ? tabInput.value : (params.get('tab') || 'fixtures');
+        params.set('tab', tab);
+
+        var seasonSel = form.querySelector('select[name="season"]');
+        var compSel = form.querySelector('select[name="competition"]');
+        var genderSel = form.querySelector('select[name="gender"]');
+
+        if (seasonSel && seasonSel.value) params.set('season', seasonSel.value);
+        if (compSel) params.set('competition', compSel.value || '');
+        if (genderSel) params.set('gender', genderSel.value || '');
+
+        window.location.href = window.location.pathname + '?' + params.toString();
       }, 150);
 
       form.querySelectorAll('select').forEach(function (sel) {
-        sel.addEventListener('change', submitNow);
+        sel.addEventListener('change', navigateWithFilters);
       });
     }
   });
