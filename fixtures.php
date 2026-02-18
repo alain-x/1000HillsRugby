@@ -9,8 +9,14 @@ try {
     // Set charset
     $conn->set_charset("utf8mb4");
 
-    // Get current season
-    $current_season = date('Y');
+    // Get available seasons for filter (only seasons that exist in DB)
+    $seasons = [];
+    $seasonResult = $conn->query("SELECT DISTINCT season FROM fixtures ORDER BY season DESC");
+    if ($seasonResult && $seasonResult->num_rows > 0) {
+        while ($row = $seasonResult->fetch_assoc()) {
+            $seasons[] = intval($row['season']);
+        }
+    }
 
     // Get all competitions for filter
     $competitions = [];
@@ -22,7 +28,9 @@ try {
     }
 
     // Get filter parameters with validation
-    $selected_season = isset($_GET['season']) ? max(2014, min(intval($_GET['season']), $current_season)) : $current_season;
+    $default_season = !empty($seasons) ? $seasons[0] : intval($current_season);
+    $requested_season = isset($_GET['season']) ? intval($_GET['season']) : $default_season;
+    $selected_season = in_array($requested_season, $seasons, true) ? $requested_season : $default_season;
     $selected_competition = isset($_GET['competition']) ? $conn->real_escape_string($_GET['competition']) : '';
     $selected_gender = isset($_GET['gender']) ? (in_array($_GET['gender'], ['MEN', 'WOMEN']) ? $_GET['gender'] : '') : '';
     $active_tab = isset($_GET['tab']) ? (in_array($_GET['tab'], ['fixtures', 'results']) ? $_GET['tab'] : 'fixtures') : 'fixtures';
@@ -117,7 +125,7 @@ try {
     <meta name="twitter:image" content="https://www.1000hillsrugby.rw/images/1000-hills-logo.png">
     <link rel="icon" type="image/png" href="/assets/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>@@
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="./tailwind-fixtures-config.js"></script>
@@ -247,8 +255,27 @@ try {
     <!-- Main Content -->
     <main class="min-h-[calc(100vh-80px)]">
         <div class="container mx-auto px-4 py-8 max-w-7xl">
-            <!-- Page Header (compact) -->
-            <div class="mb-4"></div>
+            <div class="mb-6">
+                <div class="rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-6 shadow-sm">
+                    <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                        <div>
+                            <h1 class="font-heading text-2xl md:text-3xl font-bold tracking-tight text-gray-900">Fixtures & Results</h1>
+                            <p class="mt-1 text-sm text-gray-600">Filter by season, competition, and gender to find matches.</p>
+                        </div>
+                        <div class="text-sm text-gray-600">
+                            <span class="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 font-medium text-gray-700">
+                                Season: <?php echo htmlspecialchars($selected_season); ?>
+                            </span>
+                            <?php if (!empty($selected_competition)): ?>
+                                <span class="ml-2 inline-flex items-center rounded-full bg-gray-100 px-3 py-1 font-medium text-gray-700">Competition: <?php echo htmlspecialchars($selected_competition); ?></span>
+                            <?php endif; ?>
+                            <?php if (!empty($selected_gender)): ?>
+                                <span class="ml-2 inline-flex items-center rounded-full bg-gray-100 px-3 py-1 font-medium text-gray-700">Gender: <?php echo htmlspecialchars($selected_gender); ?></span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
             <?php if (isset($error_message)): ?>
                 <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-8 rounded-r-lg">
@@ -266,7 +293,7 @@ try {
                 </div>
             <?php endif; ?>
             
-            <!-- Filter Section -->@@
+            <!-- Filter Section -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-6">
                 <form id="filtersForm" method="GET" class="space-y-0">
                     <input type="hidden" name="tab" value="<?php echo htmlspecialchars($active_tab); ?>">
@@ -277,11 +304,17 @@ try {
                             <label class="block text-xs font-medium text-gray-700 mb-1">Season</label>
                             <div class="relative">
                                 <select name="season" class="w-full pl-3 pr-10 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 appearance-none bg-white">
-                                    <?php for ($year = $current_season; $year >= 2014; $year--): ?>
-                                        <option value="<?php echo $year; ?>" <?php echo $year == $selected_season ? 'selected' : ''; ?>>
-                                            <?php echo $year; ?>
+                                    <?php if (!empty($seasons)): ?>
+                                        <?php foreach ($seasons as $season): ?>
+                                            <option value="<?php echo $season; ?>" <?php echo $season == $selected_season ? 'selected' : ''; ?>>
+                                                <?php echo $season; ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <option value="<?php echo intval($current_season); ?>" selected>
+                                            <?php echo intval($current_season); ?>
                                         </option>
-                                    <?php endfor; ?>
+                                    <?php endif; ?>
                                 </select>
                                 <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
                                     <i class="fas fa-chevron-down text-xs"></i>
