@@ -52,19 +52,7 @@
     <iframe id="resultsFrame" title="Match Results" loading="eager" referrerpolicy="no-referrer-when-downgrade"></iframe>
   </div>
 
-  <script>
-    // Build iframe src = fixtures?tab=results + any existing query params (season, competition, gender)
-    (function() {
-      var params = new URLSearchParams(window.location.search);
-      // Force tab=results regardless of incoming tab
-      params.set('tab', 'results');
-      // Default: keep other params (season, competition, gender) as-is
-      var src = 'fixtures.php?' + params.toString();
-      // Fallback if server expects .php explicitly
-      var frame = document.getElementById('resultsFrame');
-      frame.src = src;
-    })();
-  </script>
+  <script defer src="./results-frame.js"></script>
   <script defer src="./donate-widget.js"></script>
 </body>
 </html>
