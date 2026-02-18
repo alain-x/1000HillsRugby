@@ -3,13 +3,7 @@
   <head>
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4R4W5PDJ93"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-4R4W5PDJ93');
-</script>
+<script defer src="./staff-gtag.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register</title>
@@ -268,7 +262,8 @@
             <li class="relative">
               <button
                 class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                onclick="toggleDropdown('education-menu-mobile')"
+                type="button"
+                data-dropdown-target="education-menu-mobile"
               >
                 Education <i class="fas fa-chevron-down text-sm"></i>
               </button>
@@ -297,7 +292,8 @@
             <li class="relative">
               <button
                 class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                onclick="toggleDropdown('events-menu-mobile')"
+                type="button"
+                data-dropdown-target="events-menu-mobile"
               >
                 Events <i class="fas fa-chevron-down text-sm"></i>
               </button>
@@ -326,7 +322,8 @@
             <li class="relative">
               <button
                 class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                onclick="toggleDropdown('contact-menu-mobile')"
+                type="button"
+                data-dropdown-target="contact-menu-mobile"
               >
                 Contact <i class="fas fa-chevron-down text-sm"></i>
               </button>
@@ -366,7 +363,7 @@
       <section
         class="relative h-screen max-w-full grid grid-cols-12 items-center bg-cover bg-center overflow-hidden"
         style="
-          background-image: url('./images/friends.jpeg');
+          background-image: url('./images/freinds.jpeg');
           background-color: #222;
         "
       >
@@ -600,26 +597,14 @@
             </p>
 
             <!-- Registration Form -->
-            <form id="registrationForm" onsubmit="navigateToLink(event)">
-              <button
-                type="submit"
-                class="bg-[#006838] text-white py-2 px-4 rounded-md w-full mt-4 hover:bg-[#00562c] transition-colors duration-300"
-              >
-                Register Now
-              </button>
-            </form>
+            <a
+              href="https://app.smartsheet.com/b/form/f40c43bb3ca94c5e908665870ced50dd"
+              class="bg-[#006838] text-white py-2 px-4 rounded-md w-full mt-4 hover:bg-[#00562c] transition-colors duration-300 inline-flex items-center justify-center"
+            >
+              Register Now
+            </a>
           </div>
         </div>
-
-        <script>
-          function navigateToLink(event) {
-            event.preventDefault(); // Prevent the default form submission
-
-            // Redirect the user to the Smartsheet form
-            window.location.href =
-              "https://app.smartsheet.com/b/form/f40c43bb3ca94c5e908665870ced50dd";
-          }
-        </script>
       </section>
 
       <!-- Map Section -->
@@ -775,6 +760,7 @@
       </p>
     </section>
     <script defer src="./donate-widget.js"></script>
-    <script src="./index.js"></script>
+    <script defer src="./staff.js"></script>
+    <script defer src="./index.js"></script>
   </body>
 </html>

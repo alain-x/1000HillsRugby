@@ -4,17 +4,19 @@ const menu = document.getElementById("menu");
 const openIcon = document.getElementById("menu-open-icon");
 const closeIcon = document.getElementById("menu-close-icon");
 
-menuToggle.addEventListener("change", function () {
-  if (this.checked) {
-    menu.classList.remove("hidden");
-    openIcon.classList.add("hidden");
-    closeIcon.classList.remove("hidden");
-  } else {
-    menu.classList.add("hidden");
-    openIcon.classList.remove("hidden");
-    closeIcon.classList.add("hidden");
-  }
-});
+if (menuToggle && menu && openIcon && closeIcon) {
+  menuToggle.addEventListener("change", function () {
+    if (this.checked) {
+      menu.classList.remove("hidden");
+      openIcon.classList.add("hidden");
+      closeIcon.classList.remove("hidden");
+    } else {
+      menu.classList.add("hidden");
+      openIcon.classList.remove("hidden");
+      closeIcon.classList.add("hidden");
+    }
+  });
+}
 
 // Lazy Loading Images
 document.addEventListener("DOMContentLoaded", function () {
@@ -38,19 +40,32 @@ function startCountdown(eventDate) {
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    document.getElementById("days").innerHTML = days;
-    document.getElementById("hours").innerHTML = hours;
-    document.getElementById("minutes").innerHTML = minutes;
-    document.getElementById("seconds").innerHTML = seconds;
+    const daysEl = document.getElementById("days");
+    const hoursEl = document.getElementById("hours");
+    const minutesEl = document.getElementById("minutes");
+    const secondsEl = document.getElementById("seconds");
+
+    if (daysEl) daysEl.innerHTML = days;
+    if (hoursEl) hoursEl.innerHTML = hours;
+    if (minutesEl) minutesEl.innerHTML = minutes;
+    if (secondsEl) secondsEl.innerHTML = seconds;
 
     if (distance < 0) {
       clearInterval(countdownFunction);
-      document.getElementById("countdown-timer").innerHTML =
-        "Event Comming Soon!!";
+      const timerEl = document.getElementById("countdown-timer");
+      if (timerEl) timerEl.innerHTML = "Event Comming Soon!!";
     }
   }, 1000);
 }
-startCountdown(new Date("Feb 14, 2026 15:00:00").getTime());
+if (
+  document.getElementById("countdown-timer") ||
+  document.getElementById("days") ||
+  document.getElementById("hours") ||
+  document.getElementById("minutes") ||
+  document.getElementById("seconds")
+) {
+  startCountdown(new Date("Feb 14, 2026 15:00:00").getTime());
+}
 //********************* *
 //***************** *
 
@@ -107,6 +122,7 @@ function preloadSlideshowImages(urls) {
 // Function to create cycle buttons dynamically
 function createCycleButtons() {
   const cycleButtonsContainer = document.querySelector(".cycle-buttons");
+  if (!cycleButtonsContainer) return;
   cycleButtonsContainer.innerHTML = ""; // Clear any existing buttons
   slideshowImages.forEach((_, index) => {
     const button = document.createElement("button");
@@ -150,6 +166,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const container = document.querySelector(".slideshow-container");
   const layerA = container ? container.querySelector(".slideshow-bg-a") : null;
   const layerB = container ? container.querySelector(".slideshow-bg-b") : null;
+
+  if (!container) return;
 
   if (layerA) {
     layerA.style.backgroundImage = `url(${slideshowImages[currentSlideshowIndex]})`;
