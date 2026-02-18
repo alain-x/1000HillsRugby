@@ -2,14 +2,8 @@
 <html lang="en">
   <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4R4W5PDJ93"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-4R4W5PDJ93');
-</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4R4W5PDJ93"></script>
+    <script defer src="./staff-gtag.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Staff</title>
@@ -25,40 +19,8 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
     />
-    <style>
-      /* Transparent black background for the body */
-      body {
-        background-color: rgba(0, 0, 0, 0.85); /* Black with 85% opacity */
-        color: #ffffff; /* Ensures text remains readable */
-        font-family: Arial, sans-serif;
-      }
-
-      .staff {
-        margin-top: 30px;
-      }
-
-      .card-content {
-        /* Increase padding for more height */
-        min-height: 100px; /* Adjust the minimum height */
-        background-color: #e5e7eb; /* Light gray background */
-        display: flex;
-        flex-direction: column;
-        justify-content: center; /* Vertically center the content */
-        align-items: center;
-        border-top-left-radius: none;
-        border-top-right-radius: none;
-      }
-
-      .custom-size {
-        width: 100%; /* Makes the image take the full width of its container */
-        height: 300px; /* Set a fixed height or adjust based on your needs */
-        object-fit: cover; /* Ensures the image fills the container while maintaining aspect ratio */
-        border-bottom-left-radius: none;
-        border-bottom-right-radius: none;
-      }
-    </style>
   </head>
-  <body>
+  <body class="bg-gray-50 text-gray-900">
     <!-- Transparent Navbar -->
     <nav
       class="navbar fixed top-0 left-0 w-full px-2 z-20 h-[10vh] flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300"
@@ -265,7 +227,7 @@
             <li class="relative">
               <button
                 class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                onclick="toggleDropdown('education-menu-mobile')"
+                data-dropdown-target="education-menu-mobile"
               >
                 Education <i class="fas fa-chevron-down text-sm"></i>
               </button>
@@ -294,7 +256,7 @@
             <li class="relative">
               <button
                 class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                onclick="toggleDropdown('events-menu-mobile')"
+                data-dropdown-target="events-menu-mobile"
               >
                 Events <i class="fas fa-chevron-down text-sm"></i>
               </button>
@@ -323,7 +285,7 @@
             <li class="relative">
               <button
                 class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                onclick="toggleDropdown('contact-menu-mobile')"
+                data-dropdown-target="contact-menu-mobile"
               >
                 Contact <i class="fas fa-chevron-down text-sm"></i>
               </button>
@@ -359,73 +321,74 @@
       </div>
     </nav>
 
-    <section id="team" class="staff bg-white py-12 px-6">
-      <div class="text-center mb-12">
-        <h2 class="lg:text-6xl text-3xl font-bold text-gray-800">
-          Meet Our Staff
-        </h2>
-        <p class="text-yellow-600 mt-2 font-bold">
-          Get to know our staff members!
-        </p>
-      </div>
+    <main class="pt-[10vh]">
+      <section class="bg-gradient-to-b from-white to-gray-50">
+        <div class="container mx-auto px-6 py-12">
+          <div class="max-w-3xl">
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-gray-900">Meet Our Staff</h1>
+            <p class="mt-3 text-gray-600 text-base md:text-lg">A dedicated team building rugby, community, and opportunity.</p>
+          </div>
+        </div>
+      </section>
 
-      <div
-        class="container mx-auto grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-8"
-      >
+      <section id="team" class="py-10 px-6">
+        <div class="container mx-auto">
+          <div class="flex items-end justify-between gap-4 mb-8">
+            <div>
+              <h2 class="text-xl md:text-2xl font-bold text-gray-900">Staff Directory</h2>
+              <p class="text-sm text-gray-600">Tap a profile to view details.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- Team Member 1 -->
         <a
           href="staffdetails.html?name=Jimmy"
-          class="group block rounded-md shadow-md overflow-hidden text-center"
+          class="group block overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-gray-200 hover:shadow-lg transition"
           aria-label="View details for Jimmy MUGABO"
         >
           <img
             src="./images/jimy.jpeg"
             alt="Jimmy MUGABO"
-            class="custom-size mx-auto transition-transform duration-300 group-hover:scale-105"
+            class="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
-          <div class="card-content">
-            <h3 class="text-xl font-semibold text-gray-800">Jimmy MUGABO</h3>
-            <p class="text-gray-600">
-              Director of Rugby & Community Engagement
-            </p>
+          <div class="p-5">
+            <h3 class="text-base font-bold text-gray-900">Jimmy MUGABO</h3>
+            <p class="mt-1 text-sm text-gray-600">Director of Rugby & Community Engagement</p>
           </div>
         </a>
 
         <!-- Team Member 2 -->
         <a
           href="staffdetails.html?name=Jd"
-          class="group block rounded-md shadow-md overflow-hidden text-center"
+          class="group block overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-gray-200 hover:shadow-lg transition"
           aria-label="View details for JD"
         >
           <img
             src="./images/jd.jpeg"
             alt="Jean D'Amour NSENGIMANA"
-            class="custom-size mx-auto transition-transform duration-300 group-hover:scale-105"
+            class="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
-          <div class="card-content">
-            <h3 class="text-xl font-semibold text-gray-800 ml-[3px]">
-              Jean D'Amour NSENGIMANA
-            </h3>
-            <p class="text-gray-600">General Manager</p>
+          <div class="p-5">
+            <h3 class="text-base font-bold text-gray-900">Jean D'Amour NSENGIMANA</h3>
+            <p class="mt-1 text-sm text-gray-600">General Manager</p>
           </div>
         </a>
 
         <!-- Team Member 3 -->
         <a
           href="staffdetails.html?name=berno"
-          class="group block rounded-md shadow-md overflow-hidden text-center"
+          class="group block overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-gray-200 hover:shadow-lg transition"
           aria-label="View details for JD"
         >
           <img
             src="./images/berno.png"
             alt=" Bernard RWAGASORE"
-            class="custom-size mx-auto transition-transform duration-300 group-hover:scale-105"
+            class="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
-          <div class="card-content">
-            <h3 class="text-xl font-semibold text-gray-800">
-              Bernard RWAGASORE
-            </h3>
-            <p class="text-gray-600">Marketing</p>
+          <div class="p-5">
+            <h3 class="text-base font-bold text-gray-900">Bernard RWAGASORE</h3>
+            <p class="mt-1 text-sm text-gray-600">Marketing</p>
           </div>
         </a>
 
@@ -433,102 +396,93 @@
 
         <a
           href="staffdetails.html?name=Serge"
-          class="group block rounded-md shadow-md overflow-hidden text-center"
+          class="group block overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-gray-200 hover:shadow-lg transition"
           aria-label="View details for Serge"
         >
           <img
             src="./images/serge.jpeg"
             alt=" Serge SHEMA"
-            class="custom-size mx-auto transition-transform duration-300 group-hover:scale-105"
+            class="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
-          <div class="card-content">
-            <h3 class="text-xl font-semibold text-gray-800">Serge SHEMA</h3>
-            <p class="text-gray-600 m-[5px]">
-              President and Co-founder of 1000 Hills Rugby
-            </p>
+          <div class="p-5">
+            <h3 class="text-base font-bold text-gray-900">Serge SHEMA</h3>
+            <p class="mt-1 text-sm text-gray-600">President and Co-founder of 1000 Hills Rugby</p>
           </div>
         </a>
 
         <!-- Team Member 5 -->
         <a
           href="staffdetails.html?name=Sauveur"
-          class="group block rounded-md shadow-md overflow-hidden text-center"
+          class="group block overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-gray-200 hover:shadow-lg transition"
           aria-label="View details for Sauveur"
         >
           <img
             src="./images/sover.jpeg"
             alt=" Jean Sauveur SINGIZWA"
-            class="custom-size mx-auto transition-transform duration-300 group-hover:scale-105"
+            class="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
-          <div class="card-content">
-            <h3 class="text-xl font-semibold text-gray-800">
-              Jean Sauveur SINGIZWA
-            </h3>
-            <p class="text-gray-600">General Secretary</p>
+          <div class="p-5">
+            <h3 class="text-base font-bold text-gray-900">Jean Sauveur SINGIZWA</h3>
+            <p class="mt-1 text-sm text-gray-600">General Secretary</p>
           </div>
         </a>
 
         <!-- Team Member 6 -->
         <a
           href="staffdetails.html?name=Jacqueline"
-          class="group block rounded-md shadow-md overflow-hidden text-center"
+          class="group block overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-gray-200 hover:shadow-lg transition"
           aria-label="View details for Jacqueline"
         >
           <img
             src="./images/GASENGAYIRE JACQUELINE.jpeg"
             alt="  Jacqueline GASENGAYIRE"
-            class="custom-size mx-auto transition-transform duration-300 group-hover:scale-105"
+            class="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
-          <div class="card-content">
-            <h3 class="text-xl font-semibold text-gray-800">
-              Jacqueline GASENGAYIRE
-            </h3>
-            <p class="text-gray-600">Advisor</p>
+          <div class="p-5">
+            <h3 class="text-base font-bold text-gray-900">Jacqueline GASENGAYIRE</h3>
+            <p class="mt-1 text-sm text-gray-600">Advisor</p>
           </div>
         </a>
 
         <!-- Team Member 7 -->
         <a
           href="staffdetails.html?name=Sholom"
-          class="group block rounded-md shadow-md overflow-hidden text-center"
+          class="group block overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-gray-200 hover:shadow-lg transition"
           aria-label="View details for Shalom"
         >
           <img
             src="./images/Shalom.jpeg"
             alt=" Shalom KUNESHANUKWAYO "
-            class="custom-size mx-auto transition-transform duration-300 group-hover:scale-105"
+            class="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
-          <div class="card-content">
-            <h3 class="text-xl ml-[3px] font-semibold text-gray-800">
-              Shalom KUNESHANUKWAYO
-            </h3>
-            <p class="text-gray-600">Safeguarding Officer</p>
+          <div class="p-5">
+            <h3 class="text-base font-bold text-gray-900">Shalom KUNESHANUKWAYO</h3>
+            <p class="mt-1 text-sm text-gray-600">Safeguarding Officer</p>
           </div>
         </a>
 
         <!-- Team Member 8 -->
         <a
           href="staffdetails.html?name=Savio"
-          class="group block rounded-md shadow-md overflow-hidden text-center"
+          class="group block overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-gray-200 hover:shadow-lg transition"
           aria-label="View details for Shalom"
         >
           <img
             src="./images/savio1.jpeg"
             alt=" Dominique Savio"
-            class="custom-size mx-auto transition-transform duration-300 group-hover:scale-105"
+            class="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
-          <div class="card-content">
-            <h3 class="text-xl ml-[3px] font-semibold text-gray-800">
-              Dominique Savio NIYONZIMA
-            </h3>
-            <p class="text-gray-600">Conflict Resolution Director</p>
+          <div class="p-5">
+            <h3 class="text-base font-bold text-gray-900">Dominique Savio NIYONZIMA</h3>
+            <p class="mt-1 text-sm text-gray-600">Conflict Resolution Director</p>
           </div>
         </a>
 
-        <!-- Add more team members as needed -->
-      </div>
-    </section>
+          </div>
+        </div>
+      </section>
+    </main>
     <script defer src="./donate-widget.js"></script>
-    <script src="staff.js"></script>
+    <script defer src="staff.js"></script>
   </body>
 </html>
