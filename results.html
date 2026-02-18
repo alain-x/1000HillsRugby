@@ -59,7 +59,7 @@
       // Force tab=results regardless of incoming tab
       params.set('tab', 'results');
       // Default: keep other params (season, competition, gender) as-is
-      var src = 'fixtures?'+ params.toString();
+      var src = 'fixtures.php?' + params.toString();
       // Fallback if server expects .php explicitly
       var frame = document.getElementById('resultsFrame');
       frame.src = src;
