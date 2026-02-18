@@ -46,7 +46,7 @@ function startCountdown(eventDate) {
     if (distance < 0) {
       clearInterval(countdownFunction);
       document.getElementById("countdown-timer").innerHTML =
-        "Event has started!";
+        "Event Comming Soon!!";
     }
   }, 1000);
 }
