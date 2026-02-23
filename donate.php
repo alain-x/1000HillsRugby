@@ -80,6 +80,39 @@ if (isset($_GET['err'])) {
       <div class="mt-6 text-xs text-gray-500">
         Payment methods (MTN, Airtel Money, Visa, Mastercard) are shown by Pesapal based on what is enabled on your Pesapal merchant account.
       </div>
+
+      <div class="mt-5">
+        <div class="text-sm font-extrabold text-gray-900">Supported payment methods</div>
+        <div class="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div class="rounded-xl border border-gray-200 bg-white p-3 flex items-center justify-center">
+            <svg viewBox="0 0 220 70" class="h-7" aria-label="MTN Mobile Money" role="img">
+              <rect x="2" y="2" width="216" height="66" rx="14" fill="#FFCC00" stroke="#111827" stroke-width="2" />
+              <text x="110" y="44" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="800" fill="#111827">MTN MoMo</text>
+            </svg>
+          </div>
+          <div class="rounded-xl border border-gray-200 bg-white p-3 flex items-center justify-center">
+            <svg viewBox="0 0 220 70" class="h-7" aria-label="Airtel Money" role="img">
+              <rect x="2" y="2" width="216" height="66" rx="14" fill="#E11D48" stroke="#111827" stroke-width="2" />
+              <text x="110" y="44" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="800" fill="#FFFFFF">Airtel</text>
+              <text x="186" y="44" text-anchor="end" font-family="Arial, sans-serif" font-size="18" font-weight="800" fill="#FFFFFF">Money</text>
+            </svg>
+          </div>
+          <div class="rounded-xl border border-gray-200 bg-white p-3 flex items-center justify-center">
+            <svg viewBox="0 0 220 70" class="h-7" aria-label="Visa" role="img">
+              <rect x="2" y="2" width="216" height="66" rx="14" fill="#FFFFFF" stroke="#111827" stroke-width="2" />
+              <text x="110" y="46" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="900" fill="#1A1F71">VISA</text>
+            </svg>
+          </div>
+          <div class="rounded-xl border border-gray-200 bg-white p-3 flex items-center justify-center">
+            <svg viewBox="0 0 220 70" class="h-7" aria-label="Mastercard" role="img">
+              <rect x="2" y="2" width="216" height="66" rx="14" fill="#FFFFFF" stroke="#111827" stroke-width="2" />
+              <circle cx="98" cy="35" r="18" fill="#EB001B" />
+              <circle cx="122" cy="35" r="18" fill="#F79E1B" fill-opacity="0.95" />
+              <text x="110" y="62" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="800" fill="#111827">mastercard</text>
+            </svg>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </body>
