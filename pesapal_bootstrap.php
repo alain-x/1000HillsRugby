@@ -102,6 +102,18 @@ function pesapal_http_json(string $method, string $url, ?string $jsonBody, array
         throw new RuntimeException($msg . ' (HTTP ' . $httpCode . ')');
     }
 
+    // Pesapal sometimes returns an application-level status inside JSON
+    if (isset($decoded['status']) && (string) $decoded['status'] !== '200') {
+        $msg = isset($decoded['message']) ? (string) $decoded['message'] : 'Pesapal request failed.';
+        if (isset($decoded['error']) && is_array($decoded['error'])) {
+            $errMsg = isset($decoded['error']['message']) ? (string) $decoded['error']['message'] : '';
+            if ($errMsg !== '') {
+                $msg .= ' - ' . $errMsg;
+            }
+        }
+        throw new RuntimeException($msg . ' (status ' . (string) $decoded['status'] . ')');
+    }
+
     return $decoded;
 }
 

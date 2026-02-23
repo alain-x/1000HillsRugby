@@ -57,6 +57,8 @@ if (isset($_GET['err'])) {
           <input id="phone" name="phone" class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="e.g. 2507xxxxxxxx" />
         </div>
 
+        <div class="text-xs text-gray-500">Please provide at least one: email or phone.</div>
+
         <div>
           <label class="block text-sm font-semibold text-gray-700" for="purpose">Purpose (optional)</label>
           <input id="purpose" name="purpose" class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="Donation" />

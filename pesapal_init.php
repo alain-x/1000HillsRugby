@@ -9,6 +9,11 @@ function redirect_with_error(string $message): void {
     exit;
 }
 
+function is_debug_enabled(): bool {
+    $v = strtolower((string) (getenv('APP_DEBUG') ?: 'false'));
+    return in_array($v, ['1', 'true', 'yes', 'on'], true);
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('HTTP/1.1 405 Method Not Allowed');
     exit('Method Not Allowed');
@@ -31,6 +36,10 @@ $name = trim((string) ($_POST['name'] ?? ''));
 $email = trim((string) ($_POST['email'] ?? ''));
 $phone = trim((string) ($_POST['phone'] ?? ''));
 $purpose = trim((string) ($_POST['purpose'] ?? 'Donation'));
+
+if ($email === '' && $phone === '') {
+    redirect_with_error('Please provide at least an email or phone number.');
+}
 
 $notificationId = trim((string) (getenv('PESAPAL_IPN_ID') ?: ''));
 if ($notificationId === '') {
@@ -105,5 +114,8 @@ try {
 
 } catch (Throwable $e) {
     error_log('Pesapal init error: ' . $e->getMessage());
+    if (is_debug_enabled()) {
+        redirect_with_error('Pesapal error: ' . $e->getMessage());
+    }
     redirect_with_error('Could not start payment. Please try again later.');
 }
