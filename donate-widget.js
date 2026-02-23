@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
           title: 'Card / Mobile Money',
           description: 'Pay securely using card or mobile money.',
           type: 'link',
-          href: './checkouts.html'
+          href: './donate.php'
         },
         {
           id: 'bank',
