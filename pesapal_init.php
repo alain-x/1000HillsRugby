@@ -31,6 +31,15 @@ if (!is_finite($amount) || $amount <= 0) {
     redirect_with_error('Please enter a valid amount.');
 }
 
+$minAmount = (float) (getenv('PESAPAL_DONATION_MIN') ?: 0);
+$maxAmount = (float) (getenv('PESAPAL_DONATION_MAX') ?: 0);
+if ($minAmount > 0 && $amount < $minAmount) {
+    redirect_with_error('Minimum donation amount is ' . $minAmount . '.');
+}
+if ($maxAmount > 0 && $amount > $maxAmount) {
+    redirect_with_error('Maximum donation amount is ' . $maxAmount . '.');
+}
+
 $currency = strtoupper((string) (getenv('PESAPAL_DEFAULT_CURRENCY') ?: 'RWF'));
 $name = trim((string) ($_POST['name'] ?? ''));
 $email = trim((string) ($_POST['email'] ?? ''));

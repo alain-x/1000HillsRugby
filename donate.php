@@ -9,6 +9,8 @@ $email = '';
 $phone = '';
 $name = '';
 $currency = (string) (getenv('PESAPAL_DEFAULT_CURRENCY') ?: 'RWF');
+$minAmount = (float) (getenv('PESAPAL_DONATION_MIN') ?: 0);
+$maxAmount = (float) (getenv('PESAPAL_DONATION_MAX') ?: 0);
 
 if (isset($_GET['err'])) {
     $err = (string) $_GET['err'];
@@ -39,7 +41,12 @@ if (isset($_GET['err'])) {
 
         <div>
           <label class="block text-sm font-semibold text-gray-700" for="amount">Amount (<?php echo htmlspecialchars($currency, ENT_QUOTES, 'UTF-8'); ?>)</label>
-          <input id="amount" name="amount" required inputmode="decimal" class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="e.g. 10000" />
+          <input id="amount" name="amount" required inputmode="decimal" min="<?php echo htmlspecialchars((string)$minAmount, ENT_QUOTES, 'UTF-8'); ?>" max="<?php echo htmlspecialchars((string)$maxAmount, ENT_QUOTES, 'UTF-8'); ?>" step="1" class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="e.g. 10000" />
+          <?php if ($minAmount > 0 || $maxAmount > 0): ?>
+            <div class="mt-1 text-xs text-gray-500">
+              Limits: <?php echo htmlspecialchars((string)$minAmount, ENT_QUOTES, 'UTF-8'); ?> to <?php echo htmlspecialchars((string)$maxAmount, ENT_QUOTES, 'UTF-8'); ?> <?php echo htmlspecialchars($currency, ENT_QUOTES, 'UTF-8'); ?>
+            </div>
+          <?php endif; ?>
         </div>
 
         <div>
