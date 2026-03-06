@@ -5,6 +5,13 @@ declare(strict_types=1);
 require_once __DIR__ . '/pesapal-lib.php';
 pesapal_load_env();
 
+$appEnv = strtolower((string) pesapal_env('APP_ENV', 'production'));
+if ($appEnv === 'production') {
+  http_response_code(404);
+  echo 'Not Found';
+  exit;
+}
+
 $host = $_SERVER['HTTP_HOST'] ?? '';
 $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
 if ($host !== '' && stripos($host, 'www.') !== 0) {

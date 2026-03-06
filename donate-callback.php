@@ -3,14 +3,9 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/pesapal-lib.php';
-pesapal_load_env();
+require_once __DIR__ . '/donation-store.php';
 
-$appEnv = strtolower((string) pesapal_env('APP_ENV', 'production'));
-if ($appEnv === 'production') {
-    http_response_code(404);
-    echo 'Not Found';
-    exit;
-}
+pesapal_load_env();
 
 header('Content-Type: text/html; charset=utf-8');
 
@@ -34,6 +29,17 @@ if ($orderTrackingId !== '') {
     try {
         $token = pesapal_request_token();
         $status = pesapal_get_transaction_status($token, $orderTrackingId);
+
+        if (is_array($status)) {
+            $desc = (string)($status['payment_status_description'] ?? '');
+            donation_update_by_tracking_id($orderTrackingId, [
+                'payment_status_description' => $desc,
+                'payment_method' => (string)($status['payment_method'] ?? ''),
+                'confirmation_code' => (string)($status['confirmation_code'] ?? ''),
+                'status' => $desc !== '' ? $desc : 'UPDATED',
+                'updated_at' => gmdate('c'),
+            ]);
+        }
     } catch (Throwable $e) {
         $error = $e->getMessage();
     }
@@ -45,7 +51,7 @@ if ($orderTrackingId !== '') {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>1000 Hills Rugby | Pesapal Callback</title>
+  <title>1000 Hills Rugby | Donation Status</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="./images/t_icon.png" type="image/png" />
 </head>
@@ -54,10 +60,10 @@ if ($orderTrackingId !== '') {
     <div class="bg-white shadow-lg rounded-2xl p-6 border border-gray-100">
       <div class="flex items-start justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-extrabold text-gray-900">Payment Result (Callback)</h1>
-          <p class="text-sm text-gray-600 mt-1">Pesapal redirected the customer to this page after payment attempt.</p>
+          <h1 class="text-2xl font-extrabold text-gray-900">Donation Status</h1>
+          <p class="text-sm text-gray-600 mt-1">Thank you for supporting 1000 Hills Rugby.</p>
         </div>
-        <a class="text-sm font-semibold text-green-700 hover:text-green-800" href="./pesapal-test.php">New test</a>
+        <a class="text-sm font-semibold text-green-700 hover:text-green-800" href="./donate.php">New donation</a>
       </div>
 
       <div class="mt-6 grid gap-3 text-sm">
@@ -81,14 +87,12 @@ if ($orderTrackingId !== '') {
             <div class="flex justify-between gap-4"><div class="text-gray-500">Amount</div><div class="font-mono text-right"><?php echo h((string)($status['amount'] ?? '')); ?> <?php echo h((string)($status['currency'] ?? '')); ?></div></div>
             <div class="flex justify-between gap-4"><div class="text-gray-500">Method</div><div class="font-mono text-right"><?php echo h((string)($status['payment_method'] ?? '')); ?></div></div>
             <div class="flex justify-between gap-4"><div class="text-gray-500">Confirmation</div><div class="font-mono text-right break-all"><?php echo h((string)($status['confirmation_code'] ?? '')); ?></div></div>
-            <div class="flex justify-between gap-4"><div class="text-gray-500">Message</div><div class="text-right"><?php echo h((string)($status['message'] ?? '')); ?></div></div>
-            <div class="flex justify-between gap-4"><div class="text-gray-500">Description</div><div class="text-right"><?php echo h((string)($status['description'] ?? '')); ?></div></div>
           </div>
         </div>
       <?php endif; ?>
 
       <div class="mt-6 text-xs text-gray-500">
-        IPN endpoint: <code class="font-mono"><?php echo h(pesapal_base_url() . '/pesapal-ipn.php'); ?></code>
+        If you have any issue, email <a class="text-green-700 font-bold" href="mailto:info@1000hillsrugby.rw">info@1000hillsrugby.rw</a>.
       </div>
     </div>
   </div>

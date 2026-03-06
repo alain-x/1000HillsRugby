@@ -3,6 +3,9 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/pesapal-lib.php';
+if (file_exists(__DIR__ . '/donation-store.php')) {
+    require_once __DIR__ . '/donation-store.php';
+}
 pesapal_load_env();
 
 header('Content-Type: application/json; charset=utf-8');
@@ -39,7 +42,18 @@ if ($orderMerchantReference === '' && is_array($jsonBody)) {
 try {
     if ($orderTrackingId !== '') {
         $token = pesapal_request_token();
-        pesapal_get_transaction_status($token, $orderTrackingId);
+        $status = pesapal_get_transaction_status($token, $orderTrackingId);
+
+        if (function_exists('donation_update_by_tracking_id') && is_array($status)) {
+            $desc = (string)($status['payment_status_description'] ?? '');
+            donation_update_by_tracking_id($orderTrackingId, [
+                'payment_status_description' => $desc,
+                'payment_method' => (string)($status['payment_method'] ?? ''),
+                'confirmation_code' => (string)($status['confirmation_code'] ?? ''),
+                'status' => $desc !== '' ? $desc : 'UPDATED',
+                'updated_at' => gmdate('c'),
+            ]);
+        }
     }
 
     echo json_encode([
