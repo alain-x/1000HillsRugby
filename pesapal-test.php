@@ -88,7 +88,13 @@ header('Content-Type: text/html; charset=utf-8');
         </div>
 
         <div class="flex items-center justify-between gap-3 pt-2">
-          <div class="text-xs text-gray-500">Callback: <code class="font-mono"><?php echo htmlspecialchars(pesapal_base_url() . '/pesapal-callback.php', ENT_QUOTES, 'UTF-8'); ?></code></div>
+          <div class="text-xs text-gray-500">
+            Callback: <code class="font-mono"><?php echo htmlspecialchars(pesapal_base_url() . '/pesapal-callback.php', ENT_QUOTES, 'UTF-8'); ?></code>
+            <label class="ml-3 inline-flex items-center gap-2">
+              <input type="checkbox" name="embed" value="1" class="rounded border-gray-300 text-green-700 focus:ring-green-600" />
+              <span>Embed checkout in page</span>
+            </label>
+          </div>
           <button type="submit" class="inline-flex items-center justify-center rounded-xl bg-green-700 px-5 py-3 text-white font-bold hover:bg-green-800">Start Pesapal Payment</button>
         </div>
       </form>

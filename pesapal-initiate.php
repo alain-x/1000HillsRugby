@@ -25,6 +25,7 @@ $firstName = isset($_POST['first_name']) ? trim((string) $_POST['first_name']) :
 $lastName = isset($_POST['last_name']) ? trim((string) $_POST['last_name']) : '';
 $email = isset($_POST['email']) ? trim((string) $_POST['email']) : '';
 $phone = isset($_POST['phone']) ? trim((string) $_POST['phone']) : '';
+$embed = isset($_POST['embed']) && (string) $_POST['embed'] === '1';
 
 if ($amount <= 0 || $description === '' || $firstName === '' || $lastName === '' || $email === '') {
     http_response_code(400);
@@ -68,9 +69,30 @@ try {
         ],
     ];
 
-    $resp = pesapal_submit_order($token, $payload);
+    try {
+        $resp = pesapal_submit_order($token, $payload);
+    } catch (Throwable $e) {
+        $payload['notification_id'] = pesapal_register_ipn($token, $ipnUrl, 'GET');
+        $resp = pesapal_submit_order($token, $payload);
+    }
 
     $redirectUrl = (string) $resp['redirect_url'];
+
+    if ($embed) {
+        echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />';
+        echo '<title>Pesapal Checkout</title><script src="https://cdn.tailwindcss.com"></script></head><body class="bg-gray-50">';
+        echo '<div class="max-w-5xl mx-auto px-4 py-6">';
+        echo '<div class="flex items-center justify-between gap-4">';
+        echo '<div class="text-lg font-extrabold text-gray-900">Complete payment</div>';
+        echo '<div class="flex items-center gap-4">';
+        echo '<a class="text-sm font-bold text-green-700 hover:text-green-800" href="./pesapal-test.php">Back</a>';
+        echo '<a class="text-sm font-bold text-green-700 hover:text-green-800" target="_blank" rel="noopener noreferrer" href="' . h($redirectUrl) . '">Open in new tab</a>';
+        echo '</div></div>';
+        echo '<div class="mt-4 bg-white border border-gray-200 rounded-2xl shadow overflow-hidden">';
+        echo '<iframe title="Pesapal Checkout" src="' . h($redirectUrl) . '" class="w-full" style="height: 85vh" allow="payment *"></iframe>';
+        echo '</div></div></body></html>';
+        exit;
+    }
 
     if (!headers_sent()) {
         header('Location: ' . $redirectUrl, true, 302);
