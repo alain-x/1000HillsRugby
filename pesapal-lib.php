@@ -91,7 +91,7 @@ function pesapal_http_json(string $method, string $url, array $headers = [], ?ar
         $data = ['raw' => $raw];
     }
 
-    return ['http_code' => $httpCode, 'data' => $data];
+    return ['http_code' => $httpCode, 'data' => $data, 'raw' => $raw];
 }
 
 function pesapal_request_token(): string
@@ -110,10 +110,15 @@ function pesapal_request_token(): string
     ]);
 
     $data = $res['data'] ?? [];
+    $httpCode = (int) ($res['http_code'] ?? 0);
+    $raw = (string) ($res['raw'] ?? '');
     $token = $data['token'] ?? null;
     if (!is_string($token) || $token === '') {
-        $message = $data['message'] ?? ($data['error']['message'] ?? 'Token request failed');
-        throw new RuntimeException((string) $message);
+        $message = $data['message'] ?? ($data['error']['message'] ?? '');
+        if (!is_string($message) || trim($message) === '') {
+            $message = 'Token request failed';
+        }
+        throw new RuntimeException($message . ' (HTTP ' . $httpCode . ') ' . $raw);
     }
 
     return $token;
@@ -131,10 +136,15 @@ function pesapal_register_ipn(string $token, string $ipnUrl, string $notificatio
     ]);
 
     $data = $res['data'] ?? [];
+    $httpCode = (int) ($res['http_code'] ?? 0);
+    $raw = (string) ($res['raw'] ?? '');
     $ipnId = $data['ipn_id'] ?? null;
     if (!is_string($ipnId) || $ipnId === '') {
-        $message = $data['message'] ?? ($data['error']['message'] ?? 'IPN registration failed');
-        throw new RuntimeException((string) $message);
+        $message = $data['message'] ?? ($data['error']['message'] ?? '');
+        if (!is_string($message) || trim($message) === '') {
+            $message = 'IPN registration failed';
+        }
+        throw new RuntimeException($message . ' (HTTP ' . $httpCode . ') ' . $raw);
     }
 
     return $ipnId;
@@ -149,11 +159,16 @@ function pesapal_submit_order(string $token, array $payload): array
     ], $payload);
 
     $data = $res['data'] ?? [];
+    $httpCode = (int) ($res['http_code'] ?? 0);
+    $raw = (string) ($res['raw'] ?? '');
     $redirectUrl = $data['redirect_url'] ?? null;
 
     if (!is_string($redirectUrl) || $redirectUrl === '') {
-        $message = $data['message'] ?? ($data['error']['message'] ?? 'SubmitOrderRequest failed');
-        throw new RuntimeException((string) $message);
+        $message = $data['message'] ?? ($data['error']['message'] ?? '');
+        if (!is_string($message) || trim($message) === '') {
+            $message = 'SubmitOrderRequest failed';
+        }
+        throw new RuntimeException($message . ' (HTTP ' . $httpCode . ') ' . $raw);
     }
 
     return $data;
