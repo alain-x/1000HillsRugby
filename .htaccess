@@ -134,13 +134,6 @@ RewriteRule \.(jpg|jpeg|png|gif|webp|svg)$ - [F,NC]
 </IfModule>
 # END cPanel-generated php ini directives, do not edit
 
-# php -- BEGIN cPanel-generated handler, do not edit
-# Set the “ea-php82” package as the default “PHP” programming language.
-<IfModule mime_module>
-  AddHandler application/x-httpd-ea-php82 .php .php8 .phtml
-</IfModule>
-# php -- END cPanel-generated handler, do not edit
-
 # Security headers
 <IfModule mod_headers.c>
   Header set X-Content-Type-Options "nosniff"
@@ -150,5 +143,13 @@ RewriteRule \.(jpg|jpeg|png|gif|webp|svg)$ - [F,NC]
   Header set Cross-Origin-Opener-Policy "same-origin"
   Header set Cross-Origin-Resource-Policy "same-origin"
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-  Header set Content-Security-Policy "default-src 'self'; img-src 'self' data: https:; script-src 'self' https://cdn.jsdelivr.net https://cdn.tailwindcss.com https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://fonts.cdnfonts.com; font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; connect-src 'self' https://www.google-analytics.com; frame-src https://www.google.com https://www.google.com/maps; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.1000hillsrugby.rw https://1000hillsrugby.rw"
+  Header always unset Content-Security-Policy
+  Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data: https:; script-src 'self' https://cdn.jsdelivr.net https://cdn.tailwindcss.com https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://fonts.cdnfonts.com; font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; connect-src 'self' https://www.google-analytics.com; frame-src https://www.google.com https://www.google.com/maps; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.1000hillsrugby.rw https://1000hillsrugby.rw"
 </IfModule>
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php82” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php82 .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
