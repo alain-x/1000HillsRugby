@@ -81,6 +81,14 @@ if ($currency !== 'RWF') {
     $currency = 'RWF';
 }
 
+$maxRwfStr = pesapal_env('DONATION_MAX_RWF');
+$maxRwf = $maxRwfStr !== null ? (float) $maxRwfStr : 0.0;
+if ($maxRwf > 0 && $amount > $maxRwf) {
+    http_response_code(400);
+    echo 'Donation amount is too high. Please enter a smaller amount or contact support.';
+    exit;
+}
+
 $donationId = 'DON-' . date('Ymd-His') . '-' . bin2hex(random_bytes(4));
 $merchantReference = $donationId;
 

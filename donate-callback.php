@@ -7,6 +7,16 @@ require_once __DIR__ . '/donation-store.php';
 
 pesapal_load_env();
 
+// Keep canonical host consistent (www)
+$host = $_SERVER['HTTP_HOST'] ?? '';
+$isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
+if ($host !== '' && stripos($host, 'www.') !== 0) {
+    $path = $_SERVER['REQUEST_URI'] ?? '/donate-callback.php';
+    $scheme = $isHttps ? 'https' : 'http';
+    header('Location: ' . $scheme . '://www.' . $host . $path, true, 301);
+    exit;
+}
+
 header('Content-Type: text/html; charset=utf-8');
 
 function h(string $s): string
@@ -52,11 +62,319 @@ if ($orderTrackingId !== '') {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>1000 Hills Rugby | Donation Status</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+  <link rel="stylesheet" href="./style.css" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="./images/t_icon.png" type="image/png" />
+  <style>
+    #menu-toggle:checked ~ #menu {
+      display: block;
+    }
+    #menu:hover {
+      display: block;
+    }
+  </style>
 </head>
 <body class="bg-gradient-to-b from-gray-50 to-white">
-  <div class="max-w-2xl mx-auto px-4 py-10 sm:py-12">
+  <nav
+    class="navbar fixed top-0 left-0 w-full px-2 z-20 h-[10vh] flex flex-wrap justify-between items-center py-2 bg-white/90 backdrop-blur-lg shadow-lg transition-all duration-300"
+  >
+    <div class="navbar-logo w-2/12">
+      <a href="./">
+        <img
+          class="w-[60px] hover:w-[70px] transition-transform duration-300"
+          src="./images/1000-hills-logo.png"
+          alt="1000 Hills Rugby"
+        />
+      </a>
+    </div>
+
+    <ul
+      class="hidden lg:flex lg:space-x-8 font-600 text-gray-800 text-sm tracking-wider"
+    >
+      <li>
+        <a
+          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+          href="./"
+          >Home</a
+        >
+      </li>
+      <li>
+        <a
+          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+          href="./about"
+          >About</a
+        >
+      </li>
+      <li>
+        <a
+          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+          href="./program"
+          >Programs</a
+        >
+      </li>
+      <li>
+        <a
+          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+          href="./community"
+          >Community</a
+        >
+      </li>
+      <li>
+        <a
+          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+          href="./shop"
+          >Shop</a
+        >
+      </li>
+
+      <li>
+        <a
+          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300"
+          href="./teams"
+          >Teams</a
+        >
+      </li>
+      <li class="relative group">
+        <a
+          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
+          >Education<i class="fas fa-chevron-down text-sm"></i
+        ></a>
+        <ul
+          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
+        >
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./education"
+              >1HR Education Program</a
+            >
+          </li>
+          <li>
+            <a
+              class="block px-4 py-2 w-[180px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./Foundation"
+              >Career Foundation</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li class="relative group">
+        <a
+          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none"
+          >Events<i class="fas fa-chevron-down text-sm"></i
+        ></a>
+        <ul
+          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
+        >
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./events"
+              >Events</a
+            >
+          </li>
+          <li>
+            <a
+              class="block px-4 py-2 w-[150px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./news"
+              >News & Media</a
+            >
+          </li>
+        </ul>
+      </li>
+
+      <li class="relative group">
+        <a
+          class="hover:text-green-600 hover:border-b-2 hover:border-green-600 transition-all duration-300 pointer-events-none mr-10"
+          >Contact<i class="fas fa-chevron-down text-sm"></i
+        ></a>
+        <ul
+          class="absolute left-0 hidden group-hover:block bg-white text-gray-800 text-sm shadow-md"
+        >
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./staff"
+              >Staff</a
+            >
+          </li>
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./contact"
+              >Contact us</a
+            >
+          </li>
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./register#reForm"
+              >Register</a
+            >
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="relative lg:hidden flex flex-wrap items-center">
+      <input type="checkbox" id="menu-toggle" class="hidden" />
+      <label for="menu-toggle" class="cursor-pointer text-2xl text-black">
+        <i class="fa-solid fa-bars" id="menu-open-icon"></i>
+        <i class="fa-solid fa-times hidden" id="menu-close-icon"></i>
+      </label>
+
+      <div
+        id="menu"
+        class="absolute top-full right-0 bg-white text-gray-800 w-48 mt-2 rounded-md shadow-lg hidden transition-all duration-300"
+      >
+        <ul class="flex flex-col text-left space-y-1">
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./"
+              >Home</a
+            >
+          </li>
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./about"
+              >About</a
+            >
+          </li>
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./program"
+              >Programs</a
+            >
+          </li>
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./community"
+              >Community</a
+            >
+          </li>
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./shop"
+              >Shop</a
+            >
+          </li>
+          <li>
+            <a
+              class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+              href="./teams"
+              >Teams</a
+            >
+          </li>
+
+          <li class="relative">
+            <button
+              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+              type="button"
+              data-dropdown-toggle="education-menu-mobile"
+            >
+              Education <i class="fas fa-chevron-down text-sm"></i>
+            </button>
+            <ul
+              id="education-menu-mobile"
+              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+            >
+              <li>
+                <a
+                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                  href="./education"
+                  >1HR Education Program</a
+                >
+              </li>
+              <li>
+                <a
+                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                  href="./Foundation"
+                  >Career Foundation</a
+                >
+              </li>
+            </ul>
+          </li>
+
+          <li class="relative">
+            <button
+              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+              type="button"
+              data-dropdown-toggle="events-menu-mobile"
+            >
+              Events <i class="fas fa-chevron-down text-sm"></i>
+            </button>
+            <ul
+              id="events-menu-mobile"
+              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+            >
+              <li>
+                <a
+                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                  href="./events"
+                  >Events</a
+                >
+              </li>
+              <li>
+                <a
+                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                  href="./news"
+                  >News & Media</a
+                >
+              </li>
+            </ul>
+          </li>
+
+          <li class="relative">
+            <button
+              class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
+              type="button"
+              data-dropdown-toggle="contact-menu-mobile"
+            >
+              Contact <i class="fas fa-chevron-down text-sm"></i>
+            </button>
+            <ul
+              id="contact-menu-mobile"
+              class="dropdown hidden bg-white text-gray-800 text-sm shadow-md rounded-lg mt-1"
+            >
+              <li>
+                <a
+                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                  href="./staff"
+                  >Staff</a
+                >
+              </li>
+              <li>
+                <a
+                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                  href="./contact"
+                  >Contact Us</a
+                >
+              </li>
+              <li>
+                <a
+                  class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
+                  href="./register#reForm"
+                  >Register</a
+                >
+              </li>
+            </ul>
+          </li>
+
+          <li>
+            <a class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300" href="./donate.php#donate">Donate</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-2xl mx-auto px-4 py-10 sm:py-12 pt-[10vh]">
     <div class="rounded-3xl border border-gray-100 bg-white shadow-lg overflow-hidden">
       <div class="px-6 py-6 sm:px-8 sm:py-8 bg-gradient-to-r from-green-800 to-green-700">
         <div class="flex items-start justify-between gap-4">
@@ -125,5 +443,7 @@ if ($orderTrackingId !== '') {
       </div>
     </div>
   </div>
+
+  <script src="./donate-page.js"></script>
 </body>
 </html>

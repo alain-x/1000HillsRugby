@@ -407,7 +407,7 @@ function h(string $s): string
                       <option value="TZS">TZS</option>
                       <option value="USD">USD</option>
                     </select>
-                    <div class="mt-2 text-xs text-gray-500">The final payment method options depend on what Pesapal has enabled for your account.</div>
+                    <div class="mt-2 text-xs text-gray-500">If you choose a currency other than RWF, we’ll convert it to RWF at checkout using our configured exchange rate. The final payment method options depend on what Pesapal has enabled for your account.</div>
                   </div>
                 </div>
 
