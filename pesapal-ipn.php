@@ -7,17 +7,34 @@ pesapal_load_env();
 
 header('Content-Type: application/json; charset=utf-8');
 
+$rawBody = file_get_contents('php://input');
+$jsonBody = null;
+if (is_string($rawBody) && trim($rawBody) !== '') {
+    $decoded = json_decode($rawBody, true);
+    if (is_array($decoded)) {
+        $jsonBody = $decoded;
+    }
+}
+
 $orderTrackingId = '';
 if (isset($_GET['OrderTrackingId'])) $orderTrackingId = (string) $_GET['OrderTrackingId'];
 if (isset($_GET['orderTrackingId'])) $orderTrackingId = (string) $_GET['orderTrackingId'];
 if (isset($_POST['OrderTrackingId'])) $orderTrackingId = (string) $_POST['OrderTrackingId'];
 if (isset($_POST['orderTrackingId'])) $orderTrackingId = (string) $_POST['orderTrackingId'];
+if ($orderTrackingId === '' && is_array($jsonBody)) {
+    if (isset($jsonBody['OrderTrackingId'])) $orderTrackingId = (string) $jsonBody['OrderTrackingId'];
+    if (isset($jsonBody['orderTrackingId'])) $orderTrackingId = (string) $jsonBody['orderTrackingId'];
+}
 
 $orderMerchantReference = '';
 if (isset($_GET['OrderMerchantReference'])) $orderMerchantReference = (string) $_GET['OrderMerchantReference'];
 if (isset($_GET['orderMerchantReference'])) $orderMerchantReference = (string) $_GET['orderMerchantReference'];
 if (isset($_POST['OrderMerchantReference'])) $orderMerchantReference = (string) $_POST['OrderMerchantReference'];
 if (isset($_POST['orderMerchantReference'])) $orderMerchantReference = (string) $_POST['orderMerchantReference'];
+if ($orderMerchantReference === '' && is_array($jsonBody)) {
+    if (isset($jsonBody['OrderMerchantReference'])) $orderMerchantReference = (string) $jsonBody['OrderMerchantReference'];
+    if (isset($jsonBody['orderMerchantReference'])) $orderMerchantReference = (string) $jsonBody['orderMerchantReference'];
+}
 
 try {
     if ($orderTrackingId !== '') {

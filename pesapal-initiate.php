@@ -39,7 +39,10 @@ $ipnUrl = pesapal_base_url() . '/pesapal-ipn.php';
 try {
     $token = pesapal_request_token();
 
-    $ipnId = pesapal_register_ipn($token, $ipnUrl, 'GET');
+    $ipnId = pesapal_env('PESAPAL_IPN_ID');
+    if (!$ipnId) {
+        $ipnId = pesapal_register_ipn($token, $ipnUrl, 'GET');
+    }
 
     $payload = [
         'id' => $merchantReference,
