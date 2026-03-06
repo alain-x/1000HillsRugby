@@ -247,7 +247,8 @@ function h(string $s): string
             <li class="relative">
               <button
                 class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                onclick="toggleDropdown('education-menu-mobile')"
+                type="button"
+                data-dropdown-toggle="education-menu-mobile"
               >
                 Education <i class="fas fa-chevron-down text-sm"></i>
               </button>
@@ -275,7 +276,8 @@ function h(string $s): string
             <li class="relative">
               <button
                 class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                onclick="toggleDropdown('events-menu-mobile')"
+                type="button"
+                data-dropdown-toggle="events-menu-mobile"
               >
                 Events <i class="fas fa-chevron-down text-sm"></i>
               </button>
@@ -303,7 +305,8 @@ function h(string $s): string
             <li class="relative">
               <button
                 class="dropdown-toggle hover:text-green-600 px-4 py-2 flex items-center justify-between transition-all duration-300 cursor-pointer w-full"
-                onclick="toggleDropdown('contact-menu-mobile')"
+                type="button"
+                data-dropdown-toggle="contact-menu-mobile"
               >
                 Contact <i class="fas fa-chevron-down text-sm"></i>
               </button>
@@ -391,8 +394,7 @@ function h(string $s): string
                         <button type="button" data-amount="10000" class="rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-extrabold text-gray-800 hover:bg-gray-50">10k</button>
                         <button type="button" data-amount="20000" class="rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-extrabold text-gray-800 hover:bg-gray-50">20k</button>
                       </div>
-                      <input id="donate-amount" name="amount_display" inputmode="decimal" type="text" inputmode="numeric" pattern="[0-9,]*" min="1" required class="w-full rounded-xl border-gray-300 focus:border-green-700 focus:ring-green-700" value="5,000" />
-                      <input type="hidden" id="donate-amount-raw" name="amount" value="5000" />
+                      <input id="donate-amount" name="amount" inputmode="decimal" type="number" step="0.01" min="1" required class="w-full rounded-xl border-gray-300 focus:border-green-700 focus:ring-green-700" value="5000" />
                       <div class="text-xs text-gray-500">Enter any amount you want to give.</div>
                     </div>
                   </div>
@@ -514,75 +516,6 @@ function h(string $s): string
     </section>
   </main>
 
-  <script>
-    (function () {
-      var amountInput = document.getElementById('donate-amount');
-      var amountRaw = document.getElementById('donate-amount-raw');
-      if (!amountInput || !amountRaw) return;
-      // Helper: format number with commas
-      function formatWithCommas(num) {
-        return Number(num).toLocaleString('en-US');
-      }
-      // Helper: strip commas to get raw number
-      function stripCommas(str) {
-        return str.replace(/,/g, '');
-      }
-      // Sync raw field
-      function syncRaw() {
-        var raw = stripCommas(amountInput.value);
-        if (/^\d+$/.test(raw) && raw !== '') {
-          amountRaw.value = raw;
-        }
-      }
-      // Preset buttons
-      var buttons = document.querySelectorAll('button[data-amount]');
-      for (var i = 0; i < buttons.length; i++) {
-        buttons[i].addEventListener('click', function (e) {
-          var v = e.currentTarget.getAttribute('data-amount');
-          if (!v) return;
-          amountInput.value = formatWithCommas(v);
-          amountRaw.value = v;
-          amountInput.focus();
-        });
-      }
-      // Keep commas when user types/pastes/blurs and sync raw
-      function enforceCommas() {
-        var raw = stripCommas(amountInput.value);
-        if (/^\d+$/.test(raw) && raw !== '') {
-          amountInput.value = formatWithCommas(raw);
-          amountRaw.value = raw;
-        }
-      }
-      amountInput.addEventListener('blur', enforceCommas);
-      amountInput.addEventListener('change', enforceCommas);
-      amountInput.addEventListener('keyup', syncRaw);
-    })();
-
-    function toggleDropdown(menuId) {
-      var dropdown = document.getElementById(menuId);
-      if (!dropdown) return;
-      dropdown.classList.toggle('hidden');
-    }
-
-    (function () {
-      var menuToggle = document.getElementById('menu-toggle');
-      var openIcon = document.getElementById('menu-open-icon');
-      var closeIcon = document.getElementById('menu-close-icon');
-      if (!menuToggle || !openIcon || !closeIcon) return;
-
-      function syncIcons() {
-        if (menuToggle.checked) {
-          openIcon.classList.add('hidden');
-          closeIcon.classList.remove('hidden');
-        } else {
-          openIcon.classList.remove('hidden');
-          closeIcon.classList.add('hidden');
-        }
-      }
-
-      menuToggle.addEventListener('change', syncIcons);
-      syncIcons();
-    })();
-  </script>
+  <script src="./donate-page.js"></script>
 </body>
 </html>
