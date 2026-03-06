@@ -441,16 +441,12 @@ function h(string $s): string
 
                 <div class="grid gap-3 pt-2">
                   <div class="rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-xs text-gray-700">
-                    You’ll be redirected to Pesapal to complete payment.
+                    You'll be redirected to Pesapal to complete payment.
                   </div>
                   <button type="submit" class="w-full inline-flex items-center justify-center rounded-2xl bg-green-700 px-5 py-4 text-white font-extrabold hover:bg-green-800 active:scale-[0.99]">Donate securely</button>
                   <div class="text-[11px] text-gray-500">By continuing, you agree to Pesapal’s terms during checkout.</div>
                 </div>
               </form>
-              </div>
-
-              <div class="mt-6 text-xs text-gray-500">
-                Environment: <code class="font-mono"><?php echo h((string) pesapal_env('PESAPAL_ENV', 'sandbox')); ?></code>
               </div>
             </div>
           </div>
