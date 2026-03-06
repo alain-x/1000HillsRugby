@@ -38,74 +38,109 @@ function h(string $s): string
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="./images/t_icon.png" type="image/png" />
 </head>
-<body class="bg-gray-50">
-  <div class="max-w-3xl mx-auto px-4 py-10">
-    <div class="bg-white shadow-lg rounded-2xl p-6 border border-gray-100">
-      <div class="flex items-start justify-between gap-4">
-        <div>
-          <h1 class="text-2xl font-extrabold text-gray-900">Donate</h1>
-          <p class="text-sm text-gray-600 mt-1">Support 1000 Hills Rugby. Secure payments are processed by Pesapal.</p>
+<body class="bg-gradient-to-b from-gray-50 to-white">
+  <div class="max-w-3xl mx-auto px-4 py-10 sm:py-12">
+    <div class="rounded-3xl border border-gray-100 bg-white shadow-lg overflow-hidden">
+      <div class="px-6 py-6 sm:px-8 sm:py-8 bg-gradient-to-r from-green-800 to-green-700">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <div class="text-white/90 text-xs font-extrabold tracking-widest uppercase">1000 Hills Rugby</div>
+            <h1 class="mt-2 text-2xl sm:text-3xl font-extrabold text-white">Make a donation</h1>
+            <p class="mt-2 text-sm text-white/90 max-w-xl">Support our programs. Payments are securely processed by Pesapal.</p>
+          </div>
+          <a class="text-sm font-semibold text-white/90 hover:text-white" href="./">Home</a>
         </div>
-        <a class="text-sm font-semibold text-green-700 hover:text-green-800" href="./">Home</a>
       </div>
 
-      <form class="mt-6 grid gap-4" method="POST" action="./donate-initiate.php">
+      <div class="px-6 py-6 sm:px-8 sm:py-8">
+      <form class="grid gap-5" method="POST" action="./donate-initiate.php">
         <input type="hidden" name="csrf" value="<?php echo h((string)($_SESSION['donate_csrf'] ?? '')); ?>" />
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-semibold text-gray-700">Amount</label>
-            <input name="amount" type="number" step="0.01" min="1" required class="mt-1 w-full rounded-lg border-gray-300 focus:border-green-600 focus:ring-green-600" value="5000" />
+            <div class="mt-1 grid gap-2">
+              <div class="grid grid-cols-4 gap-2">
+                <button type="button" data-amount="2000" class="rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-extrabold text-gray-800 hover:bg-gray-50">2k</button>
+                <button type="button" data-amount="5000" class="rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-extrabold text-gray-800 hover:bg-gray-50">5k</button>
+                <button type="button" data-amount="10000" class="rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-extrabold text-gray-800 hover:bg-gray-50">10k</button>
+                <button type="button" data-amount="20000" class="rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-extrabold text-gray-800 hover:bg-gray-50">20k</button>
+              </div>
+              <input id="donate-amount" name="amount" inputmode="decimal" type="number" step="0.01" min="1" required class="w-full rounded-xl border-gray-300 focus:border-green-700 focus:ring-green-700" value="5000" />
+              <div class="text-xs text-gray-500">Enter any amount you want to give.</div>
+            </div>
           </div>
           <div>
             <label class="block text-sm font-semibold text-gray-700">Currency</label>
-            <select name="currency" class="mt-1 w-full rounded-lg border-gray-300 focus:border-green-600 focus:ring-green-600">
+            <select name="currency" class="mt-1 w-full rounded-xl border-gray-300 focus:border-green-700 focus:ring-green-700">
               <option value="RWF" selected>RWF</option>
               <option value="KES">KES</option>
               <option value="UGX">UGX</option>
               <option value="TZS">TZS</option>
               <option value="USD">USD</option>
             </select>
+            <div class="mt-2 text-xs text-gray-500">The final payment method options depend on what Pesapal has enabled for your account.</div>
           </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-semibold text-gray-700">First name</label>
-            <input name="first_name" type="text" required class="mt-1 w-full rounded-lg border-gray-300 focus:border-green-600 focus:ring-green-600" />
+            <input name="first_name" autocomplete="given-name" type="text" required class="mt-1 w-full rounded-xl border-gray-300 focus:border-green-700 focus:ring-green-700" />
           </div>
           <div>
             <label class="block text-sm font-semibold text-gray-700">Last name</label>
-            <input name="last_name" type="text" required class="mt-1 w-full rounded-lg border-gray-300 focus:border-green-600 focus:ring-green-600" />
+            <input name="last_name" autocomplete="family-name" type="text" required class="mt-1 w-full rounded-xl border-gray-300 focus:border-green-700 focus:ring-green-700" />
           </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-semibold text-gray-700">Email</label>
-            <input name="email" type="email" required class="mt-1 w-full rounded-lg border-gray-300 focus:border-green-600 focus:ring-green-600" />
+            <input name="email" autocomplete="email" inputmode="email" type="email" required class="mt-1 w-full rounded-xl border-gray-300 focus:border-green-700 focus:ring-green-700" />
           </div>
           <div>
             <label class="block text-sm font-semibold text-gray-700">Phone</label>
-            <input name="phone" type="text" class="mt-1 w-full rounded-lg border-gray-300 focus:border-green-600 focus:ring-green-600" placeholder="+2507XXXXXXXX" />
+            <input name="phone" autocomplete="tel" inputmode="tel" type="tel" class="mt-1 w-full rounded-xl border-gray-300 focus:border-green-700 focus:ring-green-700" placeholder="+2507XXXXXXXX" />
+            <div class="mt-2 text-xs text-gray-500">Use a number that can receive payment prompts (if mobile money is enabled).</div>
           </div>
         </div>
 
         <div>
           <label class="block text-sm font-semibold text-gray-700">Message (optional)</label>
-          <input name="message" type="text" maxlength="120" class="mt-1 w-full rounded-lg border-gray-300 focus:border-green-600 focus:ring-green-600" placeholder="e.g. Youth program support" />
+          <input name="message" type="text" maxlength="120" class="mt-1 w-full rounded-xl border-gray-300 focus:border-green-700 focus:ring-green-700" placeholder="e.g. Youth program support" />
         </div>
 
-        <div class="flex items-center justify-between gap-3 pt-2">
-          <div class="text-xs text-gray-500">Secure checkout via Pesapal</div>
-          <button type="submit" class="inline-flex items-center justify-center rounded-xl bg-green-700 px-5 py-3 text-white font-bold hover:bg-green-800">Donate now</button>
+        <div class="grid gap-3 pt-2">
+          <div class="rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-xs text-gray-700">
+            You’ll be redirected to Pesapal to complete payment.
+          </div>
+          <button type="submit" class="w-full inline-flex items-center justify-center rounded-2xl bg-green-700 px-5 py-4 text-white font-extrabold hover:bg-green-800 active:scale-[0.99]">Donate securely</button>
+          <div class="text-[11px] text-gray-500">By continuing, you agree to Pesapal’s terms during checkout.</div>
         </div>
       </form>
 
       <div class="mt-6 text-xs text-gray-500">
         Environment: <code class="font-mono"><?php echo h((string) pesapal_env('PESAPAL_ENV', 'sandbox')); ?></code>
       </div>
+      </div>
     </div>
   </div>
+
+  <script>
+    (function () {
+      var amountInput = document.getElementById('donate-amount');
+      if (!amountInput) return;
+      var buttons = document.querySelectorAll('button[data-amount]');
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener('click', function (e) {
+          var v = e.currentTarget.getAttribute('data-amount');
+          if (!v) return;
+          amountInput.value = v;
+          amountInput.focus();
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
