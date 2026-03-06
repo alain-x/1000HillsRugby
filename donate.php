@@ -360,7 +360,7 @@ function h(string $s): string
             <div class="p-5 sm:p-6">
               <div class="grid grid-cols-2 gap-4">
                 <div class="rounded-2xl border border-gray-100 bg-gray-50 p-4">
-                  <div class="text-2xl font-extrabold text-green-800">500+</div>
+                  <div class="text-2xl font-extrabold text-green-800">100+</div>
                   <div class="mt-1 text-xs text-gray-600">Youth reached through programs</div>
                 </div>
                 <div class="rounded-2xl border border-gray-100 bg-gray-50 p-4">
@@ -391,7 +391,8 @@ function h(string $s): string
                         <button type="button" data-amount="10000" class="rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-extrabold text-gray-800 hover:bg-gray-50">10k</button>
                         <button type="button" data-amount="20000" class="rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-extrabold text-gray-800 hover:bg-gray-50">20k</button>
                       </div>
-                      <input id="donate-amount" name="amount" inputmode="decimal" type="number" step="0.01" min="1" required class="w-full rounded-xl border-gray-300 focus:border-green-700 focus:ring-green-700" value="5000" />
+                      <input id="donate-amount" name="amount_display" inputmode="decimal" type="text" inputmode="numeric" pattern="[0-9,]*" min="1" required class="w-full rounded-xl border-gray-300 focus:border-green-700 focus:ring-green-700" value="5,000" />
+                      <input type="hidden" id="donate-amount-raw" name="amount" value="5000" />
                       <div class="text-xs text-gray-500">Enter any amount you want to give.</div>
                     </div>
                   </div>
@@ -464,7 +465,7 @@ function h(string $s): string
 
             <div class="mt-8 grid grid-cols-2 gap-4">
               <div class="rounded-3xl border border-gray-100 bg-gray-50 p-5">
-                <div class="text-3xl font-extrabold text-green-800">500+</div>
+                <div class="text-3xl font-extrabold text-green-800">100+</div>
                 <div class="mt-2 text-sm text-gray-600">youth participants supported</div>
               </div>
               <div class="rounded-3xl border border-gray-100 bg-gray-50 p-5">
@@ -516,16 +517,45 @@ function h(string $s): string
   <script>
     (function () {
       var amountInput = document.getElementById('donate-amount');
-      if (!amountInput) return;
+      var amountRaw = document.getElementById('donate-amount-raw');
+      if (!amountInput || !amountRaw) return;
+      // Helper: format number with commas
+      function formatWithCommas(num) {
+        return Number(num).toLocaleString('en-US');
+      }
+      // Helper: strip commas to get raw number
+      function stripCommas(str) {
+        return str.replace(/,/g, '');
+      }
+      // Sync raw field
+      function syncRaw() {
+        var raw = stripCommas(amountInput.value);
+        if (/^\d+$/.test(raw) && raw !== '') {
+          amountRaw.value = raw;
+        }
+      }
+      // Preset buttons
       var buttons = document.querySelectorAll('button[data-amount]');
       for (var i = 0; i < buttons.length; i++) {
         buttons[i].addEventListener('click', function (e) {
           var v = e.currentTarget.getAttribute('data-amount');
           if (!v) return;
-          amountInput.value = v;
+          amountInput.value = formatWithCommas(v);
+          amountRaw.value = v;
           amountInput.focus();
         });
       }
+      // Keep commas when user types/pastes/blurs and sync raw
+      function enforceCommas() {
+        var raw = stripCommas(amountInput.value);
+        if (/^\d+$/.test(raw) && raw !== '') {
+          amountInput.value = formatWithCommas(raw);
+          amountRaw.value = raw;
+        }
+      }
+      amountInput.addEventListener('blur', enforceCommas);
+      amountInput.addEventListener('change', enforceCommas);
+      amountInput.addEventListener('keyup', syncRaw);
     })();
 
     function toggleDropdown(menuId) {
