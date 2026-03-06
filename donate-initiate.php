@@ -59,6 +59,28 @@ if ($amount <= 0 || $firstName === '' || $lastName === '' || $email === '') {
     exit;
 }
 
+$currency = strtoupper($currency);
+$originalAmount = $amount;
+$originalCurrency = $currency;
+$fxRateToRwf = 1.0;
+
+// Pesapal Rwanda contracts commonly settle in RWF and can reject large foreign-currency amounts.
+// Convert non-RWF amounts to RWF using fixed FX rates configured in .env.
+if ($currency !== 'RWF') {
+    $fxKey = 'FX_' . preg_replace('/[^A-Z]/', '', $currency) . '_RWF';
+    $rateStr = pesapal_env($fxKey);
+    $rate = $rateStr !== null ? (float) $rateStr : 0.0;
+    if ($rate <= 0) {
+        http_response_code(400);
+        echo 'Unsupported currency. Please select RWF or contact support.';
+        exit;
+    }
+
+    $fxRateToRwf = $rate;
+    $amount = round($originalAmount * $fxRateToRwf, 2);
+    $currency = 'RWF';
+}
+
 $donationId = 'DON-' . date('Ymd-His') . '-' . bin2hex(random_bytes(4));
 $merchantReference = $donationId;
 
@@ -70,6 +92,9 @@ $donationRow = [
     'created_at' => gmdate('c'),
     'amount' => $amount,
     'currency' => $currency,
+    'original_amount' => $originalAmount,
+    'original_currency' => $originalCurrency,
+    'fx_rate_to_rwf' => $fxRateToRwf,
     'first_name' => $firstName,
     'last_name' => $lastName,
     'email' => $email,
@@ -140,11 +165,11 @@ try {
     http_response_code(500);
 
     echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />';
-    echo '<title>Donation Error</title><script src="https://cdn.tailwindcss.com"></script></head><body class="bg-gray-50">';
-    echo '<div class="max-w-2xl mx-auto px-4 py-10"><div class="bg-white border border-red-200 rounded-2xl shadow p-6">';
-    echo '<div class="text-lg font-extrabold text-gray-900">Donation initiation failed</div>';
-    echo '<div class="mt-3 text-sm text-gray-700">' . h($e->getMessage()) . '</div>';
-    echo '<div class="mt-6"><a class="text-sm font-bold text-green-700 hover:text-green-800" href="./donate.php">Back</a></div>';
-    echo '</div></div></body></html>';
+    echo '<title>Donation Error</title></head><body>';
+    echo '<div>';
+    echo '<h1>Donation initiation failed</h1>';
+    echo '<p>' . h($e->getMessage()) . '</p>';
+    echo '<p><a href="./donate.php">Back</a></p>';
+    echo '</div></body></html>';
     exit;
 }
