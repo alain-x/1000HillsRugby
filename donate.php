@@ -394,13 +394,13 @@ function h(string $s): string
                         <button type="button" data-amount="10000" class="rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-extrabold text-gray-800 hover:bg-gray-50">10k</button>
                         <button type="button" data-amount="20000" class="rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-extrabold text-gray-800 hover:bg-gray-50">20k</button>
                       </div>
-                      <input id="donate-amount" name="amount" inputmode="decimal" type="number" step="0.01" min="1" required class="w-full rounded-xl border border-gray-300 focus:border-green-700 focus:ring-green-700" value="5000" />
+                      <input id="donate-amount" name="amount" inputmode="decimal" type="number" step="0.01" min="1" required class="w-full rounded-xl border-gray-300 focus:border-green-700 focus:ring-green-700" value="5000" />
                       <div class="text-xs text-gray-500">Enter any amount you want to give.</div>
                     </div>
                   </div>
                   <div>
                     <label class="block text-sm font-semibold text-gray-700">Currency</label>
-                    <select name="currency" class="mt-1 w-full rounded-xl border border-gray-300 focus:border-green-700 focus:ring-green-700">
+                    <select name="currency" class="mt-1 w-full rounded-xl border-gray-300 focus:border-green-700 focus:ring-green-700">
                       <option value="RWF" selected>RWF</option>
                       <option value="KES">KES</option>
                       <option value="UGX">UGX</option>
@@ -414,29 +414,29 @@ function h(string $s): string
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label class="block text-sm font-semibold text-gray-700">First name</label>
-                    <input name="first_name" autocomplete="given-name" type="text" required class="mt-1 w-full rounded-xl border border-gray-300 focus:border-green-700 focus:ring-green-700" />
+                    <input name="first_name" autocomplete="given-name" type="text" required class="mt-1 w-full rounded-xl border-gray-300 focus:border-green-700 focus:ring-green-700" />
                   </div>
                   <div>
                     <label class="block text-sm font-semibold text-gray-700">Last name</label>
-                    <input name="last_name" autocomplete="family-name" type="text" required class="mt-1 w-full rounded-xl border border-gray-300 focus:border-green-700 focus:ring-green-700" />
+                    <input name="last_name" autocomplete="family-name" type="text" required class="mt-1 w-full rounded-xl border-gray-300 focus:border-green-700 focus:ring-green-700" />
                   </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label class="block text-sm font-semibold text-gray-700">Email</label>
-                    <input name="email" autocomplete="email" inputmode="email" type="email" required class="mt-1 w-full rounded-xl border border-gray-300 focus:border-green-700 focus:ring-green-700" />
+                    <input name="email" autocomplete="email" inputmode="email" type="email" required class="mt-1 w-full rounded-xl border-gray-300 focus:border-green-700 focus:ring-green-700" />
                   </div>
                   <div>
                     <label class="block text-sm font-semibold text-gray-700">Phone</label>
-                    <input name="phone" autocomplete="tel" inputmode="tel" type="tel" class="mt-1 w-full rounded-xl border border-gray-300 focus:border-green-700 focus:ring-green-700" placeholder="+2507XXXXXXXX" />
+                    <input name="phone" autocomplete="tel" inputmode="tel" type="tel" class="mt-1 w-full rounded-xl border-gray-300 focus:border-green-700 focus:ring-green-700" placeholder="+2507XXXXXXXX" />
                     <div class="mt-2 text-xs text-gray-500">Use a number that can receive payment prompts (if mobile money is enabled).</div>
                   </div>
                 </div>
 
                 <div>
                   <label class="block text-sm font-semibold text-gray-700">Message (optional)</label>
-                  <input name="message" type="text" maxlength="120" class="mt-1 w-full rounded-xl border border-gray-300 focus:border-green-700 focus:ring-green-700" placeholder="e.g. Youth program support" />
+                  <input name="message" type="text" maxlength="120" class="mt-1 w-full rounded-xl border-gray-300 focus:border-green-700 focus:ring-green-700" placeholder="e.g. Youth program support" />
                 </div>
 
                 <div class="grid gap-3 pt-2">

@@ -15,45 +15,6 @@
   };
 
   onReady(function () {
-    var currencySelect = document.querySelector('select[name="currency"]');
-
-    function getPresets(currency) {
-      switch ((currency || '').toUpperCase()) {
-        case 'USD':
-          return [10, 25, 50, 100];
-        case 'KES':
-          return [500, 1000, 2500, 5000];
-        case 'UGX':
-          return [20000, 50000, 100000, 200000];
-        case 'TZS':
-          return [5000, 10000, 25000, 50000];
-        case 'RWF':
-        default:
-          return [2000, 5000, 10000, 20000];
-      }
-    }
-
-    function formatPresetLabel(currency, amount) {
-      var c = (currency || '').toUpperCase();
-      if (c === 'USD') return '$' + amount;
-
-      // Use k-suffix for large numbers (local currencies)
-      if (amount >= 1000 && amount % 1000 === 0) {
-        return String(amount / 1000) + 'k';
-      }
-      return String(amount);
-    }
-
-    function applyCurrencyPresets(currency) {
-      var presets = getPresets(currency);
-      var presetButtons = document.querySelectorAll('button[data-amount]');
-      for (var i = 0; i < presetButtons.length && i < presets.length; i++) {
-        presetButtons[i].setAttribute('data-amount', String(presets[i]));
-        presetButtons[i].textContent = formatPresetLabel(currency, presets[i]);
-      }
-      return presets;
-    }
-
     // Preset amount buttons -> update amount input
     var amountInput = document.getElementById('donate-amount');
     if (amountInput) {
@@ -74,23 +35,6 @@
           amountInput.focus();
         });
       }
-    }
-
-    // Currency change -> update presets + set a sensible default amount
-    if (currencySelect && amountInput) {
-      var initialPresets = applyCurrencyPresets(currencySelect.value);
-      if (amountInput.value === '' || amountInput.value === '0') {
-        amountInput.value = String(initialPresets[0]);
-      }
-
-      currencySelect.addEventListener('change', function () {
-        var presets = applyCurrencyPresets(currencySelect.value);
-        amountInput.value = String(presets[0]);
-        try {
-          amountInput.dispatchEvent(new Event('input', { bubbles: true }));
-          amountInput.dispatchEvent(new Event('change', { bubbles: true }));
-        } catch (_) {}
-      });
     }
 
     // CSP-safe dropdown binding (no inline onclick)
