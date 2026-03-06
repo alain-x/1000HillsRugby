@@ -506,7 +506,7 @@ function h(string $s): string
             <a href="#donate" class="mt-7 inline-flex items-center justify-center rounded-xl bg-green-700 px-5 py-3 text-sm font-extrabold text-white hover:bg-green-800">Donate now</a>
           </div>
           <div class="rounded-3xl overflow-hidden border border-gray-100 bg-white shadow-sm">
-            <img src="./images/traing.JPG" alt="Training" class="w-full h-[280px] sm:h-[360px] object-cover" />
+            <img src="./images/achiv.jpg" alt="Chanpions" class="w-full h-[280px] sm:h-[360px] object-cover" />
           </div>
         </div>
       </div>
