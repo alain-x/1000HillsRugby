@@ -139,11 +139,17 @@ try {
 } catch (Throwable $e) {
     http_response_code(500);
 
+    $rawMessage = (string) $e->getMessage();
+    $displayMessage = $rawMessage;
+    if (stripos($rawMessage, 'amount_exceeds_default_limit') !== false || stripos($rawMessage, 'amount exceeds limit') !== false) {
+        $displayMessage = 'The amount you entered is above the current limit allowed on this payment account. Please try a smaller amount, or contact our support / Pesapal support to increase the transaction limit.';
+    }
+
     echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />';
     echo '<title>Donation Error</title><script src="https://cdn.tailwindcss.com"></script></head><body class="bg-gray-50">';
     echo '<div class="max-w-2xl mx-auto px-4 py-10"><div class="bg-white border border-red-200 rounded-2xl shadow p-6">';
     echo '<div class="text-lg font-extrabold text-gray-900">Donation initiation failed</div>';
-    echo '<div class="mt-3 text-sm text-gray-700">' . h($e->getMessage()) . '</div>';
+    echo '<div class="mt-3 text-sm text-gray-700">' . h($displayMessage) . '</div>';
     echo '<div class="mt-6"><a class="text-sm font-bold text-green-700 hover:text-green-800" href="./donate.php">Back</a></div>';
     echo '</div></div></body></html>';
     exit;
