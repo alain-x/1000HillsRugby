@@ -7,6 +7,16 @@ require_once __DIR__ . '/donation-store.php';
 
 pesapal_load_env();
 
+// Keep canonical host consistent (www) to avoid origin/CSP confusion
+$host = $_SERVER['HTTP_HOST'] ?? '';
+$isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
+if ($host !== '' && stripos($host, 'www.') !== 0) {
+    $path = $_SERVER['REQUEST_URI'] ?? '/donate-initiate.php';
+    $scheme = $isHttps ? 'https' : 'http';
+    header('Location: ' . $scheme . '://www.' . $host . $path, true, 301);
+    exit;
+}
+
 header('Content-Type: text/html; charset=utf-8');
 
 function h(string $s): string
@@ -17,6 +27,11 @@ function h(string $s): string
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        header('Location: ./donate.php#donate', true, 303);
+        exit;
+    }
+
     http_response_code(405);
     echo 'Method Not Allowed';
     exit;

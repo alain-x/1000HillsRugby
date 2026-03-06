@@ -35,9 +35,22 @@ function pesapal_env(string $key, ?string $default = null): ?string
 
 function pesapal_base_url(): string
 {
+    $appUrl = pesapal_env('APP_URL');
+    if (is_string($appUrl) && $appUrl !== '') {
+        $appUrl = rtrim($appUrl, '/');
+        $p = @parse_url($appUrl);
+        if (is_array($p) && isset($p['scheme'], $p['host'])) {
+            $port = isset($p['port']) ? (':' . (int) $p['port']) : '';
+            return $p['scheme'] . '://' . $p['host'] . $port;
+        }
+    }
+
     $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
     $scheme = $https ? 'https' : 'http';
     $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    if ($host !== '' && stripos($host, 'www.') !== 0) {
+        $host = 'www.' . $host;
+    }
     return $scheme . '://' . $host;
 }
 
