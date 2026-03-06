@@ -377,8 +377,8 @@ function h(string $s): string
           <div id="donate" class="rounded-3xl border border-gray-100 bg-white shadow-lg">
             <div class="p-5 sm:p-8">
               <div class="text-xs font-extrabold tracking-widest uppercase text-green-800">Donate</div>
-              <h1 class="mt-2 text-2xl sm:text-3xl font-extrabold">How would you love to donate?</h1>
-              <p class="mt-2 text-sm text-gray-600">Fill in your details and you’ll be redirected to Pesapal to complete payment securely.</p>
+              <h1 class="mt-2 text-2xl sm:text-3xl font-extrabold">Donate as an Individual</h1>
+              <p class="mt-2 text-sm text-gray-600">Support our players and community. You’ll be redirected to Pesapal to complete payment securely.</p>
 
               <div class="mt-6">
               <form class="grid gap-5" method="POST" action="./donate-initiate.php">
@@ -388,26 +388,17 @@ function h(string $s): string
                   <div>
                     <label class="block text-sm font-semibold text-gray-700">Amount</label>
                     <div class="mt-1 grid gap-2">
-                      <div class="grid grid-cols-4 gap-2">
-                        <button type="button" data-amount="2000" class="rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-extrabold text-gray-800 hover:bg-gray-50">2k</button>
-                        <button type="button" data-amount="5000" class="rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-extrabold text-gray-800 hover:bg-gray-50">5k</button>
-                        <button type="button" data-amount="10000" class="rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-extrabold text-gray-800 hover:bg-gray-50">10k</button>
-                        <button type="button" data-amount="20000" class="rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-extrabold text-gray-800 hover:bg-gray-50">20k</button>
+                      <div class="flex rounded-xl border border-gray-300 bg-white overflow-hidden focus-within:ring-2 focus-within:ring-green-700 focus-within:border-green-700">
+                        <div class="px-3 py-2 text-sm font-extrabold text-gray-600 bg-gray-50 border-r border-gray-200">RWF</div>
+                        <input id="donate-amount" name="amount" inputmode="decimal" type="number" step="0.01" min="1" required class="w-full border-0 focus:ring-0" placeholder="5000" />
                       </div>
-                      <input id="donate-amount" name="amount" inputmode="decimal" type="number" step="0.01" min="1" required class="w-full rounded-xl border-gray-300 focus:border-green-700 focus:ring-green-700" value="5000" />
-                      <div class="text-xs text-gray-500">Enter any amount you want to give.</div>
+                      <div class="text-xs text-gray-500">Enter the amount you want to give (RWF).</div>
                     </div>
                   </div>
                   <div>
-                    <label class="block text-sm font-semibold text-gray-700">Currency</label>
-                    <select name="currency" class="mt-1 w-full rounded-xl border-gray-300 focus:border-green-700 focus:ring-green-700">
-                      <option value="RWF" selected>RWF</option>
-                      <option value="KES">KES</option>
-                      <option value="UGX">UGX</option>
-                      <option value="TZS">TZS</option>
-                      <option value="USD">USD</option>
-                    </select>
-                    <div class="mt-2 text-xs text-gray-500">If you choose a currency other than RWF, we’ll convert it to RWF at checkout using our configured exchange rate. The final payment method options depend on what Pesapal has enabled for your account.</div>
+                    <label class="block text-sm font-semibold text-gray-700">Purpose of donation</label>
+                    <input name="message" type="text" class="mt-1 w-full rounded-xl border-gray-300 focus:border-green-700 focus:ring-green-700" placeholder="Purpose of donation (optional)" />
+                    <div class="mt-2 text-xs text-gray-500">Optional. Add a note for our team.</div>
                   </div>
                 </div>
 
@@ -434,16 +425,11 @@ function h(string $s): string
                   </div>
                 </div>
 
-                <div>
-                  <label class="block text-sm font-semibold text-gray-700">Message (optional)</label>
-                  <input name="message" type="text" maxlength="120" class="mt-1 w-full rounded-xl border-gray-300 focus:border-green-700 focus:ring-green-700" placeholder="e.g. Youth program support" />
-                </div>
-
-                <div class="grid gap-3 pt-2">
+                <div class="grid gap-3">
                   <div class="rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-xs text-gray-700">
-                    You'll be redirected to Pesapal to complete payment.
+                    You’ll be redirected to Pesapal to complete payment.
                   </div>
-                  <button type="submit" class="w-full inline-flex items-center justify-center rounded-2xl bg-green-700 px-5 py-4 text-white font-extrabold hover:bg-green-800 active:scale-[0.99]">Donate securely</button>
+                  <button type="submit" class="w-full inline-flex items-center justify-center rounded-2xl bg-green-700 px-5 py-4 text-white font-extrabold hover:bg-green-800 active:scale-[0.99]">Pay now</button>
                   <div class="text-[11px] text-gray-500">By continuing, you agree to Pesapal’s terms during checkout.</div>
                 </div>
               </form>

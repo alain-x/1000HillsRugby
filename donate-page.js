@@ -86,21 +86,23 @@
 
     if (amountInput) {
       var buttons = document.querySelectorAll('button[data-amount]');
-      for (var i = 0; i < buttons.length; i++) {
-        buttons[i].addEventListener('click', function (e) {
-          e.preventDefault();
-          var v = e.currentTarget.getAttribute('data-amount');
-          if (!v) return;
+      if (buttons && buttons.length) {
+        for (var i = 0; i < buttons.length; i++) {
+          buttons[i].addEventListener('click', function (e) {
+            e.preventDefault();
+            var v = e.currentTarget.getAttribute('data-amount');
+            if (!v) return;
 
-          amountInput.value = v;
-          // Trigger any listeners/validation UI
-          try {
-            amountInput.dispatchEvent(new Event('input', { bubbles: true }));
-            amountInput.dispatchEvent(new Event('change', { bubbles: true }));
-          } catch (_) {}
+            amountInput.value = v;
+            // Trigger any listeners/validation UI
+            try {
+              amountInput.dispatchEvent(new Event('input', { bubbles: true }));
+              amountInput.dispatchEvent(new Event('change', { bubbles: true }));
+            } catch (_) {}
 
-          amountInput.focus();
-        });
+            amountInput.focus();
+          });
+        }
       }
     }
 
