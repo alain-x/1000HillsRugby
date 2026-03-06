@@ -5,6 +5,15 @@ declare(strict_types=1);
 require_once __DIR__ . '/pesapal-lib.php';
 pesapal_load_env();
 
+$host = $_SERVER['HTTP_HOST'] ?? '';
+$isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
+if ($host !== '' && stripos($host, 'www.') !== 0) {
+  $path = $_SERVER['REQUEST_URI'] ?? '/pesapal-test.php';
+  $scheme = $isHttps ? 'https' : 'http';
+  header('Location: ' . $scheme . '://www.' . $host . $path, true, 301);
+  exit;
+}
+
 header('Content-Type: text/html; charset=utf-8');
 
 ?>
