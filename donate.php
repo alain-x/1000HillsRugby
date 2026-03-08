@@ -427,17 +427,6 @@ function h(string $s): string
                       <div class="mt-2 text-xs text-gray-500">Use a number that can receive payment prompts (if mobile money is enabled).</div>
                     </div>
                   </div>
-
-                  <div class="mt-5">
-                    <label class="block text-sm font-semibold text-gray-700">Preferred payment method</label>
-                    <select name="preferred_method" class="mt-2 w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm shadow-sm focus:border-green-700 focus:ring-2 focus:ring-green-700">
-                      <option value="" selected>Let me choose on checkout</option>
-                      <option value="mobile_money">Mobile Money</option>
-                      <option value="card">Card</option>
-                      <option value="bank">Bank</option>
-                    </select>
-                    <div class="mt-2 text-xs text-gray-500">Pesapal will still show available payment options during checkout.</div>
-                  </div>
                 </div>
 
                 <div class="grid gap-3">

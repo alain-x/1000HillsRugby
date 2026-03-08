@@ -52,7 +52,6 @@ $lastName = isset($_POST['last_name']) ? trim((string) $_POST['last_name']) : ''
 $email = isset($_POST['email']) ? trim((string) $_POST['email']) : '';
 $phone = isset($_POST['phone']) ? trim((string) $_POST['phone']) : '';
 $message = isset($_POST['message']) ? trim((string) $_POST['message']) : '';
-$preferredMethod = isset($_POST['preferred_method']) ? strtolower(trim((string) $_POST['preferred_method'])) : '';
 
 if ($amount <= 0 || $firstName === '' || $lastName === '' || $email === '') {
     http_response_code(400);
@@ -109,7 +108,6 @@ $donationRow = [
     'email' => $email,
     'phone' => $phone,
     'message' => $message,
-    'preferred_method' => $preferredMethod,
     'merchant_reference' => $merchantReference,
     'status' => 'PENDING',
 ];
@@ -124,19 +122,11 @@ try {
         $ipnId = pesapal_register_ipn($token, $ipnUrl, 'GET');
     }
 
-    $methodSuffix = '';
-    if ($preferredMethod !== '') {
-        $allowedMethods = ['mobile_money', 'card', 'bank'];
-        if (in_array($preferredMethod, $allowedMethods, true)) {
-            $methodSuffix = ' (Preferred: ' . $preferredMethod . ')';
-        }
-    }
-
     $payload = [
         'id' => $merchantReference,
         'currency' => $currency,
         'amount' => $amount,
-        'description' => 'Donation - 1000 Hills Rugby' . $methodSuffix,
+        'description' => 'Donation - 1000 Hills Rugby',
         'callback_url' => $callbackUrl,
         'notification_id' => $ipnId,
         'branch' => '1000 Hills Rugby',
