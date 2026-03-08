@@ -7,9 +7,13 @@ pesapal_load_env();
 
 $appEnv = strtolower((string) pesapal_env('APP_ENV', 'production'));
 if ($appEnv === 'production') {
-  http_response_code(404);
-  echo 'Not Found';
-  exit;
+  $expected = (string) pesapal_env('APP_KEY', '');
+  $provided = (string) ($_GET['token'] ?? '');
+  if ($expected === '' || $provided === '' || !hash_equals($expected, $provided)) {
+    http_response_code(404);
+    echo 'Not Found';
+    exit;
+  }
 }
 
 $host = $_SERVER['HTTP_HOST'] ?? '';
