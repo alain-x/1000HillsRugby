@@ -53,7 +53,10 @@ header('Content-Type: text/html; charset=utf-8');
         <div class="mt-1">Your Pesapal consumer secret must be stored in <code class="font-mono">.env</code>. It is never sent to the browser.</div>
       </div>
 
-      <form class="mt-6 grid gap-4" method="POST" action="./pesapal-initiate.php">
+      <form class="mt-6 grid gap-4" method="POST" action="./pesapal-initiate.php<?php echo ($appEnv === 'production') ? ('?token=' . urlencode((string) ($_GET['token'] ?? ''))) : ''; ?>">
+        <?php if ($appEnv === 'production'): ?>
+          <input type="hidden" name="token" value="<?php echo htmlspecialchars((string) ($_GET['token'] ?? ''), ENT_QUOTES, 'UTF-8'); ?>" />
+        <?php endif; ?>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-semibold text-gray-700">Amount</label>
