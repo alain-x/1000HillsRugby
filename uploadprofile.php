@@ -950,7 +950,10 @@ $conn->close();
                     <div class="form-group">
                         <label for="age" class="form-label">Age</label>
                         <input type="number" id="age" name="age" class="form-control" min="0" max="120"
-                               value="<?php echo htmlspecialchars($currentPlayer['age'] ?? ''); ?>">
+                               value="<?php echo htmlspecialchars($currentPlayer['age'] ?? ''); ?>" readonly>
+                        <small style="display:block;margin-top:0.35rem;color:#777;font-size:0.8rem;">
+                            Age is calculated automatically from Date of Birth.
+                        </small>
                     </div>
                     <div class="form-group"></div>
                 </div>
@@ -1254,6 +1257,53 @@ $conn->close();
                 }
             });
         }
+
+        // Auto-calculate age from Date of Birth on the client side
+        (function () {
+            const dobInput = document.getElementById('date_of_birth');
+            const ageInput = document.getElementById('age');
+
+            if (!dobInput || !ageInput) return;
+
+            function calculateAge(dateString) {
+                const dob = new Date(dateString);
+                const today = new Date();
+
+                if (isNaN(dob.getTime())) {
+                    return null;
+                }
+                if (dob > today) {
+                    return null;
+                }
+
+                let age = today.getFullYear() - dob.getFullYear();
+                const m = today.getMonth() - dob.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+                    age--;
+                }
+                return age >= 0 ? age : null;
+            }
+
+            function updateAgeFromDob() {
+                const val = dobInput.value;
+                if (!val) {
+                    ageInput.value = '';
+                    return;
+                }
+                const age = calculateAge(val);
+                if (age === null) {
+                    ageInput.value = '';
+                    return;
+                }
+                ageInput.value = age;
+            }
+
+            dobInput.addEventListener('change', updateAgeFromDob);
+            dobInput.addEventListener('blur', updateAgeFromDob);
+
+            // Run once on load in case DOB is already set (edit mode)
+            updateAgeFromDob();
+        })();
     </script>
 </body>
 </html>
