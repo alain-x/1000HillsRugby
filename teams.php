@@ -10,6 +10,7 @@ $conn->query("CREATE TABLE IF NOT EXISTS players (
     id INT(11) AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     img VARCHAR(255),
+    date_of_birth DATE NULL,
     age INT(3),
     role VARCHAR(50),
     position_category VARCHAR(50), -- Changed from 'category' to 'position_category'
@@ -29,6 +30,11 @@ $conn->query("CREATE TABLE IF NOT EXISTS players (
     sponsorDesc TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )");
+
+$columnCheck = $conn->query("SELECT COUNT(*) AS cnt FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'players' AND COLUMN_NAME = 'date_of_birth'");
+if ($columnCheck && ($row = $columnCheck->fetch_assoc()) && intval($row['cnt']) === 0) {
+    $conn->query("ALTER TABLE players ADD COLUMN date_of_birth DATE NULL AFTER img");
+}
 
 // Get current team (men, women, academy_u18_boys, academy_u18_girls, academy_u16_boys, academy_u16_girls)
 $currentTeam = isset($_GET['team']) ? $_GET['team'] : 'men';
@@ -91,6 +97,39 @@ function truncateName($name, $maxLength = 15) {
     return $name;
 }
 
+function calculateAgeFromDob($dateOfBirth) {
+    if (empty($dateOfBirth)) {
+        return null;
+    }
+    try {
+        $dob = new DateTime($dateOfBirth);
+        $today = new DateTime('today');
+        if ($dob > $today) {
+            return null;
+        }
+        return (int)$dob->diff($today)->y;
+    } catch (Exception $e) {
+        return null;
+    }
+}
+
+function displayPlayerAge($player) {
+    $dob = $player['date_of_birth'] ?? '';
+    if (!empty($dob)) {
+        $age = calculateAgeFromDob($dob);
+        if ($age !== null) {
+            return $age;
+        }
+    }
+
+    $ageOrYear = intval($player['age'] ?? 0);
+    $currentYear = intval(date('Y'));
+    if ($ageOrYear >= 1900 && $ageOrYear <= $currentYear) {
+        return max(0, $currentYear - $ageOrYear);
+    }
+    return max(0, $ageOrYear);
+}
+
 // Calculate team stats
 function calculateTeamStats($conn, $team) {
     $stats = [
@@ -120,6 +159,7 @@ function calculateTeamStats($conn, $team) {
 
     $stats['totalPlayers'] = count($players);
     $totalAge = 0;
+    $ageCount = 0;
     $totalHeight = 0;
     $totalWeight = 0;
 
@@ -127,7 +167,11 @@ function calculateTeamStats($conn, $team) {
         $stats['totalGames'] += intval($player['games'] ?? 0);
         $stats['totalPoints'] += intval($player['points'] ?? 0);
         $stats['totalTries'] += intval($player['tries'] ?? 0);
-        $totalAge += intval($player['age'] ?? 0);
+        $playerAge = displayPlayerAge($player);
+        if ($playerAge > 0) {
+            $totalAge += $playerAge;
+            $ageCount++;
+        }
         $totalHeight += intval($player['height'] ?? 0);
         $totalWeight += intval($player['weight'] ?? 0);
 
@@ -143,8 +187,11 @@ function calculateTeamStats($conn, $team) {
         }
     }
 
+    if ($ageCount > 0) {
+        $stats['avgAge'] = round($totalAge / $ageCount, 1);
+    }
+
     if ($stats['totalPlayers'] > 0) {
-        $stats['avgAge'] = round($totalAge / $stats['totalPlayers'], 1);
         $stats['avgHeight'] = round($totalHeight / $stats['totalPlayers'], 1);
         $stats['avgWeight'] = round($totalWeight / $stats['totalPlayers'], 1);
     }
@@ -1456,7 +1503,7 @@ $conn->close();
                 </div>
                 <div class="stats-item">
                     <div class="stats-value"><?php echo $teamStats['avgAge']; ?></div>
-                    <div class="stats-label">Avg Year</div>
+                    <div class="stats-label">Avg Age</div>
                 </div>
                 <div class="stats-item">
                     <div class="stats-value"><?php echo $teamStats['avgHeight']; ?> cm</div>
@@ -1533,8 +1580,8 @@ $conn->close();
 
                 <div class="detail-stats">
                     <div class="stat-item-lg">
-                        <div class="stat-label-lg">Year of Birth</div>
-                        <div class="stat-value-lg"><?php echo htmlspecialchars($selectedPlayer['age']); ?></div>
+                        <div class="stat-label-lg">Age</div>
+                        <div class="stat-value-lg"><?php echo htmlspecialchars(displayPlayerAge($selectedPlayer)); ?></div>
                     </div>
                     <div class="stat-item-lg">
                         <div class="stat-label-lg">Height</div>
@@ -1623,8 +1670,8 @@ $conn->close();
                                 <?php endif; ?>
                                 <div class="player-stats">
                                     <div class="stat-item">
-                                        <span class="stat-value"><?php echo htmlspecialchars($player['age']); ?></span>
-                                        <span class="stat-label">Year of Birth</span>
+                                        <span class="stat-value"><?php echo htmlspecialchars(displayPlayerAge($player)); ?></span>
+                                        <span class="stat-label">Age</span>
                                     </div>
                                     <div class="stat-item">
                                         <span class="stat-value"><?php echo htmlspecialchars($player['height']); ?> cm</span>

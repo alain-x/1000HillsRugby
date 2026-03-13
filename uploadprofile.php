@@ -11,12 +11,75 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+$conn->query("CREATE TABLE IF NOT EXISTS players (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    img VARCHAR(255),
+    date_of_birth DATE NULL,
+    age INT(3),
+    role VARCHAR(50),
+    position_category VARCHAR(50),
+    special_role VARCHAR(50),
+    team VARCHAR(20) NOT NULL DEFAULT 'men',
+    weight VARCHAR(10),
+    height VARCHAR(10),
+    games INT(11),
+    points INT(11),
+    tries INT(11),
+    placeOfBirth VARCHAR(100),
+    nationality VARCHAR(50),
+    honours TEXT,
+    joined VARCHAR(20),
+    previousClubs TEXT,
+    sponsor VARCHAR(100),
+    sponsorDesc TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)");
+
+$columnCheck = $conn->query("SELECT COUNT(*) AS cnt FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'players' AND COLUMN_NAME = 'date_of_birth'");
+if ($columnCheck && ($row = $columnCheck->fetch_assoc()) && intval($row['cnt']) === 0) {
+    $conn->query("ALTER TABLE players ADD COLUMN date_of_birth DATE NULL AFTER img");
+}
+
 // Initialize variables
 $message = '';
 $messageClass = '';
 $editMode = false;
 $currentPlayer = null;
 $players = [];
+
+function calculateAgeFromDob($dateOfBirth) {
+    if (empty($dateOfBirth)) {
+        return null;
+    }
+    try {
+        $dob = new DateTime($dateOfBirth);
+        $today = new DateTime('today');
+        if ($dob > $today) {
+            return null;
+        }
+        return (int)$dob->diff($today)->y;
+    } catch (Exception $e) {
+        return null;
+    }
+}
+
+function displayPlayerAge($player) {
+    $dob = $player['date_of_birth'] ?? '';
+    if (!empty($dob)) {
+        $age = calculateAgeFromDob($dob);
+        if ($age !== null) {
+            return $age;
+        }
+    }
+
+    $ageOrYear = intval($player['age'] ?? 0);
+    $currentYear = intval(date('Y'));
+    if ($ageOrYear >= 1900 && $ageOrYear <= $currentYear) {
+        return max(0, $currentYear - $ageOrYear);
+    }
+    return max(0, $ageOrYear);
+}
 
 // Handle delete action
 if (isset($_GET['delete'])) {
@@ -76,7 +139,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['remove_image'])) {
     // Sanitize and validate input
     $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
     $name = $conn->real_escape_string(trim($_POST['name'] ?? ''));
-    $age = isset($_POST['age']) ? intval($_POST['age']) : 0;
+    $dateOfBirthRaw = trim($_POST['date_of_birth'] ?? '');
+    $date_of_birth = $conn->real_escape_string($dateOfBirthRaw);
+    $computedAge = calculateAgeFromDob($dateOfBirthRaw);
+    $age = ($computedAge !== null) ? $computedAge : (isset($_POST['age']) ? intval($_POST['age']) : 0);
     $role = $conn->real_escape_string(trim($_POST['role'] ?? ''));
     $position_category = $conn->real_escape_string(trim($_POST['player_category'] ?? ''));
     $special_role = $conn->real_escape_string(trim($_POST['category'] ?? ''));
@@ -132,6 +198,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['remove_image'])) {
         }
     }
     
+    if (!empty($dateOfBirthRaw) && $computedAge === null) {
+        $message = 'Invalid date of birth. Please select a valid past date.';
+        $messageClass = 'alert-error';
+    }
+
     // Only proceed with database operation if there were no errors
     if (empty($message)) {
         if ($id > 0) {
@@ -139,6 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['remove_image'])) {
             $sql = "UPDATE players SET 
                     name = '$name', 
                     img = '$imgPath', 
+                    date_of_birth = " . (!empty($dateOfBirthRaw) ? "'$date_of_birth'" : "NULL") . ",
                     age = $age, 
                     role = '$role', 
                     position_category = '$position_category', 
@@ -159,9 +231,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['remove_image'])) {
                     WHERE id = $id";
         } else {
             // Insert new player
-            $sql = "INSERT INTO players (name, img, age, role, position_category, special_role, team, weight, height, games, points, tries, 
+            $sql = "INSERT INTO players (name, img, date_of_birth, age, role, position_category, special_role, team, weight, height, games, points, tries, 
                     placeOfBirth, nationality, honours, joined, previousClubs, sponsor, sponsorDesc)
-                    VALUES ('$name', '$imgPath', $age, '$role', '$position_category', '$special_role', '$team', '$weight', '$height', $games, $points, $tries,
+                    VALUES ('$name', '$imgPath', " . (!empty($dateOfBirthRaw) ? "'$date_of_birth'" : "NULL") . ", $age, '$role', '$position_category', '$special_role', '$team', '$weight', '$height', $games, $points, $tries,
                     '$placeOfBirth', '$nationality', '$honours', '$joined', '$previousClubs', '$sponsor', '$sponsorDesc')";
         }
         
@@ -867,20 +939,20 @@ $conn->close();
 
                     
 <div class="form-group">
-    <label for="age" class="form-label">Year of Birth *</label>
-    <select id="age" name="age" class="form-control" required>
-        <option value="">Select Year</option>
-        <?php
-        $currentYear = date('Y');
-        $selectedYear = $currentPlayer['age'] ?? '';
-        for ($year = $currentYear; $year >= 1980; $year--) {
-            $selected = ($year == $selectedYear) ? 'selected' : '';
-            echo "<option value=\"$year\" $selected>$year</option>";
-        }
-        ?>
-    </select>
+    <label for="date_of_birth" class="form-label">Date of Birth</label>
+    <input type="date" id="date_of_birth" name="date_of_birth" class="form-control"
+           value="<?php echo htmlspecialchars($currentPlayer['date_of_birth'] ?? ''); ?>">
 </div>
 
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="age" class="form-label">Age</label>
+                        <input type="number" id="age" name="age" class="form-control" min="0" max="120"
+                               value="<?php echo htmlspecialchars($currentPlayer['age'] ?? ''); ?>">
+                    </div>
+                    <div class="form-group"></div>
                 </div>
                 
                 <div class="form-row">
@@ -1072,8 +1144,8 @@ $conn->close();
                                 <?php endif; ?>
                                 <div class="player-stats">
                                     <div class="stat-item">
-                                        <span class="stat-value"><?php echo htmlspecialchars($player['age']); ?></span>
-                                        <span class="stat-label">Year of Birth</span>
+                                        <span class="stat-value"><?php echo displayPlayerAge($player); ?></span>
+                                        <span class="stat-label">Age</span>
                                     </div>
                                     <div class="stat-item">
                                         <span class="stat-value"><?php echo htmlspecialchars($player['height']); ?> cm</span>
