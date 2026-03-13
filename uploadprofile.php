@@ -911,17 +911,12 @@ $conn->close();
                     </div>
                 </div>
                 
-                <!-- Remove Image Form (hidden by default) -->
+                <!-- Hidden form used to remove existing image (submitted via JS) -->
                 <?php if (isset($_GET['edit']) && !empty($currentPlayer['img'])): ?>
-                    <div id="removeImageForm" style="display: none; margin-bottom: 1.5rem;">
-                        <p>Are you sure you want to remove this image?</p>
-                        <form method="POST" action="uploadprofile.php" style="display: inline-block;">
-                            <input type="hidden" name="id" value="<?php echo $currentPlayer['id']; ?>">
-                            <input type="hidden" name="remove_image" value="1">
-                            <button type="submit" class="btn btn-danger">Remove Image</button>
-                            <button type="button" id="cancelRemoveBtn" class="btn btn-outline">Cancel</button>
-                        </form>
-                    </div>
+                    <form id="removeImageFormReal" method="POST" action="uploadprofile.php" style="display:none;">
+                        <input type="hidden" name="id" value="<?php echo $currentPlayer['id']; ?>">
+                        <input type="hidden" name="remove_image" value="1">
+                    </form>
                 <?php endif; ?>
                 
                 <div class="form-row">
@@ -1163,9 +1158,9 @@ $conn->close();
                                     <a href="?edit=<?php echo $player['id']; ?>" class="action-btn edit-btn" title="Edit">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
-                                <!--    <a href="?delete=<?php echo $player['id']; ?>" class="action-btn delete-btn" title="Delete" onclick="return confirm('Are you sure you want to delete this player?')">
+                                    <a href="?delete=<?php echo $player['id']; ?>" class="action-btn delete-btn" title="Delete" onclick="return confirm('Are you sure you want to delete this player profile? This cannot be undone.')">
                                         <i class="fas fa-trash-alt"></i> Delete
-                                    </a>-->
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -1226,20 +1221,16 @@ $conn->close();
             });
         }
 
-        // Remove image functionality
+        // Remove image functionality (admin can delete the current profile picture)
         const removeImageBtn = document.getElementById('removeImageBtn');
-        const removeImageForm = document.getElementById('removeImageForm');
-        const cancelRemoveBtn = document.getElementById('cancelRemoveBtn');
+        const removeImageFormReal = document.getElementById('removeImageFormReal');
         
-        if (removeImageBtn && removeImageForm) {
-            removeImageBtn.addEventListener('click', function() {
-                removeImageForm.style.display = 'block';
-            });
-        }
-        
-        if (cancelRemoveBtn && removeImageForm) {
-            cancelRemoveBtn.addEventListener('click', function() {
-                removeImageForm.style.display = 'none';
+        if (removeImageBtn && removeImageFormReal) {
+            removeImageBtn.addEventListener('click', function () {
+                const confirmed = confirm('Are you sure you want to remove this image from the player profile?');
+                if (confirmed) {
+                    removeImageFormReal.submit();
+                }
             });
         }
 

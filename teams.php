@@ -1576,6 +1576,11 @@ $conn->close();
                             elseif ($teamName == 'academy_u16_girls') echo "Academy U16 Girls";
                             else echo ucfirst($teamName);
                         ?></p>
+                        <p><strong>Date of Birth:</strong> <?php 
+                            echo !empty($selectedPlayer['date_of_birth']) 
+                                ? htmlspecialchars($selectedPlayer['date_of_birth']) 
+                                : 'N/A';
+                        ?></p>
                     </div>
                 </div>
 
