@@ -103,7 +103,7 @@ $result = $conn->query($sql);
           <li>
             <a
               class="block px-4 py-2 w-[180px] hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-              href="./Foundation"
+              href="./foundation"
               >Career Foundation</a
             >
           </li>
@@ -247,7 +247,7 @@ $result = $conn->query($sql);
               <li>
                 <a
                   class="block px-4 py-2 hover:text-green-600 hover:bg-gray-100 transition-all duration-300"
-                  href="./Foundation"
+                  href="./foundation"
                   >Career Foundation</a
                 >
               </li>

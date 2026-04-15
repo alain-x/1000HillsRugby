@@ -8,6 +8,10 @@ RewriteCond %{REQUEST_URI} !^/sitemap\.xml$
  RewriteCond %{HTTP_HOST} !^www\.1000hillsrugby\.rw$ [NC]
  RewriteRule ^ https://www.1000hillsrugby.rw%{REQUEST_URI} [L,R=301]
 
+ # Canonicalize Foundation page URL casing
+ RewriteRule ^Foundation/?$ foundation [L,R=301,NC]
+
+
  # Redirect direct .html and .php URLs to extensionless versions (avoid duplicate content)
  RewriteCond %{THE_REQUEST} \s/+(.+?)\.(html|php)[\s?] [NC]
  RewriteRule ^ %1 [L,R=301]
