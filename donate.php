@@ -34,6 +34,14 @@ function h(string $s): string
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Support 1000 Hills Rugby in Rwanda. Your donation helps fund training, equipment, education support, and safe spaces for youth rugby." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://www.1000hillsrugby.rw/donate" />
+  <meta property="og:title" content="Donate | 1000 Hills Rugby" />
+  <meta property="og:description" content="Support 1000 Hills Rugby in Rwanda. Your donation helps fund training, equipment, education support, and safe spaces for youth rugby." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.1000hillsrugby.rw/donate" />
+  <meta property="og:image" content="https://www.1000hillsrugby.rw/images/1000-hills-logo.png" />
   <title>1000 Hills Rugby | Donate</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
   <link rel="stylesheet" href="./style.css" />

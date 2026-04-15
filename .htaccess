@@ -3,6 +3,15 @@ RewriteEngine On
 RewriteCond %{REQUEST_URI} !^/robots\.txt$
 RewriteCond %{REQUEST_URI} !^/sitemap\.xml$
 
+ # Force HTTPS and www (canonical host)
+ RewriteCond %{HTTPS} !=on [OR]
+ RewriteCond %{HTTP_HOST} !^www\.1000hillsrugby\.rw$ [NC]
+ RewriteRule ^ https://www.1000hillsrugby.rw%{REQUEST_URI} [L,R=301]
+
+ # Redirect direct .html and .php URLs to extensionless versions (avoid duplicate content)
+ RewriteCond %{THE_REQUEST} \s/+(.+?)\.(html|php)[\s?] [NC]
+ RewriteRule ^ %1 [L,R=301]
+
 # Hide .html extensions
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.html -f
@@ -12,10 +21,6 @@ RewriteRule ^([^/]+)$ $1.html [NC,L]
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.php -f
 RewriteRule ^([^/]+)$ $1.php [NC,L]
-
-# Redirect non-www to www
-RewriteCond %{HTTP_HOST} ^1000hillsrugby\.rw$ [NC]
-RewriteRule ^(.*)$ https://www.1000hillsrugby.rw/$1 [L,R=301]
 
 # BEGIN cPanel-generated php ini directives
 <IfModule php7_module>
