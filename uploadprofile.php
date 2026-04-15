@@ -911,17 +911,12 @@ $conn->close();
                     </div>
                 </div>
                 
-                <!-- Remove Image Form (hidden by default) -->
+                <!-- Hidden form used to remove existing image (submitted via JS) -->
                 <?php if (isset($_GET['edit']) && !empty($currentPlayer['img'])): ?>
-                    <div id="removeImageForm" style="display: none; margin-bottom: 1.5rem;">
-                        <p>Are you sure you want to remove this image?</p>
-                        <form method="POST" action="uploadprofile.php" style="display: inline-block;">
-                            <input type="hidden" name="id" value="<?php echo $currentPlayer['id']; ?>">
-                            <input type="hidden" name="remove_image" value="1">
-                            <button type="submit" class="btn btn-danger">Remove Image</button>
-                            <button type="button" id="cancelRemoveBtn" class="btn btn-outline">Cancel</button>
-                        </form>
-                    </div>
+                    <form id="removeImageFormReal" method="POST" action="uploadprofile.php" style="display:none;">
+                        <input type="hidden" name="id" value="<?php echo $currentPlayer['id']; ?>">
+                        <input type="hidden" name="remove_image" value="1">
+                    </form>
                 <?php endif; ?>
                 
                 <div class="form-row">
@@ -950,7 +945,10 @@ $conn->close();
                     <div class="form-group">
                         <label for="age" class="form-label">Age</label>
                         <input type="number" id="age" name="age" class="form-control" min="0" max="120"
-                               value="<?php echo htmlspecialchars($currentPlayer['age'] ?? ''); ?>">
+                               value="<?php echo htmlspecialchars($currentPlayer['age'] ?? ''); ?>" readonly>
+                        <small style="display:block;margin-top:0.35rem;color:#777;font-size:0.8rem;">
+                            Age is calculated automatically from Date of Birth.
+                        </small>
                     </div>
                     <div class="form-group"></div>
                 </div>
@@ -1160,9 +1158,9 @@ $conn->close();
                                     <a href="?edit=<?php echo $player['id']; ?>" class="action-btn edit-btn" title="Edit">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
-                                <!--    <a href="?delete=<?php echo $player['id']; ?>" class="action-btn delete-btn" title="Delete" onclick="return confirm('Are you sure you want to delete this player?')">
+                                    <a href="?delete=<?php echo $player['id']; ?>" class="action-btn delete-btn" title="Delete" onclick="return confirm('Are you sure you want to delete this player profile? This cannot be undone.')">
                                         <i class="fas fa-trash-alt"></i> Delete
-                                    </a>-->
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -1223,20 +1221,16 @@ $conn->close();
             });
         }
 
-        // Remove image functionality
+        // Remove image functionality (admin can delete the current profile picture)
         const removeImageBtn = document.getElementById('removeImageBtn');
-        const removeImageForm = document.getElementById('removeImageForm');
-        const cancelRemoveBtn = document.getElementById('cancelRemoveBtn');
+        const removeImageFormReal = document.getElementById('removeImageFormReal');
         
-        if (removeImageBtn && removeImageForm) {
-            removeImageBtn.addEventListener('click', function() {
-                removeImageForm.style.display = 'block';
-            });
-        }
-        
-        if (cancelRemoveBtn && removeImageForm) {
-            cancelRemoveBtn.addEventListener('click', function() {
-                removeImageForm.style.display = 'none';
+        if (removeImageBtn && removeImageFormReal) {
+            removeImageBtn.addEventListener('click', function () {
+                const confirmed = confirm('Are you sure you want to remove this image from the player profile?');
+                if (confirmed) {
+                    removeImageFormReal.submit();
+                }
             });
         }
 
@@ -1254,6 +1248,53 @@ $conn->close();
                 }
             });
         }
+
+        // Auto-calculate age from Date of Birth on the client side
+        (function () {
+            const dobInput = document.getElementById('date_of_birth');
+            const ageInput = document.getElementById('age');
+
+            if (!dobInput || !ageInput) return;
+
+            function calculateAge(dateString) {
+                const dob = new Date(dateString);
+                const today = new Date();
+
+                if (isNaN(dob.getTime())) {
+                    return null;
+                }
+                if (dob > today) {
+                    return null;
+                }
+
+                let age = today.getFullYear() - dob.getFullYear();
+                const m = today.getMonth() - dob.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+                    age--;
+                }
+                return age >= 0 ? age : null;
+            }
+
+            function updateAgeFromDob() {
+                const val = dobInput.value;
+                if (!val) {
+                    ageInput.value = '';
+                    return;
+                }
+                const age = calculateAge(val);
+                if (age === null) {
+                    ageInput.value = '';
+                    return;
+                }
+                ageInput.value = age;
+            }
+
+            dobInput.addEventListener('change', updateAgeFromDob);
+            dobInput.addEventListener('blur', updateAgeFromDob);
+
+            // Run once on load in case DOB is already set (edit mode)
+            updateAgeFromDob();
+        })();
     </script>
 </body>
 </html>

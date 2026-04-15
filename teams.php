@@ -715,6 +715,7 @@ $conn->close();
             display: flex;
             flex-direction: column;
             height: 100%;
+            cursor: pointer;
         }
 
         .player-card:hover {
@@ -1575,6 +1576,11 @@ $conn->close();
                             elseif ($teamName == 'academy_u16_girls') echo "Academy U16 Girls";
                             else echo ucfirst($teamName);
                         ?></p>
+                        <p><strong>Date of Birth:</strong> <?php 
+                            echo !empty($selectedPlayer['date_of_birth']) 
+                                ? htmlspecialchars($selectedPlayer['date_of_birth']) 
+                                : 'N/A';
+                        ?></p>
                     </div>
                 </div>
 
@@ -1653,8 +1659,8 @@ $conn->close();
                     </div>
                 <?php else: ?>
                     <?php foreach ($players as $player): ?>
-                        <div class="player-card">
-                            <div class="player-image-container" onclick="window.location.href='?player_id=<?php echo $player['id']; ?>&team=<?php echo $currentTeam; ?>'">
+                        <div class="player-card" onclick="window.location.href='?player_id=<?php echo $player['id']; ?>&team=<?php echo $currentTeam; ?>'">
+                            <div class="player-image-container">
                                 <?php if (!empty($player['img'])): ?>
                                     <img src="<?php echo htmlspecialchars($player['img']); ?>" alt="<?php echo htmlspecialchars($player['name']); ?>" class="player-image">
                                 <?php else: ?>
