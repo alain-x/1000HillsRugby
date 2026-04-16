@@ -7,6 +7,41 @@ $auth = new Auth();
 // Detect if the user came from a protected page
 $redirectTarget = isset($_GET['redirect']) ? trim($_GET['redirect']) : '';
 
+function sanitizeAdminRedirectTarget($target) {
+    $target = is_string($target) ? trim($target) : '';
+    if ($target === '') {
+        return '';
+    }
+
+    // Prevent protocol / host based redirects
+    if (preg_match('/^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//', $target)) {
+        return '';
+    }
+
+    // Prevent server filesystem paths or traversal
+    if (strpos($target, 'public_html') !== false || strpos($target, '/home/') !== false) {
+        return '';
+    }
+    if (strpos($target, '..') !== false || strpos($target, "\\") !== false) {
+        return '';
+    }
+
+    // Normalize to a simple relative filename in this directory
+    $target = ltrim($target, '/');
+    $target = strtok($target, '?');
+
+    $allowed = [
+        'upload.php',
+        'uploadevent.php',
+        'uploadprofile.php',
+        'uploadsponsors.php',
+        'uploadtables.php',
+        'upload_resources.php',
+    ];
+
+    return in_array($target, $allowed, true) ? $target : '';
+}
+
 // Handle logout
 if (isset($_GET['logout'])) {
     $auth->logout();
@@ -34,8 +69,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 : $_SESSION['username'];
 
             $redirect = isset($_GET['redirect']) ? $_GET['redirect'] : '';
-            if ($redirect) {
-                header('Location: ' . $redirect);
+            $safeRedirect = sanitizeAdminRedirectTarget($redirect);
+            if ($safeRedirect !== '') {
+                header('Location: ' . $safeRedirect);
             } else {
                 header('Location: controll_admin.php');
             }
