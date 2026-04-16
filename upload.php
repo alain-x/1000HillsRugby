@@ -43,6 +43,103 @@ function extractYouTubeIdFromUrl($url) {
     return isset($matches[1]) ? $matches[1] : '';
 }
 
+function saveOptimizedUploadedImage($tmpPath, $destPath, $maxWidth, $maxHeight, $jpegQuality = 75, $pngCompression = 6) {
+    if (!is_string($tmpPath) || $tmpPath === '' || !is_file($tmpPath) || !is_uploaded_file($tmpPath)) {
+        return false;
+    }
+
+    if (!function_exists('getimagesize') || !function_exists('imagecreatetruecolor')) {
+        return move_uploaded_file($tmpPath, $destPath);
+    }
+
+    $info = @getimagesize($tmpPath);
+    if (!$info || empty($info[0]) || empty($info[1]) || empty($info['mime'])) {
+        return move_uploaded_file($tmpPath, $destPath);
+    }
+
+    $srcW = (int) $info[0];
+    $srcH = (int) $info[1];
+    $mime = strtolower((string) $info['mime']);
+
+    $isJpeg = ($mime === 'image/jpeg' || $mime === 'image/jpg');
+    $isPng = ($mime === 'image/png');
+
+    if ($isJpeg && !function_exists('imagecreatefromjpeg')) {
+        return move_uploaded_file($tmpPath, $destPath);
+    }
+    if ($isPng && !function_exists('imagecreatefrompng')) {
+        return move_uploaded_file($tmpPath, $destPath);
+    }
+    if (!$isJpeg && !$isPng) {
+        return move_uploaded_file($tmpPath, $destPath);
+    }
+
+    $srcImg = $isJpeg ? @imagecreatefromjpeg($tmpPath) : @imagecreatefrompng($tmpPath);
+    if (!$srcImg) {
+        return move_uploaded_file($tmpPath, $destPath);
+    }
+
+    if ($isJpeg && function_exists('exif_read_data')) {
+        $exif = @exif_read_data($tmpPath);
+        $orientation = isset($exif['Orientation']) ? (int) $exif['Orientation'] : 1;
+        if ($orientation === 3) {
+            $srcImg = imagerotate($srcImg, 180, 0);
+        } elseif ($orientation === 6) {
+            $srcImg = imagerotate($srcImg, -90, 0);
+            $t = $srcW;
+            $srcW = $srcH;
+            $srcH = $t;
+        } elseif ($orientation === 8) {
+            $srcImg = imagerotate($srcImg, 90, 0);
+            $t = $srcW;
+            $srcW = $srcH;
+            $srcH = $t;
+        }
+    }
+
+    $scale = 1.0;
+    if ($maxWidth > 0 && $maxHeight > 0) {
+        $scale = min($maxWidth / $srcW, $maxHeight / $srcH, 1.0);
+    } elseif ($maxWidth > 0) {
+        $scale = min($maxWidth / $srcW, 1.0);
+    } elseif ($maxHeight > 0) {
+        $scale = min($maxHeight / $srcH, 1.0);
+    }
+
+    $dstW = max(1, (int) floor($srcW * $scale));
+    $dstH = max(1, (int) floor($srcH * $scale));
+
+    $dstImg = imagecreatetruecolor($dstW, $dstH);
+    if (!$dstImg) {
+        imagedestroy($srcImg);
+        return move_uploaded_file($tmpPath, $destPath);
+    }
+
+    if ($isPng) {
+        imagealphablending($dstImg, false);
+        imagesavealpha($dstImg, true);
+        $transparent = imagecolorallocatealpha($dstImg, 0, 0, 0, 127);
+        imagefilledrectangle($dstImg, 0, 0, $dstW, $dstH, $transparent);
+    }
+
+    imagecopyresampled($dstImg, $srcImg, 0, 0, 0, 0, $dstW, $dstH, $srcW, $srcH);
+
+    $ok = false;
+    if ($isJpeg) {
+        $ok = imagejpeg($dstImg, $destPath, $jpegQuality);
+    } else {
+        $ok = imagepng($dstImg, $destPath, $pngCompression);
+    }
+
+    imagedestroy($dstImg);
+    imagedestroy($srcImg);
+
+    if ($ok) {
+        @unlink($tmpPath);
+    }
+    return $ok;
+}
+
 // Initialize variables
 $message = '';
 $messageClass = '';
@@ -167,7 +264,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
             $main_image_name = time() . "_" . basename($_FILES["main_image"]["name"]);
             $main_image_path = $upload_dir . $main_image_name;
 
-            if (move_uploaded_file($_FILES["main_image"]["tmp_name"], $main_image_path)) {
+            $tmpMain = $_FILES["main_image"]["tmp_name"];
+            $savedMain = saveOptimizedUploadedImage($tmpMain, $main_image_path, 1920, 1920, 75, 6);
+            if ($savedMain) {
                 // Delete old image if it exists
                 if (!empty($_POST["existing_main_image"]) && file_exists($_POST["existing_main_image"])) {
                     unlink($_POST["existing_main_image"]);
@@ -232,8 +331,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                         $unique_name = time() . "_" . uniqid() . "_" . basename($image_name);
                         $target_file = $upload_dir . $unique_name;
 
-                        // Move the file
-                        if (move_uploaded_file($tmp_name, $target_file)) {
+                        $saved = saveOptimizedUploadedImage($tmp_name, $target_file, 1920, 1920, 75, 6);
+                        if ($saved) {
                             $section_images[] = $conn->real_escape_string($target_file);
                         } else {
                             $upload_errors[] = "Failed to move uploaded file '$image_name'";
