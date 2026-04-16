@@ -18,6 +18,33 @@ $result = $conn->query($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1000 Hills Rugby | News</title>
+    <meta
+      name="description"
+      content="Latest news and media updates from 1000 Hills Rugby, including events, programs, and community impact stories in Rwanda."
+    />
+    <link rel="canonical" href="https://www.1000hillsrugby.rw/news" />
+    <meta property="og:site_name" content="1000 Hills Rugby" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="1000 Hills Rugby | News" />
+    <meta
+      property="og:description"
+      content="Latest news and media updates from 1000 Hills Rugby, including events, programs, and community impact stories in Rwanda."
+    />
+    <meta property="og:url" content="https://www.1000hillsrugby.rw/news" />
+    <meta
+      property="og:image"
+      content="https://www.1000hillsrugby.rw/images/1000-hills-logo.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="1000 Hills Rugby | News" />
+    <meta
+      name="twitter:description"
+      content="Latest news and media updates from 1000 Hills Rugby, including events, programs, and community impact stories in Rwanda."
+    />
+    <meta
+      name="twitter:image"
+      content="https://www.1000hillsrugby.rw/images/1000-hills-logo.png"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="./images/t_icon.png" type="image/png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">

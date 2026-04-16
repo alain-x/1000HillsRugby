@@ -41,7 +41,34 @@ $conn->close();
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Our - Events</title>
+    <title>Events | 1000 Hills Rugby</title>
+    <meta
+      name="description"
+      content="Upcoming events and weekly schedule for 1000 Hills Rugby. Stay updated on matches, tournaments, and community activities in Rwanda."
+    />
+    <link rel="canonical" href="https://www.1000hillsrugby.rw/events" />
+    <meta property="og:site_name" content="1000 Hills Rugby" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Events | 1000 Hills Rugby" />
+    <meta
+      property="og:description"
+      content="Upcoming events and weekly schedule for 1000 Hills Rugby. Stay updated on matches, tournaments, and community activities in Rwanda."
+    />
+    <meta property="og:url" content="https://www.1000hillsrugby.rw/events" />
+    <meta
+      property="og:image"
+      content="https://www.1000hillsrugby.rw/images/1000-hills-logo.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Events | 1000 Hills Rugby" />
+    <meta
+      name="twitter:description"
+      content="Upcoming events and weekly schedule for 1000 Hills Rugby. Stay updated on matches, tournaments, and community activities in Rwanda."
+    />
+    <meta
+      name="twitter:image"
+      content="https://www.1000hillsrugby.rw/images/1000-hills-logo.png"
+    />
     <link rel="icon" href="./images/t_icon.png" type="image/png" />
     <link rel="stylesheet" href="./style.css" />
     <script src="https://cdn.tailwindcss.com"></script>
