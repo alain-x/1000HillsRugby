@@ -352,6 +352,9 @@ $result = $conn->query($sql);
   </nav>
     <!-- News Cards -->
     <div class="container mx-auto p-6 mt-[80px]">
+        <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-gray-900 mb-6">
+          News & Media
+        </h1>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <?php if ($result->num_rows > 0): ?>
                 <?php while ($row = $result->fetch_assoc()): ?>

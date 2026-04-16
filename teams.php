@@ -213,6 +213,33 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $selectedPlayer ? htmlspecialchars($selectedPlayer['name']) : '1000 Hills Rugby Club - ' . ucfirst(str_replace('_', ' ', $currentTeam)); ?></title>
+    <meta
+      name="description"
+      content="Explore the 1000 Hills Rugby squads, including men's, women's, and academy teams. View player profiles, positions, and team statistics."
+    />
+    <link rel="canonical" href="https://www.1000hillsrugby.rw/teams" />
+    <meta property="og:site_name" content="1000 Hills Rugby" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Teams | 1000 Hills Rugby" />
+    <meta
+      property="og:description"
+      content="Explore the 1000 Hills Rugby squads, including men's, women's, and academy teams. View player profiles, positions, and team statistics."
+    />
+    <meta property="og:url" content="https://www.1000hillsrugby.rw/teams" />
+    <meta
+      property="og:image"
+      content="https://www.1000hillsrugby.rw/images/1000-hills-logo.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Teams | 1000 Hills Rugby" />
+    <meta
+      name="twitter:description"
+      content="Explore the 1000 Hills Rugby squads, including men's, women's, and academy teams. View player profiles, positions, and team statistics."
+    />
+    <meta
+      name="twitter:image"
+      content="https://www.1000hillsrugby.rw/images/1000-hills-logo.png"
+    />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./style.css" />
@@ -480,7 +507,7 @@ $conn->close();
         .nav-links a::after {
             content: "";
             position: absolute;
-            bottom: -5px;
+            bottom: 0;
             left: 0;
             width: 0;
             height: 2px;
@@ -1482,6 +1509,11 @@ $conn->close();
 
     <!-- Main Content -->
     <main class="container">
+        <?php if (!$selectedPlayer): ?>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-gray-900 mt-6 mb-6">
+                Teams
+            </h1>
+        <?php endif; ?>
         <!-- Team Stats -->
         <div class="team-stats">
             <h2 class="section-title">Team Statistics</h2>
