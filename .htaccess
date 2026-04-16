@@ -11,20 +11,19 @@ RewriteCond %{REQUEST_URI} !^/sitemap\.xml$
  # Canonicalize Foundation page URL casing
  RewriteRule ^Foundation/?$ foundation [L,R=301,NC]
 
-
  # Redirect direct .html and .php URLs to extensionless versions (avoid duplicate content)
  RewriteCond %{THE_REQUEST} \s/+(.+?)\.(html|php)[\s?] [NC]
  RewriteRule ^ %1 [L,R=301]
 
-# Hide .html extensions
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}\.html -f
-RewriteRule ^([^/]+)$ $1.html [NC,L]
+ # Hide .html extensions
+ RewriteCond %{REQUEST_FILENAME} !-d
+ RewriteCond %{REQUEST_FILENAME}\.html -f
+ RewriteRule ^(.+)$ $1.html [NC,L]
 
-# Hide .php extensions
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}\.php -f
-RewriteRule ^([^/]+)$ $1.php [NC,L]
+ # Hide .php extensions
+ RewriteCond %{REQUEST_FILENAME} !-d
+ RewriteCond %{REQUEST_FILENAME}\.php -f
+ RewriteRule ^(.+)$ $1.php [NC,L]
 
 # BEGIN cPanel-generated php ini directives
 <IfModule php7_module>
