@@ -15,8 +15,9 @@ RewriteCond %{REQUEST_URI} !^/sitemap\.xml$
  RewriteCond %{THE_REQUEST} \s/+(.+?)\.(html|php)[\s?] [NC]
  RewriteRule ^ %1 [L,R=301]
 
- # Admin entrypoint (avoid 403 if a directory named controll_admin exists)
- RewriteRule ^controll_admin/?$ controll_admin.php [NC,L]
+ # Admin entrypoint (canonicalize to uppercase URL)
+ RewriteRule ^controll_admin/?$ Controll_admin [NC,L,R=301]
+ RewriteRule ^Controll_admin/?$ Controll_admin.php [NC,L]
 
  # Hide .html extensions
  RewriteCond %{REQUEST_FILENAME} !-d

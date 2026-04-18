@@ -46,7 +46,7 @@ function sanitizeAdminRedirectTarget($target) {
 if (isset($_GET['logout'])) {
     $auth->logout();
     unset($_SESSION['is_admin']);
-    header('Location: controll_admin.php');
+    header('Location: /Controll_admin');
     exit;
 }
 
@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($safeRedirect !== '') {
                 header('Location: ' . $safeRedirect);
             } else {
-                header('Location: controll_admin.php');
+                header('Location: /Controll_admin');
             }
             exit;
         } else {
@@ -115,7 +115,7 @@ $currentAdmin = $isAdmin ? ($_SESSION['admin_identifier'] ?? ($_SESSION['usernam
                             <div class="font-medium text-right">Logged in as</div>
                             <div class="text-xs text-green-100"><?php echo htmlspecialchars($currentAdmin, ENT_QUOTES, 'UTF-8'); ?></div>
                         </div>
-                        <a href="controll_admin.php?logout=1" class="text-xs px-3 py-1 rounded bg-green-900 hover:bg-red-600 transition">Logout</a>
+                        <a href="/Controll_admin?logout=1" class="text-xs px-3 py-1 rounded bg-green-900 hover:bg-red-600 transition">Logout</a>
                     <?php else: ?>
                         <a href="index.html" class="text-xs px-3 py-1 rounded bg-green-900 hover:bg-green-800 transition">Back to Site</a>
                     <?php endif; ?>

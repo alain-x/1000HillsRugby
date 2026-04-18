@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (empty($_SESSION['is_admin'])) {
-    header('Location: controll_admin.php?redirect=uploadtables.php');
+    header('Location: /Controll_admin?redirect=uploadtables.php');
     exit;
 }
 
