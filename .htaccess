@@ -3,6 +3,11 @@ RewriteEngine On
 RewriteCond %{REQUEST_URI} !^/robots\.txt$
 RewriteCond %{REQUEST_URI} !^/sitemap\.xml$
 
+# Redirect direct .html/.php requests to extensionless canonical URLs
+RewriteCond %{THE_REQUEST} \s/+(.+?)\.(html|php)[\s?] [NC]
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ %1 [R=301,L]
+
 # Hide .html extensions
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.html -f
