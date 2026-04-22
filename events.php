@@ -1117,7 +1117,7 @@ $conn->close();
     <section class="foter">
       <p>
         &copy; 2024 1000HillsRugby. All Rights Reserved|
-        <a href="privacy.html">Privacy Policy</a>
+        <a href="privacy">Privacy Policy</a>
       </p>
     </section>
     <script src="./index.js"></script>
