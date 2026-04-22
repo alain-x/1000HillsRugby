@@ -35,9 +35,75 @@
     <style>
       h1 {
         text-align: center;
-        margin-top: 20vh;
+        margin-top: 0;
         font-size: 50px;
         color: #12630c;
+      }
+      main {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 24px 16px 40px;
+        line-height: 1.6;
+        color: #1f2937;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+          "Apple Color Emoji", "Segoe UI Emoji";
+      }
+      h2 {
+        margin-top: 28px;
+        font-size: 22px;
+        color: #12630c;
+      }
+      p {
+        margin: 12px 0;
+      }
+      ul {
+        margin: 10px 0 10px 18px;
+      }
+      .lead {
+        text-align: center;
+        margin: 12px auto 0;
+        max-width: 70ch;
+        font-size: 18px;
+        color: #374151;
+      }
+      .notice {
+        margin: 16px auto 0;
+        max-width: 70ch;
+        padding: 12px 14px;
+        border: 1px solid #e5e7eb;
+        border-left: 6px solid #dcbb26;
+        border-radius: 12px;
+        background: #fffbeb;
+        color: #111827;
+      }
+      .card {
+        margin-top: 22px;
+        padding: 16px;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        background: #ffffff;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        font-size: 14px;
+      }
+      th,
+      td {
+        border: 1px solid #e5e7eb;
+        padding: 10px;
+        text-align: left;
+      }
+      th {
+        background: #f9fafb;
+      }
+      blockquote {
+        margin: 14px 0;
+        padding: 12px 14px;
+        border-left: 6px solid #12630c;
+        background: #f6fff5;
+        color: #0f172a;
       }
       .button-container {
         text-align: center;
@@ -59,10 +125,99 @@
     </style>
   </head>
   <body>
-    <h1>Coming soon!!</h1>
-    <div class="button-container">
-      <a href="./" class="home-button">Go Home</a>
-    </div>
+    <main>
+      <h1>1000 Hills Rugby Shop</h1>
+      <p class="lead">
+        The official shop will be added soon. For now, explore what will be
+        available, how purchases support youth rugby development in Rwanda, and
+        how to stay informed when the store launches.
+      </p>
+      <div class="notice" role="status" aria-live="polite">
+        Shop status: Coming soon. Launch updates will be announced on the
+        homepage and our social media.
+      </div>
+
+      <section class="card" aria-labelledby="shop-what-to-expect">
+        <h2 id="shop-what-to-expect">What to expect</h2>
+        <p>
+          The 1000 Hills Rugby Shop will offer official apparel and accessories
+          designed for supporters, players, and partners.
+        </p>
+        <ul>
+          <li>T-shirts, hoodies, and caps</li>
+          <li>Training essentials and supporter gear</li>
+          <li>Limited drops for events and special campaigns</li>
+        </ul>
+      </section>
+
+      <section class="card" aria-labelledby="shop-impact">
+        <h2 id="shop-impact">How your purchase supports our mission</h2>
+        <p>
+          Every purchase helps support coaching, player development, and
+          community programs that expand access to rugby and life skills.
+        </p>
+        <blockquote>
+          Rugby builds more than athletes — it builds confident young leaders.
+        </blockquote>
+      </section>
+
+      <section class="card" aria-labelledby="shop-sizing">
+        <h2 id="shop-sizing">Sizing</h2>
+        <p>
+          When products go live, each item will include exact measurements.
+          Below is an example guide for how sizing information will be shown.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Size</th>
+              <th scope="col">Chest (cm)</th>
+              <th scope="col">Length (cm)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>S</td>
+              <td>88-96</td>
+              <td>66-69</td>
+            </tr>
+            <tr>
+              <td>M</td>
+              <td>96-104</td>
+              <td>69-72</td>
+            </tr>
+            <tr>
+              <td>L</td>
+              <td>104-112</td>
+              <td>72-75</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card" aria-labelledby="shop-faq">
+        <h2 id="shop-faq">FAQ</h2>
+        <ul>
+          <li>
+            <strong>When will the shop launch?</strong>
+            We will announce the launch on the homepage and our social media.
+          </li>
+          <li>
+            <strong>Where do you ship?</strong>
+            Shipping destinations and delivery times will be displayed at
+            checkout.
+          </li>
+          <li>
+            <strong>Can partners order in bulk?</strong>
+            Yes. Contact us for bulk and team orders.
+          </li>
+        </ul>
+      </section>
+
+      <div class="button-container">
+        <a href="./" class="home-button" title="Return to the 1000 Hills Rugby homepage">Back to 1000 Hills Rugby Home</a>
+      </div>
+    </main>
     <script defer src="./donate-widget.js"></script>
   </body>
 </html>
