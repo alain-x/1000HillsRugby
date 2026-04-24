@@ -117,7 +117,7 @@ $currentAdmin = $isAdmin ? ($_SESSION['admin_identifier'] ?? ($_SESSION['usernam
                         </div>
                         <a href="/Controll_admin?logout=1" class="text-xs px-3 py-1 rounded bg-green-900 hover:bg-red-600 transition">Logout</a>
                     <?php else: ?>
-                        <a href="index.html" class="text-xs px-3 py-1 rounded bg-green-900 hover:bg-green-800 transition">Back to Site</a>
+                        <a href="/" class="text-xs px-3 py-1 rounded bg-green-900 hover:bg-green-800 transition">Back to Site</a>
                     <?php endif; ?>
                 </div>
             </div>
@@ -172,7 +172,7 @@ $currentAdmin = $isAdmin ? ($_SESSION['admin_identifier'] ?? ($_SESSION['usernam
 
                     <!-- Upload tools -->
                     <div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <a href="upload.php" class="block bg-white rounded-xl shadow p-4 hover:shadow-md hover:-translate-y-0.5 transition">
+                        <a href="/upload.php" class="block bg-white rounded-xl shadow p-4 hover:shadow-md hover:-translate-y-0.5 transition">
                             <div class="flex items-center justify-between mb-2">
                                 <h3 class="font-semibold text-sm text-gray-800">News & Articles</h3>
                                 <span class="text-green-600 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-50">upload.php</span>
@@ -180,7 +180,7 @@ $currentAdmin = $isAdmin ? ($_SESSION['admin_identifier'] ?? ($_SESSION['usernam
                             <p class="text-xs text-gray-500">Create and edit rugby news articles, images and media for the site.</p>
                         </a>
 
-                        <a href="uploadevent.php" class="block bg-white rounded-xl shadow p-4 hover:shadow-md hover:-translate-y-0.5 transition">
+                        <a href="/uploadevent.php" class="block bg-white rounded-xl shadow p-4 hover:shadow-md hover:-translate-y-0.5 transition">
                             <div class="flex items-center justify-between mb-2">
                                 <h3 class="font-semibold text-sm text-gray-800">Events & Schedule</h3>
                                 <span class="text-green-600 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-50">uploadevent.php</span>
@@ -188,7 +188,7 @@ $currentAdmin = $isAdmin ? ($_SESSION['admin_identifier'] ?? ($_SESSION['usernam
                             <p class="text-xs text-gray-500">Manage fixtures, training sessions and other events.</p>
                         </a>
 
-                        <a href="uploadprofile.php" class="block bg-white rounded-xl shadow p-4 hover:shadow-md hover:-translate-y-0.5 transition">
+                        <a href="/uploadprofile.php" class="block bg-white rounded-xl shadow p-4 hover:shadow-md hover:-translate-y-0.5 transition">
                             <div class="flex items-center justify-between mb-2">
                                 <h3 class="font-semibold text-sm text-gray-800">Player Profiles</h3>
                                 <span class="text-green-600 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-50">uploadprofile.php</span>
@@ -196,7 +196,7 @@ $currentAdmin = $isAdmin ? ($_SESSION['admin_identifier'] ?? ($_SESSION['usernam
                             <p class="text-xs text-gray-500">Add and update players for men, women and academy teams.</p>
                         </a>
 
-                        <a href="uploadsponsors.php" class="block bg-white rounded-xl shadow p-4 hover:shadow-md hover:-translate-y-0.5 transition">
+                        <a href="/uploadsponsors.php" class="block bg-white rounded-xl shadow p-4 hover:shadow-md hover:-translate-y-0.5 transition">
                             <div class="flex items-center justify-between mb-2">
                                 <h3 class="font-semibold text-sm text-gray-800">Sponsors</h3>
                                 <span class="text-green-600 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-50">uploadsponsors.php</span>
@@ -204,7 +204,7 @@ $currentAdmin = $isAdmin ? ($_SESSION['admin_identifier'] ?? ($_SESSION['usernam
                             <p class="text-xs text-gray-500">Upload sponsor logos displayed on the website.</p>
                         </a>
 
-                        <a href="uploadtables.php" class="block bg-white rounded-xl shadow p-4 hover:shadow-md hover:-translate-y-0.5 transition">
+                        <a href="/uploadtables.php" class="block bg-white rounded-xl shadow p-4 hover:shadow-md hover:-translate-y-0.5 transition">
                             <div class="flex items-center justify-between mb-2">
                                 <h3 class="font-semibold text-sm text-gray-800">League Tables</h3>
                                 <span class="text-green-600 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-50">uploadtables.php</span>
@@ -212,7 +212,7 @@ $currentAdmin = $isAdmin ? ($_SESSION['admin_identifier'] ?? ($_SESSION['usernam
                             <p class="text-xs text-gray-500">Maintain standings and team information for competitions.</p>
                         </a>
 
-                        <a href="upload_resources.php" class="block bg-white rounded-xl shadow p-4 hover:shadow-md hover:-translate-y-0.5 transition">
+                        <a href="/upload_resources.php" class="block bg-white rounded-xl shadow p-4 hover:shadow-md hover:-translate-y-0.5 transition">
                             <div class="flex items-center justify-between mb-2">
                                 <h3 class="font-semibold text-sm text-gray-800">Resources & Documents</h3>
                                 <span class="text-green-600 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-50">upload_resources.php</span>
