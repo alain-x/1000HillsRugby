@@ -6,6 +6,7 @@ RewriteCond %{REQUEST_URI} !^/sitemap\.xml$
 # Redirect direct .html/.php requests to extensionless canonical URLs
 RewriteCond %{REQUEST_URI} \.(html|php)$ [NC]
 RewriteCond %{THE_REQUEST} \s/+([^\s?]+?)\.(html|php)[\s?] [NC]
+RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule ^ %1 [R=301,L]
 
 # Hide .html extensions
