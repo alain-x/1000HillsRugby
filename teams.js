@@ -1,4 +1,28 @@
 (function () {
+  function initTeamStatsToggle() {
+    const btn = document.getElementById('teamStatsToggle');
+    const panel = document.getElementById('teamStatsPanel');
+    if (!btn || !panel) return;
+
+    function setExpanded(expanded) {
+      btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      if (expanded) {
+        panel.classList.remove('hidden');
+      } else {
+        panel.classList.add('hidden');
+      }
+    }
+
+    // Ensure hidden by default
+    setExpanded(false);
+
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      setExpanded(!expanded);
+    });
+  }
+
   function initLightbox() {
     const lightbox = document.getElementById('imageLightbox');
     const lightboxImg = document.getElementById('imageLightboxImg');
@@ -53,8 +77,12 @@
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLightbox);
+    document.addEventListener('DOMContentLoaded', function () {
+      initTeamStatsToggle();
+      initLightbox();
+    });
   } else {
+    initTeamStatsToggle();
     initLightbox();
   }
 })();

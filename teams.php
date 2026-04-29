@@ -1470,6 +1470,39 @@ $conn->close();
         .image-lightbox-close:hover {
             background: #fff;
         }
+
+        .team-stats-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1rem;
+            border-radius: 999px;
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            background: var(--white);
+            color: var(--text-color);
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 1rem;
+        }
+
+        .team-stats-toggle:hover {
+            box-shadow: var(--shadow);
+            transform: translateY(-1px);
+        }
+
+        .team-stats-toggle .chev {
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+
+        .team-stats-toggle[aria-expanded="true"] .chev {
+            transform: rotate(180deg);
+        }
+
+        .team-stats-collapsible.hidden {
+            display: none;
+        }
     </style>
 </head>
 <body class="<?php 
@@ -1570,8 +1603,13 @@ $conn->close();
                 Teams
             </h1>
         <?php endif; ?>
+        <button type="button" id="teamStatsToggle" class="team-stats-toggle" aria-expanded="false" aria-controls="teamStatsPanel">
+            Team Statistics
+            <span class="chev" aria-hidden="true">▾</span>
+        </button>
+
         <!-- Team Stats -->
-        <div class="team-stats">
+        <div id="teamStatsPanel" class="team-stats team-stats-collapsible hidden">
             <h2 class="section-title">Team Statistics</h2>
             <div class="stats-grid">
                 <div class="stats-item">
