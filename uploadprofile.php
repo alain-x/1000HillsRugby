@@ -491,7 +491,7 @@ if (isset($_POST['generate_update_link'])) {
     $playerId = intval($_POST['id'] ?? 0);
     if ($playerId > 0) {
         $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? '');
-        $publicLink = rtrim($baseUrl, '/') . '/player-update.php?player_id=' . $playerId;
+        $publicLink = rtrim($baseUrl, '/') . '/player-update?player_id=' . $playerId;
         $message = 'Share this link with the player: ' . $publicLink;
         $messageClass = 'alert-success';
     }
@@ -514,7 +514,7 @@ if (isset($_POST['generate_new_player_link'])) {
     }
 
     $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? '');
-    $publicLink = rtrim($baseUrl, '/') . '/player-update.php?new_token=' . urlencode($token);
+    $publicLink = rtrim($baseUrl, '/') . '/player-update?new_token=' . urlencode($token);
     $message = 'Share this NEW player link: ' . $publicLink;
     $messageClass = 'alert-success';
 }

@@ -183,6 +183,23 @@ $teamsForSelect = [
     'academy_u16_girls' => 'Academy U16 Girls'
 ];
 
+$roleOptions = [
+    'Loose-head prop',
+    'Hooker',
+    'Tight-head prop',
+    'Second-row',
+    'Blindside flanker',
+    'Open side flanker',
+    'Number 8',
+    'Scrum-half',
+    'Fly-half',
+    'Left wing',
+    'Inside centre',
+    'Outside centre',
+    'Right wing',
+    'Full-back'
+];
+
 $newTeamKey = 'men';
 if ($isNewApplication) {
     $newTeamKey = trim((string)($newLink['team'] ?? 'men'));
@@ -469,7 +486,7 @@ $conn->close();
       <?php endif; ?>
 
       <?php if ($isNewApplication): ?>
-        <form method="POST" action="player-update.php?new_token=<?php echo htmlspecialchars($newToken); ?>" enctype="multipart/form-data">
+        <form method="POST" action="player-update?new_token=<?php echo htmlspecialchars($newToken); ?>" enctype="multipart/form-data">
           <input type="hidden" name="new_token" value="<?php echo htmlspecialchars($newToken); ?>" />
           <div class="grid">
             <div>
@@ -493,7 +510,16 @@ $conn->close();
             <?php if (in_array('role', $allowedFields, true)): ?>
               <div>
                 <label for="role">Position/Role</label>
-                <input id="role" name="role" type="text" value="<?php echo htmlspecialchars($_POST['role'] ?? ''); ?>" />
+                <select id="role" name="role">
+                  <?php
+                    $curRole = $_POST['role'] ?? '';
+                    echo '<option value="">Select position</option>';
+                    foreach ($roleOptions as $opt) {
+                      $sel = ($opt === $curRole) ? 'selected' : '';
+                      echo '<option value="' . htmlspecialchars($opt) . '" ' . $sel . '>' . htmlspecialchars($opt) . '</option>';
+                    }
+                  ?>
+                </select>
               </div>
             <?php endif; ?>
 
@@ -614,7 +640,7 @@ $conn->close();
           </div>
         </form>
       <?php elseif (!$player): ?>
-        <form method="GET" action="player-update.php">
+        <form method="GET" action="player-update">
           <div class="grid">
             <div>
               <label for="team_select">Team</label>
@@ -645,7 +671,7 @@ $conn->close();
           </div>
         </form>
       <?php else: ?>
-        <form method="POST" action="player-update.php?player_id=<?php echo (int)$player['id']; ?>" enctype="multipart/form-data">
+        <form method="POST" action="player-update?player_id=<?php echo (int)$player['id']; ?>" enctype="multipart/form-data">
           <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>" />
           <input type="hidden" name="player_id" value="<?php echo (int)$player['id']; ?>" />
 
@@ -677,7 +703,16 @@ $conn->close();
             <?php if (in_array('role', $allowedFields, true)): ?>
               <div>
                 <label for="role">Position/Role</label>
-                <input id="role" name="role" type="text" value="<?php echo htmlspecialchars($player['role'] ?? ''); ?>" />
+                <select id="role" name="role">
+                  <?php
+                    $curRole = $player['role'] ?? '';
+                    echo '<option value="">Select position</option>';
+                    foreach ($roleOptions as $opt) {
+                      $sel = ($opt === $curRole) ? 'selected' : '';
+                      echo '<option value="' . htmlspecialchars($opt) . '" ' . $sel . '>' . htmlspecialchars($opt) . '</option>';
+                    }
+                  ?>
+                </select>
               </div>
             <?php endif; ?>
 
