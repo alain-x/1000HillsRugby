@@ -1933,7 +1933,7 @@ $conn->close();
         });
     </script>
 
-    <script src="teams.js" defer></script>
+    <script src="/teams.js" defer></script>
 
 </body>
 </html>
