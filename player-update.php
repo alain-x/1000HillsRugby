@@ -44,6 +44,16 @@ $conn->query("CREATE TABLE IF NOT EXISTS player_pending_new_players (
     INDEX idx_team (team)
 )");
 
+$conn->query("CREATE TABLE IF NOT EXISTS player_new_application_links (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    token VARCHAR(64) NOT NULL,
+    team VARCHAR(20) NOT NULL DEFAULT 'men',
+    revoked TINYINT(1) NOT NULL DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uniq_token (token),
+    INDEX idx_team (team)
+)");
+
 $conn->query("CREATE TABLE IF NOT EXISTS player_update_settings (
     id INT(11) AUTO_INCREMENT PRIMARY KEY,
     team VARCHAR(20) NOT NULL,
@@ -66,8 +76,25 @@ if ($teamFilter === '' && isset($_POST['team'])) {
 }
 
 $isNewApplication = false;
-if (isset($_GET['new'])) {
-    $isNewApplication = ($_GET['new'] === '1' || $_GET['new'] === 'true');
+$newToken = isset($_GET['new_token']) ? trim($_GET['new_token']) : '';
+if ($newToken === '' && isset($_POST['new_token'])) {
+    $newToken = trim($_POST['new_token']);
+}
+
+$newLink = null;
+if ($newToken !== '') {
+    $stmt = $conn->prepare('SELECT * FROM player_new_application_links WHERE token = ? AND revoked = 0');
+    if ($stmt) {
+        $stmt->bind_param('s', $newToken);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $newLink = $res ? $res->fetch_assoc() : null;
+        $stmt->close();
+    }
+}
+
+if ($newLink) {
+    $isNewApplication = true;
 }
 
 $playerId = isset($_GET['player_id']) ? intval($_GET['player_id']) : 0;
@@ -158,10 +185,7 @@ $teamsForSelect = [
 
 $newTeamKey = 'men';
 if ($isNewApplication) {
-    $newTeamKey = isset($_GET['team']) ? trim($_GET['team']) : '';
-    if ($newTeamKey === '' && isset($_POST['team'])) {
-        $newTeamKey = trim($_POST['team']);
-    }
+    $newTeamKey = trim((string)($newLink['team'] ?? 'men'));
     if ($newTeamKey === '' || !isset($teamsForSelect[$newTeamKey])) {
         $newTeamKey = 'men';
     }
@@ -249,7 +273,7 @@ function saveUploadedImage($file, $uploadDir) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isNewApplication) {
     $name = trim($_POST['name'] ?? '');
-    $team = trim($_POST['team'] ?? 'men');
+    $team = $newTeamKey;
     if ($name === '' || $team === '' || !isset($teamsForSelect[$team])) {
         $message = 'Please provide your full name and select a team.';
         $messageClass = 'alert-error';
@@ -309,6 +333,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isNewApplication) {
                     if ($stmt->execute()) {
                         $message = 'Your information was submitted successfully. It will appear on the website after admin approval.';
                         $messageClass = 'alert-success';
+                        if ($newToken !== '') {
+                            $stmt2 = $conn->prepare('UPDATE player_new_application_links SET revoked = 1 WHERE token = ?');
+                            if ($stmt2) {
+                                $stmt2->bind_param('s', $newToken);
+                                $stmt2->execute();
+                                $stmt2->close();
+                            }
+                        }
                     } else {
                         $message = 'Failed to submit. Please try again.';
                         $messageClass = 'alert-error';
@@ -437,11 +469,12 @@ $conn->close();
       <?php endif; ?>
 
       <?php if ($isNewApplication): ?>
-        <form method="POST" action="player-update.php?new=1" enctype="multipart/form-data">
+        <form method="POST" action="player-update.php?new_token=<?php echo htmlspecialchars($newToken); ?>" enctype="multipart/form-data">
+          <input type="hidden" name="new_token" value="<?php echo htmlspecialchars($newToken); ?>" />
           <div class="grid">
             <div>
               <label for="team">Team</label>
-              <select id="team" name="team" required>
+              <select id="team" name="team" disabled>
                 <?php
                   foreach ($teamsForSelect as $k => $label) {
                     $sel = ($k === $newTeamKey) ? 'selected' : '';
@@ -607,9 +640,8 @@ $conn->close();
               </select>
             </div>
           </div>
-          <div style="margin-top: 16px; display:flex; gap:10px; flex-wrap:wrap;">
+          <div style="margin-top: 16px;">
             <button class="btn" type="submit" <?php echo empty($teamFilter) ? 'disabled' : ''; ?>><i class="fas fa-arrow-right"></i> Continue</button>
-            <a class="btn" href="player-update.php?new=1" style="text-decoration:none;"><i class="fas fa-user-plus"></i> New Player</a>
           </div>
         </form>
       <?php else: ?>

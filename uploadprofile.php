@@ -72,6 +72,16 @@ $conn->query("CREATE TABLE IF NOT EXISTS player_pending_new_players (
     INDEX idx_team (team)
 )");
 
+$conn->query("CREATE TABLE IF NOT EXISTS player_new_application_links (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    token VARCHAR(64) NOT NULL,
+    team VARCHAR(20) NOT NULL DEFAULT 'men',
+    revoked TINYINT(1) NOT NULL DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uniq_token (token),
+    INDEX idx_team (team)
+)");
+
 $conn->query("CREATE TABLE IF NOT EXISTS player_update_settings (
     id INT(11) AUTO_INCREMENT PRIMARY KEY,
     team VARCHAR(20) NOT NULL,
@@ -487,6 +497,28 @@ if (isset($_POST['generate_update_link'])) {
     }
 }
 
+// Generate secret link for NEW player applications
+if (isset($_POST['generate_new_player_link'])) {
+    $teamKey = trim($_POST['new_player_team'] ?? 'men');
+    $allowedTeams = ['men','women','academy_u18_boys','academy_u18_girls','academy_u16_boys','academy_u16_girls'];
+    if (!in_array($teamKey, $allowedTeams, true)) {
+        $teamKey = 'men';
+    }
+
+    $token = randomHexToken(12); // 24 hex chars, hard to guess
+    $stmt = $conn->prepare('INSERT INTO player_new_application_links (token, team, revoked) VALUES (?, ?, 0)');
+    if ($stmt) {
+        $stmt->bind_param('ss', $token, $teamKey);
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? '');
+    $publicLink = rtrim($baseUrl, '/') . '/player-update.php?new_token=' . urlencode($token);
+    $message = 'Share this NEW player link: ' . $publicLink;
+    $messageClass = 'alert-success';
+}
+
 // Handle remove image action
 if (isset($_POST['remove_image'])) {
     $id = intval($_POST['id']);
@@ -515,7 +547,7 @@ if (isset($_POST['remove_image'])) {
 }
 
 // Handle form submission for adding/editing
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['remove_image']) && !isset($_POST['review_pending_update']) && !isset($_POST['review_pending_new_player']) && !isset($_POST['generate_update_link']) && !isset($_POST['save_update_settings'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['remove_image']) && !isset($_POST['review_pending_update']) && !isset($_POST['review_pending_new_player']) && !isset($_POST['generate_update_link']) && !isset($_POST['generate_new_player_link']) && !isset($_POST['save_update_settings'])) {
     // Sanitize and validate input
     $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
     $name = $conn->real_escape_string(trim($_POST['name'] ?? ''));
@@ -1512,6 +1544,28 @@ $conn->close();
 
         <!-- Player List -->
         <div class="form-container">
+            <h2 class="section-title">New Player Link</h2>
+
+            <form method="POST" action="uploadprofile.php" style="margin-bottom:1rem;">
+                <input type="hidden" name="generate_new_player_link" value="1">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="new_player_team" class="form-label">Team Category</label>
+                        <select id="new_player_team" name="new_player_team" class="form-control">
+                            <option value="men">Men's Team</option>
+                            <option value="women">Women's Team</option>
+                            <option value="academy_u18_boys">Academy U18 Boys</option>
+                            <option value="academy_u18_girls">Academy U18 Girls</option>
+                            <option value="academy_u16_boys">Academy U16 Boys</option>
+                            <option value="academy_u16_girls">Academy U16 Girls</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="display:flex;align-items:flex-end;">
+                        <button type="submit" class="btn btn-primary">Generate Secret Link</button>
+                    </div>
+                </div>
+            </form>
+
             <h2 class="section-title">Player Update Settings</h2>
 
             <form method="GET" action="uploadprofile.php" style="margin-bottom:1rem;">
