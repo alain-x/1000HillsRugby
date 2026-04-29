@@ -59,6 +59,19 @@ $conn->query("CREATE TABLE IF NOT EXISTS player_pending_updates (
     INDEX idx_player_id (player_id)
 )");
 
+$conn->query("CREATE TABLE IF NOT EXISTS player_pending_new_players (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    team VARCHAR(20) NOT NULL DEFAULT 'men',
+    data LONGTEXT NOT NULL,
+    img VARCHAR(255) DEFAULT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    reviewed_at TIMESTAMP NULL DEFAULT NULL,
+    INDEX idx_status (status),
+    INDEX idx_team (team)
+)");
+
 $conn->query("CREATE TABLE IF NOT EXISTS player_update_settings (
     id INT(11) AUTO_INCREMENT PRIMARY KEY,
     team VARCHAR(20) NOT NULL,
@@ -354,6 +367,115 @@ if (isset($_POST['review_pending_update'])) {
     exit();
 }
 
+// Admin review pending NEW player applications (approve/reject)
+if (isset($_POST['review_pending_new_player'])) {
+    $pendingId = intval($_POST['pending_id'] ?? 0);
+    $action = trim($_POST['review_action'] ?? '');
+
+    if ($pendingId <= 0 || ($action !== 'approve' && $action !== 'reject')) {
+        header('Location: uploadprofile.php');
+        exit();
+    }
+
+    $pendingResult = $conn->query("SELECT * FROM player_pending_new_players WHERE id = $pendingId AND status = 'pending' LIMIT 1");
+    if (!$pendingResult || $pendingResult->num_rows === 0) {
+        header('Location: uploadprofile.php');
+        exit();
+    }
+
+    $pending = $pendingResult->fetch_assoc();
+
+    if ($action === 'reject') {
+        $conn->query("UPDATE player_pending_new_players SET status = 'rejected', reviewed_at = NOW() WHERE id = $pendingId");
+        header('Location: uploadprofile.php');
+        exit();
+    }
+
+    $data = json_decode($pending['data'] ?? '', true);
+    if (!is_array($data)) {
+        $conn->query("UPDATE player_pending_new_players SET status = 'rejected', reviewed_at = NOW() WHERE id = $pendingId");
+        header('Location: uploadprofile.php');
+        exit();
+    }
+
+    $allowedCols = [
+        'name','team','role','position_category','special_role','date_of_birth','age','height','weight','games','points','tries',
+        'placeOfBirth','nationality','honours','joined','previousClubs','sponsor','sponsorDesc'
+    ];
+
+    $name = trim((string)($data['name'] ?? ($pending['name'] ?? '')));
+    $team = trim((string)($data['team'] ?? ($pending['team'] ?? 'men')));
+    if ($name === '' || $team === '') {
+        $conn->query("UPDATE player_pending_new_players SET status = 'rejected', reviewed_at = NOW() WHERE id = $pendingId");
+        header('Location: uploadprofile.php');
+        exit();
+    }
+
+    // Move pending image (if any) into main uploads/players/
+    $finalImgPath = '';
+    if (!empty($pending['img'])) {
+        $pendingImg = $pending['img'];
+        $uploadDir = 'uploads/players/';
+        if (!file_exists($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+
+        $ext = pathinfo($pendingImg, PATHINFO_EXTENSION);
+        $ext = $ext ? strtolower($ext) : 'jpg';
+        $newName = uniqid('player_') . '.' . $ext;
+        $target = rtrim($uploadDir, '/\\') . '/' . $newName;
+
+        if (@rename($pendingImg, $target)) {
+            $finalImgPath = $target;
+        } else {
+            // If move fails, keep original path so admin doesn't lose it
+            $finalImgPath = $pendingImg;
+        }
+    }
+
+    $fields = [];
+    $values = [];
+
+    foreach ($allowedCols as $col) {
+        if (!array_key_exists($col, $data)) {
+            continue;
+        }
+        $val = $data[$col];
+
+        $fields[] = $col;
+        if ($col === 'games' || $col === 'points' || $col === 'tries' || $col === 'age') {
+            $values[] = (string)intval($val);
+        } elseif ($col === 'date_of_birth') {
+            $v = trim((string)$val);
+            $values[] = ($v === '') ? 'NULL' : "'" . $conn->real_escape_string($v) . "'";
+        } else {
+            $values[] = "'" . $conn->real_escape_string((string)$val) . "'";
+        }
+    }
+
+    if ($finalImgPath !== '') {
+        $fields[] = 'img';
+        $values[] = "'" . $conn->real_escape_string($finalImgPath) . "'";
+    }
+
+    // Ensure name/team exist even if not included above
+    if (!in_array('name', $fields, true)) {
+        $fields[] = 'name';
+        $values[] = "'" . $conn->real_escape_string($name) . "'";
+    }
+    if (!in_array('team', $fields, true)) {
+        $fields[] = 'team';
+        $values[] = "'" . $conn->real_escape_string($team) . "'";
+    }
+
+    $sql = "INSERT INTO players (" . implode(', ', $fields) . ") VALUES (" . implode(', ', $values) . ")";
+    $conn->query($sql);
+
+    $conn->query("UPDATE player_pending_new_players SET status = 'approved', reviewed_at = NOW() WHERE id = $pendingId");
+    header('Location: uploadprofile.php');
+    exit();
+}
+
 // Generate share link (public)
 if (isset($_POST['generate_update_link'])) {
     $playerId = intval($_POST['id'] ?? 0);
@@ -393,7 +515,7 @@ if (isset($_POST['remove_image'])) {
 }
 
 // Handle form submission for adding/editing
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['remove_image']) && !isset($_POST['review_pending_update']) && !isset($_POST['generate_update_link']) && !isset($_POST['save_update_settings'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['remove_image']) && !isset($_POST['review_pending_update']) && !isset($_POST['review_pending_new_player']) && !isset($_POST['generate_update_link']) && !isset($_POST['save_update_settings'])) {
     // Sanitize and validate input
     $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
     $name = $conn->real_escape_string(trim($_POST['name'] ?? ''));
@@ -550,6 +672,14 @@ $pendingResult = $conn->query("SELECT ppu.id, ppu.player_id, ppu.status, ppu.cre
 if ($pendingResult && $pendingResult->num_rows > 0) {
     while ($row = $pendingResult->fetch_assoc()) {
         $pendingUpdates[] = $row;
+    }
+}
+
+$pendingNewPlayers = [];
+$pendingNewRes = $conn->query("SELECT id, name, team, created_at FROM player_pending_new_players WHERE status = 'pending' ORDER BY created_at DESC");
+if ($pendingNewRes && $pendingNewRes->num_rows > 0) {
+    while ($row = $pendingNewRes->fetch_assoc()) {
+        $pendingNewPlayers[] = $row;
     }
 }
 
@@ -1106,10 +1236,6 @@ $conn->close();
                 margin-top: 1rem;
             }
 
-            .nav-links.active {
-                display: flex;
-            }
-
             .mobile-menu-btn {
                 display: block;
             }
@@ -1452,6 +1578,44 @@ $conn->close();
                     <button type="submit" class="btn btn-primary">Save Settings</button>
                 </div>
             </form>
+
+            <h2 class="section-title">Pending New Players</h2>
+
+            <?php if (empty($pendingNewPlayers)): ?>
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> No pending new player applications.
+                </div>
+            <?php else: ?>
+                <div class="player-grid">
+                    <?php foreach ($pendingNewPlayers as $np): ?>
+                        <div class="player-card">
+                            <div class="player-info">
+                                <h3 class="player-name"><?php echo htmlspecialchars($np['name']); ?></h3>
+                                <p class="player-position">Team: <?php echo htmlspecialchars($np['team']); ?></p>
+                                <p class="player-position">Submitted: <?php echo htmlspecialchars($np['created_at']); ?></p>
+                                <div class="player-actions">
+                                    <form method="POST" action="uploadprofile.php">
+                                        <input type="hidden" name="review_pending_new_player" value="1">
+                                        <input type="hidden" name="pending_id" value="<?php echo (int)$np['id']; ?>">
+                                        <input type="hidden" name="review_action" value="approve">
+                                        <button type="submit" class="action-btn edit-btn" title="Approve">
+                                            <i class="fas fa-check"></i> Approve
+                                        </button>
+                                    </form>
+                                    <form method="POST" action="uploadprofile.php">
+                                        <input type="hidden" name="review_pending_new_player" value="1">
+                                        <input type="hidden" name="pending_id" value="<?php echo (int)$np['id']; ?>">
+                                        <input type="hidden" name="review_action" value="reject">
+                                        <button type="submit" class="action-btn delete-btn" title="Reject">
+                                            <i class="fas fa-times"></i> Reject
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
 
             <h2 class="section-title">Pending Updates</h2>
 
