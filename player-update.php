@@ -11,7 +11,7 @@ if ($conn->connect_error) {
 $conn->query("CREATE TABLE IF NOT EXISTS player_update_links (
     id INT(11) AUTO_INCREMENT PRIMARY KEY,
     player_id INT(11) NOT NULL,
-    token VARCHAR(64) NOT NULL,
+    token VARCHAR(64) NOT NULL DEFAULT '',
     revoked TINYINT(1) NOT NULL DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE KEY uniq_token (token),
@@ -21,7 +21,7 @@ $conn->query("CREATE TABLE IF NOT EXISTS player_update_links (
 $conn->query("CREATE TABLE IF NOT EXISTS player_pending_updates (
     id INT(11) AUTO_INCREMENT PRIMARY KEY,
     player_id INT(11) NOT NULL,
-    token VARCHAR(64) NOT NULL,
+    token VARCHAR(64) NOT NULL DEFAULT '',
     data LONGTEXT NOT NULL,
     img VARCHAR(255) DEFAULT NULL,
     status VARCHAR(20) NOT NULL DEFAULT 'pending',
@@ -31,12 +31,30 @@ $conn->query("CREATE TABLE IF NOT EXISTS player_pending_updates (
     INDEX idx_player_id (player_id)
 )");
 
+$conn->query("CREATE TABLE IF NOT EXISTS player_update_settings (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    team VARCHAR(20) NOT NULL,
+    allowed_fields LONGTEXT NOT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY uniq_team (team)
+)");
+
 $message = '';
 $messageClass = '';
 
 $token = isset($_GET['token']) ? trim($_GET['token']) : '';
 if ($token === '' && isset($_POST['token'])) {
     $token = trim($_POST['token']);
+}
+
+$teamFilter = isset($_GET['team']) ? trim($_GET['team']) : '';
+if ($teamFilter === '' && isset($_POST['team'])) {
+    $teamFilter = trim($_POST['team']);
+}
+
+$playerId = isset($_GET['player_id']) ? intval($_GET['player_id']) : 0;
+if ($playerId <= 0 && isset($_POST['player_id'])) {
+    $playerId = intval($_POST['player_id']);
 }
 
 $link = null;
@@ -51,17 +69,84 @@ if ($token !== '') {
         $link = $res ? $res->fetch_assoc() : null;
         $stmt->close();
     }
-
     if ($link) {
-        $pid = (int) $link['player_id'];
-        $stmt = $conn->prepare('SELECT * FROM players WHERE id = ?');
+        $playerId = (int) $link['player_id'];
+    }
+}
+
+if ($playerId > 0) {
+    $stmt = $conn->prepare('SELECT * FROM players WHERE id = ?');
+    if ($stmt) {
+        $stmt->bind_param('i', $playerId);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $player = $res ? $res->fetch_assoc() : null;
+        $stmt->close();
+    }
+}
+
+$allowedFields = [];
+if ($player) {
+    $teamKey = $player['team'] ?? 'all';
+    $stmt = $conn->prepare('SELECT allowed_fields FROM player_update_settings WHERE team = ?');
+    if ($stmt) {
+        $stmt->bind_param('s', $teamKey);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $row = $res ? $res->fetch_assoc() : null;
+        $stmt->close();
+        if ($row && isset($row['allowed_fields'])) {
+            $decoded = json_decode($row['allowed_fields'], true);
+            if (is_array($decoded)) {
+                $allowedFields = $decoded;
+            }
+        }
+    }
+
+    if (empty($allowedFields)) {
+        $stmt = $conn->prepare("SELECT allowed_fields FROM player_update_settings WHERE team = 'all'");
         if ($stmt) {
-            $stmt->bind_param('i', $pid);
             $stmt->execute();
             $res = $stmt->get_result();
-            $player = $res ? $res->fetch_assoc() : null;
+            $row = $res ? $res->fetch_assoc() : null;
             $stmt->close();
+            if ($row && isset($row['allowed_fields'])) {
+                $decoded = json_decode($row['allowed_fields'], true);
+                if (is_array($decoded)) {
+                    $allowedFields = $decoded;
+                }
+            }
         }
+    }
+}
+
+if (empty($allowedFields)) {
+    $allowedFields = [
+        'name','team','role','position_category','special_role','date_of_birth','height','weight','games','points','tries',
+        'placeOfBirth','nationality','honours','joined','previousClubs','sponsor','sponsorDesc','img'
+    ];
+}
+
+$playersForSelect = [];
+$teamsForSelect = [
+    'men' => "Men's Team",
+    'women' => "Women's Team",
+    'academy_u18_boys' => 'Academy U18 Boys',
+    'academy_u18_girls' => 'Academy U18 Girls',
+    'academy_u16_boys' => 'Academy U16 Boys',
+    'academy_u16_girls' => 'Academy U16 Girls'
+];
+
+if ($teamFilter !== '' && isset($teamsForSelect[$teamFilter])) {
+    $stmt = $conn->prepare('SELECT id, name FROM players WHERE team = ? ORDER BY name');
+    if ($stmt) {
+        $stmt->bind_param('s', $teamFilter);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        while ($res && ($row = $res->fetch_assoc())) {
+            $playersForSelect[] = $row;
+        }
+        $stmt->close();
     }
 }
 
@@ -92,17 +177,16 @@ function saveUploadedImage($file, $uploadDir) {
     return null;
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $token !== '' && $link && $player) {
-    $pid = (int) $link['player_id'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $player) {
+    $pid = (int) ($player['id'] ?? 0);
 
-    $data = [
+    $candidate = [
         'name' => trim($_POST['name'] ?? ''),
         'team' => trim($_POST['team'] ?? ($player['team'] ?? 'men')),
         'role' => trim($_POST['role'] ?? ''),
         'position_category' => trim($_POST['position_category'] ?? ''),
         'special_role' => trim($_POST['special_role'] ?? ''),
         'date_of_birth' => trim($_POST['date_of_birth'] ?? ''),
-        'age' => trim($_POST['age'] ?? ''),
         'height' => trim($_POST['height'] ?? ''),
         'weight' => trim($_POST['weight'] ?? ''),
         'games' => trim($_POST['games'] ?? ''),
@@ -117,8 +201,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $token !== '' && $link && $player) 
         'sponsorDesc' => trim($_POST['sponsorDesc'] ?? ''),
     ];
 
+    $data = [];
+    foreach ($candidate as $k => $v) {
+        if (in_array($k, $allowedFields, true)) {
+            $data[$k] = $v;
+        }
+    }
+
     $imgPath = null;
-    if (isset($_FILES['player_image']) && ($_FILES['player_image']['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK) {
+    if (in_array('img', $allowedFields, true) && isset($_FILES['player_image']) && ($_FILES['player_image']['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK) {
         $imgPath = saveUploadedImage($_FILES['player_image'], 'uploads/players/pending/');
         if ($imgPath === null) {
             $message = 'Invalid image upload. Please upload a JPG, PNG, GIF, or WEBP image.';
@@ -132,9 +223,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $token !== '' && $link && $player) 
             $message = 'Failed to prepare submission. Please try again.';
             $messageClass = 'alert-error';
         } else {
+            $tok = $token !== '' ? $token : '';
             $stmt = $conn->prepare("INSERT INTO player_pending_updates (player_id, token, data, img, status) VALUES (?, ?, ?, ?, 'pending')");
             if ($stmt) {
-                $stmt->bind_param('isss', $pid, $token, $json, $imgPath);
+                $stmt->bind_param('isss', $pid, $tok, $json, $imgPath);
                 if ($stmt->execute()) {
                     $message = 'Your information was submitted successfully. It will appear on the website after admin approval.';
                     $messageClass = 'alert-success';
@@ -198,144 +290,212 @@ $conn->close();
         </div>
       <?php endif; ?>
 
-      <?php if (!$token || !$link || !$player): ?>
-        <div class="alert alert-error">Invalid or expired link.</div>
-      <?php else: ?>
-        <form method="POST" action="player-update.php" enctype="multipart/form-data">
-          <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>" />
-
+      <?php if (!$player): ?>
+        <form method="GET" action="player-update.php">
           <div class="grid">
             <div>
-              <label for="name">Full Name</label>
-              <input id="name" name="name" type="text" value="<?php echo htmlspecialchars($player['name'] ?? ''); ?>" required />
-            </div>
-            <div>
-              <label for="team">Team</label>
-              <select id="team" name="team">
+              <label for="team_select">Team</label>
+              <select id="team_select" name="team">
+                <option value="">Select team</option>
                 <?php
-                  $teams = [
-                    'men' => "Men's Team",
-                    'women' => "Women's Team",
-                    'academy_u18_boys' => 'Academy U18 Boys',
-                    'academy_u18_girls' => 'Academy U18 Girls',
-                    'academy_u16_boys' => 'Academy U16 Boys',
-                    'academy_u16_girls' => 'Academy U16 Girls'
-                  ];
-                  $curTeam = $player['team'] ?? 'men';
-                  foreach ($teams as $k => $label) {
-                    $sel = ($k === $curTeam) ? 'selected' : '';
+                  foreach ($teamsForSelect as $k => $label) {
+                    $sel = ($k === $teamFilter) ? 'selected' : '';
                     echo "<option value=\"" . htmlspecialchars($k) . "\" $sel>" . htmlspecialchars($label) . "</option>";
                   }
                 ?>
               </select>
             </div>
-          </div>
-
-          <div class="grid">
             <div>
-              <label for="role">Position/Role</label>
-              <input id="role" name="role" type="text" value="<?php echo htmlspecialchars($player['role'] ?? ''); ?>" />
-            </div>
-            <div>
-              <label for="position_category">Position Category</label>
-              <select id="position_category" name="position_category">
+              <label for="player_select">Player</label>
+              <select id="player_select" name="player_id" <?php echo empty($playersForSelect) ? 'disabled' : ''; ?>>
+                <option value="">Select player</option>
                 <?php
-                  $pc = $player['position_category'] ?? '';
-                  $opts = ['', 'Backs', 'Forwards'];
-                  foreach ($opts as $o) {
-                    $sel = ($o === $pc) ? 'selected' : '';
-                    $label = $o === '' ? 'Select' : $o;
-                    echo "<option value=\"" . htmlspecialchars($o) . "\" $sel>" . htmlspecialchars($label) . "</option>";
+                  foreach ($playersForSelect as $p) {
+                    echo "<option value=\"" . (int)$p['id'] . "\">" . htmlspecialchars($p['name']) . "</option>";
                   }
                 ?>
               </select>
             </div>
           </div>
+          <div style="margin-top: 16px;">
+            <button class="btn" type="submit" <?php echo empty($teamFilter) ? 'disabled' : ''; ?>><i class="fas fa-arrow-right"></i> Continue</button>
+          </div>
+        </form>
+      <?php else: ?>
+        <form method="POST" action="player-update.php?player_id=<?php echo (int)$player['id']; ?>" enctype="multipart/form-data">
+          <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>" />
+          <input type="hidden" name="player_id" value="<?php echo (int)$player['id']; ?>" />
 
           <div class="grid">
-            <div>
-              <label for="special_role">Special Role</label>
-              <select id="special_role" name="special_role">
-                <?php
-                  $sr = $player['special_role'] ?? '';
-                  $opts = ['', 'Captain', 'Vice-Captain'];
-                  foreach ($opts as $o) {
-                    $sel = ($o === $sr) ? 'selected' : '';
-                    $label = $o === '' ? 'Regular Player' : $o;
-                    echo "<option value=\"" . htmlspecialchars($o) . "\" $sel>" . htmlspecialchars($label) . "</option>";
-                  }
-                ?>
-              </select>
-            </div>
-            <div>
-              <label for="date_of_birth">Date of Birth</label>
-              <input id="date_of_birth" name="date_of_birth" type="date" value="<?php echo htmlspecialchars($player['date_of_birth'] ?? ''); ?>" />
-            </div>
+            <?php if (in_array('name', $allowedFields, true)): ?>
+              <div>
+                <label for="name">Full Name</label>
+                <input id="name" name="name" type="text" value="<?php echo htmlspecialchars($player['name'] ?? ''); ?>" required />
+              </div>
+            <?php endif; ?>
+
+            <?php if (in_array('team', $allowedFields, true)): ?>
+              <div>
+                <label for="team">Team</label>
+                <select id="team" name="team">
+                  <?php
+                    $curTeam = $player['team'] ?? 'men';
+                    foreach ($teamsForSelect as $k => $label) {
+                      $sel = ($k === $curTeam) ? 'selected' : '';
+                      echo "<option value=\"" . htmlspecialchars($k) . "\" $sel>" . htmlspecialchars($label) . "</option>";
+                    }
+                  ?>
+                </select>
+              </div>
+            <?php endif; ?>
           </div>
 
           <div class="grid">
-            <div>
-              <label for="height">Height (cm)</label>
-              <input id="height" name="height" type="text" value="<?php echo htmlspecialchars($player['height'] ?? ''); ?>" />
-            </div>
-            <div>
-              <label for="weight">Weight (kg)</label>
-              <input id="weight" name="weight" type="text" value="<?php echo htmlspecialchars($player['weight'] ?? ''); ?>" />
-            </div>
+            <?php if (in_array('role', $allowedFields, true)): ?>
+              <div>
+                <label for="role">Position/Role</label>
+                <input id="role" name="role" type="text" value="<?php echo htmlspecialchars($player['role'] ?? ''); ?>" />
+              </div>
+            <?php endif; ?>
+
+            <?php if (in_array('position_category', $allowedFields, true)): ?>
+              <div>
+                <label for="position_category">Position Category</label>
+                <select id="position_category" name="position_category">
+                  <?php
+                    $pc = $player['position_category'] ?? '';
+                    $opts = ['', 'Backs', 'Forwards'];
+                    foreach ($opts as $o) {
+                      $sel = ($o === $pc) ? 'selected' : '';
+                      $label = $o === '' ? 'Select' : $o;
+                      echo "<option value=\"" . htmlspecialchars($o) . "\" $sel>" . htmlspecialchars($label) . "</option>";
+                    }
+                  ?>
+                </select>
+              </div>
+            <?php endif; ?>
           </div>
 
           <div class="grid">
-            <div>
-              <label for="games">Games</label>
-              <input id="games" name="games" type="number" min="0" value="<?php echo htmlspecialchars($player['games'] ?? '0'); ?>" />
-            </div>
-            <div>
-              <label for="points">Points</label>
-              <input id="points" name="points" type="number" min="0" value="<?php echo htmlspecialchars($player['points'] ?? '0'); ?>" />
-            </div>
+            <?php if (in_array('special_role', $allowedFields, true)): ?>
+              <div>
+                <label for="special_role">Special Role</label>
+                <select id="special_role" name="special_role">
+                  <?php
+                    $sr = $player['special_role'] ?? '';
+                    $opts = ['', 'Captain', 'Vice-Captain'];
+                    foreach ($opts as $o) {
+                      $sel = ($o === $sr) ? 'selected' : '';
+                      $label = $o === '' ? 'Regular Player' : $o;
+                      echo "<option value=\"" . htmlspecialchars($o) . "\" $sel>" . htmlspecialchars($label) . "</option>";
+                    }
+                  ?>
+                </select>
+              </div>
+            <?php endif; ?>
+
+            <?php if (in_array('date_of_birth', $allowedFields, true)): ?>
+              <div>
+                <label for="date_of_birth">Date of Birth</label>
+                <input id="date_of_birth" name="date_of_birth" type="date" value="<?php echo htmlspecialchars($player['date_of_birth'] ?? ''); ?>" />
+              </div>
+            <?php endif; ?>
           </div>
 
           <div class="grid">
-            <div>
-              <label for="tries">Tries</label>
-              <input id="tries" name="tries" type="number" min="0" value="<?php echo htmlspecialchars($player['tries'] ?? '0'); ?>" />
-            </div>
-            <div>
-              <label for="nationality">Nationality</label>
-              <input id="nationality" name="nationality" type="text" value="<?php echo htmlspecialchars($player['nationality'] ?? ''); ?>" />
-            </div>
+            <?php if (in_array('height', $allowedFields, true)): ?>
+              <div>
+                <label for="height">Height (cm)</label>
+                <input id="height" name="height" type="text" value="<?php echo htmlspecialchars($player['height'] ?? ''); ?>" />
+              </div>
+            <?php endif; ?>
+
+            <?php if (in_array('weight', $allowedFields, true)): ?>
+              <div>
+                <label for="weight">Weight (kg)</label>
+                <input id="weight" name="weight" type="text" value="<?php echo htmlspecialchars($player['weight'] ?? ''); ?>" />
+              </div>
+            <?php endif; ?>
           </div>
 
           <div class="grid">
-            <div>
-              <label for="placeOfBirth">Place of Birth</label>
-              <input id="placeOfBirth" name="placeOfBirth" type="text" value="<?php echo htmlspecialchars($player['placeOfBirth'] ?? ''); ?>" />
-            </div>
-            <div>
-              <label for="joined">Year Joined</label>
-              <input id="joined" name="joined" type="text" value="<?php echo htmlspecialchars($player['joined'] ?? ''); ?>" />
-            </div>
+            <?php if (in_array('games', $allowedFields, true)): ?>
+              <div>
+                <label for="games">Games</label>
+                <input id="games" name="games" type="number" min="0" value="<?php echo htmlspecialchars($player['games'] ?? '0'); ?>" />
+              </div>
+            <?php endif; ?>
+
+            <?php if (in_array('points', $allowedFields, true)): ?>
+              <div>
+                <label for="points">Points</label>
+                <input id="points" name="points" type="number" min="0" value="<?php echo htmlspecialchars($player['points'] ?? '0'); ?>" />
+              </div>
+            <?php endif; ?>
           </div>
-
-          <label for="honours">Honours/Achievements</label>
-          <textarea id="honours" name="honours"><?php echo htmlspecialchars($player['honours'] ?? ''); ?></textarea>
-
-          <label for="previousClubs">Previous Clubs</label>
-          <textarea id="previousClubs" name="previousClubs"><?php echo htmlspecialchars($player['previousClubs'] ?? ''); ?></textarea>
 
           <div class="grid">
-            <div>
-              <label for="sponsor">Sponsor</label>
-              <input id="sponsor" name="sponsor" type="text" value="<?php echo htmlspecialchars($player['sponsor'] ?? ''); ?>" />
-            </div>
-            <div>
-              <label for="sponsorDesc">Sponsor Description</label>
-              <input id="sponsorDesc" name="sponsorDesc" type="text" value="<?php echo htmlspecialchars($player['sponsorDesc'] ?? ''); ?>" />
-            </div>
+            <?php if (in_array('tries', $allowedFields, true)): ?>
+              <div>
+                <label for="tries">Tries</label>
+                <input id="tries" name="tries" type="number" min="0" value="<?php echo htmlspecialchars($player['tries'] ?? '0'); ?>" />
+              </div>
+            <?php endif; ?>
+
+            <?php if (in_array('nationality', $allowedFields, true)): ?>
+              <div>
+                <label for="nationality">Nationality</label>
+                <input id="nationality" name="nationality" type="text" value="<?php echo htmlspecialchars($player['nationality'] ?? ''); ?>" />
+              </div>
+            <?php endif; ?>
           </div>
 
-          <label for="player_image">Profile Picture (optional)</label>
-          <input id="player_image" name="player_image" type="file" accept="image/*" />
+          <div class="grid">
+            <?php if (in_array('placeOfBirth', $allowedFields, true)): ?>
+              <div>
+                <label for="placeOfBirth">Place of Birth</label>
+                <input id="placeOfBirth" name="placeOfBirth" type="text" value="<?php echo htmlspecialchars($player['placeOfBirth'] ?? ''); ?>" />
+              </div>
+            <?php endif; ?>
+
+            <?php if (in_array('joined', $allowedFields, true)): ?>
+              <div>
+                <label for="joined">Year Joined</label>
+                <input id="joined" name="joined" type="text" value="<?php echo htmlspecialchars($player['joined'] ?? ''); ?>" />
+              </div>
+            <?php endif; ?>
+          </div>
+
+          <?php if (in_array('honours', $allowedFields, true)): ?>
+            <label for="honours">Honours/Achievements</label>
+            <textarea id="honours" name="honours"><?php echo htmlspecialchars($player['honours'] ?? ''); ?></textarea>
+          <?php endif; ?>
+
+          <?php if (in_array('previousClubs', $allowedFields, true)): ?>
+            <label for="previousClubs">Previous Clubs</label>
+            <textarea id="previousClubs" name="previousClubs"><?php echo htmlspecialchars($player['previousClubs'] ?? ''); ?></textarea>
+          <?php endif; ?>
+
+          <div class="grid">
+            <?php if (in_array('sponsor', $allowedFields, true)): ?>
+              <div>
+                <label for="sponsor">Sponsor</label>
+                <input id="sponsor" name="sponsor" type="text" value="<?php echo htmlspecialchars($player['sponsor'] ?? ''); ?>" />
+              </div>
+            <?php endif; ?>
+
+            <?php if (in_array('sponsorDesc', $allowedFields, true)): ?>
+              <div>
+                <label for="sponsorDesc">Sponsor Description</label>
+                <input id="sponsorDesc" name="sponsorDesc" type="text" value="<?php echo htmlspecialchars($player['sponsorDesc'] ?? ''); ?>" />
+              </div>
+            <?php endif; ?>
+          </div>
+
+          <?php if (in_array('img', $allowedFields, true)): ?>
+            <label for="player_image">Profile Picture (optional)</label>
+            <input id="player_image" name="player_image" type="file" accept="image/*" />
+          <?php endif; ?>
 
           <div style="margin-top: 16px;">
             <button class="btn" type="submit"><i class="fas fa-paper-plane"></i> Submit for Approval</button>

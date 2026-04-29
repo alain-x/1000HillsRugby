@@ -59,6 +59,14 @@ $conn->query("CREATE TABLE IF NOT EXISTS player_pending_updates (
     INDEX idx_player_id (player_id)
 )");
 
+$conn->query("CREATE TABLE IF NOT EXISTS player_update_settings (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    team VARCHAR(20) NOT NULL,
+    allowed_fields LONGTEXT NOT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY uniq_team (team)
+)");
+
 $columnCheck = $conn->query("SELECT COUNT(*) AS cnt FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'players' AND COLUMN_NAME = 'date_of_birth'");
 if ($columnCheck && ($row = $columnCheck->fetch_assoc()) && intval($row['cnt']) === 0) {
     $conn->query("ALTER TABLE players ADD COLUMN date_of_birth DATE NULL AFTER img");
@@ -240,6 +248,123 @@ if (isset($_GET['delete'])) {
     }
 }
 
+// Save admin settings for which fields players can submit (per team)
+if (isset($_POST['save_update_settings'])) {
+    $teamSetting = $conn->real_escape_string(trim($_POST['team_setting'] ?? 'all'));
+    $allowed = $_POST['allowed_fields'] ?? [];
+    if (!is_array($allowed)) {
+        $allowed = [];
+    }
+    $allowed = array_values(array_unique(array_filter(array_map('strval', $allowed))));
+
+    $allowedJson = json_encode($allowed, JSON_UNESCAPED_UNICODE);
+    if ($allowedJson === false) {
+        $message = 'Failed to save settings.';
+        $messageClass = 'alert-error';
+    } else {
+        $sql = "INSERT INTO player_update_settings (team, allowed_fields) VALUES ('$teamSetting', '" . $conn->real_escape_string($allowedJson) . "')
+                ON DUPLICATE KEY UPDATE allowed_fields = VALUES(allowed_fields)";
+        if ($conn->query($sql)) {
+            $message = 'Update settings saved.';
+            $messageClass = 'alert-success';
+            header('Location: uploadprofile.php');
+            exit();
+        }
+
+        $message = 'Failed to save settings.';
+        $messageClass = 'alert-error';
+    }
+}
+
+// Admin review pending updates (approve/reject)
+if (isset($_POST['review_pending_update'])) {
+    $pendingId = intval($_POST['pending_id'] ?? 0);
+    $action = trim($_POST['review_action'] ?? '');
+
+    if ($pendingId <= 0 || ($action !== 'approve' && $action !== 'reject')) {
+        header('Location: uploadprofile.php');
+        exit();
+    }
+
+    $pendingResult = $conn->query("SELECT * FROM player_pending_updates WHERE id = $pendingId AND status = 'pending' LIMIT 1");
+    if (!$pendingResult || $pendingResult->num_rows === 0) {
+        header('Location: uploadprofile.php');
+        exit();
+    }
+
+    $pending = $pendingResult->fetch_assoc();
+    $playerId = intval($pending['player_id']);
+
+    if ($action === 'reject') {
+        $conn->query("UPDATE player_pending_updates SET status = 'rejected', reviewed_at = NOW() WHERE id = $pendingId");
+        header('Location: uploadprofile.php');
+        exit();
+    }
+
+    $data = json_decode($pending['data'] ?? '', true);
+    if (!is_array($data)) {
+        $conn->query("UPDATE player_pending_updates SET status = 'rejected', reviewed_at = NOW() WHERE id = $pendingId");
+        header('Location: uploadprofile.php');
+        exit();
+    }
+
+    $allowedCols = [
+        'name','team','role','position_category','special_role','date_of_birth','age','height','weight','games','points','tries',
+        'placeOfBirth','nationality','honours','joined','previousClubs','sponsor','sponsorDesc'
+    ];
+
+    $sets = [];
+    foreach ($allowedCols as $col) {
+        if (array_key_exists($col, $data)) {
+            $val = $data[$col];
+            if ($col === 'games' || $col === 'points' || $col === 'tries' || $col === 'age') {
+                $sets[] = "$col = " . intval($val);
+            } elseif ($col === 'date_of_birth') {
+                $v = trim((string)$val);
+                if ($v === '') {
+                    $sets[] = "$col = NULL";
+                } else {
+                    $sets[] = "$col = '" . $conn->real_escape_string($v) . "'";
+                }
+            } else {
+                $sets[] = "$col = '" . $conn->real_escape_string((string)$val) . "'";
+            }
+        }
+    }
+
+    if (!empty($pending['img'])) {
+        $oldImgRes = $conn->query("SELECT img FROM players WHERE id = $playerId LIMIT 1");
+        if ($oldImgRes && $oldImgRes->num_rows > 0) {
+            $oldRow = $oldImgRes->fetch_assoc();
+            $oldImg = $oldRow['img'] ?? '';
+            if (!empty($oldImg) && $oldImg !== $pending['img'] && file_exists($oldImg)) {
+                @unlink($oldImg);
+            }
+        }
+        $sets[] = "img = '" . $conn->real_escape_string($pending['img']) . "'";
+    }
+
+    if (!empty($sets)) {
+        $sql = "UPDATE players SET " . implode(', ', $sets) . " WHERE id = $playerId";
+        $conn->query($sql);
+    }
+
+    $conn->query("UPDATE player_pending_updates SET status = 'approved', reviewed_at = NOW() WHERE id = $pendingId");
+    header('Location: uploadprofile.php');
+    exit();
+}
+
+// Generate share link (public)
+if (isset($_POST['generate_update_link'])) {
+    $playerId = intval($_POST['id'] ?? 0);
+    if ($playerId > 0) {
+        $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? '');
+        $publicLink = rtrim($baseUrl, '/') . '/player-update.php?player_id=' . $playerId;
+        $message = 'Share this link with the player: ' . $publicLink;
+        $messageClass = 'alert-success';
+    }
+}
+
 // Handle remove image action
 if (isset($_POST['remove_image'])) {
     $id = intval($_POST['id']);
@@ -268,7 +393,7 @@ if (isset($_POST['remove_image'])) {
 }
 
 // Handle form submission for adding/editing
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['remove_image'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['remove_image']) && !isset($_POST['review_pending_update']) && !isset($_POST['generate_update_link']) && !isset($_POST['save_update_settings'])) {
     // Sanitize and validate input
     $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
     $name = $conn->real_escape_string(trim($_POST['name'] ?? ''));
@@ -425,6 +550,23 @@ $pendingResult = $conn->query("SELECT ppu.id, ppu.player_id, ppu.status, ppu.cre
 if ($pendingResult && $pendingResult->num_rows > 0) {
     while ($row = $pendingResult->fetch_assoc()) {
         $pendingUpdates[] = $row;
+    }
+}
+
+$updateSettingsByTeam = [];
+$settingsResult = $conn->query("SELECT team, allowed_fields FROM player_update_settings");
+if ($settingsResult && $settingsResult->num_rows > 0) {
+    while ($row = $settingsResult->fetch_assoc()) {
+        $updateSettingsByTeam[$row['team']] = $row['allowed_fields'];
+    }
+}
+
+$settingsTeam = trim($_GET['settings_team'] ?? 'all');
+$allowedFieldsForSettingsTeam = [];
+if (isset($updateSettingsByTeam[$settingsTeam])) {
+    $decoded = json_decode($updateSettingsByTeam[$settingsTeam], true);
+    if (is_array($decoded)) {
+        $allowedFieldsForSettingsTeam = $decoded;
     }
 }
 
@@ -1244,6 +1386,73 @@ $conn->close();
 
         <!-- Player List -->
         <div class="form-container">
+            <h2 class="section-title">Player Update Settings</h2>
+
+            <form method="GET" action="uploadprofile.php" style="margin-bottom:1rem;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="settings_team" class="form-label">Team Category</label>
+                        <select id="settings_team" name="settings_team" class="form-control">
+                            <option value="all" <?php echo $settingsTeam === 'all' ? 'selected' : ''; ?>>All Teams (default)</option>
+                            <option value="men" <?php echo $settingsTeam === 'men' ? 'selected' : ''; ?>>Men's Team</option>
+                            <option value="women" <?php echo $settingsTeam === 'women' ? 'selected' : ''; ?>>Women's Team</option>
+                            <option value="academy_u18_boys" <?php echo $settingsTeam === 'academy_u18_boys' ? 'selected' : ''; ?>>Academy U18 Boys</option>
+                            <option value="academy_u18_girls" <?php echo $settingsTeam === 'academy_u18_girls' ? 'selected' : ''; ?>>Academy U18 Girls</option>
+                            <option value="academy_u16_boys" <?php echo $settingsTeam === 'academy_u16_boys' ? 'selected' : ''; ?>>Academy U16 Boys</option>
+                            <option value="academy_u16_girls" <?php echo $settingsTeam === 'academy_u16_girls' ? 'selected' : ''; ?>>Academy U16 Girls</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="display:flex;align-items:flex-end;">
+                        <button type="submit" class="btn btn-primary">Load</button>
+                    </div>
+                </div>
+            </form>
+
+            <form method="POST" action="uploadprofile.php">
+                <input type="hidden" name="save_update_settings" value="1">
+                <input type="hidden" name="team_setting" value="<?php echo htmlspecialchars($settingsTeam); ?>">
+
+                <div class="form-group">
+                    <label class="form-label">Allow players to submit these fields</label>
+                    <div style="display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:0.5rem;">
+                        <?php
+                            $allFields = [
+                                'name' => 'Name',
+                                'team' => 'Team',
+                                'role' => 'Position/Role',
+                                'position_category' => 'Player Category',
+                                'special_role' => 'Special Role',
+                                'date_of_birth' => 'Date of Birth',
+                                'height' => 'Height',
+                                'weight' => 'Weight',
+                                'games' => 'Games',
+                                'points' => 'Points',
+                                'tries' => 'Tries',
+                                'placeOfBirth' => 'Place of Birth',
+                                'nationality' => 'Nationality',
+                                'honours' => 'Honours/Achievements',
+                                'joined' => 'Year Joined',
+                                'previousClubs' => 'Previous Clubs',
+                                'sponsor' => 'Sponsor',
+                                'sponsorDesc' => 'Sponsor Description',
+                                'img' => 'Profile Image'
+                            ];
+                            foreach ($allFields as $key => $label) {
+                                $checked = in_array($key, $allowedFieldsForSettingsTeam, true) ? 'checked' : '';
+                                echo '<label style="display:flex;gap:0.5rem;align-items:center;">'
+                                    . '<input type="checkbox" name="allowed_fields[]" value="' . htmlspecialchars($key) . '" ' . $checked . '>'
+                                    . htmlspecialchars($label)
+                                    . '</label>';
+                            }
+                        ?>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save Settings</button>
+                </div>
+            </form>
+
             <h2 class="section-title">Pending Updates</h2>
 
             <?php if (empty($pendingUpdates)): ?>
