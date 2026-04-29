@@ -1578,9 +1578,9 @@ $conn->close();
         <?php if ($selectedPlayer): ?>
             <!-- Player Detail View -->
             <div class="player-detail">
-                <div class="back-button" onclick="window.history.back()">
+                <a class="back-button" href="?team=<?php echo urlencode($currentTeam); ?>&filter=<?php echo urlencode($filter); ?>&search=<?php echo urlencode($search); ?>">
                     <i class="fas fa-arrow-left"></i> Back to Players
-                </div>
+                </a>
                 
                 <div class="detail-header">
                     <?php if (!empty($selectedPlayer['img'])): ?>
@@ -1691,7 +1691,7 @@ $conn->close();
                     </div>
                 <?php else: ?>
                     <?php foreach ($players as $player): ?>
-                        <div class="player-card" onclick="window.location.href='?player_id=<?php echo $player['id']; ?>&team=<?php echo $currentTeam; ?>'">
+                        <a class="player-card" href="?player_id=<?php echo urlencode($player['id']); ?>&team=<?php echo urlencode($currentTeam); ?>&filter=<?php echo urlencode($filter); ?>&search=<?php echo urlencode($search); ?>">
                             <div class="player-image-container">
                                 <?php if (!empty($player['img'])): ?>
                                     <img src="<?php echo htmlspecialchars($player['img']); ?>" alt="<?php echo htmlspecialchars($player['name']); ?>" class="player-image">
@@ -1721,7 +1721,7 @@ $conn->close();
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>

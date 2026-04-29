@@ -600,7 +600,7 @@ $conn->close();
                         <div class="mb-4">
                             <div class="image-preview">
                                 <img src="<?php echo htmlspecialchars($currentArticle['main_image_path']); ?>" alt="Current main image">
-                                <button type="button" class="remove-image-btn" onclick="removeMainImage()">
+                                <button type="button" id="remove-main-image-btn" class="remove-image-btn">
                                     <i class="fas fa-times"></i>
                                 </button>
                             </div>
@@ -668,8 +668,9 @@ $conn->close();
                                                         <img src="<?php echo htmlspecialchars($imgPath); ?>" alt="Section media" class="h-24 w-40 object-cover">
                                                     <?php endif; ?>
                                                     <button type="button" 
-                                                            onclick="removeImage(this, '<?php echo htmlspecialchars($imgPath); ?>', <?php echo $index; ?>)" 
-                                                            class="remove-image-btn opacity-0">
+                                                            class="remove-image-btn opacity-0 js-remove-section-media"
+                                                            data-image-path="<?php echo htmlspecialchars($imgPath); ?>"
+                                                            data-section-index="<?php echo $index; ?>">
                                                         <i class="fas fa-times"></i>
                                                     </button>
                                                     <input type="hidden" name="existing_images[<?php echo $index; ?>][]" value="<?php echo htmlspecialchars($imgPath); ?>">
@@ -682,11 +683,11 @@ $conn->close();
                                     <input type="file" name="image[<?php echo $index; ?>][]" 
                                            accept="image/*,video/*" multiple 
                                            class="w-full p-2 border rounded"
-                                           onchange="previewNewImages(this, <?php echo $index; ?>)">
+                                           data-section-index="<?php echo $index; ?>">
                                     <!-- Add media by URL -->
                                     <div class="mt-2 flex gap-2">
                                         <input type="url" placeholder="Paste image or video URL" class="w-full p-2 border rounded" id="media-url-input-<?php echo $index; ?>">
-                                        <button type="button" class="bg-blue-500 text-white px-3 py-2 rounded" onclick="addMediaUrl(<?php echo $index; ?>)">Add URL</button>
+                                        <button type="button" class="bg-blue-500 text-white px-3 py-2 rounded js-add-media-url" data-section-index="<?php echo $index; ?>">Add URL</button>
                                     </div>
                                 </div>
                             </div>
@@ -707,11 +708,11 @@ $conn->close();
                                 <div class="flex flex-wrap gap-2 mb-2" id="section-images-0"></div>
                                 <input type="file" name="image[0][]" accept="image/*,video/*" multiple 
                                        class="w-full p-2 border rounded"
-                                       onchange="previewNewImages(this, 0)">
+                                       data-section-index="0">
                                 <!-- Add media by URL -->
                                 <div class="mt-2 flex gap-2">
                                     <input type="url" placeholder="Paste image or video URL" class="w-full p-2 border rounded" id="media-url-input-0">
-                                    <button type="button" class="bg-blue-500 text-white px-3 py-2 rounded" onclick="addMediaUrl(0)">Add URL</button>
+                                    <button type="button" class="bg-blue-500 text-white px-3 py-2 rounded js-add-media-url" data-section-index="0">Add URL</button>
                                 </div>
                             </div>
                         </div>
@@ -768,11 +769,11 @@ $conn->close();
                                     <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded"><?php echo htmlspecialchars($article['category']); ?></span>
                                 </div>
                                 <p class="text-gray-600 text-sm mb-4"><?php echo date('M j, Y H:i', strtotime($article['date_published'])); ?></p>
-                                <div class="flex justify-between">
+                                <div class="flex space-x-4">
                                     <a href="?edit=<?php echo $article['id']; ?>" class="text-blue-500 hover:text-blue-700">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
-                                    <a href="?delete=<?php echo $article['id']; ?>" class="text-red-500 hover:text-red-700" onclick="return confirm('Are you sure you want to delete this article?')">
+                                    <a href="?delete=<?php echo $article['id']; ?>" class="text-red-500 hover:text-red-700 js-delete-article">
                                         <i class="fas fa-trash"></i> Delete
                                     </a>
                                 </div>

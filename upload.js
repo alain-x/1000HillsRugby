@@ -40,6 +40,7 @@ function initUploadPage() {
     initSectionCount();
     initAddMoreSectionsButton();
     initSectionRemoveHandler();
+    initSectionMediaHandlers();
     initMainImagePreview();
     console.log('Script loaded successfully');
 }
@@ -64,7 +65,7 @@ function addFields() {
     div.innerHTML = `
         <div class="flex justify-between items-center mb-2">
             <h3 class="text-xl font-semibold">Section ${sectionCount}</h3>
-            <button type="button" onclick="removeSection(this)" class="text-red-500 hover:text-red-700">
+            <button type="button" class="remove-section-btn text-red-500 hover:text-red-700">
                 <i class="fas fa-times"></i> Remove Section
             </button>
         </div>
@@ -77,11 +78,11 @@ function addFields() {
             <input type="file" name="image[${newIndex}][]" 
                    accept="image/*,video/*" multiple 
                    class="w-full p-2 border rounded"
-                   onchange="previewNewImages(this, ${newIndex})">
+                   data-section-index="${newIndex}">
             <!-- Add media by URL -->
             <div class="mt-2 flex gap-2">
                 <input type="url" placeholder="Paste image or video URL" class="w-full p-2 border rounded" id="media-url-input-${newIndex}">
-                <button type="button" class="bg-blue-500 text-white px-3 py-2 rounded" onclick="addMediaUrl(${newIndex})">Add URL</button>
+                <button type="button" class="bg-blue-500 text-white px-3 py-2 rounded js-add-media-url" data-section-index="${newIndex}">Add URL</button>
             </div>
         </div>
     `;
@@ -224,6 +225,56 @@ function removeMainImage() {
             mainInput.value = '';
         }
     }
+}
+
+function initSectionMediaHandlers() {
+    // Remove main image button (edit mode)
+    const removeMainBtn = document.getElementById('remove-main-image-btn');
+    if (removeMainBtn && !removeMainBtn.__hasRemoveMainListener) {
+        removeMainBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            removeMainImage();
+        });
+        removeMainBtn.__hasRemoveMainListener = true;
+    }
+
+    // Delegate section media removal
+    document.addEventListener('click', function (e) {
+        const btn = e.target.closest('.js-remove-section-media');
+        if (!btn) return;
+        e.preventDefault();
+        const imagePath = btn.getAttribute('data-image-path') || '';
+        const sectionIndex = parseInt(btn.getAttribute('data-section-index') || '0', 10);
+        removeImage(btn, imagePath, Number.isNaN(sectionIndex) ? 0 : sectionIndex);
+    });
+
+    // Delegate media URL addition
+    document.addEventListener('click', function (e) {
+        const btn = e.target.closest('.js-add-media-url');
+        if (!btn) return;
+        e.preventDefault();
+        const sectionIndex = parseInt(btn.getAttribute('data-section-index') || '0', 10);
+        addMediaUrl(Number.isNaN(sectionIndex) ? 0 : sectionIndex);
+    });
+
+    // Delegate file input preview (no inline onchange)
+    document.addEventListener('change', function (e) {
+        const input = e.target;
+        if (!input || input.tagName !== 'INPUT' || input.type !== 'file') return;
+        if (!input.name || !input.name.startsWith('image[')) return;
+        const sectionIndex = parseInt(input.getAttribute('data-section-index') || '0', 10);
+        previewNewImages(input, Number.isNaN(sectionIndex) ? 0 : sectionIndex);
+    });
+
+    // Confirm delete (article list)
+    document.addEventListener('click', function (e) {
+        const link = e.target && e.target.closest ? e.target.closest('a.js-delete-article') : null;
+        if (!link) return;
+        const ok = confirm('Are you sure you want to delete this article?');
+        if (!ok) {
+            e.preventDefault();
+        }
+    });
 }
 
 // Preview newly added images before upload

@@ -1262,7 +1262,7 @@ $conn->close();
                                     <a href="?edit=<?php echo $player['id']; ?>" class="action-btn edit-btn" title="Edit">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
-                                    <a href="?delete=<?php echo $player['id']; ?>" class="action-btn delete-btn" title="Delete" onclick="return confirm('Are you sure you want to delete this player profile? This cannot be undone.')">
+                                    <a href="?delete=<?php echo $player['id']; ?>" class="action-btn delete-btn" title="Delete">
                                         <i class="fas fa-trash-alt"></i> Delete
                                     </a>
                                 </div>
@@ -1274,131 +1274,6 @@ $conn->close();
         </div>
     </main>
 
-    <script>
-        // Mobile menu toggle
-        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-            document.querySelector('.nav-links').classList.toggle('active');
-        });
-
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('.nav-links a').forEach(function(link) {
-            link.addEventListener('click', function() {
-                document.querySelector('.nav-links').classList.remove('active');
-            });
-        });
-
-        // Image preview functionality
-        const playerImageInput = document.getElementById('player_image');
-        const imagePreview = document.getElementById('imagePreview');
-        const uploadBtn = document.getElementById('uploadBtn');
-        
-        if (playerImageInput) {
-            playerImageInput.addEventListener('change', function() {
-                const file = this.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    
-                    reader.addEventListener('load', function() {
-                        imagePreview.innerHTML = '';
-                        const img = document.createElement('img');
-                        img.src = this.result;
-                        imagePreview.appendChild(img);
-                        
-                        // Add remove button for new image
-                        const removeBtn = document.createElement('button');
-                        removeBtn.className = 'remove-image-btn';
-                        removeBtn.title = 'Remove Image';
-                        removeBtn.innerHTML = '<i class="fas fa-times"></i>';
-                        removeBtn.addEventListener('click', function() {
-                            playerImageInput.value = '';
-                            imagePreview.innerHTML = '<div class="image-preview-placeholder"><i class="fas fa-user"></i></div>';
-                        });
-                        imagePreview.appendChild(removeBtn);
-                    });
-                    
-                    reader.readAsDataURL(file);
-                }
-            });
-            
-            uploadBtn.addEventListener('click', function() {
-                playerImageInput.click();
-            });
-        }
-
-        // Remove image functionality (admin can delete the current profile picture)
-        const removeImageBtn = document.getElementById('removeImageBtn');
-        const removeImageFormReal = document.getElementById('removeImageFormReal');
-        
-        if (removeImageBtn && removeImageFormReal) {
-            removeImageBtn.addEventListener('click', function () {
-                const confirmed = confirm('Are you sure you want to remove this image from the player profile?');
-                if (confirmed) {
-                    removeImageFormReal.submit();
-                }
-            });
-        }
-
-        // Validate captain/vice-captain comes from backs or forwards
-        const categorySelect = document.getElementById('category');
-        const playerCategorySelect = document.getElementById('player_category');
-        
-        if (categorySelect && playerCategorySelect) {
-            categorySelect.addEventListener('change', function() {
-                if (this.value === 'Captain' || this.value === 'Vice-Captain') {
-                    if (playerCategorySelect.value !== 'Backs' && playerCategorySelect.value !== 'Forwards') {
-                        alert('Captain and Vice-Captain must be selected from Backs or Forwards');
-                        this.value = '';
-                    }
-                }
-            });
-        }
-
-        // Auto-calculate age from Date of Birth on the client side
-        (function () {
-            const dobInput = document.getElementById('date_of_birth');
-            const ageInput = document.getElementById('age');
-
-            if (!dobInput || !ageInput) return;
-
-            function calculateAge(dateString) {
-                const dob = new Date(dateString);
-                const today = new Date();
-
-                if (isNaN(dob.getTime())) {
-                    return null;
-                }
-                if (dob > today) {
-                    return null;
-                }
-
-                let age = today.getFullYear() - dob.getFullYear();
-                const m = today.getMonth() - dob.getMonth();
-                if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
-                    age--;
-                }
-                return age >= 0 ? age : null;
-            }
-
-            function updateAgeFromDob() {
-                const val = dobInput.value;
-                if (!val) {
-                    ageInput.value = '';
-                    return;
-                }
-                const age = calculateAge(val);
-                if (age === null) {
-                    ageInput.value = '';
-                    return;
-                }
-                ageInput.value = age;
-            }
-
-            dobInput.addEventListener('change', updateAgeFromDob);
-            dobInput.addEventListener('blur', updateAgeFromDob);
-
-            // Run once on load in case DOB is already set (edit mode)
-            updateAgeFromDob();
-        })();
-    </script>
+    <script src="uploadprofile.js" defer></script>
 </body>
 </html>
