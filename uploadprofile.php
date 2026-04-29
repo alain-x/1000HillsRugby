@@ -1015,14 +1015,6 @@ $conn->close();
                     </div>
                 </div>
                 
-                <!-- Hidden form used to remove existing image (submitted via JS) -->
-                <?php if (isset($_GET['edit']) && !empty($currentPlayer['img'])): ?>
-                    <form id="removeImageFormReal" method="POST" action="uploadprofile.php" style="display:none;">
-                        <input type="hidden" name="id" value="<?php echo $currentPlayer['id']; ?>">
-                        <input type="hidden" name="remove_image" value="1">
-                    </form>
-                <?php endif; ?>
-                
                 <div class="form-row">
                 <div class="form-group">
     <label for="team" class="form-label">Team *</label>
@@ -1197,6 +1189,14 @@ $conn->close();
                     <button type="submit" class="btn btn-primary"><?php echo isset($_GET['edit']) ? 'Update' : 'Save'; ?> Player</button>
                 </div>
             </form>
+
+            <!-- Hidden form used to remove existing image (submitted via JS) -->
+            <?php if (isset($_GET['edit']) && !empty($currentPlayer['img'])): ?>
+                <form id="removeImageFormReal" method="POST" action="uploadprofile.php" style="display:none;">
+                    <input type="hidden" name="id" value="<?php echo $currentPlayer['id']; ?>">
+                    <input type="hidden" name="remove_image" value="1">
+                </form>
+            <?php endif; ?>
         </div>
 
         <!-- Player List -->

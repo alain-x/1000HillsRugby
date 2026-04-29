@@ -911,6 +911,15 @@ $conn->close();
             flex-shrink: 0;
         }
 
+        .detail-image-clickable {
+            cursor: zoom-in;
+            transition: transform 0.15s ease;
+        }
+
+        .detail-image-clickable:hover {
+            transform: scale(1.02);
+        }
+
         .women .detail-image {
             border-color: var(--women-color);
         }
@@ -1414,6 +1423,53 @@ $conn->close();
                 height: 200px;
             }
         }
+
+        .image-lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            z-index: 9999;
+        }
+
+        .image-lightbox.hidden {
+            display: none;
+        }
+
+        .image-lightbox-content {
+            position: relative;
+            max-width: min(1100px, 95vw);
+            max-height: 90vh;
+        }
+
+        .image-lightbox-content img {
+            display: block;
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .image-lightbox-close {
+            position: absolute;
+            top: -14px;
+            right: -14px;
+            width: 38px;
+            height: 38px;
+            border: none;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #111;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        .image-lightbox-close:hover {
+            background: #fff;
+        }
     </style>
 </head>
 <body class="<?php 
@@ -1584,7 +1640,7 @@ $conn->close();
                 
                 <div class="detail-header">
                     <?php if (!empty($selectedPlayer['img'])): ?>
-                        <img src="<?php echo htmlspecialchars($selectedPlayer['img']); ?>" alt="<?php echo htmlspecialchars($selectedPlayer['name']); ?>" class="detail-image">
+                        <img src="<?php echo htmlspecialchars($selectedPlayer['img']); ?>" alt="<?php echo htmlspecialchars($selectedPlayer['name']); ?>" class="detail-image detail-image-clickable js-detail-image" data-full-src="<?php echo htmlspecialchars($selectedPlayer['img']); ?>">
                     <?php else: ?>
                         <div class="detail-image"><i class="fas fa-user"></i></div>
                     <?php endif; ?>
@@ -1728,6 +1784,15 @@ $conn->close();
         <?php endif; ?>
     </main>
 
+    <div id="imageLightbox" class="image-lightbox hidden" aria-hidden="true">
+        <div class="image-lightbox-content" role="dialog" aria-modal="true" aria-label="Profile photo preview">
+            <button type="button" id="imageLightboxClose" class="image-lightbox-close" aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+            <img id="imageLightboxImg" alt="" src="" />
+        </div>
+    </div>
+
      <script>
         document.addEventListener('DOMContentLoaded', function() {
             const menuToggle = document.getElementById('menu-toggle');
@@ -1829,6 +1894,8 @@ $conn->close();
             });
         });
     </script>
+
+    <script src="teams.js" defer></script>
 
 </body>
 </html>
