@@ -36,6 +36,29 @@ $conn->query("CREATE TABLE IF NOT EXISTS players (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )");
 
+$conn->query("CREATE TABLE IF NOT EXISTS player_update_links (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    player_id INT(11) NOT NULL,
+    token VARCHAR(64) NOT NULL,
+    revoked TINYINT(1) NOT NULL DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uniq_token (token),
+    INDEX idx_player_id (player_id)
+)");
+
+$conn->query("CREATE TABLE IF NOT EXISTS player_pending_updates (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    player_id INT(11) NOT NULL,
+    token VARCHAR(64) NOT NULL,
+    data LONGTEXT NOT NULL,
+    img VARCHAR(255) DEFAULT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    reviewed_at TIMESTAMP NULL DEFAULT NULL,
+    INDEX idx_status (status),
+    INDEX idx_player_id (player_id)
+)");
+
 $columnCheck = $conn->query("SELECT COUNT(*) AS cnt FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'players' AND COLUMN_NAME = 'date_of_birth'");
 if ($columnCheck && ($row = $columnCheck->fetch_assoc()) && intval($row['cnt']) === 0) {
     $conn->query("ALTER TABLE players ADD COLUMN date_of_birth DATE NULL AFTER img");
@@ -47,6 +70,14 @@ $messageClass = '';
 $editMode = false;
 $currentPlayer = null;
 $players = [];
+
+function randomHexToken($bytes = 32) {
+    try {
+        return bin2hex(random_bytes($bytes));
+    } catch (Exception $e) {
+        return bin2hex(openssl_random_pseudo_bytes($bytes));
+    }
+}
 
 function calculateAgeFromDob($dateOfBirth) {
     if (empty($dateOfBirth)) {
@@ -382,6 +413,18 @@ $result = $conn->query("SELECT * FROM players ORDER BY
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
         $players[] = $row;
+    }
+}
+
+$pendingUpdates = [];
+$pendingResult = $conn->query("SELECT ppu.id, ppu.player_id, ppu.status, ppu.created_at, p.name AS player_name
+    FROM player_pending_updates ppu
+    JOIN players p ON p.id = ppu.player_id
+    WHERE ppu.status = 'pending'
+    ORDER BY ppu.created_at DESC");
+if ($pendingResult && $pendingResult->num_rows > 0) {
+    while ($row = $pendingResult->fetch_assoc()) {
+        $pendingUpdates[] = $row;
     }
 }
 
@@ -1201,6 +1244,43 @@ $conn->close();
 
         <!-- Player List -->
         <div class="form-container">
+            <h2 class="section-title">Pending Updates</h2>
+
+            <?php if (empty($pendingUpdates)): ?>
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> No pending updates.
+                </div>
+            <?php else: ?>
+                <div class="player-grid">
+                    <?php foreach ($pendingUpdates as $pu): ?>
+                        <div class="player-card">
+                            <div class="player-info">
+                                <h3 class="player-name"><?php echo htmlspecialchars($pu['player_name']); ?></h3>
+                                <p class="player-position">Submitted: <?php echo htmlspecialchars($pu['created_at']); ?></p>
+                                <div class="player-actions">
+                                    <form method="POST" action="uploadprofile.php">
+                                        <input type="hidden" name="review_pending_update" value="1">
+                                        <input type="hidden" name="pending_id" value="<?php echo (int)$pu['id']; ?>">
+                                        <input type="hidden" name="review_action" value="approve">
+                                        <button type="submit" class="action-btn edit-btn" title="Approve">
+                                            <i class="fas fa-check"></i> Approve
+                                        </button>
+                                    </form>
+                                    <form method="POST" action="uploadprofile.php">
+                                        <input type="hidden" name="review_pending_update" value="1">
+                                        <input type="hidden" name="pending_id" value="<?php echo (int)$pu['id']; ?>">
+                                        <input type="hidden" name="review_action" value="reject">
+                                        <button type="submit" class="action-btn delete-btn" title="Reject">
+                                            <i class="fas fa-times"></i> Reject
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+
             <h2 class="section-title">Player Roster</h2>
             
             <?php if (empty($players)): ?>
@@ -1262,6 +1342,13 @@ $conn->close();
                                     <a href="?edit=<?php echo $player['id']; ?>" class="action-btn edit-btn" title="Edit">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
+                                    <form method="POST" action="uploadprofile.php">
+                                        <input type="hidden" name="generate_update_link" value="1">
+                                        <input type="hidden" name="id" value="<?php echo (int)$player['id']; ?>">
+                                        <button type="submit" class="action-btn edit-btn" title="Generate Link">
+                                            <i class="fas fa-link"></i> Link
+                                        </button>
+                                    </form>
                                     <a href="?delete=<?php echo $player['id']; ?>" class="action-btn delete-btn" title="Delete">
                                         <i class="fas fa-trash-alt"></i> Delete
                                     </a>
